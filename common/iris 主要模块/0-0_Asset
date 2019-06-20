@@ -28,3 +28,44 @@ iriscli asset query-fee
 ======================
 
 iriscli asset query-fee --subject=token --id=abc
+
+======================
+查询token-stats：
+iriscli bank token-stats
+======================
+iriscli bank token-stats iris -o=json --indent
+iriscli bank token-stats abc -o=json --indent
+
+
+****************************************************************************************
+                gateway网关资产
+****************************************************************************************
+======================
+创建网关：
+iriscli asset create-gateway
+3位资产 60万 40%入tax， 60%burn
+======================
+
+echo 1234567890 | iriscli asset create-gateway --moniker=mon --create-fee=600000iris  --identity=abc --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+
+
+======================
+查询网关：
+iriscli asset query-gateway(s)
+======================
+单个查询：
+iriscli asset query-gateway --moniker=mon
+
+查询owner下的：
+iriscli asset query-gateways --owner=faa1kzql76ys4ps4xpn45q9l8fl237el04hlpy4hna
+
+查询所有的：
+iriscli asset query-gateways
+
+
+======================
+查询fee：
+iriscli asset query-fee
+======================
+
+iriscli asset query-fee --subject=gateway --id=abc
