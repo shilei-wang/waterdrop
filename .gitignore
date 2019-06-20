@@ -1,0 +1,9 @@
+
+hey-master/.idea/hey-master.iml
+hey-master/.idea/inspectionProfiles/profiles_settings.xml
+hey-master/.idea/modules.xml
+hey-master/.idea/workspace.xml
+*.xml
+*.iml
+*.xml___jb_old___
+.DS_Store
