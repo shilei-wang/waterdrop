@@ -64,8 +64,26 @@ iriscli asset query-gateways
 
 
 ======================
+编辑网关：
+iriscli asset edit-gateway
+======================
+
+echo 1234567890 | iriscli asset edit-gateway --moniker=abc --identity=a --details=b --website=c --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+
+
+======================
 查询fee：
 iriscli asset query-fee
 ======================
+创建网关费用：
+iriscli asset query-fee --subject=gateway --moniker=abc
 
-iriscli asset query-fee --subject=gateway --id=abc
+创建网关的资产费用：
+iriscli asset query-fee --subject=token --id=gde.aah
+
+
+======================
+发行网关资产：
+======================
+
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=aaa --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit

@@ -4,20 +4,11 @@ Asset
 
 iriscli tendermint tx --trust-node 3BD653DF067D1F119A6996C43266BF66D6210A5804E4EB2782894DEDDA1AEA23
 
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --symbol=abc --name=abc-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --symbol=aaa --name=abc-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
 iriscli asset query-asset aaa
 
-iriscli bank account faa1ye354p9st0wse29p3nn6ccnqz4qhjyg50x4827
-iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
-
-iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
-iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
-
 echo 1234567890 | iriscli bank send --amount=1800010iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
-
-echo 1234567890 | iriscli bank burn --from=v0 --fee=0.004iris --commit --chain-id=shilei-qa --amount=9abc-min
-
 
 ********************
 ---
@@ -32,47 +23,24 @@ iriscli asset query-token abc
 
 ------
 
-Available Commands:
-  create-gateway create a gateway
-  edit-gateway   edit a gateway
-  issue-token    issue a new token
-  query-token    Query details of a token
-  query-gateway  Query details of a gateway of the given moniker
-  query-gateways Query all gateways with an optional owner
-  query-fee      Query the asset-related fees
-
 
 iriscli keys show v0
-iriscli bank account faa1kzql76ys4ps4xpn45q9l8fl237el04hlpy4hna
+iriscli bank account faa1x9mx94n7wdwm9qa7zd900h7na98hcm76wysnvy
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
-iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju -o=json --indent
 
 tax：,burn
 iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
 iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
-
-
 ------
 
-
-echo 1234567890 | iriscli asset create-gateway --moniker=monWWW --create-fee=600000iris  --identity=abc --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
-
-iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
-iriscli bank account faa1kzql76ys4ps4xpn45q9l8fl237el04hlpy4hna
-
-
-iriscli asset query-gateway --moniker=xxa
+echo 1234567890 | iriscli asset create-gateway --moniker=gdex --create-fee=600000iris  --identity=identity --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
 iriscli asset query-gateways
-iriscli asset query-gateways --owner=faa1kzql76ys4ps4xpn45q9l8fl237el04hlpy4hna
-
-iriscli asset query-gateways --owner=faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547
-
---------
-1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567
 
 
-123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
 
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --symbol=aaa --name=abc-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --decimal=18
 
-echo 1234567890 | iriscli asset create-gateway --moniker=xxa --create-fee=600000iris --from=x --chain-id=shilei-qa --fee=0.6iris --commit
+iriscli asset query-token aaa
+iriscli asset query-token gdex.aaa
+iriscli asset query-token gdex.aab
