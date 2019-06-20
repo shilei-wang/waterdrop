@@ -1,0 +1,183 @@
+﻿
+genesis修改如下
+"tallying_procedure": {
+"threshold": "0.499", // 投票power>threshold => pass
+"veto": "0.499", // 投票power>veto => reject
+"participation": "0.499" // 总power<participation => reject
+}
+把所有*_penalty 设置为0.0000000001
+voting_period 30s
+
+Yes, No, NoWithVeto, Abstain
+
+4个节点 power v0=100, v1=100, v2=100, v3=100
+1) v0 = yes                                            then rejected
+2) v0,v1 = yes                                         then pass
+3) v0=no , v1=yes                                      then pass
+4) v0=no , v1=no , v2=yes                              then rejected
+5) v0=yes, v1=yes, v2=veto                             then pass
+6) v0=yes, v1=yes, v2=no, v3=veto                      then pass
+7) v0=yes, v1=yes, v2=veto, v3=veto                    then rejected
+8) v0=yes, v1=yes, v2=abstain , v3=no                  then pass
+9) v0=yes, v1=abstain , v2=abstain , v3=veto           then rejected
+
+=========================
+echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type="ParameterChange" --deposit="2000iris"  --param='stake/UnbondingTime=0h1m0s' --from=v0 --chain-id=shilei-qa --fee=0.004iris  --commit
+================
+
+注意v0 投票都最后一次执行。
+1) v0 = yes  【rejected】
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=1
+iriscli gov query-proposal --trust-node --proposal-id=1
+
+2) v0,v1 = yes 【pass】
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v1 --chain-id=shilei-qa  --proposal-id=2
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=2
+iriscli gov query-tally --proposal-id=2
+iriscli gov query-proposal --trust-node --proposal-id=2
+
+3) v0=no , v1=yes    【pass】
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v1 --chain-id=shilei-qa  --proposal-id=3
+echo 1234567890 | iriscli gov vote --option=No --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=3
+iriscli gov query-tally --proposal-id=3
+iriscli gov query-proposal --trust-node --proposal-id=3
+
+4) v0=no , v1=no , v2=yes   【rejected】
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v2 --chain-id=shilei-qa  --proposal-id=4
+echo 1234567890 | iriscli gov vote --option=No --fee=0.004iris --commit --from=v1 --chain-id=shilei-qa  --proposal-id=4
+echo 1234567890 | iriscli gov vote --option=No --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=4
+iriscli gov query-tally --proposal-id=4
+iriscli gov query-proposal --trust-node --proposal-id=4
+
+5) v0=yes, v1=yes, v2=veto     【pass】
+echo 1234567890 | iriscli gov vote --option=NoWithVeto --fee=0.004iris --commit --from=v2 --chain-id=shilei-qa  --proposal-id=5
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v1 --chain-id=shilei-qa  --proposal-id=5
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=5
+iriscli gov query-tally --proposal-id=5
+iriscli gov query-proposal --trust-node --proposal-id=5
+
+
+6) v0=yes, v1=yes, v2=no, v3=veto    【pass】
+echo 1234567890 | iriscli gov vote --option=NoWithVeto --fee=0.004iris --commit --from=v3 --chain-id=shilei-qa  --proposal-id=6
+echo 1234567890 | iriscli gov vote --option=No --fee=0.004iris --commit --from=v2 --chain-id=shilei-qa  --proposal-id=6
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v1 --chain-id=shilei-qa  --proposal-id=6
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=6
+iriscli gov query-tally --proposal-id=6
+iriscli gov query-proposal --trust-node --proposal-id=6
+
+7) v0=yes, v1=yes, v2=veto, v3=veto   【rejected】
+echo 1234567890 | iriscli gov vote --option=NoWithVeto --fee=0.004iris --commit --from=v3 --chain-id=shilei-qa  --proposal-id=7
+echo 1234567890 | iriscli gov vote --option=NoWithVeto --fee=0.004iris --commit --from=v2 --chain-id=shilei-qa  --proposal-id=7
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v1 --chain-id=shilei-qa  --proposal-id=7
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=7
+iriscli gov query-tally --proposal-id=7
+iriscli gov query-proposal --trust-node --proposal-id=7
+
+
+8) v0=yes, v1=yes, v2=abstain, v3=no   【pass】
+echo 1234567890 | iriscli gov vote --option=no --fee=0.004iris --commit --from=v3 --chain-id=shilei-qa  --proposal-id=8
+echo 1234567890 | iriscli gov vote --option=Abstain --fee=0.004iris --commit --from=v2 --chain-id=shilei-qa  --proposal-id=8
+echo 1234567890 | iriscli gov vote --option=yes --fee=0.004iris --commit --from=v1 --chain-id=shilei-qa  --proposal-id=8
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=8
+iriscli gov query-tally --proposal-id=8
+iriscli gov query-proposal --trust-node --proposal-id=8
+
+
+9) v0=yes, v1=abstain , v2=abstain , v3=veto  【rejected】
+echo 1234567890 | iriscli gov vote --option=NoWithVeto --fee=0.004iris --commit --from=v3 --chain-id=shilei-qa  --proposal-id=9
+echo 1234567890 | iriscli gov vote --option=Abstain --fee=0.004iris --commit --from=v2 --chain-id=shilei-qa  --proposal-id=9
+echo 1234567890 | iriscli gov vote --option=Abstain --fee=0.004iris --commit --from=v1 --chain-id=shilei-qa  --proposal-id=9
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=9
+iriscli gov query-tally --proposal-id=9
+iriscli gov query-proposal --trust-node --proposal-id=9
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+所有的gov的类型、参数的统计
+
+******************************
+1） type="TxTaxUsage"
+// tax使用提议
+******************************
+
+例子：
+iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --description=t --title=t --percent=0.0000000001 --type="TxTaxUsage"  --usage="Burn" --deposit=1000iris
+
+参数：
+--usage="Burn" （销毁）
+--usage="Distribute"（转账）--dest-address=iaa**
+--usage="Grant"（转账）--dest-address=iaa**
+
+
+******************************
+2）type="SystemHalt"
+//停止链， 这个提议只能由profiler提出（其他账户报错）
+//提议通过后60个块终止链
+******************************
+
+例子：
+echo 1234567890 | iriscli gov submit-proposal --trust-node --title=test --description=test --type=SystemHalt  --deposit=4000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa
+
+******************************
+3)  type="SoftwareUpgrade"
+//软件升级
+******************************
+
+例子：
+echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=SoftwareUpgrade --deposit=1000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --software=https://github.com/irisnet/irishub/tree/v0.12.0 --version=1 --switch-height=50
+
+
+******************************
+4)  type="ParameterChange"
+//参数修改
+******************************
+
+例子：
+echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type="ParameterChange" --deposit="2000iris"  --param='auth/txSizeLimit=1000' --from=v0 --chain-id=shilei-qa --fee=0.004iris  --commit
+
+具体参数：
+bank:
+    auth/gasPriceThreshold=20000000000    (0,1iris]
+    auth/txSizeLimit=1000                  [500,1500]
+
+mint:
+    mint/Inflation=0.0400000000   [0,0.2]
+
+stake:
+    stake/MaxValidators=100      [100,200]
+    stake/UnbondingTime=504h0m0s  [2weeks, )
+
+slashing:
+    slashing/CensorshipJailDuration=168h0m0s   (0, 4weeks)
+    slashing/DoubleSignJailDuration=120h0m0s
+    slashing/DowntimeJailDuration=48h0m0s
+    slashing/MaxEvidenceAge=24h0m0s
+    slashing/MinSignedPerWindow=0.5000000000
+    slashing/SignedBlocksWindow=20000
+    slashing/SlashFractionDoubleSign=0.0100000000
+    slashing/SlashFractionDowntime=0.0050000000
+    slashing/SlashFractionCensorship=0.02   [0.005, 0.1]
+
+distribution:
+    distr/BaseProposerReward=0.0100000000
+    distr/BonusProposerReward=0.0400000000
+    distr/CommunityTax=0.0200000000
+
+service:
+    service/ArbitrationTimeLimit=120h0m0s    [5days,)
+    service/ComplaintRetrospect=360h0m0s     [15days,)
+    service/MaxRequestTimeout=20     [20,)
+    service/MinDepositMultiple=10  [500,5000]
+    service/ServiceFeeTax=0.0100000000  (0,0.2]
+    service/SlashFraction=0.0010000000  (0,0.01]
+    service/TxSizeLimit=4000         [2000,4000]
+
+最新参数范围请参照：
+https://gitlab.bianjie.ai/irishub/internal-spec/blob/master/params/params.md
+
+
+

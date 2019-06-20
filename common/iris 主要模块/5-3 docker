@@ -1,0 +1,23 @@
+
+安装：
+brew cask install docker （第一次安装时间比较长，需要输一次系统密码）
+安装完毕后，在启动处打开一下docker, 然后命令行里面就可以看到docker可以用了
+
+cd go/src/github.com/irishub
+docker build -t irishub .  (把当前文件夹导入docker中的irishub编译，当前文件夹里有dockerfile文件，执行文件里的内容，第一次时间较长，需要下载依赖等)
+
+
+查看：
+docker images
+
+进入docker
+docker run -it irishub
+====
+运行单节点：
+iris version
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+iris start --home=/Users/sherlock/testnet/v0/iris
+====
+
+把端口映射出来：
+docker run -p 26657:26657 -it irishub

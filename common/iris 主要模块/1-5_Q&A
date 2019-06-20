@@ -1,0 +1,199 @@
+===
+主网
+===
+iriscli bank account iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93 --node=tcp://35.189.50.37:26657 --trust-node
+
+iriscli tendermint tx 31821EE22F734A12A26F2CC4637C7576E9BE4F0D057EFA102EBA3B9175C15DD8 --node=tcp://35.189.50.37:26657 --trust-node
+
+irislcd-mainnet start --node=tcp://35.189.50.37:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=irishub --home=$HOME/.irislcd-mainnet/ --trust-node
+
+iriscli stake create-validator --chain-id=irishub --from=sparkpool --fee=0.6iris --gas=100000 --pubkey=icp1zcjduepq275n2ylkm5ammdgc2lmd67z43qhp8gkcurhm72dv2rag3q6qxszsgvdrnw --amount=10iris --moniker="Sparkpool irisnet mainnet" --commission-rate=0.1
+
+iriscli keys show <key name> --bech val
+
+iriscli stake validator fva1285anct6gnl7zkdnvm34788pu9wrcyhk4nt6el  --chain-id=shilei-qa
+
+目前委托收益是 ：每10000iris抵押一天，收益4iris(扣除验证人10%佣金 大约得到3.6iris)
+qq问答
+
+验证人节点的主要收益来自于佣金（佣金的比例可以自定），简单点说也就是：收益 = 自己抵押代币所产生的收益 + 所有委托产生收益（包括自己抵押和别人抵押）* 佣金比例。
+目前委托收益大约是 ：每10000iris抵押一天，收益4iris
+
+*******************
+验证人收益的 example：
+*******************
+假设， 验证人设置佣金比例 10% ，Self delegation =10000iris ， other delegation = 10000iris
+节点一天的总收益：2*4iris = 8iris
+
+验证人节点收益 ： 佣金 8iris*10% + 委托收益 4iris*90% =  4.4iris
+其他委托人收益 ： 委托收益 4iris*90% =3.6iris
+
+
+另外，验证人在出块轮可以获得额外收益，数量较少不在此赘述。
+
+
+---------------------
+收益概况，可以参考以下内容：
+
+iris收益来源：
+1） 交易产生的 fee（只占很小一部分）
+2） Inflation
+
+iris收益去向：
+1） 验证人: Self delegation benefit and commission
+2） 委托人: Delagation benefit
+3） 基金会 ：具体比例genesis里面有，很小
+
+其中Inflation 是产生收益的“大头”， 简单计算这一项就可以知道大概的收益 。
+Inflation设定是年4%（这个比例后续可以投票修改） ， 20亿*4% = 8000万
+reward = 8000w / 365天 = 22 *10^4， 目前抵押的通证是 bonded = 550 *10^6 （浏览器可查）
+
+则每份iris每日抵押收益 = reward/bonded = 0.0004iris (既每万份每日4iris， 年化4*365/10000=14.6%)
+所以我们强烈建议各位验证人尽量多抵押，赚取收益！
+
+
+---
+实际
+reward = 8000w / (365天*1.2) = 18.2 *10^4
+18.2/55000*10000*0.9 大约3iris每天
+---------------------------------
+
+----------
+
+出块奖励随该验证人所提议的区块被其他验证人签名的数量 1% 到 5% 浮动
+出块奖励收益率计算公式：
+Voting Power * 最高 5%，以当前全网最高 Voting Power 节点为例：
+7% * 5% = 0.35%
+
+----------
+每块的产生的inflation是12.6iris， 分配到community pool是2%
+
+
+
+*******************
+Withdraw
+*******************
+
+浏览器上最近的几条stake正好能囊括这3中reward：
+1) WithdrawDelegationRewardsAll
+对应的命令：iriscli distribution withdraw-rewards --from=user
+用处：提取所有的在外的rewards， 你可能抵押给了多个不同验证人。
+此时的 From ： 你的账户  to：多人，所以是“-”
+
+2) WithdrawDelegatorReward
+对应的命令：iriscli distribution withdraw-rewards --only-from-validator=fva1gw77zex2u7jqguwq82dyqzpr6radznrta2zcjl --from=user
+用处：提取你在指定验证人处rewards， 此时to只有一个人。
+此时的 From ： 你的账户  to：你抵押的指定验证人
+
+3）WithdrawValidatorRewardsAll （也就是你执行的命令）
+对应的命令：iriscli distribution withdraw-rewards --is-validator=true --from=user
+用处：作为验证人的你， 提取自己节点的抵押收益和佣金收益。
+此时的 From ： 你的账户  to：（其实也是你自己，可能浏览器默认省略了）
+
+
+-------------------------------------
+
+单位gas价格 = fee/gas
+
+单位gas价格 必须>= gas_price = 6000 nano
+
+在gas和fee遇到困惑时，你只要简单记住2点:
+1)  普通交易 fee=0.3iris 即可， 无需指定gas。
+2）大数据量交易（如创建验证人） --fee=0.6iris --gas=100000
+
+注意并不是指定多少fee就会收取多少fee， fee会根据实际消耗的gas收取， 收取的公式是 ： 实际消耗的gas*6000nano  （这里的6000nano = 0.3iris/50000gas）
+
+*******************************
+gas price，fee 和 gas price 的具体例子
+*******************************
+首先 gas_price =  fee/gas,  系统设定的最低gas_price = 6*10^(-6) iris
+
+假设一笔转账的交易实际需要：5000gas
+
+情况一： --gas=5000   --fee= 5000 * [6*10^(-6)iris] = 0.03iris
+结果： gas正好够用，  从账户扣除 0.03iris
+
+情况二： --gas=10000  --fee= 10000 * [6*10^(-6)iris] = 0.6iris
+结果： 给的gas超出实际需要额度，  因为实际只需要用5000gas，所以从账户扣除仍然是 5000gas * gas_price = 0.03iris
+
+情况三： --gas=4000   --fee= 4000 * [6*10^(-6)iris] = 0.024iris
+结果： 报错，gas不够
+
+情况四： --gas=5000   --fee= 5000 * [3*10^(-6)iris] = 0.015iris
+结果： 报错，设定的gasprice小于系统最低值6*10^(-6) iris
+
+系统扣除手续费时 只根据2个条件：
+1. 实际使用的gas是多少
+2. gas price 是多少
+
+实际扣除的手续费 = 实际使用的gas* 你设定的gasprice
+其中gas price由 你指定的 fee/gas所决定
+
+
+*******************************
+gas price
+*******************************
+
+主网是 6*10^-6 iris  ， --fee=0.3iris
+fuxi测试网 500*10^-6 iris
+
+*******************
+交易手续费是如何计算的，可以预估么？
+*******************
+
+可以预估。在命令之后加入--dry-run 可以看到大致gas，根据gas和gasprice可以预估出大致fee。
+lcd中是加入 simulate=true ，如 ： ?simulate=true
+
+
+example:
+
+iriscli bank send --amount=1iris --fee=0.3iris --gas=50000 --chain-id=irishub-stage --from=node0 --to=iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc --dry-run
+
+result:
+-----------------------------------------
+estimated gas = 10126
+simulation code = 0
+simulation log = Msg 0:
+simulation gas wanted = 50000
+simulation gas used = 6751
+simulation fee amount = 0
+simulation fee denom =
+simulation tag action = send
+simulation tag sender = iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc
+simulation tag recipient = iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc
+-----------------------------------------
+
+estimate fee = 6751 * (0.3iris / 50000) = 0.040506iris
+
+因为实际执行时deliverTx需要消耗额外的gas， 实际gas比预估的gas要比略多一点点，大约10%之内， 此条转账实际消耗gas大约7100
+
+
+*******************
+交易手续费fee如何设置
+*******************
+1. 普通交易，设置--fee=0.3iris （无需设置--gas）
+2. 创建验证人交易，设置 --fee=0.6iris  --gas=100000
+
+
+
+
+*******************
+能麻烦你传个编译好的v0.13.1版本给我吗
+*******************
+不建议使用他人编译的二进制文件运行， 有较大风险。
+在交易执行过程中有私钥丢失风险， 请悉知！
+
+
+*******************
+ Cosmos & IRISnet 的关系
+*******************
+
+ Cosmos & IRISnet 的关系： IRISnet 是继Cosmos之后，由 ICF跨链基金会为了实现多Hub愿景支持开发的另外一个跨链项目，Cosmos官网在自我介绍（Who we are）时的说明： IRISnet 是 Cosmos 大跨链生态中的另外一个Cosmos Hub，它支持跨链服务，也将促进去中心化商业应用的构建。IRISnet Hub和Cosmos Hub是Cosmos网络中的最早的两个枢纽，他们都基于Cosmos-SDK技术开发和实施。Cosmos Hub的代币叫做ATOM ，IRISnet Hub的代币叫做IRIS。
+
+*******************
+起链后简单命令
+*******************
+iriscli keys list
+iriscli keys add test_user
+iriscli bank send --amount=100iris --fee=0.4iris --commit --chain-id=*** --from=<user in keys list> --to=faa1***
+iriscli bank account faa1***

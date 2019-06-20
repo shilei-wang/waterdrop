@@ -1,0 +1,136 @@
+import pymysql
+
+
+conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='abc', db='samp_db', charset='utf8')
+cursor = conn.cursor()
+
+#这里写下面的每个操作
+
+conn.close()
+
+************************************************************************
+其他先配置
+mysql -u root -p
+#创建数据库 如果不存在
+cursor.execute('create database if not exists samp_db')
+
+************************************************************************
+创建 EMPLOYEE table
+
+
+#如果数据表已经存在使用 execute() 方法删除表。
+cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
+
+#创建数据表SQL语句
+sql = """CREATE TABLE EMPLOYEE (
+         FIRST_NAME  CHAR(20) NOT NULL,
+         LAST_NAME  CHAR(20),
+         AGE INT,
+         SEX CHAR(1),
+         INCOME FLOAT )"""
+
+cursor.execute(sql)
+
+************************************************************************
+
+#SQL 插入语句
+sql = """INSERT INTO EMPLOYEE(FIRST_NAME,
+         LAST_NAME, AGE, SEX, INCOME)
+         VALUES ('Mac', 'Mohan', 20, 'M', 2000)"""
+try:
+   # 执行sql语句
+   cursor.execute(sql)
+   # 提交到数据库执行， insert这里要commit一下 数据库“事务”机制 ，update
+   conn.commit()
+except:
+   # Rollback in case there is any error
+   conn.rollback()
+
+
+************************************************************************
+
+# SQL 查询语句
+sql = "SELECT * FROM EMPLOYEE WHERE INCOME > '%d'" % (1000)
+
+
+try:
+   # 执行SQL语句
+   cursor.execute(sql)
+   # 获取所有记录列表
+   results = cursor.fetchall()
+   for row in results:
+      fname = row[0]
+      lname = row[1]
+      age = row[2]
+      sex = row[3]
+      income = row[4]
+      # 打印结果
+      print "fname=%s,lname=%s,age=%d,sex=%s,income=%d" % \
+             (fname, lname, age, sex, income )
+except:
+   print "Error: unable to fecth data"
+
+
+====
+
+# SQL 查询语句
+sql = "SELECT e.AGE FROM EMPLOYEE e"
+
+try:
+   # 执行SQL语句
+   cursor.execute(sql)
+   # 获取所有记录列表
+   results = cursor.fetchall()
+   for row in results:
+      age = row[0]
+      # 打印结果
+      print "AGE=%s" % ( age )
+except:
+   print "Error: unable to fecth data"
+
+
+************************************************************************
+# SQL update
+
+sql = "update EMPLOYEE set last_name = (select first_name from EMPLOYEE_2 where income = 1999 ) where income = 2000"
+cursor.execute(sql)
+conn.commit()
+
+
+************************************************************************
+#insert
+
+sql = "INSERT INTO EMPLOYEE (first_name, last_name) SELECT last_name, first_name FROM EMPLOYEE_2"
+cursor.execute(sql)
+conn.commit()
+
+
+************************************************************************
+#delete
+
+sql = "DELETE FROM EMPLOYEE WHERE Last_Name = 'user_3' and first_name = 'Mohan'"
+cursor.execute(sql)
+conn.commit()
+
+************************************************************************
+增加列 删除列
+sql = "alter table EMPLOYEE add address char(60)"
+cursor.execute(sql)
+conn.commit()
+
+sql = "alter table EMPLOYEE drop address"
+
+************************************************************************
+
+
+CREATE TABLE EMPLOYEE_2 (
+         FIRST_NAME  CHAR(20) NOT NULL,
+         LAST_NAME  CHAR(20),
+         AGE INT,
+         SEX CHAR(1),
+         INCOME FLOAT );
+
+
+INSERT INTO EMPLOYEE_2(FIRST_NAME,
+         LAST_NAME, AGE, SEX, INCOME)
+         VALUES ('user_4', 'Mohan', 20, 'M', 2005);

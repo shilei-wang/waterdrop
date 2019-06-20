@@ -1,0 +1,238 @@
+
+
+    测试结果：
+
+Irishub release0.6.0 QA全面测试共计发现缺陷 23 处。
+【回归测试】测出缺陷和改进 共计： 6 处  (具体见3.3)
+
+其中：                                      Stake模块 3 处
+
+                                                  Gov模块  1 处
+
+                                            Upgrade模块 1 处
+
+                                                         其他 1 处
+
+
+【新功能】 测出缺陷和改进 共计： 17 处
+
+其中：                                 record存证: 7 处
+
+                                 iservice-definition: 10 处
+
+
+
+    测试结论：
+
+覆盖率约90%， 测试通过，未测出P0及P1 bug。 可以发stage。
+
+
+
+=============
+1. 关于新功能测试
+1.1 record存证
+
+目前已经对存证进行了 “功能测试”，“反向测试”，“边界测试”。
+
+共计测试用例 18 条， 对3个功能点（submit query download）进行了测试， 发现bug 7个。 目前已经修复6个， 未修复1个。
+
+测试覆盖率 90%
+
+
+record存证 详细测试报告:   Record 存证的初步测试报告和评估
+1.2 iservice-definition
+
+计划已经对iservice-definition进行了 “功能测试”，“反向测试”。
+
+对2个功能点（define definition）进行了测试， 发现bug 10个。
+
+测试覆盖率 80%
+
+
+iservice-definition 详细测试报告: Service-Definition 的初步测试报告和评估
+2. 原功能的改变和已修复的bug确认
+
+2.1 原功能没有任何改变。
+
+2.2 针对已经修复的bug，进行再次验证。 未修复的bug确认其是否在这个迭代中修复。
+
+2.3 由于新增的2个功能相对独立， 并未和原有功能有关联（比如gov），所以新功能不会对回归测试的侧重点有所影响。
+3. 回归测试
+
+3.1 回归测试将会对以下模块进行测试，测试，正向测试，边界测试。
+1） stake模块 :
+
+stake模块回归测试覆盖了如下的命令（包括正向负向测试）：
+
+【1.1】 查询validator列表
+
+iriscli stake validators
+
+【1.2】 查询单个validator信息
+
+iriscli stake validator
+
+【1.3】 查询delegator的抵押信息列表
+
+iriscli stake delegations
+
+【1.4】 查询delegator在validator的抵押信息
+
+iriscli stake delegation
+
+【1.5】 委托代币
+
+iriscli stake delegate
+
+【1.6】 开始解绑
+
+iriscli stake unbond begin
+
+【1.7】 完成解绑
+
+iriscli stake unbond complete
+
+【1.8】 开始更新
+
+iriscli stake redelegate begin
+
+【1.9】 完成更新
+
+iriscli stake redelegate complete
+
+【1.10】声明validator
+
+iriscli stake create-validator
+
+【1.11】unrevoke
+
+iriscli stake unrevoke
+
+【1.12】edit-validator
+
+iriscli stake edit-validator
+2） gov模块 。
+
+gov模块回归测试覆盖了如下的命令（包括正向负向测试）：
+
+【2.1】提交提议
+
+iriscli gov submit-proposal
+
+【2.2】查询提议
+
+iriscli gov query-proposal
+
+【2.3】赞助提议
+
+iriscli gov deposit
+
+【2.4】投票提议
+
+iriscli gov vote
+
+【2.5】查询投票
+
+iriscli gov query-vote
+3） iparam 模块 。
+
+gov模块回归测试覆盖了如下的命令（包括正向负向测试）：
+
+【3.1】
+
+iriscli gov query-params --trust-node --module=gov
+
+【3.2】
+
+iriscli gov query-params --trust-node --key=Gov/gov/DepositProcedure
+
+iriscli gov query-params --trust-node --key=Gov/gov/VotingProcedure
+
+iriscli gov query-params --trust-node --key=Gov/gov/TallyingProcedure
+
+【3.3】
+
+iriscli gov submit-proposal --param='{"key":"Gov/gov/DepositProcedure"
+
+iriscli gov submit-proposal --param='{"key":"Gov/gov/VotingProcedure",
+
+iriscli gov submit-proposal --param='{"key":"Gov/gov/TallyingProcedure",
+
+【3.4】 读取gov参数到文件
+
+iriscli gov pull-params
+
+【3.5】 从文件读取gov参数并提交提议
+
+iriscli gov submit-proposal --path=/root/iris1 --key=Gov/gov/DepositProcedure
+
+iriscli gov submit-proposal --path=/root/iris1 --key=Gov/gov/VotingProcedure
+
+iriscli gov submit-proposal --path=/root/iris1 --key=Gov/gov/TallyingProcedure
+4） upgrade模块
+
+【4.1】 用户在限定的时间内（switch_period个区块高度），完成升级动作。
+
+【4.2】 用户未在限定的时间内（switch_period个区块高度），完成升级动作，导致新版本全网生效后该节点的共识报错，执行replay
+3.2 回归测试将不会对以下模块进行测试 （本迭代时间关系）
+
+1）keys 模块
+
+2）bank 模块
+
+
+3.3 回归测试 Bugs
+
+bug001-stake : 【Bug-stake】iriscli stake delegations 指定未抵押的 [delegator-addr] 值返回null
+
+IRISHUB-600 - 【Bug-stake】iriscli stake delegations 指定未抵押的 [delegator-addr] 值返回null 打开的
+
+bug002-stake : 【Bug-stake】iriscli stake delegation 返回值最后2项没有断行‘’
+
+IRISHUB-601 - 【Bug-stake】iriscli stake delegation 返回值最后2项没有断行 打开的
+
+bug003-stake : 【Bug-stake】iriscli stake unrevoke -h 显示的examples 不准确，不需要–to字段
+
+IRISHUB-602 - 【Bug-stake】iriscli stake unrevoke -h 显示的examples 不准确，不需要--to字段 打开的
+
+bug004-Gov :   【Bug-Gov】query-vote只能在voting peroid之内进行查询，对超出voting peroid且已经passed的提议进行query-vote查询会提示错误
+
+IRISHUB-603 - 【Bug-Gov】query-vote只能在voting peroid之内进行查询，对超出voting peroid且已经passed的提议进行query-vote查询会提示错误。 打开的
+
+bug005-upgrade: 【Bug-upgrade】upgrade的proposal id参数的格式未能保持与最新Gov一致， 仍然沿用--proposalID未改成Gov最新的--proposal-id， 两种表示方式不一致会造成用户困惑
+
+IRISHUB-604 - 【Bug-upgrade】upgrade的proposal id参数的格式未能保持与最新Gov一致， 仍然沿用--proposalID未改成Gov最新的--proposal-id， 两种表示方式不一致会造成用户困惑 打开的
+
+bug006 :             Gov，Upgrade模块-h功能未能正确提供examples
+
+IRISHUB-605 - Upgrade，Gov模块-h功能未能正确提供examples 打开的
+
+
+4 风险
+
+本次测试未对软件升级做足够的“负向测试”，需要开发加强自测
+
+
+******************************************
+钉钉
+
+@程司雷(程司雷)  @谷新萍(谷新萍) 
+
+Irishub release0.6.0 QA全面测试已经完成，发现缺陷共计23处。
+
+【回归测试】测出缺陷和改进    共计：  6 处
+其中：                                  Stake模块 3 处
+                                              Gov模块  1 处
+                                       Upgrade模块 1 处
+                        其他 1 处
+(覆盖率： 约80%)
+
+【新功能】  测出缺陷和改进    共计：   17 处
+   其中：                    record存证:           7 处
+                    iservice-definition:          10 处
+(覆盖率 :    约90% )
+
+release0.6.0 详细测试报告:
+http://wiki.bianjie.ai/pages/viewpage.action?pageId=9830512
+
+PS: 回归测试Bugs后续提交到jira后会关联到报告中。

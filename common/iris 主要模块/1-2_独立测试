@@ -1,0 +1,334 @@
+*******************************************
+    1.bech32 prefix 的配置信息通过环境变量动态指定
+*******************************************
+     --------------- 原始 -------------------
+    #export Bech32PrefixAccAddr="iaa" faa
+    #export Bech32PrefixAccPub="iap"  fap
+    #export Bech32PrefixValAddr="iva" fva
+    #export Bech32PrefixValPub="ivp"  fvp
+    #export Bech32PrefixConsAddr="ica" fca
+    #export Bech32PrefixConsPub="icp" fcp
+     ----------------------------------------
+
+1. 下载代码
+2. gedit /Users/sherlock/go/src/github.com/irisnet/irishub/tools/script/setBechPrefix.sh
+    export Bech32PrefixAccAddr="gaa"
+    export Bech32PrefixAccPub="gab"
+    export Bech32PrefixValAddr="gvc"
+    export Bech32PrefixValPub="gvd"
+    export Bech32PrefixConsAddr="gce"
+    export Bech32PrefixConsPub="gcf"
+
+3. source /Users/sherlock/go/src/github.com/irisnet/irishub/tools/script/setBechPrefix.sh
+    验证
+    echo $Bech32PrefixAccAddr
+
+4.
+make install
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 1
+
+5.
+// gaa gab => faa fap
+iriscli keys list
+// gvc gvd => fva fvp
+iriscli stake validators
+//     gcf =>     fcp  (fca暂时没有办法测)
+iris tendermint show-validator
+
+*******************************************
+    iris add-genesis-account
+*******************************************
+iris add-genesis-account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 200iris,20.4iris-milli --home=/root/testnet/v0/iris
+gedit /root/testnet/v0/iris/config/genesis.json
+
+---
+cd ~
+rm -rf .iriscli .iris testnet
+iris testnet --v=1 --output-dir=/root/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+【加入上面的】
+iris start --home=/root/testnet/v0/iris
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+*******************************************
+    guardian (profiling)
+*******************************************
+profiler为irisnet基金会的账号, 特权:
+•可以发起fee tax分配的proposal
+•可以取回service fee tax取回的交易
+•发起service调用交易免除service fee
+•只有genesis账户才有增删权利， genesis账户不可删除
+
+1.获取所有profiler账号列表
+iriscli guardian profilers
+
+2.获取所有trustee账号列表 （取回tax的账户）
+iriscli guardian trustees
+
+3.添加profiler账号
+echo 1234567890 | iriscli guardian add-profiler --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=v0
+
+4.添加trustee账号
+echo 1234567890 | iriscli guardian add-trustee --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=v0
+
+5.删除profiler账号
+echo 1234567890 | iriscli guardian delete-profiler --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+6.删除trustee账号
+echo 1234567890 | iriscli guardian delete-trustee --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+测试账号
+faa1hpv42g98w4pjc88n5tdxfaeda632gl3ravm0en
+faa1hhq3ue7akr2e532qghrdnga5yd0lurqu8f0rzw
+faa1029p99sqzdeleuy3un60fm2ltm5c2vkw9tfpu5
+faa1rpypzyvndrm7zntwnryxx6le4p5klmacvtkh57
+faa1w0gkjsd6rydjzg55jnxkk6ffrs7g9y62rnfu8w
+faa1264n55fg25z6czs43tk6j6rs3ravkz9x447gxx
+
+
+*******************************************
+    iristool
+*******************************************
+iristool debug addr faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+iristool debug addr fca1lcuw6ewd2gfxap37sejewmta205sgssmsa55dc
+iristool debug pubkey fvp1zcjduepq5rcpk6efzreexwwmp7pl7k47asyh4lrp3y85sd86ytlz0sz02k0q7l8jfs
+iristool debug pubkey fap1zcjduepq5rcpk6efzreexwwmp7pl7k47asyh4lrp3y85sd86ytlz0sz02k0qpkwgzw
+
+交易 tx 返回高度
+http://10.1.2.168:26657/block?height=3320 得到 txs中tx
+iristool debug tx  mgLZHnawCoABKpckrAo8ChRR6dnhekT/4VmzZuNfHOHhXDwS9hIkCglpcmlzLWF0dG8SFzIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwEjwKFP447WXNUhJuhj6GZZdtfVPpBEIbEiQKCWlyaXMtYXR0bxIXMjAwMDAwMDAwMDAwMDAwMDAwMDAwMDASIwodCglpcmlzLWF0dG8SEDQwMDAwMDAwMDAwMDAwMDAQoJwBGmwKJuta6YchArpvEfXpMeqnKqQmI+uH7+YVL2bTNVk6NWx5FeWmsb7DEkCXO6Ugvfxb1jvYrq99V1jXIbhRZH/QfOh2ncAytziqWka0cXvYT+6dFAbhWfkA6WV1OhewF+DfELz/IFx6ty7XIAE=
+
+*******************************************
+    tx search (iriscli tendermint)
+*******************************************
+iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+iriscli tendermint txs --tags "action:send" --trust-node
+
+iriscli gov submit-proposal --trust-node --title=test_title --description=test_description --type=Text --deposit=990iris --fee=0.004iris --from=v0 --chain-id=shilei-qa
+//单条件
+iriscli tendermint txs --tags "action:submit_proposal" --trust-node
+//多条件
+iriscli tendermint txs --tags "action:submit_proposal&proposal-id:1" --trust-node
+
+*******************************************
+    iriscli tendermint tx
+*******************************************
+iriscli tendermint block 1 --chain-id=shilei-qa
+
+iriscli tendermint tx --chain-id=shilei-qa
+
+iriscli tendermint txs --chain-id=shilei-qa --tags="action:send&sender:faa1wtx50ha79c8ar26k20xrz5jg8fn6n4q08syt78&recipient:faa1wtx50ha79c8ar26k20xrz5jg8fn6n4q08syt78"
+
+iriscli tendermint txs  --tags="action:delegate&delegator:iaa17v7ypgtsmacpvw99dscz6uzu6ks3p4lr5etkfs&destination-irvalidator:iva1rulhmls7g9cjh239vnkjnw870t5urrut9cyrxl"  --trust-node
+
+iriscli tendermint validator-set --chain-id=shilei-qa
+
+*******************************************
+    网络重启 export
+*******************************************
+1. export必须先停掉原有链。
+   export 不指定--for-zero-height  ，只是看，不支持重启链（否则后续stake操作会报错）
+   先用autotest 跑一边构造数据
+
+2.【最后块(或者距离最新块<100块)】
+echo y | rm /root/genesis.json
+iris export --for-zero-height --home=/root/testnet/v0/iris --output-file=/root/genesis.json
+iris unsafe-reset-all --home=/root/testnet/v0/iris
+iris unsafe-reset-all --home=/root/testnet/v1/iris
+echo y | cp /root/genesis.json /root/testnet/v0/iris/config/genesis.json
+echo y | cp /root/genesis.json /root/testnet/v1/iris/config/genesis.json
+iris start --home=/root/testnet/v0/iris
+iris start --home=/root/testnet/v1/iris (新tab)
+用autotest全部 再跑一边，确认没问题
+
+
+3.【中间块， 距离最新块>100块】
+rm /root/genesis.json
+iris export --for-zero-height --home=/root/testnet/v0/iris --height=300  【此时应该报错】
+iris start --home=/root/testnet/v0/iris --replay_height=300   【yes】
+iris export --for-zero-height --home=/root/testnet/v0/iris --height=300 --output-file=/root/genesis.json
+iris unsafe-reset-all --home=/root/testnet/v0/iris
+iris unsafe-reset-all --home=/root/testnet/v1/iris
+echo y | cp /root/genesis.json /root/testnet/v0/iris/config/genesis.json
+echo y | cp /root/genesis.json /root/testnet/v1/iris/config/genesis.json
+iris start --home=/root/testnet/v0/iris
+iris start --home=/root/testnet/v1/iris (新tab)
+用autotest-stake 再跑一边
+
+
+*******************************************
+    block gas limit
+    //需要改代码， 用定制版
+    //目的是为了测试一个block中只能包含小于指定gas的数据
+    //发两笔交易超过gas限制。有两道门， 第一道门需要改代码才可以进去， 需要验证的是第二道门 proposer 一个块的时候 gas不能大于7000.
+*******************************************
+1. 编译指定代码， 把原irisnet重命名， 覆盖irisnet,  dep+install
+2. 启动iris， （用t来启动测试网 中间停一下 修改genesis）
+   修改 block_size->max_gas 10000
+   修改 block间隔 8秒
+   // 备注一个send大约4000gas
+
+3. 分别在一个块的开始执行下列操作 sequence 1-2-3
+
+echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=1 && echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=2 && echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=3
+
+返回：
+async tx sent (tx hash: 1D1C9661E1504682F3E824484BDAFD075CF3D6E593CAB46C032E9051DEC92F01)
+async tx sent (tx hash: DE29F3D5FAF2E43C6269D8BFA50B24274C742377BC1DFA78B7E0CBF6D0777CB2)
+async tx sent (tx hash: 256578FA0CD10EE8427385E164DC91C3AB351CD17F689D2B2CEB224B8E65E94C)
+
+此时观察iris log会出现：
+module=state height=15 validTxs=2 invalidTxs=1
+//2条交易valid（4000+4000）， 1条交易invalid（4000这个加上就超过10000了）
+
+执行：
+iriscli tendermint tx --trust-node F41BA083597A3F25D3C0382E33D5E3C4B02FE24E4DEED7275F7892AD0E486559  // 查看result字段显示正常
+iriscli tendermint tx --trust-node E1FADC2EFD15C7A928E00B1C1ADA42941ECA29752F87C1FD227D987E392F20E8  // 查看result字段显示正常
+iriscli tendermint tx --trust-node 657B43FBA7B4D877963BE43DA51E8B0131147744245CF613D2A13111791BE241  // 查看result字段显示 out of gas in location: block gas meter
+
+
+其他：
+//这条直接拒绝 超过10000了， 超时了也未能被打包
+echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=10001 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+*******************************************
+   mint inflation
+*******************************************
+每个块默认增发 = （20亿*0.04）/(365.25*24*3600) * 5s = 12.5iris  (修改出块时间不影响这个值， 也就是出块时间减少， 每年增发会变多)
+
+起单节点 每隔20块 停一下 ， 执行
+echo y | rm /root/genesis.json
+iris export --for-zero-height --home=/root/testnet/v0/iris --output-file=/root/genesis.json
+可以看到account中每次增加 12.5*20 =250iris
+
+也可以在 26657的rpc接口查每个块的增发
+http://10.1.2.168:26657/block_results?height=2
+中的tags中的2， value="MTI2NzUyMzUxMjU2MTE1ODAwOTRpcmlzLWF0dG8="
+Base64 decode ，https://www.base64decode.net/
+12675235125611580094iris-atto （12.6iris）
+
+
+*******************************************
+   sentry  哨兵节点
+*******************************************
+1. iriscli status //获取验证人节点"id": "85ff3a906a27999d23cdf72451414e045ae39e84",
+2. 暂停主节点
+3. 新页面， iris init --moniker=sentry --home=/root/sentry  //获取sentry节点"id" = bccb80864e540af719fa1be6ae913ce50a74feaf
+4. 自动在home目录创建 sentry， copy验证人节点 genesis.json文件复制到 /root/sentry/config/
+5. sentry节点 /root/sentry/config/config.toml进行编辑：
+    private_peer_ids="85ff3a906a27999d23cdf72451414e045ae39e84" //设置验证节点id
+    改3个5 改成6
+    保存
+6. iris start --home=/root/sentry  //启动sentry节点
+7. 验证节点 /root/testnet/v0/iris/config/config.toml进行编辑：
+    persistent_peers = "bccb80864e540af719fa1be6ae913ce50a74feaf@127.0.0.1:26666"  //设置sentry节点id， 26666是上面改的
+    pex=false //pex=false 不与其他节点进行peers交换
+    保存
+8. iris start --home=/root/testnet/v0/iris //启动验证人节点， 2个节点同步
+9. 使用sentry节点 (一般只暴露哨兵节点)
+   echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --commit --node=http://10.1.2.168:26667
+   使用验证人节点
+   echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --commit --node=http://10.1.2.168:26657
+
+
+*******************************************
+   coin flow日志
+*******************************************
+1. iris.toml (暂停链)
+    track_coin_flow = true
+2. iris start --home=/root/testnet/v0/iris
+3. echo 1234567890 | iriscli bank send --amount=20000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+4. iriscli tendermint tx --trust-node EE189BBF3A74893BFA17E440B21D308A55D64B2FAAAA88813E4F1DCA9FA1E898 //最后log
+
+
+*******************************************
+   --dry-run  simulate
+*******************************************
+//adjustment 默认1.5,然后执行
+echo 1234567890 | iriscli bank send --amount=20000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --gas="simulate"
+
+//--dry-run 模拟不执行
+iriscli bank send --amount=20000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --dry-run
+
+//关于交易费 如果在checktx被拦击不收费， delivertx被拦会收取fee
+
+*******************************************
+离线签名
+*******************************************
+1) 构造一笔单对单的交易
+   iriscli bank send --amount=1iris-atto --fee=0.004iris --commit --chain-id=shilei-qa --from=a --to=faa1evwvjll5uhzp6j2vwttm2xs9evsgw48srnh4u3 --generate-only >~/Tx-generate
+2) 修改里面对应的input和output列表(实现1对多或者多对多)。
+3) 对该交易进行签名 (如果1对多，只需要签名一次， 多对多需要多次签名)
+    echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >~/Tx-sign
+    echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v1 --chain-id=shilei-qa >~/Tx-sign
+   （注意多次签名需要把签名好的Tx-sign内容重新复制到Tx-generate）
+4) 对该交易进行广播
+    iriscli tx broadcast ~/Tx-sign --commit
+5) 查询交易结果
+    iriscli tendermint tx --trust-node 179949E362DFA92724C8F8C29ABFB0655C432C4A53D2A5248F819BB07E47377B
+
+**************************************
+实现多input、多output，多次签名
+注：最多签7次， 超过7次broadcast时会被拒绝。交易费从第一个签名者这里出。
+**************************************
+
+step 1. Generate一个交易:
+iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547 --generate-only >~/Tx-generate
+
+step 2. 修改该交易里面的input和output内容和数量， 注意input的iris总量必须和output总量保持一致。
+
+step 3. 第1个用户签名
+ iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >~/Tx-sign
+
+step 4. 第2个用户在第一个用户签名的基础上继续签名， 签完后可以看到签名栏有2个用户签名。
+ iriscli tx sign ~/Tx-sign --name=v1 --chain-id=shilei-qa >~/Tx-sign2
+
+step 5. broadcast
+iriscli tx broadcast ~/Tx-sign2 --commit
+
+step 6. 查询hash， 就可以看到多input多output的交易了。
+iriscli tendermint tx --trust-node D5EC826174558336BFE0849C3CFA97EB3DB5D585D1A8346EB932C64A4593241E
+
+*******************************************
+    community pool
+*******************************************
+community pool:
+每块的产生的inflation是12.6iris， 分配到community pool是2% = 0.252iris
+
+fee：
+每次产生的fee 2%会转到community pool
+
+commulity_tax_add:
+iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+
+born_addr:
+iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
+
+
+*******************************************
+    多签 multisig
+*******************************************
+1）创建多签账户
+iriscli keys add x1 --multisig-threshold=2 --multisig=v0,v1
+
+2）转一笔账
+iriscli keys show x1
+echo 1234567890 | iriscli bank send --amount=500iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1k7u2xgmg6w9xlmx43r7xnkj6xxuwv7qssjcm53
+iriscli bank account faa1k7u2xgmg6w9xlmx43r7xnkj6xxuwv7qssjcm53
+
+3）多签账户构造交易
+echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris --commit --chain-id=shilei-qa --from=x1 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --generate-only > Tx-generate.json
+
+4）用v0，v1对Tx-generate.json进行签名
+echo 1234567890 | iriscli tx sign Tx-generate.json --name=v0 --chain-id=shilei-qa --multisig=faa1k7u2xgmg6w9xlmx43r7xnkj6xxuwv7qssjcm53 --signature-only >Tx-sign-v0.json
+
+echo 1234567890 | iriscli tx sign Tx-generate.json --name=v1 --chain-id=shilei-qa --multisig=faa1k7u2xgmg6w9xlmx43r7xnkj6xxuwv7qssjcm53 --signature-only >Tx-sign-v1.json
+
+5）合并2个签名
+iriscli tx multisign --chain-id=shilei-qa Tx-generate.json x1 Tx-sign-v0.json Tx-sign-v1.json > Tx-signed.json
+
+6）广播签名
+iriscli tx broadcast Tx-signed.json --commit
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju

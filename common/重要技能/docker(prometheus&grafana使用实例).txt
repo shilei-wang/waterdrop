@@ -1,0 +1,214 @@
+********************************************************************
+			1.安装
+********************************************************************
+
+yum update
+yum install epel-release （centos 自带docker， 但需要更新epel第三方软件库）
+
+
+yum install docker-io (注意一定要是docker-io  而不是docker，不然启动service会出错 )
+docker -v （查看docker version）
+
+========================
+centOS 下的环境
+【目前我这个版本一定要配置阿里云才可以启动docker 不然systemctl start docker.service  会报错】
+阿里云 开发者平台 镜像加速服务器（docker）
+https://dev.aliyun.com/search.html shelwin_wang 08的密码
+管理中心》镜像服务》镜像加速器》您的专属加速器地址   https://kdk1ysu0.mirror.aliyuncs.com
+mkdir -p /etc/docker
+
+tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://kdk1ysu0.mirror.aliyuncs.com"]
+}
+EOF
+
+service docker restart 
+
+其实是添加了 
+vim /etc/docker/daemon.json  ###
+{
+  "registry-mirrors": ["https://docker.mirrors.ustc.edu.cn"]
+}
+========================
+systemctl start docker.service （启动service）
+systemctl enable docker.service （开机自启动 ）
+systemctl restart docker.service （重启）
+
+
+docker run hello-world
+
+********************************************************************
+			2.docker基础
+********************************************************************
+sudo docker search centos （去docker 仓库查找image）
+sudo docker pull centos （下载第一个官方image 到本地）
+sudo docker images （查看）sudo docker rmi -f 212c6037b6c7（可以强制删除image）
+
+容器相关操作：  容器必须运行 才可以用attach 进去。
+一个image下有好几containner
+
+docker ps // 查看所有正在运行容器
+docker stop containerId // containerId 是容器的ID
+
+docker ps -a // 查看所有容器
+docker ps -a -q // 查看所有容器ID
+
+重要：开关docker服务要用这个！
+docker ps
+docker stop cf518bbe0e65 //  停止当前容器
+docker start cf518bbe0e65 //   开启当前容器
+
+docker stop $(docker ps -a -q) //  stop停止所有容器
+docker start $(docker ps -a -q)
+docker rm $(docker ps -a -q) //   remove删除所有容器
+
+==== 重要！！重要！！重要！！===
+研究了整整一个下午，进去prometheus docker的方法 ，查看被挂载的实际地址
+docker ps 
+docker exec -it a4b66d7656ca /bin/sh
+/prometheus $ ls
+/prometheus $ cd ..
+/prometheus $ ls
+
+docker 里面看文件用more
+exit 退出
+
+如果容器run的时候，没有添加--rm，那么容器关闭后数据不丢失；
+对于你的数据量大的数据，建议通过卷组功能把宿主机某个目录挂载到容器，然后容器数据都存放这个挂载目录，这样即使容器损坏，数据还是存放到宿主机里。
+
+================================
+
+删除image
+docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+grafana/grafana     latest              1cea45ac2e2d        10 days ago         245.3 MB
+prom/prometheus     latest              212c6037b6c7        2 weeks ago         118.8 MB
+centos              latest              88ec626ba223        5 weeks ago         199.7 MB
+docker rmi 88ec626ba223 (加-f强制)
+
+删除所有未使用数据
+docker system prune  
+
+只删除未使用的volume: (经常删啊 很大)
+docker volume prune
+
+********************************************************************
+			3.打开虚拟机端口
+		（这样主机和docker就可以访问虚拟机服务了）
+********************************************************************
+firewall-cmd --zone=public --add-port=9090/tcp --permanent     （prometheus）
+firewall-cmd --zone=public --add-port=26660/tcp --permanent    （Iris-hub monitor）
+firewall-cmd --zone=public --add-port=1317/tcp --permanent    （Iris-hub monitor）
+firewall-cmd --zone=public --add-port=3000/tcp --permanent     （Grafana）
+firewall-cmd --reload && systemctl restart firewalld.service
+[ 关闭端口：firewall-cmd --zone=public --remove-port=26660/tcp --permanent ]
+
+systemctl start firewalld
+
+
+********************************************************************
+			4.下载/开启Prometheus
+********************************************************************
+docker pull prom/prometheus:latest  (下载prometheus ,官网上有链接说明)
+
+chcon -Rt svirt_sandbox_file_t /root/volumes/prometheus （centos7 挂载会出现权限问题，所以要先把挂载volume的权限改下，这样docker就可以访问了）
+
+把prometheus.yml copy 到 /root/volumes/prometheus
+
+docker run -p 9090:9090  -v /root/volumes/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
+           -v /root/volumes/prometheus/prometheus-data:/prometheus-data \
+           prom/prometheus   （运行prometheus,并且把data文件和prometheus.yml配置文件映射在外面 不好管理，但是能自定义主机共享目录，开发编码推荐。看后面的volume比较）
+	
+[注意：由于一些情况，prometheus-data 里面并没有真正的数据，数据在prometheus下，而prometheus里有lock文件，不能挂载，要删除data文件的话，只能直接到容器里面/prometheus下 rm -rf *]
+
+=== 配置 prometheus.yml ===
+scrape_configs:  - job_name: prometheus    static_configs:      - targets: ['192.168.150.239:9090']        labels:          instance: prometheus            - job_name: IRIS-Hub    static_configs:      - targets: ['192.168.150.239:26660']        labels:          instance: IRIS-Hub
+
+=======================
+
+以后在开关服务只需要：
+[root@localhost ~]# docker ps -a
+[root@localhost ~]# docker stop 3277d7760a5d 
+[root@localhost ~]# docker start 3277d7760a5d 
+
+
+********************************************************************
+			4.下载/开启Grafana
+********************************************************************
+docker run -p 3000:3000 grafana/grafana （第一次run 会下载）
+chcon -Rt svirt_sandbox_file_t /root/volumes/grafana
+
+创建持久化volume (!!!!方便统一管理，不能自定义主机共享目录!!!!)
+docker run -d -v /var/lib/grafana --name grafana-storage grafana/grafana
+
+从volume获得数据启动
+docker run \
+  -p 3000:3000 \
+  -v /root/volumes/grafana/grafana.ini:/etc/grafana/grafana.ini \
+  --name=grafana \
+  --volumes-from grafana-storage \
+  grafana/grafana
+
+这种方式，数据同意挂载到指定目录  /var/lib/docker/volumes
+查看 docker inspect grafana|grep /var/lib/docker/volumes
+可以看到 "Source": "/var/lib/docker/volumes/2eba978cc843677abef3f94a316bd904d9b992801d33b323dcb0a4fd5698d23f/_data",
+也就是把 docker中的/var/lib/grafana 映射到 主机的 /var/lib/docker/volumes/2eba978cc843677abef3f94a316bd904d9b992801d33b323dcb0a4fd5698d23f/_data中
+
+
+=== 配置 grafana.ini ===
+[smtp]
+enabled = true
+host = smtp-mail.outlook.com:587
+user = shelwin_wang@hotmail.com
+password = wang0607
+skip_verify = false
+from_address = shelwin_wang@hotmail.com
+from_name = Grafana Alert
+
+[alerting]
+enabled = true
+execute_alerts = true
+
+root_url = http://192.168.150.184:3000
+
+
+********************************************************************
+			常用命令.
+********************************************************************
+
+
+
+./iris start --home=$HOME/.iris
+./iriscli monitor -p=$HOME/.iris -n=tcp://localhost:26657  （26657是iris的端口，注意monitor对外的端口是26660）
+./iriscli advanced rest-server -n=tcp://localhost:26657 -a=tcp://192.168.150.239:1317 -c=test  打开（LCD rest API）
+docker start ac89b726862a && docker start c9db1f934da6  （docker stop bad67b31b5fe）
+
+
+docker stop $(docker ps -a -q) 
+
+systemctl restart docker.service
+
+
+如果修改了ip 192.168.150.239
+【下面rest-server】【prometheus.yml】【grafana.ini】
+
+
+
+端口如果打开了 firefox可以直接看
+
+
+192.168.150.239:3000
+192.168.150.239:9090
+192.168.150.239:26660
+
+http://192.168.150.239:1317/accounts/cosmosaccaddr149v4hwgvd7wtn5jnnc9smmph37k999w76s938z
+
+
+sever
+http://192.168.150.7:3000
+
+
+
+
+

@@ -1,0 +1,362 @@
+
+**************************************
+irishub-stage 云服务器测试
+远程服务器：1.已经开好 2.区块文件等已经copy到/home/shilei/.iris
+**************************************
+其他:
+http://34.80.218.185:26657
+
+重启：
+ps -ef|grep iris
+kill -9 [PID]
+iris start --home=/home/shilei/.iris > /home/shilei/iris.log &
+tail -f /home/shilei/iris.log
+
+0）连接
+ssh shilei@34.80.218.185 （yes ， 密码：123456， 退出 exit）
+
+1)上传文件到云服务器
+//上传linux版本commander
+scp /Users/sherlock/my_workspace/stage/commander shilei@34.80.218.185:/home/shilei
+scp /Users/sherlock/my_workspace/stage/auto_test.proto shilei@34.80.218.185:/home/shilei
+//上传linux版本iris， 记得要编译最新的linux版本，方法见 1-3 "mac 编译linux"
+scp /Users/sherlock/go/src/github.com/irishub/build/iris shilei@34.80.218.185:/home/shilei
+scp /Users/sherlock/go/src/github.com/irishub/build/iriscli shilei@34.80.218.185:/home/shilei
+scp /Users/sherlock/go/src/github.com/irishub/build/irislcd shilei@34.80.218.185:/home/shilei
+//上传私钥文件夹 （8更新key，自动添加本地私钥）
+scp -r /Users/sherlock/my_workspace/stage/.iriscli shilei@34.80.218.185:/home/shilei
+//上传genesis toml文件
+scp -r /Users/sherlock/my_workspace/stage/genesis.json shilei@34.80.218.185:/home/shilei/.iris/config
+scp -r /Users/sherlock/my_workspace/stage/config.toml shilei@34.80.218.185:/home/shilei/.iris/config
+
+2）可执行文件用sudo移动到 /usr/local/bin (这样就可以直接运行了 不用./)
+sudo mv commander /usr/local/bin/
+sudo mv iris /usr/local/bin/
+sudo mv iriscli /usr/local/bin/
+sudo mv irislcd /usr/local/bin/
+
+检查一下:
+ls /usr/local/bin/
+iriscli keys list
+能看到2个用户
+
+更新:
+    rm -rf .iriscli
+    cp -rf .iriscli_backup .iriscli
+
+3）运行iris, 正常同步
+iris start --home=/home/shilei/.iris > /home/shilei/iris.log &
+    连接断了以后，重新查看日志
+    tail -f /home/shilei/iris.log
+
+检查：
+新开一个登录页面：ssh shilei@34.80.218.185
+iriscli bank account iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc
+
+4）运行commander
+commander
+
+
+**************************************
+irishub-stage 测试网
+自己起一个全节  http://34.80.141.14:30657
+测试 iriscli bank account iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc --node=http://34.80.141.14:30657
+**************************************
+
+如果需要切换 可以rename这个.iriscli 文件夹
+
+0) iris init --home=/Users/sherlock/stage_node --chain-id=irishub-stage  --moniker=stage_node
+1) copy http://34.80.141.14:30657/genesis  [注意只copy genesis后{}内用, 用goland括号高亮配合shift剪切]
+2) config.toml persistent_peers = "23056c504598a91210eb7585cdb00f8bf0eb8f69@34.80.141.14:30656,bc2a8b33eca7c17b0c300180e6b21a2bb3758c26@34.80.141.14:30756,1c392c4d0c42c338d53bcdf5cdd80954c2a95811@34.80.141.14:30856,68caab7493e4a5ec7050d2d928a1f8bf3d46643d@34.80.141.14:30956"
+3) iris start --home=/Users/sherlock/stage_node （此时正常追赶）
+4) faucet ：
+    tube lonely pause spring gym veteran know want grid tired taxi such same mesh charge orient bracket ozone concert once good quick dry boss
+    iriscli keys add faucet --recover
+    iriscli bank account iaa1ljemm0yznz58qxxs8xyak7fashcfxf5lgl4zjx
+
+5) node0 node1
+node0: wear move feel play dismiss setup pudding earn sleep child move vocal bread ginger bleak kind axis raven clip odor mind gift ride method
+node1: symptom picnic secret profit strike promote couch present rude page tag auto despair north biology market find veteran still welcome core depend fiction stamp
+
+iriscli keys add node0 --recover : iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc
+iriscli keys add node1 --recover : iaa15mr5pupp05mlvag2tnv4e6t4uuc69rxpuhn2yp
+
+iriscli bank account iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc
+iriscli bank account iaa15mr5pupp05mlvag2tnv4e6t4uuc69rxpuhn2yp
+
+iriscli keys show node0 --bech val : iva1rulhmls7g9cjh239vnkjnw870t5urrut9cyrxl
+iriscli keys show node1 --bech val : iva15mr5pupp05mlvag2tnv4e6t4uuc69rxpfxe9ex
+
+iriscli stake validator iva1rulhmls7g9cjh239vnkjnw870t5urrut9cyrxl
+iriscli stake validator iva15mr5pupp05mlvag2tnv4e6t4uuc69rxpfxe9ex
+
+echo 1234567890 | iriscli bank send --amount=90000000iris --fee=0.4iris --commit --chain-id=irishub-stage --from=faucet --to=iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc
+echo 1234567890 | iriscli bank send --amount=200000iris --fee=0.4iris --commit --chain-id=irishub-stage --from=faucet --to=iaa15mr5pupp05mlvag2tnv4e6t4uuc69rxpuhn2yp
+
+6) stake //确保node0 node1 主导所有voting power
+echo 1234567890 | iriscli stake delegate --address-validator=iva1rulhmls7g9cjh239vnkjnw870t5urrut9cyrxl --amount=20000iris --fee=0.4iris --commit --from=node0  --chain-id=irishub-stage
+echo 1234567890 | iriscli stake delegate --address-validator=iva15mr5pupp05mlvag2tnv4e6t4uuc69rxpfxe9ex --amount=20000iris --fee=0.4iris --commit --from=node1  --chain-id=irishub-stage
+
+7) 临时 修改service参数 //str = strings.Replace(str, "\"max_request_timeout\": \"100\"", "\"max_request_timeout\": \"20\"", 1)
+
+iriscli gov query-params --trust-node --module=service
+echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type="ParameterChange" --deposit="2000iris"  --param='service/MaxRequestTimeout=20' --from=node0 --chain-id=irishub-stage --fee=0.4iris  --commit
+
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.4iris --commit --from=node0 --chain-id=irishub-stage --proposal-id=27
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.4iris --commit --from=node1 --chain-id=irishub-stage --proposal-id=27
+
+iriscli gov query-proposal --trust-node --proposal-id=27
+
+    ***************************
+    第二次再同步测试 从这里开始就行， 注意必须是"主网版本的iris"
+    iris start --home=/Users/sherlock/stage_node （此时正常追赶，签名100w块不用再同步了）
+    ***************************
+
+8)更新key，自动添加本地私钥
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go mk
+检查：
+iriscli keys list
+node0	iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc
+node1	iaa15mr5pupp05mlvag2tnv4e6t4uuc69rxpuhn2yp
+
+同步完以后，检查一下
+iriscli bank account iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc
+
+启动：
+commander
+
+9) 看总交易数
+http://10.1.2.236:26657/block
+total_txs	"559"
+http://10.1.2.236:1317/txs/C5ACD19D634C578AD66A0F48397047E7697E32D0F5EE8E0FD3D496876FE2DB38
+
+irislcd-mainnet start --node=tcp://10.1.2.236:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=irishub-stage --home=$HOME/.irislcd/ --trust-node
+
+//测试一下
+echo 1234567890 | iriscli bank send --amount=1iris --fee=0.4iris --commit --chain-id=irishub-stage --from=node0 --to=iaa1rulhmls7g9cjh239vnkjnw870t5urrutsfwvmc
+
+iriscli tendermint tx 8798B3F82A617B738104429A2CF995886CE07692A75A416DD2E0013923E69A0B node=http://34.80.141.14:30657
+----------------
+irislcd-mainnet start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=irishub-stage --home=$HOME/test/ --trust-node
+
+
+*******************************************
+   ledger （Mac）
+*******************************************
+//左右两个按钮同时按是确定。
+go run /Users/zjb/mygo/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go c 1
+
+Ledger 输入pin 00000000，进入cosmos app
+iriscli keys list
+iriscli keys add a --ledger
+
+
+========
+测试网
+========
+
+// 一般faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg 不会变
+iriscli bank account faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg
+iriscli bank send --amount=10000iris --fee=0.1iris --chain-id=shilei-qa --from=v0 --to=faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg --commit
+iriscli bank account faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg
+
+iriscli bank send --amount=1iris --fee=0.1iris --chain-id=shilei-qa --from=a --to=faa124ngsdftl8um8zs9c83g08h8cqg37x6vyv2gx6 --commit
+
+========
+主网
+========
+iriscli keys add a --ledger
+iriscli bank send --amount=10000iris --fee=1iris --chain-id=shilei-qa --from=v0 --to=iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --commit
+iriscli bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4
+
+// 用测试账户转账5iris到主网ledger账户中
+//echo 1234567890 | iriscli bank send --amount=5iris --fee=0.3iris --commit --chain-id=irishub --from=airdrop --to=iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://120.55.8.201:26657
+
+
+*******************************************
+   HSM （Mac）
+*******************************************
+
+1. install
+rust: 比较慢
+curl https://sh.rustup.rs -sSf | sh
+检查：subl ~/.bash_profile  检查cargo的path有没有写进去
+source ~/.bash_profile
+
+gcc:  本机已经安装
+gcc --version
+whereis gcc
+
+pkg-config:
+下载 ：https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
+解压缩
+cd pkg-config-0.29.2
+./configure --with-internal-glib
+make
+sudo  make install
+pkg-config --version
+
+libusb (1.0+): (macOS (Homebrew)) 下面4补必须做，创建文件夹并赋予写权限，不然安装libusb会link失败
+sudo mkdir /usr/local/lib
+sudo mkdir /usr/local/include
+sudo chown -R $(whoami) /usr/local/lib
+sudo chown -R $(whoami) /usr/local/include
+brew install libusb
+
+2. tmkms:
+cd ~/go/src/github.com/
+git clone https://github.com/tendermint/kms.git && cd kms
+
+export RUSTFLAGS=-Ctarget-feature=+aes,+ssse3
+安装：
+cargo install --features yubihsm,ledgertm --path .
+
+3. 修改配置 tmkms
+cd ~/go/src/github.com/kms
+mkdir -p ~/my_workspace/kms
+mv tmkms.toml.example ~/my_workspace/kms/tmkms.toml
+
+subl ~/my_workspace/kms/tmkms.toml （注意：初始密码是 key 1 password， 可按住设备10秒重置??）
+
+#把原来都替换 ===》
+*************************************
+[[chain]]
+id = "shilei-qa"  #要和后面keys中的保持一致
+key_format = { type = "bech32", account_key_prefix = "fap", consensus_key_prefix = "fcp" }
+# state_file = "/path/to/irishub_priv_validator_state.json"
+
+# Validator configuration
+[[validator]]
+addr = "tcp://localhost:26658"
+# or addr = "unix:///path/to/socket"
+chain_id = "shilei-qa"
+reconnect = true # true is the default
+secret_key = "/Users/sherlock/my_workspace/kms/secret_connection.key"
+# max_height = "500000"
+
+[[providers.yubihsm]]
+# 这里要加注释！！！！！！！！
+adapter = { type = "usb" }
+auth = { key = 1, password = "password" } # Default YubiHSM admin credentials. Change ASAP!
+keys = [{ chain_ids = ["shilei-qa"], key = 7 }]
+#serial_number = "0123456789" # identify serial number of a specific YubiHSM to connect to
+*************************************
+
+4. 导入key ：(和tmkms.toml同一目录下执行，密码不对会显示 memmory error，只能导入一次 第二次导入会提示已经存在)
+cd ~/my_workspace/kms
+tmkms yubihsm keys import ~/testnet/v0/iris/config/priv_validator.json -i 1 (1指的导入验证人签名私钥到hsm的1号位置)
+
+5. 生成连接密钥secret_key: (kms目录下生成secret_connection.key)
+tmkms keygen secret_connection.key
+
+7.修改iris的config
+subl ~/testnet/v0/iris/config/config.toml
+# connections from an external PrivValidator process
+Priv_validator_laddr = "localhost:26658"
+
+6. 启动kms
+tmkms start -c ~/my_workspace/kms/tmkms.toml (此时显示 connection refused)
+
+
+8. 启动iris，正常签名出块。（注意：必须先开tmkms 再开iris， 重启后必须2个都停掉）
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+9. 其他：
+1) 显示列表 (备注 删除需要在官网下工具)
+    tmkms yubihsm keys list
+
+2) 除Log外可以通过
+   iriscli tendermint block --trust-node
+   查看pricommits里面有没有自己（比如2个节点，就剩1个了）。
+
+   如果是大节点，掉签直接无法出块。
+   如果是小节点，（第一次用的签名如果不对）掉签并不会在直接在log里显示出来，会显示一切正常这点很奇怪（需要这里看iriscli tendermint block --trust-node ==>precommits）
+
+
+
+
+
+
+
+
+
+
+**************************************
+                空投
+**************************************
+
+strike-drop：
+drop siege embark season rally primary bullet detect scrap toilet tank fine hire praise humor leader swim entire syrup brush scheme unusual display wrong
+iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93
+
+
+(公司服务器上的主网全节点)
+irislcd-mainnet start --node=tcp://192.168.150.31:30657 --laddr=tcp://0.0.0.0:1317 --chain-id=irisnet --home=$HOME/.irislcd/ --trust-node
+
+主网查账:
+iriscli bank account iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93 --node=tcp://192.168.150.31:30657 (这个是不稳定节点)
+
+备用网址：
+iriscli bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://120.55.8.201:26657
+
+--------
+QA
+http://35.220.168.203:30201/
+injury work lecture coach where total burger dolphin wool retire beef quick learn family choose angry snack buzz fragile drama juice gown option spare
+0.3iris 50000
+irislcd-qa start --node=tcp://35.220.168.203:30657 --laddr=tcp://0.0.0.0:1317 --chain-id=rainbow-qa --home=$HOME/.irislcd/ --trust-node
+
+----
+@奚海峰(奚海峰)
+
+3月20日 （补发 第1轮）空投币给我转账一下 ， 166 * 20.05 = 3328
+===
+3月20日 （第1轮） 空投计划已经顺利完成!
+共计：空投16个地址 ,  消耗iris（含fee）总计约 321 。本次余额足够无需转账， 当前 airDrop 账户余额 240.82646 iris
+
+疑似账户暂未发放。
+
+**************************************
+                主网稳定节点 iaa是legder地址
+**************************************
+iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://irisnet-rpc.rainbow.one:26657 (还未升级)
+
+iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://47.110.246.130:26657
+
+iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://124.156.103.49:26657 （文席）
+
+
+节点：
+https://iris-relay.01node.com/
+
+
+*******************************************
+             读取全局账户数量
+iriscli-global bank account iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93 --node=http://irisnet-rpc.rainbow.one:80
+or：26657 ？？
+*******************************************
+修改 clint bank cli query.go GetAccountCmd
+{
+	cliCtx := context.NewCLIContext().
+				WithCodec(cdc).
+				WithAccountDecoder(decoder)
+
+
+    globalAccountNumber, _ := cliCtx.QueryStore([]byte("globalAccountNumber"), "acc")
+    fmt.Println("==================================")
+
+    var accNumber uint64
+    cliCtx.Codec.MustUnmarshalBinaryLengthPrefixed(globalAccountNumber, &accNumber)
+    fmt.Println("globalAccountNumber : ", accNumber)
+}
+
+cd /Users/sherlock/go/src/github.com/irishub
+make install
+iriscli bank account iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93 --node=http://irisnet-rpc.rainbow.one:26657
+
+//go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go m 1
+//iriscli bank account iaa1zjgdg5enk006w9t0rf95fx7wm6v0j2dyccs4l9 --node=tcp://localhost:26657 --trust-node
+
+
+
+

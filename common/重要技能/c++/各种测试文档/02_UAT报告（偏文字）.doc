@@ -1,0 +1,577 @@
+Message-ID: <1953570307.8444.1537529726561.JavaMail.root@b55e755a2b6c>
+Subject: Exported From Confluence
+MIME-Version: 1.0
+Content-Type: multipart/related; 
+	boundary="----=_Part_8443_1002340758.1537529726561"
+
+------=_Part_8443_1002340758.1537529726561
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///C:/exported.html
+
+<html xmlns:o=3D'urn:schemas-microsoft-com:office:office'
+      xmlns:w=3D'urn:schemas-microsoft-com:office:word'
+      xmlns:v=3D'urn:schemas-microsoft-com:vml'
+      xmlns=3D'urn:w3-org-ns:HTML'>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+    <title>v0.4.0-rc0 UAT Report</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:TargetScreenSize>1024x640</o:TargetScreenSize>
+            <o:PixelsPerInch>72</o:PixelsPerInch>
+            <o:AllowPNG/>
+        </o:OfficeDocumentSettings>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+                <!--
+        @page Section1 {
+            size: 8.5in 11.0in;
+            margin: 1.0in;
+            mso-header-margin: .5in;
+            mso-footer-margin: .5in;
+            mso-paper-source: 0;
+        }
+
+        table {
+            border: solid 1px;
+            border-collapse: collapse;
+        }
+
+        table td, table th {
+            border: solid 1px;
+            padding: 5px;
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        tr {
+            page-break-after: avoid;
+        }
+
+        div.Section1 {
+            page: Section1;
+        }
+
+        /* Confluence print stylesheet. Common to all themes for print medi=
+a */
+/* Full of !important until we improve batching for print CSS */
+
+@media print {
+    #main {
+        padding-bottom: 1em !important; /* The default padding of 6em is to=
+o much for printouts */
+    }
+
+    body {
+        font-family: Arial, Helvetica, FreeSans, sans-serif;
+        font-size: 10pt;
+        line-height: 1.2;
+    }
+
+    body, #full-height-container, #main, #page, #content, .has-personal-sid=
+ebar #content {
+        background: #fff !important;
+        color: #000 !important;
+        border: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    a, a:link, a:visited, a:focus, a:hover, a:active {
+        color: #000;
+    }
+
+    #content h1,
+    #content h2,
+    #content h3,
+    #content h4,
+    #content h5,
+    #content h6 {
+        font-family: Arial, Helvetica, FreeSans, sans-serif;
+        page-break-after: avoid;
+    }
+
+    pre {
+        font-family: Monaco, "Courier New", monospace;
+    }
+
+    #header,
+    .aui-header-inner,
+    #navigation,
+    #sidebar,
+    .sidebar,
+    #personal-info-sidebar,
+    .ia-fixed-sidebar,
+    .page-actions,
+    .navmenu,
+    .ajs-menu-bar,
+    .noprint,
+    .inline-control-link,
+    .inline-control-link a,
+    a.show-labels-editor,
+    .global-comment-actions,
+    .comment-actions,
+    .quick-comment-container,
+    #addcomment {
+        display: none !important;
+    }
+
+    /* CONF-28544 cannot print multiple pages in IE */
+    #splitter-content {
+        position: relative !important;
+    }
+
+    .comment .date::before {
+        content: none !important; /* remove middot for print view */
+    }
+
+    h1.pagetitle img {
+        height: auto;
+        width: auto;
+    }
+
+    .print-only {
+        display: block;
+    }
+
+    #footer {
+        position: relative !important; /* CONF-17506 Place the footer at en=
+d of the content */
+        margin: 0;
+        padding: 0;
+        background: none;
+        clear: both;
+    }
+
+    #poweredby {
+        border-top: none;
+        background: none;
+    }
+
+    #poweredby li.print-only {
+        display: list-item;
+        font-style: italic;
+    }
+
+    #poweredby li.noprint {
+        display: none;
+    }
+
+    /* no width controls in print */
+    .wiki-content .table-wrap,
+    .wiki-content p,
+    .panel .codeContent,
+    .panel .codeContent pre,
+    .image-wrap {
+        overflow: visible !important;
+    }
+
+    /* TODO - should this work? */
+    #children-section,
+    #comments-section .comment,
+    #comments-section .comment .comment-body,
+    #comments-section .comment .comment-content,
+    #comments-section .comment p {
+        page-break-inside: avoid;
+    }
+
+    #page-children a {
+        text-decoration: none;
+    }
+
+    /**
+     hide twixies
+
+     the specificity here is a hack because print styles
+     are getting loaded before the base styles. */
+    #comments-section.pageSection .section-header,
+    #comments-section.pageSection .section-title,
+    #children-section.pageSection .section-header,
+    #children-section.pageSection .section-title,
+    .children-show-hide {
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .children-show-hide.icon {
+        display: none;
+    }
+
+    /* personal sidebar */
+    .has-personal-sidebar #content {
+        margin-right: 0px;
+    }
+
+    .has-personal-sidebar #content .pageSection {
+        margin-right: 0px;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
+-->
+    </style>
+</head>
+<body>
+    <h1>v0.4.0-rc0 UAT Report</h1>
+    <div class=3D"Section1">
+        <h1 id=3D"v0.4.0-rc0UATReport-1.=E6=9C=AC=E6=AC=A1=E7=89=88=E6=9C=
+=AC=E5=8F=91=E5=B8=83=E5=86=85=E5=AE=B9">1.=E6=9C=AC=E6=AC=A1=E7=89=88=E6=
+=9C=AC=E5=8F=91=E5=B8=83=E5=86=85=E5=AE=B9</h1>
+<p>=E5=9F=BA=E4=BA=8Eiris-stage(iris v0.4.0 release candidate)=E7=89=88=E6=
+=9C=AC=E3=80=82Governance, Fee token=E5=8A=9F=E8=83=BD=E7=9A=84=E5=AE=8C=E5=
+=96=84=EF=BC=8C=E5=B9=B3=E6=BB=91=E5=8D=87=E7=BA=A7Upgrade=E6=96=B0=E5=8A=
+=9F=E8=83=BD=E7=9A=84=E4=B8=8A=E7=BA=BF=E3=80=82 =E5=85=B6=E4=B8=ADGovernan=
+ce=E6=B7=BB=E5=8A=A0=E4=BA=86=E5=8C=85=E5=90=AB=E2=80=9C=E6=96=87=E6=9C=AC=
+=E6=8F=90=E8=AE=AE=EF=BC=8C=E5=8F=82=E6=95=B0=E5=8F=98=E6=9B=B4=E6=8F=90=E8=
+=AE=AE=EF=BC=8C=E8=BD=AF=E4=BB=B6=E5=8D=87=E7=BA=A7=E6=8F=90=E8=AE=AE=E2=80=
+=9D=E5=8A=9F=E8=83=BD=EF=BC=8C Fee token=E6=B7=BB=E5=8A=A0=E4=BA=86=E2=80=
+=9C=E4=BA=A4=E6=98=93=E5=90=8E=E8=BF=94=E5=9B=9E=E5=AE=9E=E9=99=85=E4=BD=BF=
+=E7=94=A8=E5=A4=9A=E5=B0=91fee=E2=80=9D=E7=9A=84=E5=8A=9F=E8=83=BD=EF=BC=8C=
+Upgrade=E6=8F=90=E4=BE=9B=E4=BA=86=E2=80=9C=E5=A4=9A=E8=8A=82=E7=82=B9=E5=
+=A4=9A=E6=AC=A1=E6=8A=95=E7=A5=A8=E5=90=8E=E5=B9=B3=E6=BB=91=E5=8D=87=E7=BA=
+=A7=E2=80=9D=E7=9A=84=E5=8A=9F=E8=83=BD=E3=80=82</p>
+<h1 id=3D"v0.4.0-rc0UATReport-2.=E6=B5=8B=E8=AF=95=E7=BB=93=E8=AE=BA=EF=BC=
+=9A">2.=E6=B5=8B=E8=AF=95=E7=BB=93=E8=AE=BA=EF=BC=9A</h1>
+<h3 id=3D"v0.4.0-rc0UATReport-2.1=E5=9F=BA=E6=9C=AC=E5=8A=9F=E8=83=BD=EF=BC=
+=88=E5=85=B7=E4=BD=93=E8=A7=81=E4=B8=8B=E8=A1=A8=EF=BC=89">2.1 =E5=9F=BA=E6=
+=9C=AC=E5=8A=9F=E8=83=BD=EF=BC=88=E5=85=B7=E4=BD=93=E8=A7=81=E4=B8=8B=E8=A1=
+=A8=EF=BC=89</h3>
+<p>=E8=87=AA=E5=8A=A8=E5=8C=96=E6=B5=8B=E8=AF=95=EF=BC=8C=E6=B5=8B=E8=AF=95=
+=E9=80=9A=E8=BF=87=E3=80=82=E5=8F=97=E9=99=90=E4=BA=8E=E6=B5=8B=E8=AF=95=E6=
+=96=B9=E6=B3=95=EF=BC=88LCD rest api=EF=BC=89=EF=BC=8C=E5=9C=A8=E9=AA=8C=E8=
+=AF=81=E6=95=B0=E6=8D=AE=E7=9A=84=E6=97=B6=E5=80=99=E4=BC=9A=E5=87=BA=E7=8E=
+=B0=E7=AD=89=E5=BE=85=E8=B6=85=E6=97=B6=E7=9A=84=E6=83=85=E5=86=B5=EF=BC=88=
+=E6=9E=81=E5=B0=8F=E6=A6=82=E7=8E=87=E5=87=BA=E7=8E=B0=EF=BC=89=E3=80=82=E7=
+=94=B1=E4=BA=8E=E6=9C=AC=E6=AC=A1=E6=B5=8B=E8=AF=95=E4=BE=A7=E9=87=8D=E7=82=
+=B9=E6=98=AF=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=AF=95=EF=BC=8C=E6=95=85=E8=AE=A4=
+=E4=B8=BA=E5=9F=BA=E6=9C=AC=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=AF=95=E9=80=9A=E8=
+=BF=87=E3=80=82</p>
+<h3 id=3D"v0.4.0-rc0UATReport-2.2=E6=96=B0=E5=8A=9F=E8=83=BD">2.2 =E6=96=B0=
+=E5=8A=9F=E8=83=BD</h3>
+<p>A. &nbsp;Fee token =E8=BF=94=E5=9B=9E=E4=BA=A4=E6=98=93=E5=AE=9E=E9=99=
+=85=E4=BD=BF=E7=94=A8=E7=9A=84Fee=E6=95=B0=E9=87=8F=EF=BC=8C=E6=B5=8B=E8=AF=
+=95=E9=80=9A=E8=BF=87=E3=80=82=EF=BC=88Auto-test =E6=B5=8B=E4=B8=8B****=EF=
+=BC=89</p>
+<p>B. &nbsp;Governance =E5=8F=82=E6=95=B0=E5=8F=98=E6=9B=B4=E6=8F=90=E8=AE=
+=AE=EF=BC=8C=E8=BD=AF=E4=BB=B6=E5=8D=87=E7=BA=A7=E6=8F=90=E8=AE=AE=EF=BC=8C=
+ =E6=B5=8B=E8=AF=95=E9=80=9A=E8=BF=87=E3=80=82=EF=BC=88=E6=89=8B=E5=8A=A8=
+=E6=B5=8B=E8=AF=95=EF=BC=8C=E5=85=B6=E4=B8=AD=E2=80=9C=E5=8F=82=E6=95=B0=E5=
+=8F=98=E6=9B=B4=E6=8F=90=E8=AE=AE=E2=80=9D=E5=90=8E=E7=BB=AD=E4=BC=9A=E6=94=
+=B9=E6=88=90Auto-test=EF=BC=89</p>
+<p>&nbsp;&nbsp;&nbsp; 1=EF=BC=89=E2=80=9C=E5=8F=82=E6=95=B0=E5=8F=98=E6=9B=
+=B4=E6=8F=90=E8=AE=AE=E2=80=9D=E6=9C=AC=E5=9C=B0=E5=8D=95=E8=8A=82=E7=82=B9=
+=EF=BC=8C=E6=B5=8B=E8=AF=95=E9=80=9A=E8=BF=87=E3=80=82=EF=BC=88=E8=BF=99=E4=
+=B8=AA=E8=A6=81=E6=B5=8B=E4=B8=80=E4=B8=8B*****=EF=BC=89</p>
+<p>&nbsp;&nbsp;&nbsp; 2=EF=BC=89=E2=80=9C=E8=BD=AF=E4=BB=B6=E5=8D=87=E7=BA=
+=A7=E6=8F=90=E8=AE=AE=E2=80=9D=E5=A4=9A=E8=8A=82=E7=82=B9Stage=E7=8E=AF=E5=
+=A2=83 =EF=BC=8C=E6=B5=8B=E8=AF=95=E9=80=9A=E8=BF=87=E3=80=82=EF=BC=88=E5=
+=9C=A8=E6=98=A8=E5=A4=A9stage=E7=8E=AF=E5=A2=83=E8=BD=AF=E4=BB=B6=E5=8D=87=
+=E7=BA=A7=E6=B5=8B=E8=AF=95=E4=B8=AD=EF=BC=8CGovernance submit-proposal =E5=
+=9C=A8Gov=E5=85=B1=E8=AF=86=E9=98=B6=E6=AE=B5=E6=98=AF=E9=80=9A=E8=BF=87=E7=
+=9A=84=EF=BC=8C =E4=BD=86=E6=98=AF=E9=80=9F=E5=BA=A6=E6=98=8E=E6=98=BE=E6=
+=85=A2=E4=BA=8E=E9=A2=84=E6=9C=9F=EF=BC=8C=E6=98=8E=E6=98=BE=E6=85=A2=E4=BA=
+=8E=E6=9C=AC=E5=9C=B0=E5=A4=9A=E8=8A=82=E7=82=B9=E5=85=B1=E8=AF=86=EF=BC=8C=
+=E6=AD=A4=E5=A4=84=E9=9C=80=E8=A6=81=E5=85=B3=E6=B3=A8=EF=BC=89</p>
+<p>C. =E5=B9=B3=E6=BB=91=E5=8D=87=E7=BA=A7 software upgrade =EF=BC=88=E6=89=
+=8B=E5=8A=A8=E6=B5=8B=E8=AF=95=EF=BC=89</p>
+<p>&nbsp;&nbsp;&nbsp; 1=EF=BC=89=E6=9C=AC=E5=9C=B0=E5=8D=95=E8=8A=82=E7=82=
+=B9=EF=BC=8C=E6=B5=8B=E8=AF=95=E9=80=9A=E8=BF=87=E3=80=82</p>
+<p>&nbsp;&nbsp;&nbsp; 2=EF=BC=89=E6=9C=AC=E5=9C=B0=E5=A4=9A=E8=8A=82=E7=82=
+=B9=EF=BC=884=E8=8A=82=E7=82=B9=EF=BC=89=EF=BC=8C=E6=B5=8B=E8=AF=95=E9=80=
+=9A=E8=BF=87=E3=80=82</p>
+<p><strong>&nbsp;&nbsp;&nbsp; <span style=3D"color: rgb(255,0,0);">3) Stage=
+=E7=8E=AF=E5=A2=83=E5=A4=9A=E8=8A=82=E6=B5=8B=E8=AF=95=EF=BC=8C=E6=B5=8B=E8=
+=AF=95=E6=9C=AA=E9=80=9A=E8=BF=87=E3=80=82</span> </strong>=EF=BC=88=E5=9C=
+=A8=E6=AD=A4=E6=AC=A1=E6=B5=8B=E8=AF=95=E4=B8=AD=EF=BC=8CGov=E6=8F=90=E4=BA=
+=A4=E6=8F=90=E8=AE=AE=E7=9A=84=E9=98=B6=E6=AE=B5=E9=80=9A=E8=BF=87=EF=BC=8C=
+=E4=BD=86=E6=98=AF=E5=9C=A8=E5=88=87=E6=8D=A2=E6=96=B0=E7=9A=84IRIS=E5=90=
+=8E=EF=BC=8C=E6=89=A7=E8=A1=8Csubmit-switch=E6=97=B6=E9=98=BB=E5=A1=9E=E4=
+=B8=8D=E8=BF=94=E5=9B=9E=EF=BC=8C=E7=BB=88=E7=AB=AF=E5=81=87=E6=AD=BB=EF=BC=
+=8C=E5=B9=B6=E4=B8=94=E9=80=A0=E6=88=90=E5=8C=BA=E5=9D=97=E9=93=BE=E5=85=B1=
+=E8=AF=86=E5=A4=B1=E8=B4=A5=EF=BC=8C=E5=87=BA=E5=9D=97=E5=A4=B1=E8=B4=A5=EF=
+=BC=8C =E9=83=A8=E5=88=86=E9=AA=8C=E8=AF=81=E4=BA=BA=E7=9A=84voting power=
+=E5=8F=98=E4=B8=BA0=E3=80=82=E7=BB=8F=E9=AA=8C=E8=AF=81=E5=86=8D=E6=AC=A1=
+=E8=AE=BF=E9=97=AE=E8=8A=82=E7=82=B9rest=E6=8E=A5=E5=8F=A3=E4=B9=9F=E6=97=
+=A0=E4=BB=BB=E4=BD=95=E8=BF=94=E5=9B=9E=EF=BC=8C p2p peer=E5=B4=A9=E6=BA=83=
+=E3=80=82=E5=8F=AF=E4=BB=A5=E8=AE=A4=E4=B8=BA=E9=93=BE=E8=A2=AB=E6=9A=82=E6=
+=97=B6break=E4=BA=86=E3=80=82=E6=B3=A8=EF=BC=9Arollback=E5=88=B0=E5=8E=9F=
+=E6=9D=A5=E7=9A=84iris=E5=85=B1=E8=AF=86=E6=81=A2=E5=A4=8D=E3=80=82=EF=BC=
+=89</p>
+<h4 id=3D"v0.4.0-rc0UATReport-=E7=BB=93=E8=AE=BA=EF=BC=9A=E7=94=B1=E4=BA=8E=
+SoftwareUpgrade=EF=BC=88=E5=85=B3=E9=94=AEfeature=EF=BC=89=E6=B5=8B=E8=AF=
+=95=E6=9C=AA=E9=80=9A=E8=BF=87=EF=BC=8C=E4=B8=94=E4=BC=9A=E5=BD=B1=E5=93=8D=
+=E5=8C=BA=E5=9D=97=E9=93=BE=E5=85=B1=E8=AF=86=E3=80=82=E5=BB=BA=E8=AE=AE=E6=
+=9A=82=E7=BC=93=E5=8F=91=E5=B8=83Stageirisv0.4.0"><strong>=E7=BB=93=E8=AE=
+=BA=EF=BC=9A=E7=94=B1=E4=BA=8E Software Upgrade =EF=BC=88=E5=85=B3=E9=94=AE=
+feature=EF=BC=89=E6=B5=8B=E8=AF=95=E6=9C=AA=E9=80=9A=E8=BF=87=EF=BC=8C=E4=
+=B8=94=E4=BC=9A=E5=BD=B1=E5=93=8D=E5=8C=BA=E5=9D=97=E9=93=BE=E5=85=B1=E8=AF=
+=86=E3=80=82 =E5=BB=BA=E8=AE=AE=E6=9A=82=E7=BC=93=E5=8F=91=E5=B8=83 Stage i=
+ris v0.4.0</strong></h4>
+<h1 id=3D"v0.4.0-rc0UATReport-3.=E6=B5=8B=E8=AF=95=E5=BB=BA=E8=AE=AE=EF=BC=
+=9A">3. =E6=B5=8B=E8=AF=95=E5=BB=BA=E8=AE=AE=EF=BC=9A</h1>
+<p>1)&nbsp;=E5=BB=BA=E8=AE=AE=E4=BA=A4=E4=BB=98=E6=B5=8B=E8=AF=95=E4=B9=8B=
+=E5=89=8D=E5=A4=9A=E5=A2=9E=E5=8A=A0=E8=87=AA=E6=B5=8B=EF=BC=8C=E8=BF=9B=E4=
+=B8=80=E6=AD=A5=E5=A2=9E=E5=8A=A0=E5=90=84=E8=87=AA=E6=A8=A1=E5=9D=97=E7=9A=
+=84=E9=B2=81=E6=A3=92=E6=80=A7=E3=80=82=E5=90=84=E4=BD=8Downer=E5=8F=AF=E8=
+=83=BD=E6=98=AF=E6=9C=80=E6=9C=80=E7=86=9F=E6=82=89=E8=87=AA=E5=B7=B1=E6=A8=
+=A1=E5=9D=97=E7=9A=84=E4=BA=BA=EF=BC=8C =E6=9C=80=E7=9F=A5=E9=81=93=E9=97=
+=AE=E9=A2=98=E9=A3=8E=E9=99=A9=E5=8F=AF=E8=83=BD=E5=87=BA=E5=9C=A8=E5=93=AA=
+=E9=87=8C=EF=BC=8C =E4=B9=9F=E5=8F=AF=E4=BB=A5=E6=8A=8A=E8=BF=99=E4=BA=9B=
+=E6=98=93=E5=87=BA=E7=8E=B0=E9=A3=8E=E9=99=A9=E7=9A=84=E5=9C=B0=E6=96=B9=E5=
+=91=8A=E7=9F=A5=E6=88=91=EF=BC=8C =E6=88=91=E4=B9=9F=E4=BC=9A=E9=87=8D=E7=
+=82=B9=E5=8A=A0=E5=BC=BA=E8=BF=99=E5=9D=97=E6=B5=8B=E8=AF=95=E3=80=82</p>
+<p>2)&nbsp;=E6=AF=8F=E4=B8=AA=E6=A8=A1=E5=9D=97=E7=9A=84owner=E5=AF=B9=E8=
+=87=AA=E5=B7=B1=E6=A8=A1=E5=9D=97=E7=9A=84=E6=96=B0=E5=8A=9F=E8=83=BD=E8=83=
+=BD=E5=B0=BD=E5=8F=AF=E8=83=BD=E7=9A=84=E5=81=9A=E4=B8=80=E4=BA=9B=E9=80=82=
+=E9=87=8F=E7=9A=84=E5=8F=8D=E5=90=91=E6=B5=8B=E8=AF=95</p>
+<ol>
+<li>=E6=AF=94=E5=A6=82gov=E6=95=85=E6=84=8F=E6=8A=95=E5=8F=8D=E5=AF=B9=E7=
+=A5=A8=E3=80=82</li>
+<li>=E6=AF=94=E5=A6=82Fee token=E6=95=85=E6=84=8F=E6=8C=87=E5=AE=9A=E6=98=
+=8E=E6=98=BE=E9=94=99=E8=AF=AF=E7=9A=84=E9=87=8F=EF=BC=8C=E6=AF=94=E5=A6=82=
+0=EF=BC=8C-1=E7=AD=89=EF=BC=8C=E8=A7=82=E5=AF=9FcheckTX=E8=BF=94=E5=9B=9E=
+=E6=98=AF=E5=90=A6=E7=AC=A6=E5=90=88=E9=A2=84=E6=9C=9F.</li>
+<li>=E6=AF=94=E5=A6=82=E5=9C=A8=E8=BD=AF=E4=BB=B6=E5=8D=87=E7=BA=A7=E7=9A=
+=84=E6=97=B6=E5=80=99=E6=95=85=E6=84=8F=E5=9C=A8vote=E9=98=B6=E6=AE=B5=EF=
+=BC=88=E6=8F=90=E8=AE=AE=E8=BF=98=E6=9C=AA=E6=9C=80=E7=BB=88pass=E7=9A=84=
+=E9=98=B6=E6=AE=B5=EF=BC=89=E6=8F=90=E4=BA=A4submit-switch=E8=AF=B7=E6=B1=
+=82=E3=80=82</li>
+</ol>
+<p>3)&nbsp;=E5=9B=A0=E4=B8=BA=E6=97=B6=E9=97=B4=E5=85=B3=E7=B3=BB=E6=9C=89=
+=E4=BA=9B=E7=94=A8=E4=BE=8B=E8=BF=98=E6=9C=AA=E5=85=A8=E8=A6=86=E7=9B=96=EF=
+=BC=8C=E4=BC=9A=E5=9C=A8=E5=90=8E=E7=BB=AD=E5=B0=BD=E9=87=8F=E5=A2=9E=E5=8A=
+=A0=E8=A6=86=E7=9B=96=E7=8E=87=E3=80=82</p>
+<h1 id=3D"v0.4.0-rc0UATReport-4.=E6=B5=8B=E8=AF=95=E6=A6=82=E8=A6=81">4. =
+=E6=B5=8B=E8=AF=95=E6=A6=82=E8=A6=81</h1>
+<h3 id=3D"v0.4.0-rc0UATReport-4.1=E7=8E=AF=E5=A2=83=E4=B8=8E=E9=85=8D=E7=BD=
+=AE">4.1 =E7=8E=AF=E5=A2=83=E4=B8=8E=E9=85=8D=E7=BD=AE</h3>
+<p>Chain-ID =EF=BC=9AIRIS-state =EF=BC=886=E4=B8=AAvalidator=E8=8A=82=E7=82=
+=B9=EF=BC=89</p>
+<p>Version &nbsp;: 0.4.0 release candidate</p>
+<p>=E5=9F=BA=E6=9C=AC=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=AF=95=E4=BE=9D=E8=B5=96=
+ =EF=BC=9A rest api</p>
+<h3 id=3D"v0.4.0-rc0UATReport-4.2=E6=B5=8B=E8=AF=95=E6=96=B9=E6=B3=95=E5=92=
+=8C=E6=B5=8B=E8=AF=95=E5=B7=A5=E5=85=B7">4.2=E6=B5=8B=E8=AF=95=E6=96=B9=E6=
+=B3=95=E5=92=8C=E6=B5=8B=E8=AF=95=E5=B7=A5=E5=85=B7</h3>
+<p>=E6=B5=8B=E8=AF=95=E6=96=B9=E6=B3=95=EF=BC=9A=E8=87=AA=E5=8A=A8=E5=8C=96=
+=E6=B5=8B=E8=AF=95=E4=B8=BA=E4=B8=BB=EF=BC=8C=E6=89=8B=E5=8A=A8=E6=B5=8B=E8=
+=AF=95=E4=B8=BA=E8=BE=85</p>
+<p>=E6=B5=8B=E8=AF=95=E5=B7=A5=E5=85=B7=EF=BC=9A=E8=87=AA=E5=8A=A8=E5=8C=96=
+=E6=B5=8B=E8=AF=95=E6=A1=86=E6=9E=B6=EF=BC=88go =E8=84=9A=E6=9C=AC=EF=BC=89=
+ =EF=BC=8C=E6=89=8B=E5=8A=A8=E6=B5=8B=E8=AF=95=E6=9C=AC=E5=9C=B0=E7=8E=AF=
+=E5=A2=83=E5=9C=A8CentOS=E8=99=9A=E6=8B=9F=E6=9C=BA=E4=B8=AD=E8=BF=9B=E8=A1=
+=8C=EF=BC=8C Stage=E7=8E=AF=E5=A2=83=E6=B5=8B=E8=AF=95=E5=88=99=E6=98=AF=E6=
+=A8=A1=E6=8B=9F=E5=85=A8=E7=9C=9F=E5=AE=9E=E7=8E=AF=E5=A2=83=E4=B8=AD=E8=BF=
+=90=E8=A1=8C=E3=80=82&nbsp;</p>
+<h3 id=3D"v0.4.0-rc0UATReport-4.3=E8=A6=86=E7=9B=96=E5=88=86=E6=9E=90">4.3=
+=E8=A6=86=E7=9B=96=E5=88=86=E6=9E=90</h3>
+<p>=E5=9F=BA=E6=9C=AC=E5=8A=9F=E8=83=BD95%=E8=A6=86=E7=9B=96=E3=80=82=E6=9A=
+=82=E6=97=B6=E7=BC=BA=E5=B0=91=E4=BB=A5=E4=B8=8B2=E9=A1=B9=EF=BC=88=E7=94=
+=B1=E4=BA=8E=E2=80=9C=E5=AE=8C=E6=88=90=E8=A7=A3=E7=BB=91=E2=80=9D=E5=92=8C=
+=E2=80=9C=E5=AE=8C=E6=88=90=E6=9B=B4=E6=96=B0=E2=80=9D=E8=A6=8110=E5=88=86=
+=E9=92=9F=E6=94=B6=E9=AA=8C=E8=AF=81=E8=87=AA=E5=8A=A8=E5=8C=96=E6=B5=8B=E8=
+=AF=95=E6=9A=82=E6=9C=AA=E5=AE=9E=E7=8E=B0=EF=BC=8C=E5=90=8E=E7=BB=AD=E4=BC=
+=9A=E6=B7=BB=E5=8A=A0=E5=88=B0=E6=89=8B=E5=8A=A8=E6=B5=8B=E8=AF=95=E4=B8=AD=
+=EF=BC=89</p>
+<p>1=EF=BC=89=E2=80=9C=E5=AE=8C=E6=88=90=E8=A7=A3=E7=BB=91=E6=9F=90=E4=B8=
+=AA=E9=AA=8C=E8=AF=81=E8=8A=82=E7=82=B9=E4=B8=8A=E6=8A=B5=E6=8A=BC=E7=9A=84=
+=E4=BB=A3=E5=B8=81=E2=80=9D</p>
+<p>2=EF=BC=89=E2=80=9C=E5=AE=8C=E6=88=90=E6=9B=B4=E6=96=B0=E6=9F=90=E4=B8=
+=80=E4=B8=AA=E9=AA=8C=E8=AF=81=E8=8A=82=E7=82=B9=E4=B8=8A=E6=8A=B5=E6=8A=BC=
+=E7=9A=84=E4=BB=A3=E5=B8=81=E2=80=9D</p>
+<h1 id=3D"v0.4.0-rc0UATReport-5.=E5=9F=BA=E6=9C=AC=E5=8A=9F=E8=83=BD=E8=87=
+=AA=E5=8A=A8=E5=8C=96=E6=B5=8B=E8=AF=95=E7=94=A8=E4=BE=8B=EF=BC=88=E7=9B=AE=
+=E5=89=8D=E5=AE=9E=E7=8E=B0=E4=BA=86=E6=89=80=E6=9C=89=E6=A8=A1=E5=9D=97=E2=
+=80=9C=E6=AD=A3=E5=90=91=E2=80=9D=E6=B5=8B=E8=AF=95=E7=94=A8=E4=BE=8B=E7=9A=
+=84=E4=BB=A3=E7=A0=81=EF=BC=89">5. =E5=9F=BA=E6=9C=AC=E5=8A=9F=E8=83=BD=E8=
+=87=AA=E5=8A=A8=E5=8C=96=E6=B5=8B=E8=AF=95=E7=94=A8=E4=BE=8B=EF=BC=88=E7=9B=
+=AE=E5=89=8D=E5=AE=9E=E7=8E=B0=E4=BA=86=E6=89=80=E6=9C=89=E6=A8=A1=E5=9D=97=
+=E2=80=9C=E6=AD=A3=E5=90=91=E2=80=9D=E6=B5=8B=E8=AF=95=E7=94=A8=E4=BE=8B=E7=
+=9A=84=E4=BB=A3=E7=A0=81=EF=BC=89</h1>
+<p><br><br><br></p>
+<div class=3D"table-wrap">
+<table class=3D"confluenceTable">
+<tbody>
+<tr>
+<td class=3D"confluenceTd">=E6=9F=A5=E8=AF=A2=E8=B4=A6=E6=88=B7=E5=88=97=E8=
+=A1=A8</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E5=88=9B=E5=BB=BA=E6=9C=AC=E5=9C=B0=E8=B4=A6=E6=
+=88=B7</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=81=A2=E5=A4=8D=E6=9C=AC=E5=9C=B0=E8=B4=A6=E6=
+=88=B7</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9F=A5=E7=9C=8B=E6=9C=AC=E5=9C=B0=E8=B4=A6=E6=
+=88=B7</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E5=88=A0=E9=99=A4=E6=9C=AC=E5=9C=B0=E8=B4=A6=E6=
+=88=B7</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9B=B4=E6=96=B0=E6=9C=AC=E5=9C=B0=E8=B4=A6=E6=
+=88=B7</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E8=BD=AC=E8=B4=A6=E4=BA=A4=E6=98=93</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9F=A5=E8=AF=A2=E4=BA=A4=E6=98=93</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9F=A5=E8=AF=A2validator=E5=88=97=E8=A1=A8</t=
+d>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9F=A5=E8=AF=A2delegator=E6=8A=B5=E6=8A=BC=E4=
+=BF=A1=E6=81=AF</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E5=A7=94=E6=89=98=E4=BB=A3=E5=B8=81=E7=BB=99=E6=
+=9F=90=E4=B8=80=E4=B8=AA=E9=AA=8C=E8=AF=81=E8=8A=82=E7=82=B9</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E8=A7=A3=E7=BB=91=E6=9F=90=E4=B8=AA=E9=AA=8C=E8=
+=AF=81=E8=8A=82=E7=82=B9=E4=B8=8A=E6=8A=B5=E6=8A=BC=E7=9A=84=E4=BB=A3=E5=B8=
+=81</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9B=B4=E6=96=B0=E6=9F=90=E4=B8=80=E4=B8=AA=E9=
+=AA=8C=E8=AF=81=E8=8A=82=E7=82=B9=E4=B8=8A=E6=8A=B5=E6=8A=BC=E7=9A=84=E4=BB=
+=A3=E5=B8=81</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=8F=90=E4=BA=A4=E6=8F=90=E8=AE=AE</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9F=A5=E8=AF=A2=E6=8F=90=E8=AE=AE</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E8=B5=9E=E5=8A=A9=E6=8F=90=E8=AE=AE</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=8A=95=E7=A5=A8=E6=8F=90=E8=AE=AE</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E6=9F=A5=E8=AF=A2=E6=8A=95=E7=A5=A8</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">=E8=B4=A6=E6=88=B7=E7=8A=B6=E6=80=81=E6=9F=A5=E8=
+=AF=A2</td>
+<td class=3D"confluenceTd">Auto-test</td>
+<td class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+<td class=3D"confluenceTd">=E6=AD=A3=E5=90=91=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=
+=AF=95</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+<p><br></p>
+<p><br></p>
+<h1 id=3D"v0.4.0-rc0UATReport-6.=E5=8F=82=E8=80=83=E8=B5=84=E6=96=99">6. =
+=E5=8F=82=E8=80=83=E8=B5=84=E6=96=99</h1>
+<p>=E8=87=AA=E5=8A=A8=E5=8C=96=E6=B5=8B=E8=AF=95=E6=A1=86=E6=9E=B6=EF=BC=9A=
+<a rel=3D"nofollow" href=3D"http://wiki.bianjie.ai/pages/viewpage.action?pa=
+geId=3D5538248"><u>http://wiki.bianjie.ai/pages/viewpage.action?pageId=3D55=
+38248</u></a></p>
+<p>=E5=9F=BA=E6=9C=AC=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=AF=95=E7=94=A8=E4=BE=8B=
+=EF=BC=9A<a href=3D"/pages/viewpage.action?pageId=3D5538248">IRISHub =E5=8A=
+=9F=E8=83=BD=E6=B5=8B=E8=AF=95=E6=96=87=E6=A1=A3</a></p>
+    </div>
+</body>
+</html>
+------=_Part_8443_1002340758.1537529726561--

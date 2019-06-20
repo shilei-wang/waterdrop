@@ -1,0 +1,63 @@
+注意：每次都要先做
+1.复制 C:\Program Files (x86)\Android\android-sdk\tools 中的adb出来（注意上面那步已经复制过一个了）， 改名nox_adb，覆盖掉 C:\Program Files\Nox\bin 中的老版本的nox_adb  (注意每次开机都要做一次，做完再打开夜神) 验证：adb devices， 会出现127.0.0.1:62001 device
+2.打开夜神，打开appium（点击运行）
+
+# -*- coding:utf-8 -*-
+# __author__ = 'lenovo'
+import os
+import unittest
+from appium import webdriver
+from time import sleep
+
+#设置路径信息
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
+
+class LoginAndroidTests(unittest.TestCase):
+    def setUp(self):
+        #初始化测试平台
+        desired_caps = {}
+        desired_caps['platformName'] = 'Android'
+        desired_caps['platformVersion'] = '6.0.9.0'   #Android版本
+        desired_caps['deviceName'] = '127.0.0.1:62001'#告诉appium 夜神的地址
+        desired_caps['app'] = 'D:\\bz.apk'#app的安装路径
+        desired_caps['appPackage'] = 'com.lovebizhi.wallpaper'#包名
+        desired_caps['appActivity'] = 'com.adesk.picasso.view.MainActivity'#activity名称
+        self.driver = webdriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)#连接appium 4723是appium
+
+    def tearDown(self):
+       self.driver.quit()
+
+    def test(self):
+        print "start test..."
+
+        #判断是否安装爱壁纸APP
+        wallpaper = self.driver.is_app_installed("com.lovebizhi.wallpaper")
+        if wallpaper:
+            sleep(15)
+
+            #点击主页
+            self.driver.find_element_by_id("com.lovebizhi.wallpaper:id/nav_home_ll").click()
+            sleep(8)
+
+            #点击某一壁纸图片，注意这里是elements list
+            self.driver.find_elements_by_id("com.lovebizhi.wallpaper:id/thumb")[8].click()
+            sleep(8)
+
+            # 点击设置壁纸
+            self.driver.find_element_by_id("com.lovebizhi.wallpaper:id/set_wp_btn").click()
+            sleep(5)
+
+            self.driver.find_element_by_id("com.lovebizhi.wallpaper:id/set_wp_btn").click()
+            sleep(5)
+        else:
+            #好像第一次必须安装 不然会出错
+            self.driver.install_app("D:\\bz.apk")
+            sleep(30)
+
+
+if __name__ == '__main__':
+    suite =unittest.TestLoader().loadTestsFromTestCase(LoginAndroidTests)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+

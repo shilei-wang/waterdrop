@@ -1,0 +1,11 @@
+﻿现在gopath是
+/root/go/
+
+里面github路径
+/root/go/src/github.com
+
+配置好gopath以后要执行
+source ~/.bash_profile （一次性的重启终端后失效）
+echo $GOPATH
+
+

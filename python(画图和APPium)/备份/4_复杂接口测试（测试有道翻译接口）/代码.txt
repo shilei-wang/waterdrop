@@ -1,0 +1,30 @@
+#!/usr/bin/python
+# coding=utf-8  这个代码很重要 没有会报错
+
+#“有道”这个接口并不固定 会随着时间推移而不能用 可以再baidu。 百度翻译要注册开发员， 固定ip 做不到。
+import requests
+import hashlib
+import time
+import json
+
+#接口可能做了更新 貌似只要这2个数据 post 就能运行
+def createData(transStr):
+    data = {
+        'i': transStr ,
+        'doctype': 'json',
+    }
+    return data
+
+#接口是translate
+url = "http://fanyi.youdao.com/translate"
+r = requests.request("post", url, params=createData("handsome boy"))
+
+d = json.loads(r.text)
+#解析 r.text {"type":"EN2ZH_CN","errorCode":0,"elapsedTime":0,"translateResult":[[{"src":"handsome boy","tgt":"帅哥"}]]}
+str = d['translateResult'][0][0]['tgt']
+print(str)
+
+
+c =  requests.request("post", url, params=createData("handsome boy")).cookies
+print c
+#<RequestsCookieJar[<Cookie OUTFOX_SEARCH_USER_ID=-272469907@58.33.62.169 for .youdao.com/>]>

@@ -1,0 +1,6 @@
+pip install pymysql
+
+´´½¨ samp_db ±í
+mysql -u root -p
+create database samp_db character set gbk;
+

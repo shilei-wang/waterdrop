@@ -1,0 +1,9 @@
+1.先安装jdk-7u45-windows-x64
+2.再安装apache-tomcat-7.0.73 （注意在一个config页要输入 用户密码  admin admin， 不然后续麻烦）
+3.右下角会有按钮，有start stop
+4. http://localhost:8080， 点击输入manager app输入密码后可以登录。
+（不然需要自己修改C:\Program Files\Apache Software Foundation\Tomcat 7.0\conf 下 tomcat-users.xml ，具体网上搜索， 
+说下文件修改权限， 文件夹Tomcat 7.0》右键属性》安全》编辑（一定要先进入编辑）》下拉找到users》允许全打钩， 这个就是windows修改文件不能修改的问题）
+5. 把静态网页a.html 放到  C:\Program Files\Apache Software Foundation\Tomcat 7.0\webapps\ROOT 中
+6. http://localhost:8080/a.html 即可本机访问
+7. 关闭win10防火墙：网络属性》windows防火墙》公用网络关闭 （此时局域网机器可以访问 http://10.1.2.102:8080/a.html）

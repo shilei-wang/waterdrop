@@ -1,0 +1,125 @@
+1. 安装 qq （百度下dmg）
+240981600 07密
+
+2. 把命令行移出来
+
+3. 翻墙： 目标机器已经outline翻墙 ，这步暂时省略
+curl www.google.com
+
+4. 安装brew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+例子：
+  brew install ***
+  brew uninstall ***
+
+5. 安装go
+brew install go
+go version
+创建go path目录：
+mkdir /Users/sherlock（这里是用户名）/go
+
+把go/bin加到系统path
+vim  ~/.bash_profile
+i 编辑
+export PATH=~/go/bin:$PATH
+
+esc 退出编辑模式
+:wq 保存退出（:!q 是强退）
+
+source ~/.bash_profile
+
+[安装 dep： brew install dep]
+
+6. 下载irishub
+cd ~
+创建github目录
+mkdir github.com
+cd github.com
+git clone https://github.com/irisnet/irishub.git
+
+7. 安装irishub
+cd irishub
+make get_tools  (此时会在go/bin下安装statik)
+source scripts/setTestEnv.sh
+make install
+iris version
+
+
+8. 运行irishub
+rm -rf .iriscli .iris testnet
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+iris start --home=/root/testnet/v0/iris
+
+command+t 新开一个屏幕
+iriscli stake validators
+
+
+==========================
+mac 快捷键
+==========================
+command+t 新开一个屏幕
+command+q 退出
+command+m 最小化
+fn+backspace 向后删除
+command+backspace  删除文件
+
+command+shift+>(大于号) 显示隐藏文件
+command+"+" 命令行中放大字体
+
+github图形：
+ctrl+` 打开命令行
+
+绿色是最大化， 双击标题栏是全屏
+
+设置=》修饰键 里面 更改键盘默认键，外接键盘亦可。
+
+重命名=》 直接按回车
+
+在goland里切换窗口 =》 command+`
+
+修改刷新f5
+键盘里面可以设置快捷键 》 应用快捷键》+号》chrome》快捷键》输入"重新加载此页" 按下f5
+
+修改锁定屏幕f12
+键盘里面可以设置快捷键》  应用快捷键》所有应用》+号》快捷键》输入"锁定屏幕" 按下f12
+
+
+修改输入法快捷键: （切换速度要慢，否则会失败）
+1.在快捷键中把聚焦的空格+command取消
+2.在快捷键》输入法中》把下一个输入法 加入 空格+command
+
+
+==========================
+Mac 获取文件路径
+==========================
+直接把文件拖到命令行中就可以了
+
+==========================
+Mac 命令行使用 sublime
+==========================
+vim ~/.bash_profile
+i 编辑 添加别名
+alias subl="'/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl'"
+esc 退出编辑模式
+:wq 保存退出
+source ~/.bash_profile
+
+使用：
+subl ~/.bash_profile
+
+==========================
+Mac 打开应用提示已损坏的解决办法
+==========================
+打开应用提示已损坏是因为新系统的原因。新的系统为了加强安全机制，默认不允许用户自行下载安装应用程序，只能从Mac App Store里安装应用
+
+1、打开终端，输入代码：sudo spctl --master-disable（master前面为两个短横线）注意红框处是空格。
+按回车输入自己电脑的密码，然后回车（这里输入的密码不会显示出来，实际你已经输入了），输完按下回车即可。
+2、打开系统偏好设置 » 安全性与隐私，若显示任何来源，大功告成
+
+***************************************************
+mac下最新的katalon 特别注意：
+***************************************************
+需要改一个设置：（不然的话在一个任务中一定量的request后，socket会关闭）
+
+偏好设置》搜索proxy》disable browseMob Proxy 打钩选上 apply。

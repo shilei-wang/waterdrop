@@ -1,0 +1,70 @@
+
+===================================================================================================
+安装 prometheus  /usr/local/bin/prometheus
+===================================================================================================
+mv prometheus /usr/local/bin/prometheus 
+
+  - job_name: prometheus
+    static_configs:
+      - targets: ['120.79.226.163:9090']
+        labels:
+          instance: prometheus
+          
+  - job_name: IRIS-Hub-SZ
+    static_configs:
+      - targets: ['120.79.226.163:26660']
+        labels:
+          instance: IRIS-Hub-SZ
+
+
+
+
+cd /usr/local/bin/prometheus
+chmod a+x ./prometheus
+运行 ./prometheus
+返回："Server is ready to receive web requests."
+
+ufw allow 9090 && ufw enable  (ubuntu用这个方法开防火墙)
+
+本地链接 curl http://localhost:9090  and curl http://120.79.226.163:9090 返回"<a href="/graph">Found</a>."
+外网连 http://120.79.226.163:9090
+
+
+
+===================================================================================================
+安装 grafana /usr/local/bin/grafana
+===================================================================================================
+下载 ubuntu版本 
+wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_5.2.1_amd64.deb
+
+cd /usr/local/bin/grafana
+
+先安装字体
+apt-get update
+apt-get install libfontconfig [如需要依赖，直接 apt-get -f install （安装所有依赖）]
+
+安装grafana
+dpkg -i grafana_5.2.1_amd64.deb
+
+启动grafana
+service grafana-server start
+
+ufw allow 3000 && ufw enable
+
+本地链接 curl http://localhost:3000  and  curl http://120.79.226.163:3000 返回"<a href="/login">Found</a>."
+外网连   http://120.79.226.163:3000
+
+
+
+--------------------------------
+xshell grafana
+--------------------------------
+iris              iris start &
+iris monitor      iriscli monitor -n=tcp://localhost:26657
+iris restapi      iriscli advanced rest-server -n=tcp://localhost:26657 -a=tcp://0.0.0.0:1317 -c=fuxi-2000
+prometheus        cd /usr/local/bin/prometheus    ./prometheus
+grafana           service grafana-server start
+
+http://120.79.226.163:1317/keys
+http://120.79.226.163:1317/accounts/cosmosaccaddr1rj740ua4mj0hd3az8md75pd70fht9wl2xfyr66
+

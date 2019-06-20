@@ -1,0 +1,16 @@
+URL: https://shop.lenovo.com.cn
+log:
+    file_name: test.log
+    backup: 5
+    console_level: INFO
+    file_level: DEBUG
+    pattern: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+xlsx:
+    file_name: \baidu.xlsx
+mail:
+    title: This is the lastest Automated Testing report！
+    message: Check it out
+    receiver: 147543282@qq.com
+    server: smtp-mail.outlook.com:587
+    sender: shelwin_wang@hotmail.com
+    password: wang0607

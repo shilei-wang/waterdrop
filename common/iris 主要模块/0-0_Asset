@@ -1,0 +1,30 @@
+****************************************************************************************
+                native原生资产
+****************************************************************************************
+tax：
+iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+burn:
+iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
+
+======================
+发行资产：
+iriscli asset issue-token
+3位资产 30万 40%入tax， 60%burn
+======================
+
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --symbol-at-source=source --symbol-min-alias=alias --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=abc
+
+======================
+查询资产：
+iriscli asset query-token <Denom>
+======================
+
+iriscli asset query-token abc
+
+
+======================
+查询fee：
+iriscli asset query-fee
+======================
+
+iriscli asset query-fee --subject=token --id=abc

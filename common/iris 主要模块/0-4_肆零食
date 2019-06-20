@@ -1,0 +1,23 @@
+
+
+
+**Describe the bug**
+
+**To Reproduce**
+
+=================
+
+ echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --symbol=abf --name=abc-name --initial-supply=123 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --decimal=3
+
+iriscli bank account faa1pwcmwlk0zj3sc8ux73sdlt8y73uxwa50hwnzkv
+
+a
+iriscli bank account faa1ycpd24ly88v3wmykv2jay8l8fmd55xjejyhaga
+
+echo 1234567890 | iriscli bank send --amount=11abc-min --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1ycpd24ly88v3wmykv2jay8l8fmd55xjejyhaga
+
+echo 1234567890 | iriscli bank send --amount=11iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1ycpd24ly88v3wmykv2jay8l8fmd55xjejyhaga
+
+--------
+----
+

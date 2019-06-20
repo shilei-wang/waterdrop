@@ -1,0 +1,1017 @@
+Message-ID: <428217045.205.1540950893965.JavaMail.root@b55e755a2b6c>
+Subject: Exported From Confluence
+MIME-Version: 1.0
+Content-Type: multipart/related; 
+	boundary="----=_Part_204_1590103113.1540950893965"
+
+------=_Part_204_1590103113.1540950893965
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///C:/exported.html
+
+<html xmlns:o=3D'urn:schemas-microsoft-com:office:office'
+      xmlns:w=3D'urn:schemas-microsoft-com:office:word'
+      xmlns:v=3D'urn:schemas-microsoft-com:vml'
+      xmlns=3D'urn:w3-org-ns:HTML'>
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8=
+">
+    <title>=E4=BB=98=E6=AC=BE=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=AF=95=E7=94=A8=
+=E4=BE=8B</title>
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:TargetScreenSize>1024x640</o:TargetScreenSize>
+            <o:PixelsPerInch>72</o:PixelsPerInch>
+            <o:AllowPNG/>
+        </o:OfficeDocumentSettings>
+        <w:WordDocument>
+            <w:View>Print</w:View>
+            <w:Zoom>90</w:Zoom>
+            <w:DoNotOptimizeForBrowser/>
+        </w:WordDocument>
+    </xml>
+    <![endif]-->
+    <style>
+                <!--
+        @page Section1 {
+            size: 8.5in 11.0in;
+            margin: 1.0in;
+            mso-header-margin: .5in;
+            mso-footer-margin: .5in;
+            mso-paper-source: 0;
+        }
+
+        table {
+            border: solid 1px;
+            border-collapse: collapse;
+        }
+
+        table td, table th {
+            border: solid 1px;
+            padding: 5px;
+        }
+
+        td {
+            page-break-inside: avoid;
+        }
+
+        tr {
+            page-break-after: avoid;
+        }
+
+        div.Section1 {
+            page: Section1;
+        }
+
+        /* Confluence print stylesheet. Common to all themes for print medi=
+a */
+/* Full of !important until we improve batching for print CSS */
+
+@media print {
+    #main {
+        padding-bottom: 1em !important; /* The default padding of 6em is to=
+o much for printouts */
+    }
+
+    body {
+        font-family: Arial, Helvetica, FreeSans, sans-serif;
+        font-size: 10pt;
+        line-height: 1.2;
+    }
+
+    body, #full-height-container, #main, #page, #content, .has-personal-sid=
+ebar #content {
+        background: #fff !important;
+        color: #000 !important;
+        border: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    a, a:link, a:visited, a:focus, a:hover, a:active {
+        color: #000;
+    }
+
+    #content h1,
+    #content h2,
+    #content h3,
+    #content h4,
+    #content h5,
+    #content h6 {
+        font-family: Arial, Helvetica, FreeSans, sans-serif;
+        page-break-after: avoid;
+    }
+
+    pre {
+        font-family: Monaco, "Courier New", monospace;
+    }
+
+    #header,
+    .aui-header-inner,
+    #navigation,
+    #sidebar,
+    .sidebar,
+    #personal-info-sidebar,
+    .ia-fixed-sidebar,
+    .page-actions,
+    .navmenu,
+    .ajs-menu-bar,
+    .noprint,
+    .inline-control-link,
+    .inline-control-link a,
+    a.show-labels-editor,
+    .global-comment-actions,
+    .comment-actions,
+    .quick-comment-container,
+    #addcomment {
+        display: none !important;
+    }
+
+    /* CONF-28544 cannot print multiple pages in IE */
+    #splitter-content {
+        position: relative !important;
+    }
+
+    .comment .date::before {
+        content: none !important; /* remove middot for print view */
+    }
+
+    h1.pagetitle img {
+        height: auto;
+        width: auto;
+    }
+
+    .print-only {
+        display: block;
+    }
+
+    #footer {
+        position: relative !important; /* CONF-17506 Place the footer at en=
+d of the content */
+        margin: 0;
+        padding: 0;
+        background: none;
+        clear: both;
+    }
+
+    #poweredby {
+        border-top: none;
+        background: none;
+    }
+
+    #poweredby li.print-only {
+        display: list-item;
+        font-style: italic;
+    }
+
+    #poweredby li.noprint {
+        display: none;
+    }
+
+    /* no width controls in print */
+    .wiki-content .table-wrap,
+    .wiki-content p,
+    .panel .codeContent,
+    .panel .codeContent pre,
+    .image-wrap {
+        overflow: visible !important;
+    }
+
+    /* TODO - should this work? */
+    #children-section,
+    #comments-section .comment,
+    #comments-section .comment .comment-body,
+    #comments-section .comment .comment-content,
+    #comments-section .comment p {
+        page-break-inside: avoid;
+    }
+
+    #page-children a {
+        text-decoration: none;
+    }
+
+    /**
+     hide twixies
+
+     the specificity here is a hack because print styles
+     are getting loaded before the base styles. */
+    #comments-section.pageSection .section-header,
+    #comments-section.pageSection .section-title,
+    #children-section.pageSection .section-header,
+    #children-section.pageSection .section-title,
+    .children-show-hide {
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .children-show-hide.icon {
+        display: none;
+    }
+
+    /* personal sidebar */
+    .has-personal-sidebar #content {
+        margin-right: 0px;
+    }
+
+    .has-personal-sidebar #content .pageSection {
+        margin-right: 0px;
+    }
+
+    .no-print, .no-print * {
+        display: none !important;
+    }
+}
+-->
+    </style>
+</head>
+<body>
+    <h1>=E4=BB=98=E6=AC=BE=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=AF=95=E7=94=A8=E4=
+=BE=8B</h1>
+    <div class=3D"Section1">
+        <p class=3D"auto-cursor-target"> <span class=3D"jira-issue resolved=
+" data-jira-key=3D"RBAPP-63"> <a href=3D"http://jira.bianjie.ai/browse/RBAP=
+P-63" class=3D"jira-issue-key"><img class=3D"icon" src=3D"http://jira.bianj=
+ie.ai/secure/viewavatar?size=3Dxsmall&amp;avatarId=3D10304&amp;avatarType=
+=3Dissuetype">RBAPP-63</a> - <span class=3D"summary">=E3=80=90=E8=B5=84=E4=
+=BA=A7=E3=80=91=E4=BB=98=E6=AC=BE=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=AF=95=E7=94=
+=A8=E4=BE=8B=E7=BC=96=E5=86=99</span> <span class=3D"aui-lozenge aui-lozeng=
+e-subtle aui-lozenge-success jira-macro-single-issue-export-pdf">=E5=B7=B2=
+=E5=85=B3=E9=97=AD</span> </span> <span class=3D"jira-issue resolved" data-=
+jira-key=3D"RBAPP-94"> <a href=3D"http://jira.bianjie.ai/browse/RBAPP-94" c=
+lass=3D"jira-issue-key"><img class=3D"icon" src=3D"http://jira.bianjie.ai/s=
+ecure/viewavatar?size=3Dxsmall&amp;avatarId=3D10304&amp;avatarType=3Dissuet=
+ype">RBAPP-94</a> - <span class=3D"summary">=E3=80=90=E8=B5=84=E4=BA=A7=E3=
+=80=91=E8=B5=84=E4=BA=A7=E8=AE=B0=E5=BD=95=E5=8A=9F=E8=83=BD=E6=B5=8B=E8=AF=
+=95=E7=94=A8=E4=BE=8B=E6=9B=B4=E6=96=B0</span> <span class=3D"aui-lozenge a=
+ui-lozenge-subtle aui-lozenge-success jira-macro-single-issue-export-pdf">=
+=E5=B7=B2=E5=85=B3=E9=97=AD</span> </span> </p>
+<div class=3D"table-wrap">
+<table class=3D"relative-table wrapped confluenceTable" style=3D"width: 90.=
+5101%;">
+<colgroup>
+<col style=3D"width: 2.60663%;">
+<col style=3D"width: 11.4494%;">
+<col style=3D"width: 8.1797%;">
+<col style=3D"width: 15.5084%;">
+<col style=3D"width: 19.2622%;">
+<col style=3D"width: 15.282%;">
+<col style=3D"width: 5.15464%;">
+<col style=3D"width: 8.24742%;">
+<col style=3D"width: 4.0004%;">
+<col style=3D"width: 10.3093%;">
+</colgroup>
+<tbody>
+<tr>
+<th colspan=3D"1" class=3D"confluenceTh">=E5=BA=8F=E5=8F=B7</th>
+<th class=3D"confluenceTh">=E5=8A=9F=E8=83=BD=E6=8F=8F=E8=BF=B0</th>
+<th class=3D"confluenceTh">=E5=89=8D=E6=8F=90=E6=9D=A1=E4=BB=B6</th>
+<th class=3D"confluenceTh">=E6=AD=A5=E9=AA=A4=E6=8F=8F=E8=BF=B0</th>
+<th class=3D"confluenceTh">=E6=9C=9F=E6=9C=9B=E7=BB=93=E6=9E=9C</th>
+<th class=3D"confluenceTh">=E6=B5=8B=E8=AF=95=E6=95=B0=E6=8D=AE</th>
+<th colspan=3D"1" class=3D"confluenceTh">=E6=9B=B4=E6=96=B0=E6=97=B6=E9=97=
+=B4</th>
+<th colspan=3D"1" class=3D"confluenceTh">=E5=AE=89=E5=8D=93=E8=A7=A3=E5=86=
+=B3=E7=89=88=E6=9C=AC</th>
+<th colspan=3D"1" class=3D"confluenceTh">IOS=E8=A7=A3=E5=86=B3=E7=89=88=E6=
+=9C=AC</th>
+<th colspan=3D"1" class=3D"confluenceTh">=E6=B5=8B=E8=AF=95=E7=BB=93=E6=9E=
+=9C</th>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E4=BB=98=E6=AC=
+=BE=E7=95=8C=E9=9D=A2=E7=9A=84=E5=B1=95=E7=A4=BA=E5=86=85=E5=AE=B9=E6=98=AF=
+=E5=90=A6=E6=AD=A3=E7=A1=AE</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=BF=9B=E5=85=A5=E4=BB=98=E6=AC=
+=BE=E7=95=8C=E9=9D=A2</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9F=A5=E7=9C=8B=E4=BB=98=E6=AC=
+=BE=E9=A1=B5=E5=86=85=E5=AE=B9=E5=92=8C=E5=B8=83=E5=B1=80=E6=98=AF=E5=90=A6=
+=E6=AD=A3=E7=A1=AE</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E7=95=8C=E9=9D=A2=E5=88=865=E4=B8=
+=AA=E9=83=A8=E5=88=86=EF=BC=9A<br> =E7=AC=AC=E4=B8=80=E9=83=A8=E5=88=86=EF=
+=BC=9A&lt;&nbsp; =E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91&nbsp; =E6=89=AB=E6=8F=
+=8F=E6=8C=89=E9=92=AE<br> =E7=AC=AC=E4=BA=8C=E9=83=A8=E5=88=86=EF=BC=9A=E5=
+=8F=AF=E8=BE=93=E5=85=A5=E5=9C=B0=E5=9D=80=E6=A0=8F=EF=BC=88=E9=BB=98=E8=AE=
+=A4=E6=8F=90=E7=A4=BA=E8=AF=B7=E8=BE=93=E5=85=A5=E5=9C=B0=E5=9D=80=EF=BC=89=
+=E5=92=8C=E5=9C=B0=E5=9D=80=E7=B0=BF<br> =E7=AC=AC=E4=B8=89=E9=83=A8=E5=88=
+=86=EF=BC=9A=E5=8F=AF=E8=BE=93=E5=85=A5=E6=95=B0=E9=87=8F=EF=BC=88=E9=BB=98=
+=E8=AE=A4=E6=8F=90=E7=A4=BA=E6=9C=80=E5=A4=9A=E5=8F=AF=E4=BB=98n IRIS=EF=BC=
+=89<br> =E7=AC=AC=E5=9B=9B=E9=83=A8=E5=88=86=EF=BC=9A=E5=8F=AF=E8=BE=93=E5=
+=85=A5=E5=A4=87=E6=B3=A8=EF=BC=88=E9=BB=98=E8=AE=A4=E6=8F=90=E7=A4=BA=E5=A4=
+=87=E6=B3=A8=EF=BC=89<br> =E7=AC=AC=E4=BA=94=E9=83=A8=E5=88=86=EF=BC=9A=E3=
+=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E6=8C=89=E9=92=AE</td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p>&nbsp;=E3=80=80<span class=3D"confluence-embedded-file-wrapper confluenc=
+e-embedded-manual-size"><img class=3D"confluence-embedded-image cp-img conf=
+luence-external-resource" alt=3D"01. =E8=B5=84=E4=BA=A7_06-=E4=BB=98=E6=AC=
+=BE-1.jpg" height=3D"400" src=3D"http://wiki.bianjie.ai/download/attachment=
+s/2622620/01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%E6%AC%BE-1.jpg?version=3D1&=
+amp;modificationDate=3D1530154670000&amp;api=3Dv2" data-image-src=3D"http:/=
+/wiki.bianjie.ai/download/attachments/2622620/01.%20%E8%B5%84%E4%BA%A7_06-%=
+E4%BB%98%E6%AC%BE-1.jpg?version=3D1&amp;modificationDate=3D1530154670000&am=
+p;api=3Dv2"></span></p>
+</div></td>
+<td colspan=3D"1" class=3D"confluenceTd"><p>2018.6.14 10:28</p></td>
+<td colspan=3D"1" class=3D"confluenceTd">0.2.1=EF=BC=88dev_207=EF=BC=89</td=
+>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p>=E9=80=9A=E8=BF=87 <span class=3D"jira-issue resolved" data-jira-key=3D"=
+RBAPP-140"> <a href=3D"http://jira.bianjie.ai/browse/RBAPP-140" class=3D"ji=
+ra-issue-key"><img class=3D"icon" src=3D"http://jira.bianjie.ai/secure/view=
+avatar?size=3Dxsmall&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP=
+-140</a> - <span class=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E6=
+=97=A0=E6=B3=95=E4=BB=98=E6=AC=BE=E9=97=AE=E9=A2=98</span> <span class=3D"a=
+ui-lozenge aui-lozenge-subtle aui-lozenge-success jira-macro-single-issue-e=
+xport-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD</span> </span> </p>
+</div></td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">1</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E4=BB=98=E6=AC=
+=BE=E7=95=8C=E9=9D=A2=E7=9A=84=E5=B1=95=E7=A4=BA=E5=86=85=E5=AE=B9=E6=98=AF=
+=E5=90=A6=E6=AD=A3=E7=A1=AE</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=BF=9B=E5=85=A5=E4=BB=98=E6=AC=
+=BE=E7=95=8C=E9=9D=A2</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9F=A5=E7=9C=8B=E4=BB=98=E6=AC=
+=BE=E9=A1=B5=E5=86=85=E5=AE=B9=E5=92=8C=E5=B8=83=E5=B1=80=E6=98=AF=E5=90=A6=
+=E6=AD=A3=E7=A1=AE</td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p><br></p>
+<div class=3D"content-wrapper">
+=E5=8E=BB=E6=8E=89=E5=9B=BE=E4=B8=AD=E5=85=A8=E9=83=A8=E6=8C=89=E9=92=AE=E3=
+=80=82
+</div>
+<div class=3D"content-wrapper">
+=E2=80=9C=E2=80=9D=E6=9C=80=E5=A4=9A=E5=8F=AF=E4=BB=98=E2=80=9C=E2=80=9D=E6=
+=94=B9=E6=88=90=E2=80=9C=E2=80=9D=E5=8F=AF=E7=94=A8=E4=BD=99=E9=A2=9D=E2=80=
+=9C=E2=80=9D
+</div>
+<p>&nbsp;<span class=3D"confluence-embedded-file-wrapper confluence-embedde=
+d-manual-size"><img class=3D"confluence-embedded-image cp-img confluence-ex=
+ternal-resource" alt=3D"01. =E8=B5=84=E4=BA=A7_06-=E4=BB=98=E6=AC=BE-1.jpg"=
+ height=3D"400" src=3D"http://wiki.bianjie.ai/download/attachments/6586819/=
+01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%E6%AC%BE-1.jpg?version=3D1&amp;modifi=
+cationDate=3D1534760068000&amp;api=3Dv2" data-image-src=3D"http://wiki.bian=
+jie.ai/download/attachments/6586819/01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%E=
+6%AC%BE-1.jpg?version=3D1&amp;modificationDate=3D1534760068000&amp;api=3Dv2=
+"></span></p>
+<p>&nbsp;<span class=3D"confluence-embedded-file-wrapper confluence-embedde=
+d-manual-size"><img class=3D"confluence-embedded-image cp-img confluence-ex=
+ternal-resource" alt=3D"01. =E8=B5=84=E4=BA=A7_06-=E4=BB=98=E6=AC=BE-2.jpg"=
+ height=3D"400" src=3D"http://wiki.bianjie.ai/download/attachments/6586819/=
+01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%E6%AC%BE-2.jpg?version=3D1&amp;modifi=
+cationDate=3D1534760087000&amp;api=3Dv2" data-image-src=3D"http://wiki.bian=
+jie.ai/download/attachments/6586819/01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%E=
+6%AC%BE-2.jpg?version=3D1&amp;modificationDate=3D1534760087000&amp;api=3Dv2=
+"></span></p>
+</div></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.8.21 17:42</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-468"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-468" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-468</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E9=A1=B5=E9=9D=A2=E6=
+=98=BE=E7=A4=BA=E7=BB=86=E8=8A=82=E9=97=AE=E9=A2=98=E6=B1=87=E6=80=BB</span=
+> <span class=3D"aui-lozenge aui-lozenge-subtle aui-lozenge-success jira-ma=
+cro-single-issue-export-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD</span> </span> <sp=
+an class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-475"> <a href=3D"ht=
+tp://jira.bianjie.ai/browse/RBAPP-475" class=3D"jira-issue-key"><img class=
+=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsmall&amp=
+;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-475</a> - <span class=
+=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E5=8F=AF=E7=94=A8=E4=BD=
+=99=E9=A2=9D=E6=98=BE=E7=A4=BA=E4=B8=8D=E6=AD=A3=E7=A1=AE=E9=97=AE=E9=A2=98=
+</span> <span class=3D"aui-lozenge aui-lozenge-subtle aui-lozenge-success j=
+ira-macro-single-issue-export-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD</span> </spa=
+n> </p>
+</div></td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">2</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E6=8C=81=E6=9C=
+=89=E6=95=B0=E9=87=8F=E4=B8=BA0=E6=97=B6=E7=A1=AE=E8=AE=A4=E4=BB=98=E6=AC=
+=BE=E6=8C=89=E9=92=AE=E6=98=AF=E5=90=A6=E5=8F=98=E7=81=B0</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=8C=81=E6=9C=89=E6=95=B0=E9=87=
+=8F=E4=B8=BA0</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=BF=9B=E5=85=A5=E4=BB=98=E6=AC=
+=BE=E7=95=8C=E9=9D=A2=EF=BC=8C=E6=9F=A5=E7=9C=8B=E3=80=90=E7=A1=AE=E8=AE=A4=
+=E4=BB=98=E6=AC=BE=E3=80=91=E6=8C=89=E9=92=AE=E7=8A=B6=E6=80=81</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=8C=89=E9=92=AE=E5=8F=98=E7=81=
+=B0=EF=BC=8C=E4=B8=8B=E6=96=B9=E5=A2=9E=E5=8A=A0=E3=80=90=E5=8E=BB=E9=A2=86=
+=E5=8F=96=E3=80=91=E6=8C=89=E9=92=AE</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E3=80=80</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">3</td>
+<td class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E6=89=AB=E6=8F=8F=E5=8A=9F=E8=
+=83=BD=E6=98=AF=E5=90=A6=E5=8F=AF=E7=94=A8</td>
+<td class=3D"confluenceTd">=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2</t=
+d>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=89=AB=E6=8F=8F=E6=8C=89=E9=
+=92=AE=EF=BC=8C=E6=9F=A5=E7=9C=8B=E5=9C=B0=E5=9D=80=E6=A0=8F=E4=B8=AD=E6=98=
+=AF=E5=90=A6=E6=9C=89=E6=AD=A3=E7=A1=AE=E7=9A=84=E5=80=BC=E3=80=82</td>
+<td class=3D"confluenceTd">=E5=8F=AF=E6=89=93=E5=BC=80=E7=9B=B8=E6=9C=BA=E6=
+=89=AB=E6=8F=8F=E5=8A=9F=E8=83=BD=EF=BC=8C=E5=A6=82=E6=9E=9C=E6=89=AB=E6=8F=
+=8F=E5=88=B0=E6=AD=A3=E7=A1=AE=E7=9A=84=E4=BA=8C=E7=BB=B4=E7=A0=81=EF=BC=8C=
+=E5=9C=B0=E5=9D=80=E6=A0=8F=E4=B8=AD=E4=BC=9A=E5=87=BA=E7=8E=B0=E4=BA=8C=E7=
+=BB=B4=E7=A0=81=E5=AF=B9=E5=BA=94=E7=9A=84=E5=86=85=E5=AE=B9=E3=80=82</td>
+<td class=3D"confluenceTd">=E8=87=AA=E5=B7=B1=E7=9A=84=E5=9C=B0=E5=9D=80=E4=
+=BA=8C=E7=BB=B4=E7=A0=81=E3=80=81=E5=B7=A5=E5=85=B7=E7=94=9F=E6=88=90=E4=B8=
+=80=E4=B8=AA=E4=BA=8C=E7=BB=B4=E7=A0=81</td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.6.11 10:28</td>
+<td colspan=3D"1" class=3D"confluenceTd">0.2.1=EF=BC=88dev_204=EF=BC=89</td=
+>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p>=E9=80=9A=E8=BF=87</p>
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-469"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-469" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-469</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E6=89=AB=E6=8F=8F=E6=
+=97=A0=E6=B3=95=E8=87=AA=E5=8A=A8=E8=BE=93=E5=85=A5=E5=9C=B0=E5=9D=80=E9=97=
+=AE=E9=A2=98</span> <span class=3D"aui-lozenge aui-lozenge-subtle aui-lozen=
+ge-success jira-macro-single-issue-export-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD<=
+/span> </span> </p>
+</div></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">4</td>
+<td class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E5=9C=B0=E5=9D=80=E7=B0=BF=E5=
+=8A=9F=E8=83=BD=E6=98=AF=E5=90=A6=E5=8F=AF=E7=94=A8</td>
+<td class=3D"confluenceTd">=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2</t=
+d>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E5=9C=B0=E5=9D=80=E7=B0=BF=E6=
+=8C=89=E9=92=AE=E3=80=82</td>
+<td class=3D"confluenceTd">=E8=B7=B3=E8=BD=AC=E5=88=B0=E5=9C=B0=E5=9D=80=E7=
+=B0=BF=E7=95=8C=E9=9D=A2=E3=80=82=E6=AD=A4=E6=97=B6=E5=A6=82=E6=9E=9C=E9=80=
+=89=E6=8B=A9=E4=B8=80=E4=B8=AA=E5=9C=B0=E5=9D=80=EF=BC=8C=E4=BC=9A=E5=86=8D=
+=E6=AC=A1=E8=B7=B3=E8=BD=AC=E5=9B=9E=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2=EF=
+=BC=8C=E6=AD=A4=E6=97=B6=E5=9C=B0=E5=9D=80=E6=A0=8F=E4=B8=AD=E5=B7=B2=E8=BE=
+=93=E5=85=A5=E8=AF=A5=E5=9C=B0=E5=9D=80=E3=80=82</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.6.14 16:19</td>
+<td colspan=3D"1" class=3D"confluenceTd">0.2.1=EF=BC=88dev_208=EF=BC=89</td=
+>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">5</td>
+<td class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E5=9C=B0=E5=9D=80=E6=A0=8F=E6=
+=98=AF=E5=90=A6=E8=83=BD=E6=89=8B=E5=8A=A8=E8=BE=93=E5=85=A5</td>
+<td class=3D"confluenceTd">=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2</t=
+d>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E5=9C=B0=E5=9D=80=E6=A0=8F=EF=
+=BC=8C=E8=BE=93=E5=85=A5=E5=86=85=E5=AE=B9=E3=80=82</td>
+<td class=3D"confluenceTd">=E6=AD=A4=E6=97=B6=E5=9C=B0=E5=9D=80=E4=B8=AD=E5=
+=B0=B1=E5=87=BA=E7=8E=B0=E8=BE=93=E5=85=A5=E7=9A=84=E5=86=85=E5=AE=B9=E3=80=
+=82</td>
+<td class=3D"confluenceTd">'huang12!*</td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.6.14 10:28</td>
+<td colspan=3D"1" class=3D"confluenceTd">0.2.1=EF=BC=88dev_207=EF=BC=89</td=
+>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">6</td>
+<td class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E4=B8=8D=E7=AC=A6=E5=90=88=E6=
+=9D=A1=E4=BB=B6=E7=9A=84=E5=9C=B0=E5=9D=80=E6=98=AF=E5=90=A6=E5=8F=AF=E4=BB=
+=A5=E4=BB=98=E6=AC=BE</td>
+<td class=3D"confluenceTd">=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2</t=
+d>
+<td class=3D"confluenceTd">=E8=BE=93=E5=85=A5=E4=B8=8D=E7=AC=A6=E5=90=88=E6=
+=9D=A1=E4=BB=B6=E7=9A=84=E5=9C=B0=E5=9D=80=EF=BC=8C=E7=82=B9=E5=87=BB=E3=80=
+=90=E7=A1=AE=E8=AE=A4=E4=BB=98=E6=AC=BE=E3=80=91=E3=80=82</td>
+<td class=3D"confluenceTd"><p>=E6=AD=A4=E6=97=B6=E6=8F=90=E7=A4=BA=E2=80=9C=
+=E8=BE=93=E5=85=A5=E7=9A=84=E5=9C=B0=E5=9D=80=E6=97=A0=E6=95=88=E2=80=9D=EF=
+=BC=8C</p><p>=E5=A6=82=E6=9E=9C=E5=9C=B0=E5=9D=80=E6=98=AF=E8=87=AA=E5=B7=
+=B1=E7=9A=84=E5=9C=B0=E5=9D=80=EF=BC=8C=E5=88=99=E6=8F=90=E7=A4=BA=E2=80=9C=
+=E5=9C=B0=E5=9D=80=E4=B8=8D=E8=83=BD=E4=B8=8E=E8=87=AA=E5=B7=B1=E7=9A=84=E5=
+=9C=B0=E5=9D=80=E7=9B=B8=E5=90=8C=E2=80=9D</p></td>
+<td class=3D"confluenceTd">=E5=A4=8D=E5=88=B6=E9=BB=8F=E8=B4=B4=E8=87=AA=E5=
+=B7=B1=E7=9A=84=E5=9C=B0=E5=9D=80=E3=80=81=E9=9A=8F=E4=BE=BF=E8=BE=93=E5=85=
+=A5=E5=87=A0=E4=BD=8D=E6=95=B0=E5=AD=97=E3=80=81=E5=9C=B0=E5=9D=80=E5=89=8D=
+=E5=8A=A0=E5=8D=95=E5=BC=95=E5=8F=B7=E3=80=81faa1=E5=BC=80=E5=A4=B4=E7=9A=
+=84=E5=9C=B0=E5=9D=80=E3=80=81=E5=A4=8D=E5=88=B6=E4=B8=80=E4=B8=AA=E6=9C=89=
+=E6=95=88=E7=9A=84=E5=9C=B0=E5=9D=80=E5=8F=AA=E4=BF=AE=E6=94=B9=E5=85=B6=E4=
+=B8=AD1=E4=BD=8D=E6=88=962=E4=BD=8D=E5=AD=97=E7=AC=A6</td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.6.14 10:28</td>
+<td colspan=3D"1" class=3D"confluenceTd">0.2.1=EF=BC=88dev_207=EF=BC=89</td=
+>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p>=E9=80=9A=E8=BF=87 <span class=3D"jira-issue resolved" data-jira-key=3D"=
+RBAPP-439"> <a href=3D"http://jira.bianjie.ai/browse/RBAPP-439" class=3D"ji=
+ra-issue-key"><img class=3D"icon" src=3D"http://jira.bianjie.ai/secure/view=
+avatar?size=3Dxsmall&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP=
+-439</a> - <span class=3D"summary">=E3=80=90=E8=BD=AC=E8=B4=A6=E3=80=91=E5=
+=9C=B0=E5=9D=80=E9=94=99=E8=AF=AF=E6=97=A0=E6=B3=95=E8=BD=AC=E8=B4=A6=E4=B9=
+=9F=E6=B2=A1=E6=9C=89=E6=8F=90=E7=A4=BA=E9=97=AE=E9=A2=98</span> <span clas=
+s=3D"aui-lozenge aui-lozenge-subtle aui-lozenge-success jira-macro-single-i=
+ssue-export-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD</span> </span> </p>
+</div></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">7</td>
+<td class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E8=83=BD=E5=90=A6=E8=BE=93=E5=
+=85=A5=E7=AC=A6=E5=90=88=E6=9D=A1=E4=BB=B6=E7=9A=84=E6=95=B0=E9=87=8F=E8=BF=
+=9B=E8=A1=8C=E4=BB=98=E6=AC=BE</td>
+<td class=3D"confluenceTd">=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2=EF=
+=BC=8C=E5=B7=B2=E6=9C=89=E6=9C=89=E6=95=88=E5=9C=B0=E5=9D=80</td>
+<td class=3D"confluenceTd">=E7=82=B9=E5=87=BB=E6=95=B0=E9=87=8F=E6=A0=8F=EF=
+=BC=8C=E8=BE=93=E5=85=A5=E5=A4=A7=E4=BA=8E0=E5=B0=8F=E4=BA=8E=E7=AD=89=E4=
+=BA=8E=E6=8C=81=E6=9C=89=E6=95=B0=E9=87=8F=E7=9A=84=E6=95=B4=E6=95=B0=EF=BC=
+=8C=E7=82=B9=E5=87=BB=E3=80=90=E7=A1=AE=E8=AE=A4=E4=BB=98=E6=AC=BE=E3=80=91=
+</td>
+<td class=3D"confluenceTd">=E6=AD=A4=E6=97=B6=E8=B7=B3=E5=87=BA=E6=8F=90=E7=
+=A4=BA=E6=98=AF=E5=90=A6=E7=A1=AE=E8=AE=A4=E4=BB=98=E6=AC=BE=EF=BC=8C=E7=A1=
+=AE=E8=AE=A4=E5=90=8E=EF=BC=8C=E8=BE=93=E5=85=A5=E6=AD=A3=E7=A1=AE=E7=9A=84=
+=E5=AF=86=E7=A0=81=EF=BC=8C=E4=BB=98=E6=AC=BE=E6=88=90=E5=8A=9F=E3=80=82=E6=
+=AD=A4=E6=97=B6=E7=95=8C=E9=9D=A2=E8=B7=B3=E8=BD=AC=E5=88=B0=E4=BA=A4=E6=98=
+=93=E8=AE=B0=E5=BD=95=E4=B8=AD=EF=BC=8C=E4=BA=A4=E6=98=93=E8=AE=B0=E5=BD=95=
+=E5=85=A8=E9=83=A8=E9=A1=B5=E7=AD=BE=E4=B8=8B=E6=98=BE=E7=A4=BA=E4=BB=98=E6=
+=AC=BE=E8=AE=B0=E5=BD=95=E3=80=82</td>
+<td class=3D"confluenceTd"><p>1=EF=BC=8C=E7=AD=89=E4=BA=8E=E6=8C=81=E6=9C=
+=89=E6=95=B0=E9=87=8F=E7=9A=84=E6=95=B4=E6=95=B0=E3=80=82</p><p>1=EF=BC=9A=
+=E4=BB=8E=E8=B5=84=E4=BA=A7=E9=A6=96=E9=A1=B5=E7=9A=84=E4=BB=98=E6=AC=BE=E7=
+=95=8C=E9=9D=A2=E8=BF=9B=E5=85=A5:=E3=80=82</p><p>2=EF=BC=9A=E4=BB=8E=E4=BA=
+=A4=E6=98=93=E8=AE=B0=E5=BD=95=E7=95=8C=E9=9D=A2=E8=BF=9B=E5=85=A5=E7=9A=84=
+=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2=E3=80=82</p><p>3=EF=BC=9A=E4=BB=98=E6=
+=AC=BE=E6=88=90=E5=8A=9F=E5=90=8E=EF=BC=8C=E7=82=B9=E5=87=BB=E6=89=8B=E6=9C=
+=BA=E8=BF=94=E5=9B=9E=E6=8C=89=E9=92=AE=EF=BC=8C=E5=88=A0=E9=99=A4=E6=95=B0=
+=E9=87=8F=EF=BC=8C=E6=9F=A5=E7=9C=8B=E9=BB=98=E8=AE=A4=E6=8F=90=E7=A4=BA=E6=
+=98=AF=E5=90=A6=E6=AD=A3=E7=A1=AE=EF=BC=8C=E6=AD=A4=E6=97=B6=E8=BE=93=E5=85=
+=A5=E6=8F=90=E7=A4=BA=E7=9A=84=E6=95=B0=E9=87=8F=E5=90=8E=EF=BC=8C=E7=9C=8B=
+=E6=98=AF=E5=90=A6=E4=B8=8D=E8=83=BD=E4=BB=98=E6=AC=BE=EF=BC=9F</p></td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.6.14 16:28</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p>=E5=9C=A80.2.1=EF=BC=88dev_208=EF=BC=89=E7=AC=AC3=E7=A7=8D=E6=83=85=E5=
+=86=B5=E6=9C=89=E9=97=AE=E9=A2=98=EF=BC=8C=E6=98=BE=E7=A4=BA=E5=8F=AF=E8=BE=
+=93=E5=85=A5=E6=95=B0=E5=AD=97=E4=B8=8D=E5=AF=B9=EF=BC=8C=E5=B9=B6=E4=B8=94=
+=E4=BE=9D=E7=84=B6=E5=8F=AF=E4=BB=A5=E4=BB=98=E6=AC=BE=EF=BC=8C=E4=BD=86=E6=
+=98=AF=E4=BB=98=E6=AC=BE=E5=90=8E=EF=BC=8C=E6=B2=A1=E6=9C=89=E8=AE=B0=E5=BD=
+=95=EF=BC=8C=E4=B9=9F=E6=B2=A1=E6=9C=89=E5=87=8F=E5=B0=91=E6=95=B0=E9=87=8F=
+=EF=BC=8C=E5=87=BA=E7=8E=B0=E5=81=87=E8=B1=A1=E3=80=82 <span class=3D"jira-=
+issue resolved" data-jira-key=3D"RBAPP-140"> <a href=3D"http://jira.bianjie=
+.ai/browse/RBAPP-140" class=3D"jira-issue-key"><img class=3D"icon" src=3D"h=
+ttp://jira.bianjie.ai/secure/viewavatar?size=3Dxsmall&amp;avatarId=3D10303&=
+amp;avatarType=3Dissuetype">RBAPP-140</a> - <span class=3D"summary">=E3=80=
+=90=E4=BB=98=E6=AC=BE=E3=80=91=E6=97=A0=E6=B3=95=E4=BB=98=E6=AC=BE=E9=97=AE=
+=E9=A2=98</span> <span class=3D"aui-lozenge aui-lozenge-subtle aui-lozenge-=
+success jira-macro-single-issue-export-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD</sp=
+an> </span> </p>
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-159"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-159" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-159</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E4=BB=98=E6=AC=BE=E5=
+=90=8E=E7=9A=84=E8=B7=B3=E8=BD=AC=E6=98=BE=E7=A4=BA=E9=97=AE=E9=A2=98</span=
+> <span class=3D"aui-lozenge aui-lozenge-subtle aui-lozenge-success jira-ma=
+cro-single-issue-export-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD</span> </span> </p=
+>
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-471"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-471" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-471</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E7=A1=AE=E8=AE=A4=E4=
+=BB=98=E6=AC=BE=E9=A1=B5=E9=9D=A2=E7=BB=86=E8=8A=82=E6=98=BE=E7=A4=BA=E9=97=
+=AE=E9=A2=98=E6=B1=87=E6=80=BB</span> <span class=3D"aui-lozenge aui-lozeng=
+e-subtle aui-lozenge-success jira-macro-single-issue-export-pdf">=E5=B7=B2=
+=E5=85=B3=E9=97=AD</span> </span> </p>
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-473"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-473" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-473</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E4=BB=98=E6=AC=BE=E6=
+=88=90=E5=8A=9F=E5=90=8E=E7=9A=84=E9=A1=B5=E9=9D=A2=E8=B7=B3=E8=BD=AC=E4=B8=
+=8D=E6=AD=A3=E7=A1=AE</span> <span class=3D"aui-lozenge aui-lozenge-subtle =
+aui-lozenge-success jira-macro-single-issue-export-pdf">=E5=B7=B2=E5=85=B3=
+=E9=97=AD</span> </span> </p>
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-547"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-547" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-547</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BA=A4=E6=98=93=E8=AE=B0=E5=BD=95=E3=80=91=E4=
+=BB=98=E6=AC=BE=E5=90=8E=E5=9C=A8=E4=BA=A4=E6=98=93=E8=AE=B0=E5=BD=95=E5=88=
+=97=E8=A1=A8=E4=B8=8B=E5=85=A8=E9=83=A8=E9=A1=B5=E7=AD=BE=E5=88=B7=E6=96=B0=
+=E6=98=BE=E7=A4=BA=E9=97=AE=E9=A2=98</span> <span class=3D"aui-lozenge aui-=
+lozenge-subtle aui-lozenge-success jira-macro-single-issue-export-pdf">=E5=
+=B7=B2=E5=85=B3=E9=97=AD</span> </span> </p>
+</div></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd"><br></td>
+<td class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E8=83=BD=E5=90=A6=E8=BE=93=E5=
+=85=A5=E4=B8=8D=E7=AC=A6=E5=90=88=E6=9D=A1=E4=BB=B6=E7=9A=84=E6=95=B0=E9=87=
+=8F=E8=BF=9B=E8=A1=8C=E4=BB=98=E6=AC=BE</td>
+<td class=3D"confluenceTd">=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2=EF=
+=BC=8C=E5=B7=B2=E6=9C=89=E6=9C=89=E6=95=88=E5=9C=B0=E5=9D=80</td>
+<td class=3D"confluenceTd">1=EF=BC=9A=E7=82=B9=E5=87=BB=E6=95=B0=E9=87=8F=
+=E6=A0=8F=EF=BC=8C=E8=BE=93=E5=85=A5=E8=B6=85=E8=BF=87=E6=8C=81=E6=9C=89=E6=
+=95=B0=E7=9A=84=E6=95=B0=E5=AD=97=EF=BC=8C=E7=82=B9=E5=87=BB=E3=80=90=E7=A1=
+=AE=E8=AE=A4=E4=BB=98=E6=AC=BE=E3=80=91<br> 2=EF=BC=9A=E7=82=B9=E5=87=BB=E6=
+=95=B0=E9=87=8F=E6=A0=8F=EF=BC=8C=E8=BE=93=E5=85=A50=E6=88=96=E5=B0=8F=E6=
+=95=B0=E6=88=96=E5=85=B6=E4=BB=96=E5=AD=97=E7=AC=A6=E6=88=96=E7=89=B9=E6=AE=
+=8A=E5=AD=97=E7=AC=A6=EF=BC=8C=E7=82=B9=E5=87=BB=E3=80=90=E7=A1=AE=E8=AE=A4=
+=E4=BB=98=E6=AC=BE=E3=80=91</td>
+<td class=3D"confluenceTd">1=EF=BC=9A=E6=AD=A4=E6=97=B6=E8=B7=B3=E5=87=BA=
+=E6=8F=90=E7=A4=BA=E2=80=9C=E5=B8=81=E6=95=B0=E9=87=8F=E4=B8=8D=E8=B6=B3=E2=
+=80=9D=EF=BC=9B<br> 2=EF=BC=9A=E6=AD=A4=E6=97=B6=E8=B7=B3=E5=87=BA=E6=8F=90=
+=E7=A4=BA=E2=80=9C=E8=AF=B7=E8=BE=93=E5=85=A5=E4=B8=8D=E4=B8=BA0=E7=9A=84=
+=E6=AD=A3=E6=95=B4=E6=95=B0=E2=80=9D</td>
+<td class=3D"confluenceTd">0,0.1=EF=BC=8C=E5=A4=A7=E4=BA=8E=E6=8C=81=E6=9C=
+=89=E6=95=B0=E9=87=8F=E7=9A=84=E6=95=B4=E6=95=B0=EF=BC=8C=E2=80=99=EF=BC=8C=
+&amp;=EF=BC=8Cz</td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.6.14 10:28</td>
+<td colspan=3D"1" class=3D"confluenceTd">0.2.1=EF=BC=88dev_207=EF=BC=89</td=
+>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">8</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E8=83=BD=E5=90=
+=A6=E8=BE=93=E5=85=A5=E4=B8=8D=E7=AC=A6=E5=90=88=E6=9D=A1=E4=BB=B6=E7=9A=84=
+=E6=95=B0=E9=87=8F=E8=BF=9B=E8=A1=8C=E4=BB=98=E6=AC=BE</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=
+=8C=E9=9D=A2=EF=BC=8C=E5=B7=B2=E6=9C=89=E6=9C=89=E6=95=88=E5=9C=B0=E5=9D=80=
+</td>
+<td colspan=3D"1" class=3D"confluenceTd">1=EF=BC=9A=E7=82=B9=E5=87=BB=E6=95=
+=B0=E9=87=8F=E6=A0=8F=EF=BC=8C=E8=BE=93=E5=85=A5=E8=B6=85=E8=BF=87=E6=8C=81=
+=E6=9C=89=E6=95=B0=E7=9A=84=E6=95=B0=E5=AD=97=EF=BC=8C=E7=82=B9=E5=87=BB=E3=
+=80=90=E7=A1=AE=E8=AE=A4=E4=BB=98=E6=AC=BE=E3=80=91<br> 2=EF=BC=9A=E7=82=B9=
+=E5=87=BB=E6=95=B0=E9=87=8F=E6=A0=8F=EF=BC=8C=E8=BE=93=E5=85=A50=E6=88=96=
+=E5=B0=8F=E6=95=B0=E6=88=96=E5=85=B6=E4=BB=96=E5=AD=97=E7=AC=A6=E6=88=96=E7=
+=89=B9=E6=AE=8A=E5=AD=97=E7=AC=A6=EF=BC=8C=E7=82=B9=E5=87=BB=E3=80=90=E7=A1=
+=AE=E8=AE=A4=E4=BB=98=E6=AC=BE=E3=80=91</td>
+<td colspan=3D"1" class=3D"confluenceTd">1=EF=BC=9A=E6=AD=A4=E6=97=B6=E8=B7=
+=B3=E5=87=BA=E6=8F=90=E7=A4=BA=E2=80=9C=E5=B8=81=E6=95=B0=E9=87=8F=E4=B8=8D=
+=E8=B6=B3=E2=80=9D=EF=BC=9B<br> 2=EF=BC=9A=E6=AD=A4=E6=97=B6=E8=B7=B3=E5=87=
+=BA=E6=8F=90=E7=A4=BA=E2=80=9C=E8=AF=B7=E8=BE=93=E5=85=A5=E4=B8=8D=E4=B8=BA=
+0=E7=9A=84=E6=AD=A3=E6=95=B4=E6=95=B0=E2=80=9D</td>
+<td colspan=3D"1" class=3D"confluenceTd">0,0.1=EF=BC=8C=E5=A4=A7=E4=BA=8E=
+=E6=8C=81=E6=9C=89=E6=95=B0=E9=87=8F=E7=9A=84=E6=95=B4=E6=95=B0=EF=BC=8C=E2=
+=80=99=EF=BC=8C&amp;=EF=BC=8Cz=EF=BC=8Cfee+=E4=BB=98=E6=AC=BE=E6=95=B0=E9=
+=87=8F&gt;=E4=BD=99=E9=A2=9D</td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.8.27 18:11</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-476"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-476" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-476</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E6=95=B0=E9=87=8F=E6=
+=A0=A1=E9=AA=8C=E4=B8=8D=E6=AD=A3=E7=A1=AE=E9=97=AE=E9=A2=98</span> <span c=
+lass=3D"aui-lozenge aui-lozenge-subtle aui-lozenge-success jira-macro-singl=
+e-issue-export-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD</span> </span> </p>
+</div></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">9</td>
+<td class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E7=82=B9=E5=87=BB=E4=BB=98=E6=
+=AC=BE=E5=90=8E=EF=BC=8C=E6=83=B3=E8=A6=81=E5=8F=96=E6=B6=88=E4=BB=98=E6=AC=
+=BE=E6=93=8D=E4=BD=9C=E7=9A=84=E6=96=B9=E5=BC=8F=E8=83=BD=E5=90=A6=E5=AE=9E=
+=E7=8E=B0</td>
+<td class=3D"confluenceTd">=E5=B7=B2=E7=82=B9=E5=87=BB=E7=A1=AE=E8=AE=A4=E4=
+=BB=98=E6=AC=BE</td>
+<td class=3D"confluenceTd">1=EF=BC=9A=E5=9C=A8=E8=BE=93=E5=85=A5=E5=AF=86=
+=E7=A0=81=E6=97=B6=E7=82=B9=E5=87=BB=E3=80=90=E5=8F=96=E6=B6=88=E3=80=91=E6=
+=8C=89=E9=92=AE=E3=80=82<br> 2=EF=BC=9A=E8=BE=93=E5=85=A5=E9=94=99=E8=AF=AF=
+=E5=AF=86=E7=A0=81=E5=90=8E=EF=BC=8C=E7=82=B9=E5=87=BB=E3=80=90=E7=A1=AE=E5=
+=AE=9A=E3=80=91=E6=8C=89=E9=92=AE=E3=80=82</td>
+<td class=3D"confluenceTd">1=EF=BC=9A=E6=AD=A4=E6=97=B6=E4=BE=9D=E7=84=B6=
+=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2=EF=BC=8C=E4=B9=8B=E5=89=8D=E5=
+=A1=AB=E5=86=99=E7=9A=84=E5=86=85=E5=AE=B9=E4=BE=9D=E7=84=B6=E5=AD=98=E5=9C=
+=A8=E3=80=82<br> 2=EF=BC=9A=E6=AD=A4=E6=97=B6=E6=8F=90=E7=A4=BA=E2=80=9C=E5=
+=AF=86=E7=A0=81=E9=94=99=E8=AF=AF=EF=BC=8C=E8=AF=B7=E9=87=8D=E8=AF=95=E2=80=
+=9D=EF=BC=8C=E7=82=B9=E5=87=BB=E7=A1=AE=E5=AE=9A=E5=90=8E=EF=BC=8C=E4=BE=9D=
+=E7=84=B6=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2=EF=BC=8C=E4=B9=8B=E5=
+=89=8D=E5=A1=AB=E5=86=99=E7=9A=84=E5=86=85=E5=AE=B9=E4=BE=9D=E7=84=B6=E5=AD=
+=98=E5=9C=A8=E3=80=82</td>
+<td class=3D"confluenceTd">=E3=80=80</td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.6.14 10:28</td>
+<td colspan=3D"1" class=3D"confluenceTd">0.2.1=EF=BC=88dev_207=EF=BC=89</td=
+>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p>=E9=80=9A=E8=BF=87</p>
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-414"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-414" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-414</a> - <span c=
+lass=3D"summary">=E3=80=90=E8=BD=AC=E8=B4=A6=E3=80=91=E5=AF=86=E7=A0=81=E9=
+=94=99=E8=AF=AF=E5=A4=84=E7=90=86=E9=80=BB=E8=BE=91=E9=97=AE=E9=A2=98</span=
+> <span class=3D"aui-lozenge aui-lozenge-subtle aui-lozenge-success jira-ma=
+cro-single-issue-export-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD</span> </span> </p=
+>
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-471"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-471" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-471</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E7=A1=AE=E8=AE=A4=E4=
+=BB=98=E6=AC=BE=E9=A1=B5=E9=9D=A2=E7=BB=86=E8=8A=82=E6=98=BE=E7=A4=BA=E9=97=
+=AE=E9=A2=98=E6=B1=87=E6=80=BB</span> <span class=3D"aui-lozenge aui-lozeng=
+e-subtle aui-lozenge-success jira-macro-single-issue-export-pdf">=E5=B7=B2=
+=E5=85=B3=E9=97=AD</span> </span> </p>
+</div></td>
+</tr>
+<tr>
+<td class=3D"confluenceTd">10</td>
+<td class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E5=A4=87=E6=B3=A8=E5=86=85=E5=
+=AE=B9=E6=98=AF=E5=90=A6=E6=9C=89=E7=94=A8</td>
+<td class=3D"confluenceTd">=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=8C=E9=9D=A2=EF=
+=BC=8C=E5=B7=B2=E6=9C=89=E6=9C=89=E6=95=88=E5=9C=B0=E5=9D=80=E5=92=8C=E6=95=
+=B0=E9=87=8F</td>
+<td class=3D"confluenceTd">=E5=9C=A8=E5=A4=87=E6=B3=A8=E4=B8=AD=E8=BE=93=E5=
+=85=A5=E5=86=85=E5=AE=B9=EF=BC=8C=E5=B9=B6=E6=88=90=E5=8A=9F=E4=BB=98=E6=AC=
+=BE=E3=80=82</td>
+<td class=3D"confluenceTd">=E6=AD=A4=E6=97=B6=E5=9C=A8=E4=BA=A4=E6=98=93=E8=
+=AE=B0=E5=BD=95=E4=B8=AD=E6=98=BE=E7=A4=BA=E7=9A=84=E4=BB=98=E6=AC=BE=E8=AE=
+=B0=E5=BD=95=E9=87=8C=E6=98=BE=E7=A4=BA=E8=BE=93=E5=85=A5=E7=9A=84=E5=A4=87=
+=E6=B3=A8=E5=86=85=E5=AE=B9=E3=80=82=EF=BC=88=E7=9B=AE=E5=89=8D=E7=89=88=E6=
+=9C=AC=E4=BA=A4=E6=98=93=E8=AE=B0=E5=BD=95=E4=B8=AD=E4=B8=8D=E4=BC=9A=E6=98=
+=BE=E7=A4=BA=E5=A4=87=E6=B3=A8=E4=BF=A1=E6=81=AF=EF=BC=89</td>
+<td class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p>=E6=B5=8B=E8=AF=95=E4=B8=80=E4=B8=8Btest</p>
+<p><br></p>
+</div></td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.6.14 10:28</td>
+<td colspan=3D"1" class=3D"confluenceTd">0.2.1=EF=BC=88dev_207=EF=BC=89</td=
+>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=80=9A=E8=BF=87</td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">10</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E5=A4=87=E6=B3=
+=A8=E5=86=85=E5=AE=B9=E6=98=AF=E5=90=A6=E6=9C=89=E7=94=A8</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=9C=A8=E4=BB=98=E6=AC=BE=E7=95=
+=8C=E9=9D=A2=EF=BC=8C=E5=B7=B2=E6=9C=89=E6=9C=89=E6=95=88=E5=9C=B0=E5=9D=80=
+=E5=92=8C=E6=95=B0=E9=87=8F</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=9C=A8=E5=A4=87=E6=B3=A8=E4=B8=
+=AD=E8=BE=93=E5=85=A5=E5=86=85=E5=AE=B9=EF=BC=8C=E5=B9=B6=E6=88=90=E5=8A=9F=
+=E4=BB=98=E6=AC=BE=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=AD=A4=E6=97=B6=E5=9C=A8=E4=BA=
+=A4=E6=98=93=E8=AE=B0=E5=BD=95=E4=B8=AD=E6=98=BE=E7=A4=BA=E7=9A=84=E4=BB=98=
+=E6=AC=BE=E8=AE=B0=E5=BD=95=E9=87=8C=E6=98=BE=E7=A4=BA=E8=BE=93=E5=85=A5=E7=
+=9A=84=E5=A4=87=E6=B3=A8=E5=86=85=E5=AE=B9=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p>=E6=B5=8B=E8=AF=95=E4=B8=80=E4=B8=8Btest</p>
+<p>&nbsp;<span class=3D"confluence-embedded-file-wrapper confluence-embedde=
+d-manual-size"><img class=3D"confluence-embedded-image cp-img confluence-ex=
+ternal-resource" alt=3D"01. =E8=B5=84=E4=BA=A7_06-=E4=BB=98=E6=AC=BE-3.jpg"=
+ height=3D"400" src=3D"http://wiki.bianjie.ai/download/attachments/2622620/=
+01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%E6%AC%BE-3.jpg?version=3D1&amp;modifi=
+cationDate=3D1530154671000&amp;api=3Dv2" data-image-src=3D"http://wiki.bian=
+jie.ai/download/attachments/2622620/01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%E=
+6%AC%BE-3.jpg?version=3D1&amp;modificationDate=3D1530154671000&amp;api=3Dv2=
+"></span></p>
+</div></td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.7.2 10:58</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-470"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-470" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-470</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E7=A1=AE=E8=AE=A4=E4=
+=BB=98=E6=AC=BE=E9=A1=B5=E9=9D=A2=E5=A4=87=E6=B3=A8=E6=98=BE=E7=A4=BA=E9=97=
+=AE=E9=A2=98</span> <span class=3D"aui-lozenge aui-lozenge-subtle aui-lozen=
+ge-success jira-macro-single-issue-export-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD<=
+/span> </span> </p>
+</div></td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">11</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E6=96=AD=E7=BD=
+=91=E6=83=85=E5=86=B5=E4=B8=8B=E6=98=AF=E5=90=A6=E5=8F=AF=E4=BB=A5=E6=AD=A3=
+=E5=B8=B8=E6=98=BE=E7=A4=BA=EF=BC=8C=E4=BD=86=E6=98=AF=E4=B8=8D=E5=8F=AF=E4=
+=BB=A5=E4=BB=98=E6=AC=BE=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=96=AD=E7=BD=91</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=BF=9B=E5=85=A5=E4=BB=98=E6=AC=
+=BE=E9=A1=B5=EF=BC=8C=E8=BF=9B=E8=A1=8C=E4=BB=98=E6=AC=BE=E6=93=8D=E4=BD=9C=
+=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=A1=B5=E9=9D=A2=E5=86=85=E5=AE=
+=B9=E6=98=BE=E7=A4=BA=E6=AD=A3=E7=A1=AE=EF=BC=8C=E7=82=B9=E5=87=BB=E4=BB=98=
+=E6=AC=BE=E6=97=B6=E6=8F=90=E7=A4=BA=E6=97=A0=E7=BD=91=E7=BB=9C=E4=B8=8D=E5=
+=8F=AF=E4=BB=A5=E4=BB=98=E6=AC=BE=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.7.5 10:45</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-485"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-485" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-485</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E7=A1=AE=E8=AE=A4=E4=
+=BB=98=E6=AC=BE=E9=A1=B5=E9=9D=A2=E6=97=A0=E7=BD=91=E7=BB=9C=E6=97=B6=E7=82=
+=B9=E5=87=BB=E7=A1=AE=E8=AE=A4=E6=8C=89=E9=92=AE=E5=90=8E=E6=B2=A1=E6=9C=89=
+=E6=8F=90=E7=A4=BA</span> <span class=3D"aui-lozenge aui-lozenge-subtle aui=
+-lozenge-success jira-macro-single-issue-export-pdf">=E5=B7=B2=E5=85=B3=E9=
+=97=AD</span> </span> </p>
+</div></td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">12</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81gas=E8=B6=B3=E5=
+=A4=9F=E6=97=B6=E6=99=AE=E9=80=9A=E6=A8=A1=E5=BC=8F=E8=83=BD=E5=90=A6=E5=AE=
+=8C=E6=88=90=E4=BA=A4=E6=98=93</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9C=89=E7=BD=91=EF=BC=8C=E5=B7=
+=B2=E8=8E=B7=E5=8F=96=E7=B3=BB=E7=BB=9F=E9=BB=98=E8=AE=A4=E7=9A=84=E6=9C=80=
+=E6=96=B0100=E7=AC=94=E8=AE=B0=E5=BD=95=E7=9A=84gas=E5=B9=B3=E5=9D=87=E5=80=
+=BC</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=8F=91=E8=B5=B7=E8=BD=AC=E8=B4=
+=A61=E4=B8=AAiris=E4=BA=A4=E6=98=93=E4=B8=8D=E5=A1=AB=E5=86=99=E5=A4=87=E6=
+=B3=A8=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=88=90=E5=8A=9F=E4=BA=A4=E6=98=
+=93=E3=80=82=E5=B9=B6=E4=B8=94=E5=A6=82=E6=9E=9C=E5=AE=9E=E9=99=85gas=E5=B0=
+=8F=E4=BA=8E=E8=AE=BE=E7=BD=AE=E7=9A=84gas=E5=80=BC=EF=BC=8C=E4=BC=9A=E8=BF=
+=94=E5=9B=9E=E5=89=A9=E4=BD=99=E7=9A=84fee</td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p>&nbsp;<span class=3D"confluence-embedded-file-wrapper confluence-embedde=
+d-manual-size"><img class=3D"confluence-embedded-image cp-img confluence-ex=
+ternal-resource" alt=3D"01. =E8=B5=84=E4=BA=A7_06-=E4=BB=98=E6=AC=BE-2.jpg"=
+ height=3D"400" src=3D"http://wiki.bianjie.ai/download/attachments/6586819/=
+01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%E6%AC%BE-2.jpg?version=3D1&amp;modifi=
+cationDate=3D1534760087000&amp;api=3Dv2" data-image-src=3D"http://wiki.bian=
+jie.ai/download/attachments/6586819/01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%E=
+6%AC%BE-2.jpg?version=3D1&amp;modificationDate=3D1534760087000&amp;api=3Dv2=
+"></span></p>
+</div></td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.8.21 17:53</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">13</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81gas=E4=B8=8D=E8=
+=B6=B3=E6=97=B6=E6=99=AE=E9=80=9A=E6=A8=A1=E5=BC=8F=E8=83=BD=E5=90=A6=E5=AE=
+=8C=E6=88=90=E4=BA=A4=E6=98=93</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9C=89=E7=BD=91=EF=BC=8C=E5=B7=
+=B2=E8=8E=B7=E5=8F=96=E7=B3=BB=E7=BB=9F=E9=BB=98=E8=AE=A4=E7=9A=84=E6=9C=80=
+=E6=96=B0100=E7=AC=94=E8=AE=B0=E5=BD=95=E7=9A=84gas=E5=B9=B3=E5=9D=87=E5=80=
+=BC</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=8F=91=E8=B5=B7=E8=BD=AC=E8=B4=
+=A6=E4=BA=A4=E6=98=93=EF=BC=8C=E5=A1=AB=E5=86=99=E5=B0=BD=E5=8F=AF=E8=83=BD=
+=E5=A4=9A=E7=9A=84=E5=A4=87=E6=B3=A8=E4=BB=A5=E5=8F=8A=E8=BD=AC=E8=B4=A6=E9=
+=87=91=E9=A2=9D=EF=BC=8C=E4=BD=BF=E8=AF=A5=E7=AC=94=E4=BA=A4=E6=98=93=E7=9A=
+=84gas=E8=B6=85=E8=BF=87=E7=B3=BB=E7=BB=9F=E9=BB=98=E8=AE=A4=E7=9A=84gas=E5=
+=B9=B3=E5=9D=87=E5=80=BC=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E4=BA=A4=E6=98=93=E5=A4=B1=E8=B4=
+=A5=EF=BC=8C=E5=8E=9F=E5=9B=A0gas=E4=B8=8D=E8=B6=B3=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.8.21 18:10</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">14</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E5=88=87=E6=8D=
+=A2=E9=AB=98=E7=BA=A7=E6=A8=A1=E5=BC=8F=E5=90=8Egas=E8=B6=B3=E5=A4=9F=E8=83=
+=BD=E5=90=A6=E5=AE=8C=E6=88=90=E4=BA=A4=E6=98=93</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9C=89=E7=BD=91=EF=BC=8C=E5=B7=
+=B2=E8=8E=B7=E5=8F=96=E7=B3=BB=E7=BB=9F=E9=BB=98=E8=AE=A4=E7=9A=84=E6=9C=80=
+=E6=96=B0100=E7=AC=94=E8=AE=B0=E5=BD=95=E7=9A=84gas=E5=B9=B3=E5=9D=87=E5=80=
+=BC</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=8F=91=E8=B5=B7=E8=BD=AC=E8=B4=
+=A6=E4=BA=A4=E6=98=93=EF=BC=8C=E8=BE=93=E5=85=A5=E8=B6=B3=E5=A4=9F=E7=9A=84=
+gas=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E4=BA=A4=E6=98=93=E6=88=90=E5=8A=
+=9F=E3=80=82=E5=B9=B6=E4=B8=94=E5=A6=82=E6=9E=9C=E5=AE=9E=E9=99=85gas=E5=B0=
+=8F=E4=BA=8E=E8=AE=BE=E7=BD=AE=E7=9A=84gas=E5=80=BC=EF=BC=8C=E4=BC=9A=E8=BF=
+=94=E5=9B=9E=E5=89=A9=E4=BD=99=E7=9A=84fee</td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p>&nbsp; <span class=3D"confluence-embedded-file-wrapper confluence-embedd=
+ed-manual-size"><img class=3D"confluence-embedded-image cp-img confluence-e=
+xternal-resource" alt=3D"01. =E8=B5=84=E4=BA=A7_06-=E4=BB=98=E6=AC=BE-3.jpg=
+" height=3D"400" src=3D"http://wiki.bianjie.ai/download/attachments/6586819=
+/01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%E6%AC%BE-3.jpg?version=3D1&amp;modif=
+icationDate=3D1534760119000&amp;api=3Dv2" data-image-src=3D"http://wiki.bia=
+njie.ai/download/attachments/6586819/01.%20%E8%B5%84%E4%BA%A7_06-%E4%BB%98%=
+E6%AC%BE-3.jpg?version=3D1&amp;modificationDate=3D1534760119000&amp;api=3Dv=
+2"></span></p>
+</div></td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.8.22 13:59</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">15</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E5=88=87=E6=8D=
+=A2=E9=AB=98=E7=BA=A7=E6=A8=A1=E5=BC=8F=E5=90=8Egas=E4=B8=8D=E8=B6=B3=E8=83=
+=BD=E5=90=A6=E5=AE=8C=E6=88=90=E4=BA=A4=E6=98=93</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9C=89=E7=BD=91=EF=BC=8C=E5=B7=
+=B2=E8=8E=B7=E5=8F=96=E7=B3=BB=E7=BB=9F=E9=BB=98=E8=AE=A4=E7=9A=84=E6=9C=80=
+=E6=96=B0100=E7=AC=94=E8=AE=B0=E5=BD=95=E7=9A=84gas=E5=B9=B3=E5=9D=87=E5=80=
+=BC</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E5=8F=91=E8=B5=B7=E8=BD=AC=E8=B4=
+=A6=E4=BA=A4=E6=98=93=EF=BC=8C=E8=BE=93=E5=85=A5=E4=B8=8D=E5=A4=9F=E7=9A=84=
+gas=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E4=BA=A4=E6=98=93=E5=A4=B1=E8=B4=
+=A5=EF=BC=8C=E5=8E=9F=E5=9B=A0gas=E4=B8=8D=E8=B6=B3=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.8.22 13:59</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">16</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81=E8=BF=9B=E5=85=
+=A5=E4=BB=98=E6=AC=BE=E9=A1=B5=E9=9D=A2=E5=90=8E=E6=98=BE=E7=A4=BA=E7=9A=84=
+=E9=BB=98=E8=AE=A4fee=E6=98=AF=E5=90=A6=E6=AD=A3=E7=A1=AE</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9C=89=E7=BD=91=EF=BC=8C=E5=B7=
+=B2=E8=8E=B7=E5=8F=96=E7=B3=BB=E7=BB=9F=E9=BB=98=E8=AE=A4=E7=9A=84=E6=9C=80=
+=E6=96=B0100=E7=AC=94=E8=AE=B0=E5=BD=95=E7=9A=84gas=E5=B9=B3=E5=9D=87=E5=80=
+=BC=E5=92=8C=E6=9C=80=E5=B0=8Fgas price=E5=92=8C=E6=9C=80=E5=A4=A7gas price=
+=E5=92=8C=E5=B9=B3=E5=9D=87gas price</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9F=A5=E7=9C=8B=E6=98=BE=E7=A4=
+=BA=E7=9A=84=E9=BB=98=E8=AE=A4=E5=80=BC=E6=98=AF=E5=90=A6=E6=AD=A3=E7=A1=AE=
+=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=98=BE=E7=A4=BA=E7=9A=84=E9=BB=
+=98=E8=AE=A4=E6=98=AFfee=3Dgas*=E5=B9=B3=E5=9D=87gas price</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.8.22 14:02</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+</tr>
+<tr>
+<td colspan=3D"1" class=3D"confluenceTd">17</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E9=AA=8C=E8=AF=81fee=E4=B8=8D=E8=
+=B6=B3=E6=97=B6=E6=99=AE=E9=80=9A=E5=92=8C=E9=AB=98=E7=BA=A7=E6=A8=A1=E5=BC=
+=8F=E8=83=BD=E5=90=A6=E5=AE=8C=E6=88=90=E4=BA=A4=E6=98=93</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=9C=89=E7=BD=91gas=E8=B6=B3=E5=
+=A4=9F</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E8=BD=AC=E8=B4=A6=E6=89=80=E6=9C=
+=89=E5=8F=AF=E7=94=A8token=EF=BC=8C=E9=80=89=E6=8B=A9=E4=B8=80=E4=B8=AAfee<=
+/td>
+<td colspan=3D"1" class=3D"confluenceTd">=E4=BA=A4=E6=98=93=E5=A4=B1=E8=B4=
+=A5=EF=BC=8C=E5=8E=9F=E5=9B=A0fee=E4=B8=8D=E8=B6=B3=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">=E6=96=AD=E7=BD=91=E8=BF=9B=E5=85=
+=A5=E4=BB=98=E6=AC=BE=E9=A1=B5=EF=BC=8C=E6=AD=A4=E6=97=B6fee=E4=BC=9A=E5=8F=
+=98=E6=88=900=EF=BC=8C=E7=84=B6=E5=90=8E=E6=9C=89=E7=BD=91=E8=BF=9B=E5=85=
+=A5=E4=BB=98=E6=AC=BE=E7=A1=AE=E8=AE=A4=E9=A1=B5=EF=BC=8C=E6=AD=A4=E6=97=B6=
+fee=E4=B8=BA0=EF=BC=8C=E4=BC=9A=E6=9C=89=E6=8F=90=E7=A4=BAgas price=E4=B8=
+=8D=E8=B6=B3=E3=80=82</td>
+<td colspan=3D"1" class=3D"confluenceTd">2018.8.22 14:33</td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd"><br></td>
+<td colspan=3D"1" class=3D"confluenceTd">
+<div class=3D"content-wrapper">
+<p> <span class=3D"jira-issue resolved" data-jira-key=3D"RBAPP-486"> <a hre=
+f=3D"http://jira.bianjie.ai/browse/RBAPP-486" class=3D"jira-issue-key"><img=
+ class=3D"icon" src=3D"http://jira.bianjie.ai/secure/viewavatar?size=3Dxsma=
+ll&amp;avatarId=3D10303&amp;avatarType=3Dissuetype">RBAPP-486</a> - <span c=
+lass=3D"summary">=E3=80=90=E4=BB=98=E6=AC=BE=E3=80=91=E6=99=AE=E9=80=9A=E6=
+=A8=A1=E5=BC=8Fgas price=E4=B8=8D=E8=B6=B3=E6=8F=90=E7=A4=BA=E9=97=AE=E9=A2=
+=98</span> <span class=3D"aui-lozenge aui-lozenge-subtle aui-lozenge-succes=
+s jira-macro-single-issue-export-pdf">=E5=B7=B2=E5=85=B3=E9=97=AD</span> </=
+span> </p>
+</div></td>
+</tr>
+</tbody>
+</table>
+</div>
+    </div>
+</body>
+</html>
+------=_Part_204_1590103113.1540950893965--

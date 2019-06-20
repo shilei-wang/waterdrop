@@ -1,0 +1,218 @@
+
+*******************************************
+               常用操作
+*******************************************
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=shilei-qa --trust-node
+
+//指定home
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=shilei-qa --trust-node --home=/root/.iriscli
+
+
+http://10.1.2.168:30317/keys //测试rest是否打开
+http://10.1.2.168:30317/swagger-ui/#/
+
+
+*******************************************
+      lcd中 sign和broadcast 测试
+*******************************************
+1. 关掉lcd，用cli generate 交易
+iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547 --generate-only >/root/Tx-generate
+
+{"type":"irishub/bank/StdTx","value":
+
+{"msg":[{"type":"irishub/bank/Send","value":{"inputs":[{"address":"faa1gktn0l84ecp8shdz459uky2chupq3wz0ulfkw6","coins":[{"denom":"iris-atto","amount":"5000000000000000000"}]}],"outputs":[{"address":"faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547","coins":[{"denom":"iris-atto","amount":"5000000000000000000"}]}]}}],"fee":{"amount":[{"denom":"iris-atto","amount":"4000000000000000"}],"gas":"50000"},"signatures":null,"memo":""}
+
+}
+
+
+2. 查询账户 account num 和 sequence id
+iriscli keys show v0
+iriscli bank account faa1gktn0l84ecp8shdz459uky2chupq3wz0ulfkw6
+  Account Number:  0
+  Sequence:        228
+
+3. 打开lcd， 进入 http://10.1.2.239:1317/swagger-ui/#/ICS2/post_txs_sign
+把上面生成后的  level1—>value {}里的内容，替换
+tx后的{}
+
+{
+  "tx": {放到这里，注意括号},
+
+  "name": "string",
+  "password": "string",
+  "chain_id": "string",
+  "account_number": "0",
+  "sequence": "0",
+  "append_sig": true
+}
+
+
+另外加上，name等字段
+===》
+
+{
+  "tx": {"msg":[{"type":"irishub/bank/Send","value":{"inputs":[{"address":"faa1gktn0l84ecp8shdz459uky2chupq3wz0ulfkw6","coins":[{"denom":"iris-atto","amount":"5000000000000000000"}]}],"outputs":[{"address":"faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547","coins":[{"denom":"iris-atto","amount":"5000000000000000000"}]}]}}],"fee":{"amount":[{"denom":"iris-atto","amount":"4000000000000000"}],"gas":"50000"},"signatures":null,"memo":""},
+
+  "name": "v0",
+  "password": "1234567890",
+  "chain_id": "shilei-qa",
+  "account_number": "0",
+  "sequence": "228",
+  "append_sig": true
+}
+
+==> 点击执行， 返回签名后的内容如下
+
+{
+  "type": "irishub/bank/StdTx",
+  "value": {
+    "msg": [
+      {
+        "type": "irishub/bank/Send",
+        "value": {
+          "inputs": [
+            {
+              "address": "faa1gktn0l84ecp8shdz459uky2chupq3wz0ulfkw6",
+              "coins": [
+                {
+                  "denom": "iris-atto",
+                  "amount": "5000000000000000000"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "address": "faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547",
+              "coins": [
+                {
+                  "denom": "iris-atto",
+                  "amount": "5000000000000000000"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "fee": {
+      "amount": [
+        {
+          "denom": "iris-atto",
+          "amount": "4000000000000000"
+        }
+      ],
+      "gas": "50000"
+    },
+    "signatures": [
+      {
+        "pub_key": {
+          "type": "tendermint/PubKeySecp256k1",
+          "value": "A9/n/9CQMcbQi1JK5FeK05YdOEQ1nkpRKQ01DyaSp7jK"
+        },
+        "signature": "RY1gBCl3gro4oHQfYPnA6B4jjq5ZPiZP3UXIRLBtQ9pN8QqT8r2U+CAGtDkiMag+lw6H7wougTdtm9oOsUh63Q==",
+        "account_number": "0",
+        "sequence": "228"
+      }
+    ],
+    "memo": ""
+  }
+}
+
+
+3. 打开lcd， 进入 http://10.1.2.239:1317/swagger-ui/#/ICS2/post_txs_sign
+commit = true
+把上面签名后的  level1—>value {}里的内容，替换
+tx后的{}
+
+{
+  "tx": {放到这里，注意括号}
+}
+
+
+=================》
+
+{
+  "tx": {
+            "msg": [
+              {
+                "type": "irishub/bank/Send",
+                "value": {
+                  "inputs": [
+                    {
+                      "address": "faa1gktn0l84ecp8shdz459uky2chupq3wz0ulfkw6",
+                      "coins": [
+                        {
+                          "denom": "iris-atto",
+                          "amount": "5000000000000000000"
+                        }
+                      ]
+                    }
+                  ],
+                  "outputs": [
+                    {
+                      "address": "faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547",
+                      "coins": [
+                        {
+                          "denom": "iris-atto",
+                          "amount": "5000000000000000000"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "fee": {
+              "amount": [
+                {
+                  "denom": "iris-atto",
+                  "amount": "4000000000000000"
+                }
+              ],
+              "gas": "50000"
+            },
+            "signatures": [
+              {
+                "pub_key": {
+                  "type": "tendermint/PubKeySecp256k1",
+                  "value": "A9/n/9CQMcbQi1JK5FeK05YdOEQ1nkpRKQ01DyaSp7jK"
+                },
+                "signature": "RY1gBCl3gro4oHQfYPnA6B4jjq5ZPiZP3UXIRLBtQ9pN8QqT8r2U+CAGtDkiMag+lw6H7wougTdtm9oOsUh63Q==",
+                "account_number": "0",
+                "sequence": "228"
+              }
+            ],
+            "memo": ""
+          }
+}
+
+==> 点击执行， 返回广播后的内容如下
+
+{
+  "check_tx": {
+    "gasWanted": "50000",
+    "gasUsed": "4453"
+  },
+  "deliver_tx": {
+    "log": "Msg 0: ",
+    "gasWanted": "50000",
+    "gasUsed": "6851",
+    "tags": [
+      {
+        "key": "YWN0aW9u",
+        "value": "c2VuZA=="
+      },
+      {
+        "key": "c2VuZGVy",
+        "value": "ZmFhMWdrdG4wbDg0ZWNwOHNoZHo0NTl1a3kyY2h1cHEzd3owdWxma3c2"
+      },
+      {
+        "key": "cmVjaXBpZW50",
+        "value": "ZmFhMTR5eGZ2ajh4OXJkeXRoMjg4NGFjdHlzOGN0NDI2eWs1cmhyNTQ3"
+      }
+    ]
+  },
+  "hash": "FB32EC9C9DC7211B8A18FDF5F9FB2F1B5A7AE4A87D9728B1E845D233D22625D4",
+  "height": "34899"
+}

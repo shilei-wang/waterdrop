@@ -1,0 +1,156 @@
+﻿ss-local -c /etc/shadowsocks-libev/config.json start &
+curl www.google.com
+
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpGcmhsdlNtZTVMOVU=@35.236.151.88:39839/?outline=1
+*********
+ubuntu 18有问题 ， 先安装16
+*********
+
+1. 打开 VMware 12 ――》我的电脑》新建创建新的虚拟机：
+2. 然后选择“自定义” ――》 “下一步”：
+3. 继续下一步：
+4. 选择“稍后安装操作系统” ――》下一步
+5.“客户机操作系统” 选择 “Linux” 、“版本”选择“Ubuntu 64位” ――》下一步：
+6. 修改“虚拟机名称 centOS7”和“新建位置 D:\工具\工具\虚拟机\Ubuntu”，也可以使用默认名称和路径。然后“下一步”
+7. 处理器配置默认的就可以了 (2 2 就行)
+8. 内存自定义4096，可以自己设置大点。不建议小于默认的内存大小。
+9.“网络类型”选择“使用桥接网络”：
+10.“I/O控制器类型” 选择推荐的“LSI Logic”，然后“下一步”
+11.“虚拟磁盘类型”选择推荐的“SCSI”，然后“下一步”
+12.“磁盘”选择“创建新虚拟磁盘”
+13. （最大磁盘80G）“指定磁盘容量”选择建议的大小，自己可以设置大点。然后选择“将虚拟磁盘存储为单个文件”
+14. 点击“完成”
+15. 点击“CD/DVD (IDE)”： 使用iso， 开启虚拟机
+
+*********
+【问题解决】无法获取 vmci 驱动程序版本句柄无效
+打开 D:\工具\工具\虚拟机\ubuntu\Ubuntu 64 位.vmx
+查找 vmci0.present  值改为FALSE
+*********
+Ubuntu安装
+1.  开启虚拟机
+2.  选择中文， 安装ubuntu， 准备安装不勾选，继续
+3.  清楚整个磁盘安装，现在安装，继续
+4.  计算机名： ubuntu16， 用户名：shelwin，密码： 123456 ，登录时需要密码 （继续后等待，重启，第一次需要按一下“回车”）
+*********
+启动后，登录
+
+1. 安装 VMwareTools （安装以后可以自动匹配窗口大小，可以实现自由复制粘贴）
+    0) 点击光盘，使其弹出原来的iso镜像。
+    1）虚拟机》重新安装vmtools （此时光盘加载 vmtools ）
+    2）复制光盘中 VMwareTools.tar.gz 到home
+    3）cd ~  ，  tar -zxf VMwareTools-9.6.0-1294478.tar.gz  , cd vmware-tools-distrib/ ，sudo ./vmware-install.pl （一路回车确认，yes和no都是）
+    4） sudo reboot ,重启后自动匹配窗口大小（查看>自动调整大小>自适应），可以实现自由复制粘贴（文本，文件）
+
+2. 设置root登录
+    1.1 sudo passwd root （第一次原密码123456， 再输入2次root密码 123456）
+    1.2 sudo -s （切换root）
+    1.3 gedit /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
+            [SeatDefaults]
+            user-session=ubuntu
+            autologin-user=root
+            greeter-session=unity-greete
+            greeter-show-manual-login=true
+            allow-guest=false
+    1.4 gedit /root/.profile
+        mesg n || true 改成 tty -s && mesg n || true
+    1.5 reboot 重启 自动root登录
+
+3. 安装可分屏终端
+    3.1 apt-get install terminator  （打开方式 ctrl+alt+t）
+
+4. 安装 shadowsocks （只支持socks5协议通信 若想要在系统全局使用，可使用polipo进行二次转发）、  polipo
+*******************
+特别注意：原来的shadowsocks 不支持 "method":"chacha20-ietf-poly1305"， 需要下载shadowsocks-libev
+sudo apt-get install software-properties-common -y
+sudo add-apt-repository ppa:max-c-lv/shadowsocks-libev -y
+sudo apt-get update （这条在没有翻墙可能会报错）
+sudo apt install shadowsocks-libev
+*******************
+    4.1 //不用了 apt install shadowsocks
+    4.2 gedit /etc/shadowsocks-libev/config.json
+        {
+            "server":"35.236.151.88",
+            "server_port":39838,
+            "local_port":1080,
+            "password":"sKqzBQENGfAe",
+            "timeout":300,
+            "method":"chacha20-ietf-poly1305"
+        }
+    4.3 ss-local -c /etc/shadowsocks-libev/config.json start &（后台运行 可以ctrl+c中断）
+            注意 shadowsocks只支持sock5 ，  在Firefox设置代理socks host socks5（127.0.0.1 1080） 可上百度google
+        //  ps -ef | grep shadowsocks
+        //  kill -9 26559
+    4.4 apt install polipo  （和centos不同，不需要编译install）
+            ==============================================
+            注释：
+            proxyAddress，proxyPort  指的是polipo自己对外服务的地址和端口，支持全局使用
+            socksParentProxy ：指的是shadowsocks提供的对外服务地址和端口
+            ==============================================
+    4.5 gedit /etc/polipo/config
+            logSyslog = true
+            logFile = /var/log/polipo/polipo.log
+
+            ==》追加以下
+            proxyAddress = "0.0.0.0"
+            proxyPort = 8123
+
+            socksParentProxy = "127.0.0.1:1080"
+            socksProxyType = socks5
+
+            chunkHighMark = 50331648
+            objectHighMark = 16384
+            serverMaxSlots = 64
+            serverSlots = 16
+            serverSlots1 = 32
+            《==
+    4.6 重启服务
+        service polipo restart
+        service polipo stop
+        service polipo start
+        service polipo status  (此处应该显示正常  Active: active (running) )
+
+    4.7 设置命令行代理地址（此时代理地址指向polipo）
+        gedit ~/.bashrc
+        最后加入
+        export http_proxy=127.0.0.1:8123
+        export https_proxy=127.0.0.1:8123
+        save
+        source ~/.bashrc
+        重启终端
+
+    4.8 测试翻墙
+        curl www.baidu.com
+        curl www.google.com
+
+        【注意有些ubuntu的依赖 用代理下不了，要用原始的网络下载】
+
+*******************************************
+               翻墙，代理相关
+*******************************************
+【每次重启虚拟机 只需 ss-local -c /etc/shadowsocks-libev/config.json start &  ，  curl www.google.com  curl www.baidu.com 】
+
+虚拟机桥接方式有时候会彻底掉线，问题出在“网络编辑器”=》“桥接方式”=》自动 不可靠
+要么选成 realtek pcie 有线 或者 qualcomm 无线
+
+[备注] windows 配置好了 右下角标 按右键程序图标，弹出菜单，勾选“启用系统代理”
+1. 打开浏览器就可以上google了
+2. 设置一下系统环境，命令行翻墙
+HTTP_proxy  http://127.0.0.1:1080 ,  HTTPS_proxy http://127.0.0.1:1080
+cmd： curl www.google.com
+
+翻墙原理：
+【外网的代理】==》【shadowsocks 设置：外网35.236.151.88：8383 ， 自己的服务地址：127.0.0.1:8080， 提供的服务类型socks5】==》【polipo  设置：连接对象：本地的shadowsocks 127.0.0.1:8080， 自己提供的服务地址（我就是我们curl最终要用的）：127.0.0.1:8123】==》【设置命令行代理地址 export http_proxy=127.0.0.1:8123 export https_proxy=127.0.0.1:8123】==》【curl www.google.com】
+
+*******************************************
+               账号
+*******************************************
+下载最新window小飞机，右键》服务器》从剪切板导入url》编辑服务器（里面可以看到密码和加密方法）
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpGcmhsdlNtZTVMOVU=@35.236.151.88:39839/?outline=1
+
+//以下可能不能用了
+35.236.151.88
+39838
+密码 sKqzBQENGfAe
+加密方法 chacha20-ietf-poly1305
+

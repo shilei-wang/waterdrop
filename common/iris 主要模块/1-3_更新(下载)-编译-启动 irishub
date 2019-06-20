@@ -1,0 +1,297 @@
+*******************************************
+          更新 doc： 独立的仓库和测试分开
+*******************************************
+mkdir ~/my_workspace
+github工具>file>clone repository>url>clone
+    参数：https://github.com/irisnet/irishub.git (选择path： my_workspace,自动填充irishub)
+
+
+repository>open in terminal:
+git remote add upstream https://github.com/irisnet/irishub.git
+git fetch --all
+git checkout -b shilei/docfix upstream/develop
+git branch && git rev-parse HEAD
+关闭后可以看到 图形界面的Branch 已经更新到了shilei/docfix
+
+    其他：
+    git checkout -b shilei/docfix upstream/develop
+    git checkout shilei/docfix-software
+    git branch && git rev-parse HEAD
+
+    git checkout master
+    git branch -D shilei/docfix
+
+----------- 直接在主分支上push
+git checkout -b shilei/doc-keystore-multisig upstream/develop
+图形界面 git commit
+git push upstream shilei/doc-keystore-multisig //第一次会创建分支
+//去网上pr
+
+WIP: Add "json indent" usage and fix the "query output format" of all the docs
+R4R
+R4R: Update `doc/swagger version/version.go` to v0.14.1
+
+
+*******************************************
+   测试用irishub ： 和doc分开
+*******************************************
+第一次：
+注意在 github中直接clone远程的
+cd /Users/sherlock/go/src/github.com/
+git clone https://github.com/irisnet/irishub.git
+cd irishub
+git remote add upstream https://github.com/irisnet/irishub.git
+git fetch --all //此时应该Fetching origin；  Fetching upstream
+git checkout -b develop upstream/develop   //git branch 建立本地develop代码分支， 不能同时拥有origin和upstream
+git branch
+
+1) 更新
+cd /Users/sherlock/go/src/github.com/irishub
+
+git fetch --all
+git checkout .  //放弃当前目录下的修改
+git merge upstream/develop
+git branch && git rev-parse HEAD
+
+
+其他可能用到的命令：
+    // git remote -v 查看origin和upstream具体指向的位置
+    // git config --global user.name "shilei-wang" 换电脑的话要改下git的名字， 不然网上commit会显示电脑默认名。 重新一个commit后会恢复
+
+    // git checkout develop
+    // git reset --hard upstream/develop
+    // git reset --hard 5d82613b2bb1c1d6b16054ddff5bb8275bb137d9
+
+    === 某个 tag ： v0.8.0-rc0 ====
+    cd /Users/sherlock/go/src/github.com/irishub
+    git fetch --all
+    git checkout .
+    //第一次 git checkout -b release0.14 upstream/release0.14
+    git merge upstream/release0.14
+    git branch && git rev-parse HEAD
+
+    === 某个 hash ：  ====
+    cd /Users/sherlock/go/src/github.com/irishub
+    git fetch --all
+    git checkout .
+    git reset --hard 6329737c7fe392d5c0374eaa020d482e81333d72
+    git branch && git rev-parse HEAD
+
+    //删除
+    git checkout develop
+    git branch -D release0.14
+
+    另外 ：
+    pull =  git fetch + git merge
+    git config --global user.email "shelwin_wang@hotmail.com"
+    git config --global user.name "shilei-wang"
+    git merge upstream/master
+    git pull
+    git checkout -b release0.13 upstream/release0.13
+    git checkout develop
+    git branch -D master
+    git branch -D shilei/docfix-query-ouput  //删除本地
+    git push origin --delete docfix-introduction //删除 origin 中的docfix分支
+    下载某tag(tag是全局 不需要+ upstream/): git checkout -b v0.13.1 v0.13.1
+
+    //自己建一个基于master的分支， 提交到origin在pr到master（一个分支只能由一个pr）
+    git checkout -b docfix-introduction upstream/master
+
+    //下载分支到本地并且切换
+    git checkout -b docfix-introduction upstream/master
+    git branch && git rev-parse HEAD
+
+
+2) 更改 配置 (这个不执行 autotest 起不来，参数不允许)
+gedit scripts/setTestEnv.sh
+        改 testnet ， panic
+
+source scripts/setTestEnv.sh
+
+3) 编译 irishub
+cd /Users/sherlock/go/src/github.com/irishub
+
+make install
+iris version
+git branch && git rev-parse HEAD
+
+    // 注意 第一次要先 make get_tools
+    // 注意 如果编译出现 fail to write *** 可以尝试删除gopath下的pkg文件，可能是该文件版本冲突 rm -rf /Users/sherlock/go/pkg]
+    // curl www.google.com
+
+*******************************************
+               启动 irishub
+
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go c 1
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go c 2
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go m 1
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go nm 1
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 2
+---
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go t 2
+iris start --home=/root/testnet/v0/iris
+iris start --home=/root/testnet/v1/iris
+
+
+
+【下面非每次都要执行】
+【下面非每次都要执行】
+【下面非每次都要执行】
+
+*******************************************
+          用testnet 直接手动起
+*******************************************
+
+rm -rf .iriscli .iris testnet
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+
+
+*******************************************
+               启动 irislcd
+*******************************************
+1）启动 irislcd
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --trust-node --home=$HOME/.irislcd/
+验证 http://10.1.2.236:1317/keys
+
+2）启动swag
+http://10.1.2.236:1317/swagger-ui/#/
+
+
+*******************************************
+        下载 irishub_auto
+*******************************************
+git clone https://github.com/shilei-wang/irishub_auto.git /Users/sherlock/go/src/github.com/irishub_auto
+cd /Users/sherlock/go/src/github.com/irishub_auto
+git fetch --all
+git checkout .
+git branch
+
+
+
+*******************************************
+               启动 irislcd
+*******************************************
+1）启动 irislcd
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --trust-node --home=$HOME/.irislcd/
+验证 http://10.1.2.236:1317/keys
+
+2）启动swag？？
+
+************************************************
+                linux 安装go
+************************************************
+删除 /usr/local/go
+tar  -C /usr/local  -zxf   go1.11.linux-amd64.tar.gz
+
+gedit ~/.bashrc
+    export GOROOT=/usr/local/go
+    export GOPATH=/Users/sherlock/go
+    export PATH=$PATH:/Users/sherlock/go/bin:$GOROOT/bin
+
+source ~/.bashrc
+go version
+go env
+
+#自己写个test.go 在/Users/sherlock/go/package/src/test目录下
+package main
+import "fmt"
+func main() {
+    fmt.Printf("Hello, world.\n")
+}
+go build test.go，生成了test的文件; 　
+或者直接执行 go run test.go 测试
+
+测试 go verison
+
+
+************************************************
+                linux goland
+************************************************
+见其他存储文档
+
+
+*******************************************
+               编译irishub windows版本
+*******************************************
+cd C:\Go\my_package\src\github.com\irisnet\irishub
+1) Clone with HTTPS  (到C:\go\my_package\src\github.com下)
+    https://github.com/shilei-wang/irishub.git
+
+2) 下载make
+    mingw-get-setup.exe
+    basic setup全部勾选  =》 apply （很慢）
+    打开MinGW的安装目录，打开bin文件夹，将mingw32-make.exe重命名为make.exe。
+    系统变量添加 C:\MinGW\bin
+
+
+3) 更新go到1.11 记得先删除旧的
+
+
+4）设置代理服务
+    1. 先打开windows小飞机 shadowsocks，试一下浏览器google是否能上 （谷歌浏览器——设置——高级——打开代理设置——局域网设置——复制代理服务器地址 里面可以看到具体ip和端口）
+    2. 右键我的电脑->属性->高级->环境变量->系统变量
+     新建2个:    HTTP_proxy  http://127.0.0.1:1080 （shadowsocks默认1080） ,  HTTPS_proxy http://127.0.0.1:1080
+    3. 打开cmd ， 测试 curl www.google.com 和 curl https://www.google.com 是否都可行
+    4. 用完以后可以改成 HTTP_proxy1 关掉， 因为局域网在翻墙的情况下会不能用
+
+5）用goland打开irishub 打开命令行 （测试 curl www.google.com ， curl https://www.google.com 之前不要打开goland，否则需要全部重新打开）
+    1. make get_tools （不用每次执行 src下有dep就行）
+        提示：
+        ---
+        make[1]: Entering directory 'C:/Go/my_package/src/github.com/irishub/deps_tools'
+        "Installing dep"
+        go get -v github.com/golang/dep/cmd/dep
+        github.com/golang/dep (download)
+        ---
+
+    2.（先要自己手动删除vendor文件夹 make get_vendor_deps 这个命令再windows下不能用）
+       dep ensure -v  (这步很重要， 成功以后会出现vendor 加v打印细节)
+        dep ensure -v -vendor-only??
+
+        3. make install
+       3个文件在 C:\go\my_package\bin中
+
+
+*******************************************
+             mac/linux  编译windows版本
+*******************************************
+在makefile中家加入以下部分，执行 source scripts/setTestEnv.sh ， make build_windows， 文件在build文件夹中
+
+build_windows:
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iris.exe ./cmd/iris && \
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iriscli.exe ./cmd/iriscli && \
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build $(BUILD_FLAGS) -o build/irislcd.exe ./cmd/irislcd && \
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iristool.exe ./cmd/iristool
+
+
+iriscli bank account faa1fku736z7vavl27he6sqqz5quztal002sagy0t3 --node=http://10.1.2.168:26657
+
+*******************************************
+             linux  编译mac版本 (编译后复制到mac上 需要先运行 chmod -r 777 iriscli)
+*******************************************
+
+build_mac: update_irislcd_swagger_docs echo_bech32_prefix
+	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iris ./cmd/iris && \
+	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iriscli ./cmd/iriscli && \
+	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/irislcd ./cmd/irislcd && \
+	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iristool ./cmd/iristool
+
+*******************************************
+    mac 编译linux (编译后复制到linux上 需要先运行 chmod -r 777 iriscli)
+*******************************************
+cd /Users/sherlock/go/src/github.com/irishub
+make build_linux
+生成目录：
+/Users/sherlock/go/src/github.com/irishub/build
+
+*******************************************
+     改version需要做的事
+*******************************************
+changelog *2
+getstart *2
+irishub/lite/swagger-ui/swagger.yaml*1
+version/version.go*1
+
+update `doc/swagger version/version.go` to v0.14.1

@@ -1,0 +1,6 @@
+把我原来写的程序 做过自动化测试
+
+remote webdriver的模板
+默认开启4723端口接受webdriver请求
+默认开启4724用于和android通讯
+

@@ -1,0 +1,5 @@
+系统》搜索“使用开发人员功能”》选择开发人员模式（自动安装）》右击win键会出现powershell
+系统》程序和功能》左侧：启用或关闭windows功能》勾选“适用于linux的windows子系统”
+
+打开powershell : 输入 lxrun /install   （yes继续）
+输入linux 用户名 shelwin 和 密码 123456

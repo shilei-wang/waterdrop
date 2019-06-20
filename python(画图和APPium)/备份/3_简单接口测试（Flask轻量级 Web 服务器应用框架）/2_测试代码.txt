@@ -1,0 +1,61 @@
+#!/usr/bin/python
+# coding=utf-8
+import requests
+import unittest
+
+#测试的是服务器的接口 post get
+
+class TestLogin(unittest.TestCase):
+
+    @classmethod #装饰器  只执行一次
+    def setUpClass(cls):
+        cls.login_url = 'http://127.0.0.1:5000/login'
+        cls.info_url = 'http://127.0.0.1:5000/info'
+        cls.username = 'admin'
+        cls.password = '123456'
+
+    def test_login(self):
+        """
+        测试登录
+        """
+        data = {
+            'username': self.username,
+            'password': self.password
+        }
+
+        response = requests.post(self.login_url, data=data).json()
+
+        #登录成功， 接着可以测试info（），此时的session['logged_in'] = True
+        assert response['code'] == 200
+        assert response['msg'] == 'success'
+        if response['code'] == 200 and response['msg'] == 'success':
+            print "login_ok!"
+
+
+    def test_info(self):
+        """
+        测试info接口
+        """
+        data = {
+            'username': self.username,
+            'password': self.password
+        }
+
+        response_cookies = requests.post(self.login_url, data=data).cookies
+        #会话
+        session = response_cookies.get('session')
+        assert session
+
+        info_cookies = {
+            'session': session
+        }
+
+        response = requests.get(self.info_url, cookies=info_cookies).json()
+        assert response['code'] == 200
+        assert response['msg'] == 'success'
+        assert response['data'] == 'info'
+
+
+if __name__ == '__main__':
+    suite =unittest.TestLoader().loadTestsFromTestCase(TestLogin)
+    unittest.TextTestRunner(verbosity=2).run(suite)

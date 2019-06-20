@@ -1,0 +1,108 @@
+//git reset --hard 1da4bc22df4478a98487323c273c9743a8395189  (0.8.0 rc katalon)
+//https://gitlab.bianjie.ai/irishub/irishub-test.git
+
+https://analytics.katalon.com/login
+shilei@bianjie.ai
+12345678
+***************************************************
+特别注意：
+***************************************************
+mac下最新的katalon需要改一个设置：（不然的话在一个任务中一定量的request后，socket会关闭）
+
+偏好设置》搜索proxy》disable browseMob Proxy 打钩选上 apply。
+
+***************************************************
+准备工作
+***************************************************
+
+1. 安装commander
+mkdir -p /Users/sherlock/go/src/gitlab.bianjie.ai/bianjieai
+cd /Users/sherlock/go/src/gitlab.bianjie.ai/bianjieai
+git clone https://gitlab.bianjie.ai/bianjieai/commander.git  【shilei 12345678】
+cd commander
+[brew install dep]
+dep ensure  [需要翻墙， 第一次慢, 且无任何提示]
+go install  [生成commander文件在bin]
+
+//git reset --hard 825c943b9e03ad6ebc12ea6ea412dbe3aa6828e7
+
+=============
+mac 下编译linux
+=============
+cd /Users/sherlock/go/src/gitlab.bianjie.ai/bianjieai/commander
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go
+
+2. 运行commander
+2.1 commander   （服务端口是8080）
+【验证】
+2.2 打开 postman， 选POST， http://10.1.2.168:8080 ，Body：x-www-*** ， key：command , value: iriscli keys list
+2.3 返回 NAME:	TYPE:	ADDRESS:						PUBKEY:
+
+3. 起iris
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 1
+
+4. 打开katalon，open project
+
+***************************************************
+使用katalon
+***************************************************
+1. profile（环境）
+node ：localhost:26657
+chainId  ：shilei-qa
+
+2. object repository
+cmd>cmdwithoneargs : http://10.1.2.168:8080
+
+3. 打开testcase 运行
+
+iriscli iservice define --chain-id=shilei-qa --node=localhost:26657 --from=faucet --fee=0.004iris --name=test1 --service-description=";adjf;kj*&^*W&^*&654654 sdfsdf" --author-description=";adjf;kj*&^*W&^*&654654 sdfsdf" --tags="**^% lskd 923d" --file=/test.proto --broadcast=Broadcast
+
+iriscli iservice define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --messaging=Unicast --idl-content=idl-content --file=/root/test.proto --service-name=001
+
+4. 后续可以在init下加入 trust-node模式
+
+***************************************************
+bamboo
+***************************************************
+cd /mnt/app/Katalon_Studio_Linux_64-5.9.1
+sudo ./katalon -noSplash  -runMode=console -consoleLog -projectPath=${bamboo.build.working.directory}"/irishub-test.prj" -retry=0 -testSuitePath="Test Suites/irishub_cmd" -browserType="Chrome (headless)" -executionProfile="qa"|| true
+sudo ./katalon -noSplash  -runMode=console -consoleLog -projectPath=${bamboo.build.working.directory}"/irishub-test.prj" -retry=0 -testSuitePath="Test Suites/irishub_lcd" -browserType="Chrome (headless)" -executionProfile="qa"|| true
+
+
+***************************************************
+QA环境
+***************************************************
+http://35.221.208.174:26657
+http://35.221.208.174:1317/swagger-ui/
+看高度，交易总数：
+http://35.221.208.174:26657/block
+http://35.189.50.37:26657/block_results?height=363  (看具体交易 需要decode ，https://www.base64decode.net/)
+
+
+
+哦对，auto_test.proto 文件放在 /testnet/files/auto_test.proto ，麻烦你们在代码里改一下
+另外分支管理还是develop分支用于开发，但是由于develop分支不稳定，我们每日定时自动化测试使用master分支，所以每日下班前请合并稳定的代码到master，并且注意提交master代码之前，一定要完成以下操作：
+1. 删除 ".project" 文件，一般是在代码根目录的 bin/.project，这个文件是你们在本地UI模式下执行测试生成的，Linux CMD 无法执行
+2. 使用命令行进入你们的Katalon安装目录执行命令（注意一定是进入安装目录执行，配置PATH无效）：
+./katalon -noSplash  -runMode=console -consoleLog -projectPath="/Users/nguyenvinh/Katalon Studio/WebTesting/WebTesting.prj" -retry=0 -testSuitePath="Test Suites/TS_RegressionTest" -browserType="Chrome (headless)"
+3. 这个命令会生成新的 ".project" 文件和一些其他依赖文件，把这些文件一起提交到master分支
+
+=====
+https://jqplay.org/
+
+参考: https://docs.katalon.com/katalon-studio/docs/katalon-studio-for-linux-console-mode.html
+12月6日 19:14
+刘旭
+
+刘旭(刘旭)
+http://wiki.bianjie.ai/pages/viewpage.action?pageId=10323801 我整理了一下 可能后续还要继续补充  @张业龙
+
+
+====
+
+@王石磊  @刘旭
+commander for qa url: http://irishub-qa-commander:8080
+这个url只能在QA环境内网访问，本地启动可以使用docker：
+docker run -d -it -p 8080:8080 irisnet/irishub:qa commander
+启动后测试：
+curl -X POST http://localhost:8080/ -d command=uname

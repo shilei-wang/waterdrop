@@ -1,0 +1,22 @@
+# 导入了 Flask 类。这个类的实例将会是我们的 WSGI 应用程序。
+from flask import Flask
+
+#创建一个该类的实例,自己
+app = Flask(__name__)
+#使用 route() 装饰器告诉 Flask 什么样的URL 能触发我们的函数
+@app.route('/')
+
+@app.route('/')
+def index():
+    return 'Index Page'
+
+@app.route('/hello')
+def hello():
+    a= 3+5
+    return  'Hello World'+ str(a)
+
+#确保服务器只会在该脚本被 Python 解释器直接执行的时候才会运行，而不是作为模块导入的时候。按 Ctrl+C关闭服务器
+if __name__ == '__main__':
+    app.run()
+
+访问 127.0.0.1:5000 返回Index Page，127.0.0.1:5000/hello  返回Hello World8

@@ -1,0 +1,176 @@
+
+测出缺陷和改进 共计：10 处
+
+其中： 缺陷(bug)                            8 处
+
+           改进(improvement)              2 处
+
+覆盖率 90%
+
+
+缺陷(bug)
+
+bug001 : iservice definition对proto3中的service存储结构有问题，在一定条件下某个definition的methods会无限增加！
+
+IRISHUB-570 - iservice definition对proto3中的service存储结构有问题，在一定条件下某个definition的methods会无限增加！ 已关闭
+
+bug002 : iservice-define tags为空时不能给出正确的提示（序列化出错，导致显示签名错误）
+
+IRISHUB-554 - msg中包含slice时签名验证异常 打开的
+
+bug003 : iservice-definition 未对取地址符&进行转义，显示 “\u0026” （经测试其他符号能正确转义
+
+IRISHUB-571 - iservice-definition 未对取地址符&进行转义，显示 “\u0026” （经测试其他符号能正确转义 打开的
+
+bug004 : iservice-define 程序不能在tag相同的情况下，对重复的tag作出检查并给出提示。
+
+IRISHUB-572 - iservice-define 程序不能在tag相同的情况下，对重复的tag作出检查并给出提示。 已解决
+
+bug005 : iservice-define 未对tags数量上限做限制， 不应让用户无限制添加tag （我尝试了添加500个tag）
+
+IRISHUB-573 - iservice-define 未对tags数量上限做限制， 不应让用户无限制添加tag （我尝试了添加500个tag） 已解决
+
+bug006 : iservice-define idl-content字段使用有问题（特别是处理"\n"）, 即使从definiation中读出的idl-content直接复制， 运行define后仍然提示"The IDL file cannot be parsed"
+
+IRISHUB-574 - iservice-define idl-content字段使用有问题（特别是处理"\n"）, 即使从definiation中读出的idl-content直接复制， 运行define后仍然提示"The IDL file cannot be parsed" 已解决
+
+bug007 : iservice-definition 在trust-node模式下，当输入的chain-id参数缺失时，不能正确提示用户是chain-id缺失，会给用户造成困惑。
+
+IRISHUB-575 - iservice-definition 在trust-node模式下，当输入的chain-id参数缺失时，不能正确提示用户是chain-id缺失，会给用户造成困惑。 重新打开
+
+bug008: iservice-define 在解析proto时没有正确的对重复定义的Service和Service-PRC接口作出检查
+
+IRISHUB-576 - iservice-define 在解析proto时没有正确的对重复定义的Service和Service-PRC接口作出检查 打开的
+
+
+改进(improvement)
+
+improvement001 iservice-define 未对 "--name","--service-description","--author-description=author-description"字段做长度限制。
+
+IRISHUB-577 - iservice-define 未对 "--name","--service-description","--author-description=author-description"字段做长度限制。 打开的
+
+improvement002 idl-content 提示格式解析错误时，不能告知具体的错误位置，会给User造成极大困惑。
+
+IRISHUB-578 - idl-content 提示格式解析错误时，不能告知具体的错误位置，会给User造成极大困惑。 已解决
+
+
+对该功能做了如下测试：
+1. 正向测试 功能验证
+
+1.1 验证define功能是否实现， 返回（"tags"）是否正确。
+
+iriscli iservice define
+
+1.2 验证definition功能是否实现， 返回（"name"，"chain_id"，"description"，"tags", "author","idl_content", "methods"）是否正确。
+
+iriscli iservice definition
+
+
+2. define: name字段的负向测试和边界测试
+
+2.1 负向测试 --name 参数分别为
+
+1) 已经定义过的重复的name
+
+2) 特殊字符："~!@#$%^&*(),./\]"
+
+
+2.2 边界测试 --name 参数分别为
+
+1) 空："" 2) 单个字符 ："a" 3) 超长字符
+
+
+3. define:service-description字段的负向测试和边界测试
+
+3.1 负向测试 --service-description 参数分别为
+
+1) 特殊字符："~!@#$%^&*(),./\]" ==》 pass
+
+
+3.2 边界测试 --service-description 参数分别为
+
+1) 空："" 2) 单个字符 ："a" 3) 超长字符
+
+
+4. define:author-description 字段的负向测试和边界测试
+
+测试方法和"3.service-description字段的负向测试和边界测试"相同
+
+
+5. define:tags字段的负向测试和边界测试
+
+5.1 负向测试 tags 参数分别为
+
+1) 特殊字符："~!@#$%^&*(),./\]" ==》 pass
+
+
+5.2 边界测试 tags 参数分别为
+
+1) 超多个tag 2) 空："" 3) 单个字符 ："a" 4) 超长字符
+
+
+6. define: broadcast字段的正向和负向测试
+
+6.1 正向测试，broadcast字段分别测试 Broadcast , Unicast
+
+6.2 负向测试，broadcast字段分别测试 "", broadcast, unicast,"~!@#$%^&*(),./\]"
+
+
+7. define:idl-content字段的正向和负向测试 (idl-content只有在不指定file的情况下才有效)
+
+7.1 正向测试，验证输入正确的idl-content
+
+7.2 负向测试，验证idl-content为空，程序是否能给出正确的错误提示。
+
+7.3 负向测试，验证file中idl的为错误的格式时，程序是否能给出正确的错误提示。
+
+
+8. define:file字段的负向测试
+
+8.1 验证file地址不存在proto文件，程序是否能给出正确的错误提示。
+
+8.2 验证file为空文件，程序是否能给出正确的错误提示。
+
+8.3 验证file为二进制文件时（非文本文件），程序是否能给出正确的错误提示。
+
+8.4 验证file中idl的为错误的格式时，程序是否能给出正确的错误提示。
+
+
+9. definition: name字段的负向测试
+
+9.1 验证输入一个未定义的definition name，程序是否能给出正确的错误提示。
+
+9.2 验证输入name为空，程序是否能给出正确的错误提示。
+
+9.3 验证输入name为特殊字符，程序是否能给出正确的错误提示。
+
+
+10. 解析proto格式的正确性做的测试
+
+
+风险：
+
+对解析proto格式的正确性做的测试覆盖率不高，请开发务必对此加强自测！
+
+go的对proto解析库本身不是很完善， 有些不报错， 有些报错很笼统无法使用户准确定位具体语法错在哪里。
+
+
+**********************************
+钉钉
+
+
+@程司雷(程司雷) @谷新萍(谷新萍) 
+
+v0.6.0 Service-Definition 测试已完成。
+
+测出缺陷和改进              共计：11 处
+其中 缺陷(bug)                           9 处
+        改进(improvement)           2 处
+
+覆盖率 :
+    约90%  （protoc对proto3语法的解析的正确性验证未100%测试， 请开发@程文席(程文席)  加强自测！）
+
+详细测试报告:
+http://wiki.bianjie.ai/pages/viewpage.action?pageId=9830403
+
+PS: Bugs后续提交到jira后会关联到报告中。
