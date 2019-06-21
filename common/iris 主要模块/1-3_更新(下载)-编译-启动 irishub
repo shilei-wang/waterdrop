@@ -70,11 +70,11 @@ git branch && git rev-parse HEAD
     git merge upstream/release0.14
     git branch && git rev-parse HEAD
 
-    === 某个 hash ：  ====
+    === 某个 hash ：  ==== // 6329737c7fe392d5c0374eaa020d482e81333d72
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    git reset --hard 6329737c7fe392d5c0374eaa020d482e81333d72
+    git reset --hard 4ea385c8215cdbce916bd5cc7050cc93ff7964ad
     git branch && git rev-parse HEAD
 
     //删除

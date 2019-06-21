@@ -3,8 +3,6 @@
 =========================================================
 早点睡
 
-机械师2
-
 ************************
 找一个周末：
 ************************
@@ -23,13 +21,12 @@
 =========================================================
 工作
 =========================================================
-测一下lcd
 
 文档
 iriscli distribution community-tax 文档里去掉*2
 编译时无法翻墙 可以设置代理？？？
 整理一个触发收益取回的表格
-
+增加asset lcd
 
 1.改下lcd进度
 /stake/delegators/{delegatorAddr}/delegations/{validatorAddr} 删掉
@@ -92,8 +89,6 @@ BTC
         其他生活
 **************************************
 
-下个月问下公积金
-
 **************************************
         桐 （神770 刺*2）
 **************************************
@@ -124,3 +119,26 @@ https://github.com/irisnet/irishub/issues/1577
 详细测试报告:
 http://wiki.bianjie.ai/pages/viewpage.action?pageId=10322725
 
+**************************************
+**************************************
+
+v0.15.0-dev 第5次提测
+
+asset基本功能测试已经完成，后续会做一些探索性测试，确保新的模块不会对既有的模块产生冲突。
+
+第三部分bugs，共计发现5处缺陷（主要是lcd这块）。
+
+[p0] Sending native tokens to <commulity_tax_add> and initiate a "TxTaxUsage/Burn" proposal causes CONSENSUS FAILURE!
+https://github.com/irisnet/irishub/issues/1654
+
+[p1] "GET /asset/tokens" doesn't work due to the bug-fix of #1625
+https://github.com/irisnet/irishub/issues/1656
+
+[p2] The query of gateway with specified owner("GET /asset/gateways?owner=") returns total gateways.
+https://github.com/irisnet/irishub/issues/1657
+
+[p2] Lack of "GET asset/fees/gateways" and "GET asset/fees/tokens" in IRISLCD Swagger-UI
+https://github.com/irisnet/irishub/issues/1655
+
+[p3] The return of query empty gateway sets (GET /asset/gateways) is incorrect.
+https://github.com/irisnet/irishub/issues/1659

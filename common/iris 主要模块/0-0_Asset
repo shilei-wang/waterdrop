@@ -1,3 +1,24 @@
+---
+
+注意：验证bug的时候用2个节点验证
+
+其他需要测一下的地方
+/asset/tokens 这个要在测一遍
+--initial-supply=0 --decimal=18  然后增发
+coin在其他地方的使用
+
+****************************************************************************************
+Asset
+****************************************************************************************
+iriscli keys show v0
+iriscli bank account faa1pd7d945pv5zzx05m00pc322k2xj5pkgnqlktlv
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+tax：,burn
+iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
+
+
 ****************************************************************************************
                 native原生资产
 ****************************************************************************************
@@ -10,16 +31,22 @@ iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
 发行资产：
 iriscli asset issue-token
 3位资产 30万 40%入tax， 60%burn
+//--symbol-at-source 这个字段native下不起作用
 ======================
 
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --symbol-at-source=source --symbol-min-alias=alias --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=abc
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --symbol-min-alias=alias --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=xxa
 
 ======================
 查询资产：
 iriscli asset query-token <Denom>
 ======================
 
-iriscli asset query-token abc
+iriscli asset query-token xxa
+
+iriscli bank account faa1l46jua9eyrg3uaaf8rwup2snq07ew02t0rwlkn
+
+备注：
+lcd 可以通过多条件查询token， 但是需要在toml文件中开启index
 
 
 ======================
@@ -30,7 +57,7 @@ iriscli asset query-fee
 iriscli asset query-fee --subject=token --id=abc
 
 ======================
-查询token-stats：
+查询token-stats： （燃烧了多少啊 等）
 iriscli bank token-stats
 ======================
 iriscli bank token-stats iris -o=json --indent
@@ -46,7 +73,7 @@ iriscli asset create-gateway
 3位资产 60万 40%入tax， 60%burn
 ======================
 
-echo 1234567890 | iriscli asset create-gateway --moniker=mon --create-fee=600000iris  --identity=abc --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset create-gateway --moniker=gdex --create-fee=600000iris  --identity=abc --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
 
 ======================
@@ -86,4 +113,11 @@ iriscli asset query-fee --subject=token --id=gde.aah
 发行网关资产：
 ======================
 
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=aaa --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=aab --symbol-at-source=source --symbol-min-alias=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+
+======================
+查询资产：
+iriscli asset query-token <Denom>
+======================
+
+iriscli asset query-token gdex.aab
