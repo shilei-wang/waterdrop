@@ -284,6 +284,14 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 **************************************
                 空投
 **************************************
+lcd:
+https://irisnet-lcd.rainbow.one/swagger-ui/#/
+
+rpc:
+--node=http://irisnet-rpc.rainbow.one:26657
+
+我自己的账户：
+iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4
 
 strike-drop：
 drop siege embark season rally primary bullet detect scrap toilet tank fine hire praise humor leader swim entire syrup brush scheme unusual display wrong
@@ -319,7 +327,7 @@ irislcd-qa start --node=tcp://35.220.168.203:30657 --laddr=tcp://0.0.0.0:1317 --
 **************************************
                 主网稳定节点 iaa是legder地址
 **************************************
-iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://irisnet-rpc.rainbow.one:26657 (还未升级)
+iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://irisnet-rpc.rainbow.one:26657
 
 iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://47.110.246.130:26657
 

@@ -66,8 +66,8 @@ git branch && git rev-parse HEAD
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    //第一次 git checkout -b release0.14 upstream/release0.14
-    git merge upstream/release0.14
+    //第一次 git checkout -b v0.14.4 v0.14.4
+    // git merge v0.14.4
     git branch && git rev-parse HEAD
 
     === 某个 hash ：  ==== // 6329737c7fe392d5c0374eaa020d482e81333d72
@@ -78,8 +78,8 @@ git branch && git rev-parse HEAD
     git branch && git rev-parse HEAD
 
     //删除
-    git checkout develop
-    git branch -D release0.14
+    git checkout master
+    git branch -D v0.14.4
 
     另外 ：
     pull =  git fetch + git merge
@@ -106,7 +106,11 @@ git branch && git rev-parse HEAD
 gedit scripts/setTestEnv.sh
         改 testnet ， panic
 
+go mod download (如果依赖变了，则要执行这个操作)
+
 source scripts/setTestEnv.sh
+
+
 
 3) 编译 irishub
 cd /Users/sherlock/go/src/github.com/irishub
