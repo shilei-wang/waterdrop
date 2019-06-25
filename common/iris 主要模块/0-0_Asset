@@ -73,7 +73,8 @@ iriscli asset create-gateway
 3位资产 60万 40%入tax， 60%burn
 ======================
 
-echo 1234567890 | iriscli asset create-gateway --moniker=gdex --create-fee=600000iris  --identity=abc --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+//这里2次输入不能用echo
+iriscli asset create-gateway --moniker=gdex --create-fee=600000iris  --identity=abc --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
 
 ======================

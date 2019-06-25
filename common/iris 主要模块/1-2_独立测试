@@ -124,6 +124,9 @@ iriscli tendermint txs  --tags="action:delegate&delegator:iaa17v7ypgtsmacpvw99ds
 
 iriscli tendermint validator-set --chain-id=shilei-qa
 
+还可以根据height查：
+http://localhost:1317/txs?tx.height=1379
+
 *******************************************
     网络重启 export
 *******************************************
