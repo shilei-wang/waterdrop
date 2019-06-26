@@ -16,4 +16,19 @@ iriscli bank account faa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9keyu4d -o=json --indent
 }
 echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --def-chain-id=shilei-qa --bind-type=Local --deposit=5000xxa --prices=1xxa,1xxa --avg-rsp-time=10000 --usable-time=100 --service-name=001
 
----s
+---
+iriscli stake pool
+Pool:
+  Loose Tokens:   3999999753.0000000000000000000000000000
+  Bonded Tokens:  247.0000000000000000000000000000
+  Token Supply:   4000000000.0000000000000000000000000000
+  Bonded Ratio:   0.0000000618000000000000000000
+
+
+iriscli bank token-stats iris
+TokenStats:
+  Loose Tokens:  3999999753iris
+  Burned Tokens:  0iris
+  Bonded Tokens:  247iris
+
+
