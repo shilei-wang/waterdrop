@@ -74,7 +74,7 @@ git branch && git rev-parse HEAD
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    git reset --hard 96abe0f591fb56194b7ffc476f1d9f3957f49e7c
+    git reset --hard e2456542a43528912207ec57113b9faeefa8bc82
     git branch && git rev-parse HEAD
 
     //删除

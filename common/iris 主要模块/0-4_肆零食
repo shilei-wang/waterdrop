@@ -11,32 +11,74 @@
 
 
 
-
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
-v0.15.0-dev 第5次提测：commit 6329737c7fe392d5c0374eaa020d482e81333d72
+@王石磊
 
-[asset]
-- 发行原生和网关Token；查询Token；查询token-stats
-https://gitlab.bianjie.ai/irishub/internal-spec/blob/v0.15.0/asset/asset_ft.md
-- 创建、编辑网关；查询网关
-https://gitlab.bianjie.ai/irishub/internal-spec/blob/v0.15.0/asset/gateway.md
-- 查询资产发行相关费用
-https://gitlab.bianjie.ai/irishub/internal-spec/blob/v0.15.0/asset/fee.md
-- Token转账
+7/1: v0.15.0-dev 第7次提测：commit e2456542a43528912207ec57113b9faeefa8bc82
 
-[export] 修复reset和export相关bugs
-https://github.com/irisnet/irishub/pull/1576
+重要！最后都要用lcd
 
-[protocol] 让本地测试可以正确加载任意protocol版本
-https://github.com/irisnet/irishub/pull/1597
+[asset] 重构或完善LCD查询及文档
+【ok】https://github.com/irisnet/irishub/pull/1672
+【ok】https://github.com/irisnet/irishub/pull/1673
+【ok】https://github.com/irisnet/irishub/pull/1682
 
-[params] 在testnet环境下也要做参数校验
-https://github.com/irisnet/irishub/pull/1600
+[asset] 完善gateway功能、测试和文档
+【ok】https://github.com/irisnet/irishub/pull/1674
+【ok】https://github.com/irisnet/irishub/pull/1683
+【ok】https://github.com/irisnet/irishub/pull/1685
+【ok】https://github.com/irisnet/irishub/pull/1686
+【ok】https://github.com/irisnet/irishub/pull/1688
+
+[asset] 完善token发行和增发功能
+【ok】https://github.com/irisnet/irishub/pull/1680
+https://github.com/irisnet/irishub/pull/1684
+https://github.com/irisnet/irishub/pull/1687
+
+查询全部资产：
+
+```bash
+iriscli asset query-tokens
+```
+
+查询全部 native 资产：
+
+```bash
+iriscli asset query-tokens --source=native
+```
+
+查询名为 "cats" 的网关的全部资产：
+
+```bash
+iriscli asset query-tokens --gateway=cats
+```
+
+查询指定 owner 的全部资产：
+
+```bash
+iriscli asset query-tokens --owner=<address>
+```
 
 
-==============================================================================
-==============================================================================
+[stake] 修复redelegate遗留bug
+https://github.com/irisnet/irishub/pull/1690
+
+[tendermint] Tendermint追赶或完善
+https://github.com/irisnet/tendermint/pull/66
+https://github.com/irisnet/tendermint/pull/68
+https://github.com/irisnet/tendermint/pull/69
+https://github.com/irisnet/tendermint/pull/70
+https://github.com/irisnet/tendermint/pull/71
+https://github.com/irisnet/tendermint/pull/73
+https://github.com/irisnet/tendermint/pull/74
+https://github.com/irisnet/tendermint/pull/75
+https://github.com/irisnet/tendermint/pull/76
+https://github.com/irisnet/tendermint/pull/77
+https://github.com/irisnet/tendermint/pull/78
+https://github.com/irisnet/tendermint/pull/79
+https://github.com/irisnet/tendermint/pull/80
+https://github.com/irisnet/tendermint/pull/81

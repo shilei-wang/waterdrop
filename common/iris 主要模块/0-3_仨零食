@@ -1,5 +1,31 @@
 
+mint没有提示fee
+iriscli asset mint-token a02 --amount=10000  --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
+
+---
+p1
+transfer gateway 的时候owner没有一起变
+
+sherlock$ iriscli asset query-token gdex.g01
+FungibleToken gdex.g01:
+  Family:            fungible
+  Source:            gateway
+  Gateway:           gdex
+  Name:              name
+  Symbol:            g01
+  Symbol At Source:  source
+  Symbol Min Alias:  alias
+  Decimal:           0
+  Initial Supply:    10000gdex.g01
+  Max Supply:        1000000000000gdex.g01
+  Mintable:          false
+  Owner:             faa1gd37j7ga3ndyeqq3ntw6pkjeadyekmd8t277pc
+
+
+
+---
+  Symbol Min Alias:这个字段 暂时没有意义 无法使用。 讨论是否drop
 
 ---
 在servicetax收取处 有bug
