@@ -309,6 +309,13 @@ iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
 born_addr:
 iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
 
+GovDepositCoinsAccAddr faa1pa55mh8wuvdjsje7q3rnljv39krg3aeq3eu4mz
+ServiceDepositCoinsAccAddr faa1ezt7hxs6755wrfk22k7kkvv8wd5uxvmxvte3lv
+ServiceRequestCoinsAccAddr faa1ezt7hxs6755wrfk22k7kkvv8wd5uxvmxvte3lv
+CommunityTaxCoinsAccAddr faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+ServiceTaxCoinsAccAddr faa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9keyu4d
+BurnedCoinsAccAddr faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
+
 
 *******************************************
     多签 multisig

@@ -44,11 +44,28 @@ iriscli asset issue-token
 iriscli asset issue-token --family=fungible --source=native --symbol-min-alias=alias --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
 
 ======================
+修改资产：
+iriscli asset edit-token
+max-supply 只能往下改不能往上改， 且不能低于当时的total supply
+======================
+
+echo 1234567890 | iriscli asset edit-token a01 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --name=nn1 --symbol-at-source=sat1 --symbol-min-alias=sma1 --mintable=true --max-supply=20001
+
+
+======================
+增发资产：
+iriscli asset issue-token
+======================
+
+echo 1234567890 | iriscli asset mint-token a01 --amount=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+
+
+======================
 查询资产：
 iriscli asset query-token <Denom>
 ======================
 
-iriscli asset query-token xxa
+iriscli asset query-token a01
 
 iriscli bank account faa1l46jua9eyrg3uaaf8rwup2snq07ew02t0rwlkn
 
@@ -121,7 +138,7 @@ echo 1234567890 | iriscli asset edit-gateway --moniker=gdex --identity=a --detai
 
 ======================
 转让网关：（只支持离线）
-iriscli asset edit-gateway
+iriscli asset transfer-gateway-owner
 ======================
 
 //后续只要owner签名即可！

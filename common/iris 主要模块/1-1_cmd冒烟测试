@@ -18,7 +18,7 @@ x1 = faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 ********
 转账
 ********
-echo 1234567890 | iriscli bank send --amount=20000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 1234567890 | iriscli bank send --amount=200000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 ********
@@ -387,10 +387,10 @@ iriscli record download --chain-id=shilei-qa --file-name=record --record-id="rec
                 定义
      ===========================
 1. [交易] 服务定义
-echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/root/auto_test.proto --service-name=001 --commit
+echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/Users/sherlock/my_workspace/auto_test.proto  --service-name=001 --commit
 
 【2个method】
-iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/root/test2.proto --service-name=002
+echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/Users/sherlock/my_workspace/auto_test.proto  --service-name=002 --commit
 
 
 

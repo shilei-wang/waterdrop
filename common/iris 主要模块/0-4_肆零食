@@ -1,13 +1,11 @@
 
 **Describe the bug**
 **To Reproduce**
-
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
-
 
 
 
@@ -36,8 +34,33 @@
 
 [asset] 完善token发行和增发功能
 【ok】https://github.com/irisnet/irishub/pull/1680
-https://github.com/irisnet/irishub/pull/1684
-https://github.com/irisnet/irishub/pull/1687
+【ok】https://github.com/irisnet/irishub/pull/1684
+【ok】https://github.com/irisnet/irishub/pull/1687
+
+
+---------------
+[stake] 修复redelegate遗留bug
+https://github.com/irisnet/irishub/pull/1690
+
+[tendermint] Tendermint追赶或完善
+https://github.com/irisnet/tendermint/pull/66
+https://github.com/irisnet/tendermint/pull/68
+https://github.com/irisnet/tendermint/pull/69
+https://github.com/irisnet/tendermint/pull/70
+https://github.com/irisnet/tendermint/pull/71
+https://github.com/irisnet/tendermint/pull/73
+https://github.com/irisnet/tendermint/pull/74
+https://github.com/irisnet/tendermint/pull/75
+https://github.com/irisnet/tendermint/pull/76
+https://github.com/irisnet/tendermint/pull/77
+https://github.com/irisnet/tendermint/pull/78
+https://github.com/irisnet/tendermint/pull/79
+https://github.com/irisnet/tendermint/pull/80
+https://github.com/irisnet/tendermint/pull/81
+
+
+==============================
+
 
 查询全部资产：
 
@@ -61,24 +84,3 @@ iriscli asset query-tokens --gateway=cats
 
 ```bash
 iriscli asset query-tokens --owner=<address>
-```
-
-
-[stake] 修复redelegate遗留bug
-https://github.com/irisnet/irishub/pull/1690
-
-[tendermint] Tendermint追赶或完善
-https://github.com/irisnet/tendermint/pull/66
-https://github.com/irisnet/tendermint/pull/68
-https://github.com/irisnet/tendermint/pull/69
-https://github.com/irisnet/tendermint/pull/70
-https://github.com/irisnet/tendermint/pull/71
-https://github.com/irisnet/tendermint/pull/73
-https://github.com/irisnet/tendermint/pull/74
-https://github.com/irisnet/tendermint/pull/75
-https://github.com/irisnet/tendermint/pull/76
-https://github.com/irisnet/tendermint/pull/77
-https://github.com/irisnet/tendermint/pull/78
-https://github.com/irisnet/tendermint/pull/79
-https://github.com/irisnet/tendermint/pull/80
-https://github.com/irisnet/tendermint/pull/81
