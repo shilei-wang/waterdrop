@@ -37,10 +37,8 @@
 【ok】https://github.com/irisnet/irishub/pull/1684
 【ok】https://github.com/irisnet/irishub/pull/1687
 
-
----------------
 [stake] 修复redelegate遗留bug
-https://github.com/irisnet/irishub/pull/1690
+【ok】https://github.com/irisnet/irishub/pull/1690
 
 [tendermint] Tendermint追赶或完善
 https://github.com/irisnet/tendermint/pull/66
@@ -84,3 +82,12 @@ iriscli asset query-tokens --gateway=cats
 
 ```bash
 iriscli asset query-tokens --owner=<address>
+
+
+
+==============================
+
+5个节点（Google Cloud服务器），5个LCD服务进程，5个并发压测进程分别通过5个LCD进程向网络中广播事先签好名的转账交易，持续335秒，平均tps 291.53，峰值tps 709.95
+
+
+相关参数：出块时间5s，块最大容量200MB，Tx最大长度1000B，Mempool最大容量5000个

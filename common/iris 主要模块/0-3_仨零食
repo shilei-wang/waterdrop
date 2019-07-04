@@ -1,4 +1,12 @@
 
+
+----
+
+gateway
+
+the owner address of the destination token, optional when source is native, ignored when source is not native
+
+gdex
 --------
 lcd
 ERROR:
