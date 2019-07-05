@@ -14,31 +14,6 @@
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
-@王石磊
-
-7/1: v0.15.0-dev 第7次提测：commit e2456542a43528912207ec57113b9faeefa8bc82
-
-重要！最后都要用lcd
-
-[asset] 重构或完善LCD查询及文档
-【ok】https://github.com/irisnet/irishub/pull/1672
-【ok】https://github.com/irisnet/irishub/pull/1673
-【ok】https://github.com/irisnet/irishub/pull/1682
-
-[asset] 完善gateway功能、测试和文档
-【ok】https://github.com/irisnet/irishub/pull/1674
-【ok】https://github.com/irisnet/irishub/pull/1683
-【ok】https://github.com/irisnet/irishub/pull/1685
-【ok】https://github.com/irisnet/irishub/pull/1686
-【ok】https://github.com/irisnet/irishub/pull/1688
-
-[asset] 完善token发行和增发功能
-【ok】https://github.com/irisnet/irishub/pull/1680
-【ok】https://github.com/irisnet/irishub/pull/1684
-【ok】https://github.com/irisnet/irishub/pull/1687
-
-[stake] 修复redelegate遗留bug
-【ok】https://github.com/irisnet/irishub/pull/1690
 
 [tendermint] Tendermint追赶或完善
 https://github.com/irisnet/tendermint/pull/66
@@ -46,6 +21,7 @@ https://github.com/irisnet/tendermint/pull/68
 https://github.com/irisnet/tendermint/pull/69
 https://github.com/irisnet/tendermint/pull/70
 https://github.com/irisnet/tendermint/pull/71
+
 https://github.com/irisnet/tendermint/pull/73
 https://github.com/irisnet/tendermint/pull/74
 https://github.com/irisnet/tendermint/pull/75
@@ -56,6 +32,10 @@ https://github.com/irisnet/tendermint/pull/79
 https://github.com/irisnet/tendermint/pull/80
 https://github.com/irisnet/tendermint/pull/81
 
+
+==============================
+
+https://github.com/irisnet/tendermint/pull/70
 
 ==============================
 
