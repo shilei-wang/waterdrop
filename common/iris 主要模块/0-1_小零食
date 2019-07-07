@@ -1,2 +1,8 @@
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 iriscli bank account faa1g2leswktj49r7krq5mzn6lp888zlr4xeltgz6h
+
+
+
+iriscli tendermint tx --trust-node DACB1894082F5E979BC9D965F7652696476767DAA7078764E5F460A684DDA738
+
+1

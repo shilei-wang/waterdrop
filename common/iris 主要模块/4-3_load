@@ -79,15 +79,13 @@ irishub-load 压力测试
     irishub-load init --config-dir=$HOME
 
     linux：（注意虚拟机下设了代理， 所以config中网址要改成localhost）
-    ./irishub-load init --config-dir=$HOME/local （如果复制到了bin里面 直接用irishub-load init --config-dir=$HOME/local）
+    ./irishub-load init --config-dir=$HOME （如果复制到了bin里面 直接用irishub-load init --config-dir=$HOME/local）
 
-    【命令2】先读指定账户私钥， 再生成签名数据(总数=tps*duration*60), wenxi silei haoyang jiacheng
-    irishub-load signtx --config-dir=$HOME/local --tps=100 --duration=1 --account=wenxi
-    irishub-load signtx --config-dir=$HOME/local  --tps=100 --duration=1 --account=wenxi
+    【命令2】先读指定账户私钥， 再生成签名数据(总数=tps*duration*60), user0， user1，user2，user3
+    irishub-load signtx --config-dir=$HOME --tps=1 --duration=1 --account=user0
 
     【命令3】广播签名数据，每次广播tps*interval个交易， 如果在interval完成， 则等待直至interval时间到。
-    irishub-load broadcast --config-dir=$HOME/local --tps=50 --interval=5
-    irishub-load broadcast --config-dir=$HOME/local --tps=50 --interval=5
+    irishub-load broadcast --config-dir=$HOME --tps=5 --interval=5
 
     -- fuxi-8000 --
     chmod 777 irishub-load
