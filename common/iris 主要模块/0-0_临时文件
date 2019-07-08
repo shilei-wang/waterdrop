@@ -1,12 +1,15 @@
 测一下
+https://github.com/irisnet/irishub/issues/1675
 
-broadcast看下， 单机，多机试一下，记录tps等。 文件copy出来。
+测试asset 参数修改
+
+
+单机，多机试一下，记录tps等。 文件copy出来。
 写个例子在readme中。
 
 
 querys 新功能
 proposal 发token，
-
 ---
 从query vote s开始 完成gov
 

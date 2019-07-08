@@ -1,5 +1,4 @@
 ---
-
 注意：验证bug的时候用2个节点验证
 
 其他需要测一下的地方
@@ -41,7 +40,7 @@ iriscli asset issue-token
 ======================
 
 //这里2次输入不能用echo
-iriscli asset issue-token --family=fungible --source=native --symbol-min-alias=alias --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --symbol-min-alias=alias --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
 
 ======================
 修改资产：
@@ -92,7 +91,7 @@ iriscli tendermint tx --trust-node 9A1211EA03289E12D8DF3BD2BC5C19C07285BD3BFF57C
 iriscli asset query-fee
 ======================
 
-iriscli asset query-fee --subject=token --id=a01
+iriscli asset query-fee --token=a01
 
 ======================
 查询token-stats： （燃烧了多少啊 等）
@@ -111,9 +110,7 @@ iriscli asset create-gateway
 3位资产 60万 40%入tax， 60%burn
 ======================
 
-//这里2次输入不能用echo
-iriscli asset create-gateway --moniker=gdex  --identity=abc --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
-
+echo 1234567890 | iriscli asset create-gateway --moniker=gdex  --identity=abc --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
 ======================
 查询网关：
@@ -141,13 +138,7 @@ echo 1234567890 | iriscli asset edit-gateway --moniker=gdex --identity=a --detai
 iriscli asset transfer-gateway-owner
 ======================
 
-//后续只要owner签名即可！
-echo 1234567890 | iriscli asset transfer-gateway-owner --moniker=gdex --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --from=v0 --chain-id=shilei-qa --fee=0.6iris >~/Tx-generate
-
-echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >~/Tx-sign1
-echo 1234567890 | iriscli tx sign ~/Tx-sign1 --name=x --chain-id=shilei-qa >~/Tx-sign2
-echo 1234567890 | iriscli tx broadcast ~/Tx-sign2 --commit
-iriscli tendermint tx --trust-node 857722F78620C4E4C02C5F66F2F60A6EAC9A935DCEBD43E8C0439B55FB78D188
+iriscli asset transfer-gateway-owner --moniker=gdex --to=faa1yg3hltaendpphczma889urzhmd737663fpa5jx --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
     查询： iriscli asset query-gateway --moniker=gdex
 
 ======================
@@ -166,7 +157,7 @@ iriscli asset query-fee --subject=token --id=gde.aah
 是直接发资产费用的 10%
 ======================
 
-iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --symbol-at-source=source --symbol-min-alias=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --symbol-at-source=source --symbol-min-alias=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
 ======================
 查询资产：
