@@ -85,3 +85,15 @@ iriscli gov query-params --trust-node --module=service
     service/SlashFraction=0.0010000000  (0,0.01] (已测0.005)
     service/TxSizeLimit=4000         [2000,4000]   (已测2444)
 
+
+====
+asset: (暂时不支持修改)
+iriscli gov query-params --trust-node --module=asset
+====
+  asset/AssetTaxRate:          0.4000000000
+  asset/IssueTokenBaseFee:     300000000000000000000000iris-atto
+  asset/MintTokenFeeRatio:     0.1000000000
+  asset/CreateGatewayBaseFee:  600000000000000000000000iris-atto
+  asset/GatewayAssetFeeRatio:  0.1000000000
+
+
