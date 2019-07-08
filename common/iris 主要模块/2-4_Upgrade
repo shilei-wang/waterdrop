@@ -15,7 +15,7 @@ everything ok！
 ======================================================================================================
 
 ***********
-reset：（单独reset仅仅用于数据坏了回复一下）
+reset：（单独reset仅仅用于数据坏了恢复一下）
 ***********
 iris reset --height=100 --home=/Users/sherlock/testnet/v0/iris
 
@@ -38,8 +38,11 @@ iris export --home=/Users/sherlock/testnet/v0/iris
 导出当前高度的区块链状态，并且以这个状态启动一条新链
 iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris
 
-必须配合
-iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris 使用
+必须配合 unsafe-reset-all  使用
+iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris
+
+cp genesis.json /Users/sherlock/testnet/v0/iris/config
+iris start --home=/Users/sherlock/testnet/v0/iris
 
 ======================================================================================================
 ======================================================================================================
