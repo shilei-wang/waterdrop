@@ -1,13 +1,8 @@
-改成5人 和吻戏试一下
-
-
 
 测一下
 Export还是存在一些较严重bug, 后续会更仔细测一下。
 https://github.com/irisnet/irishub/issues/1744
 
-单机，多机试一下，记录tps等。 文件copy出来。
-写个例子在readme中。
 
 
 querys 新功能

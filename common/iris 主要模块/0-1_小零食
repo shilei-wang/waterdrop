@@ -1,22 +1,17 @@
-
-{"tx":{"msg":[{"type":"irishub/bank/Send","value":{"inputs":[{"address":"faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju","coins":[{"denom":"iris-atto","amount":"1000000000000000"}]}],"outputs":[{"address":"faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju","coins":[{"denom":"iris-atto","amount":"1000000000000000"}]}]}}],"fee":{"amount":[{"denom":"iris-atto","amount":"5000000000000000000"}],"gas":"20000"},"signatures":[{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"AkQeeR40fJhMFkBmh8e/+jcOGYvMOO50YE4trqzaSJ5v"},"signature":"NQgfRRhQJk+Gw9UaxkWYkX7VQLyZYkIvOyDtOjJ5FWcEmNaK1ITnz11xnHfBaR5mGvuQo6In3RbBRPZtSKIyaw==","account_number":"3","sequence":"360003"}],"memo":""}}
-
-
-
-   go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go c 1
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+iriscli bank account faa1ft9f07k3k28xlswcnu4w4cs3xuq4hlvhyhz567
 
 
-    echo 1234567890 | iriscli bank send --amount=599999980iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 1234567890 | iriscli bank send --amount=599999980iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 
-irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.iriscli/ --trust-node
+【命令1】创建水龙头用户， 读取序列号， 转账*4
+irishub-load init --config-dir=$HOME
 
+【命令2】先读指定账户私钥， 再生成签名数据(总数=tps*duration*60), user0， user1，user2，user3
+irishub-load signtx --config-dir=$HOME --tps=20 --duration=10 --account=user0
 
-    【命令1】创建水龙头用户， 读取序列号， 转账*4
-    irishub-load init --config-dir=$HOME
+【命令3】广播签名数据，每次广播tps*interval个交易， 如果在interval完成， 则等待直至interval时间到。
+irishub-load broadcast --config-dir=$HOME --tps=50 --interval=5
 
-    【命令2】先读指定账户私钥， 再生成签名数据(总数=tps*duration*60), user0， user1，user2，user3
-    irishub-load signtx --config-dir=$HOME --tps=2000 --duration=1 --account=user0
-
-    【命令3】广播签名数据，每次广播tps*interval个交易， 如果在interval完成， 则等待直至interval时间到。
-    irishub-load broadcast --config-dir=$HOME --tps=1500 --interval=5
+irishub-load signtx --config-dir=$HOME --tps=2 --duration=10 --account=user0

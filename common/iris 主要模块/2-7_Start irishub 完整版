@@ -12,17 +12,17 @@ iris start --home=/root/v0
 
 【手动】
 单节点：
-cd ~ && rm -rf .iriscli .iris iris0 iris1
-iris init --home=/root/iris0 --chain-id=shilei-qa --moniker=v0       // 生成genesis.json
-iriscli keys add v0                                                  // 记录 faa1m6w89w6682uxfk63hqlx299l6d25cqgtq37nfp
-iris gentx --name=v0 --home=/root/iris0                              // 生成 gentx
+cd ~ && rm -rf .iriscli .iris v0 v1
+iris init --home=/Users/sherlock/v0 --chain-id=shilei-qa --moniker=v0       // 生成genesis.json
+iriscli keys add v0                                                  // 记录 faa1w3e0x0jhak76cd2s22vp27a55dvhrqq02v0u8q
+iris gentx --name=v0 --home=/Users/sherlock/v0                             // 生成 gentx
 
-gedit /root/iris0/config/genesis.json  [插入字段]
+subl /Users/sherlock/v0/config/genesis.json  [插入字段]
 1)  注意改上面的address！
     "accounts": null, ==>改成
     "accounts": [
        {
-        "address": "faa1m6w89w6682uxfk63hqlx299l6d25cqgtq37nfp",
+        "address": "faa1w3e0x0jhak76cd2s22vp27a55dvhrqq02v0u8q",
         "coins": [
           "150000000000000000000iris-atto"
         ],
@@ -38,10 +38,10 @@ gedit /root/iris0/config/genesis.json  [插入字段]
 3)
     保存退出
 
-iris collect-gentxs --home=/root/iris0
+iris collect-gentxs --home=/Users/sherlock/v0
 [修改]genesis文件，具体参考脚本
-iris start --home=/root/iris0
-[测试] iriscli bank account faa1d2h3zv5fth3fksp4rxqqv3g8st4qpalvmujh7v
+iris start --home=/Users/sherlock/v0
+[测试] iriscli bank account faa1w3e0x0jhak76cd2s22vp27a55dvhrqq02v0u8q
 
 
 
@@ -129,13 +129,4 @@ tail -f /mnt/iris.log
 
 出了问题
 先关闭节点，然后执行unsafe_reset_all，然后修改genesis.json，把chain-id改成iris-stage-2
-
-
-*****************************
-    windows 启动
-*****************************
-rd /s /q c:\.iris && rd /s /q c:\.iriscli
-iris init gen-tx --name=v0 --home=c:\.iris
-iris init --gen-txs --chain-id=shilei-qa -o --home=c:\.iris
-iris start --home=c:\.iris
 

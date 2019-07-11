@@ -22,14 +22,15 @@ git branch && git rev-parse HEAD
     git branch -D shilei/docfix
 
 ----------- 直接在主分支上push
-git checkout -b shilei/doc-keystore-multisig upstream/develop
+git checkout -b shilei/modify-readme upstream/develop
 图形界面 git commit
-git push upstream shilei/doc-keystore-multisig //第一次会创建分支
+git push upstream shilei/modify-readme //第一次会创建分支
 //去网上pr
 
 WIP: Add "json indent" usage and fix the "query output format" of all the docs
 R4R
 R4R: Update `doc/swagger version/version.go` to v0.14.1
+
 
 
 *******************************************
@@ -134,8 +135,8 @@ go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lan
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go nm 1
 ---
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go m 1
-iris start --home=/root/testnet/v0/iris
-iris start --home=/root/testnet/v1/iris
+iris start --home=/Users/sherlock/v0/iris
+iris start --home=/Users/sherlock/v1/iris
 
 
 
@@ -150,6 +151,37 @@ iris start --home=/root/testnet/v1/iris
 rm -rf .iriscli .iris testnet
 iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
 iris start --home=/Users/sherlock/testnet/v0/iris
+
+
+*******************************************
+          用testnet 手动起多节点，并发送给他人，一起起多验证人网络（用于压力测试）
+*******************************************
+
+rm -rf .iriscli .iris testnet
+iris testnet --v=2 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+修改每个genesisi中主账号里面的第一个账户的代币数量。（修改第一个以后复制）
+把testnet压缩后打包，在群里发给多人，各自认领自己的节点。chmod。
+修改 subl /Users/sherlock/testnet/v1/iris/config/config.toml
+persistent_peers = "17bae70c7acd07a086559e0fd510e87bc52b26b6@<这里连接到我本机的ip(ifconfig)，大家都连我>:26656"
+
+各自启动：
+iris start --home=/Users/sherlock/testnet/v0/iris
+iris start --home=/Users/sherlock/testnet/v1/iris
+
+
+*******************************************
+          不用testnet ， 用别人的genesis手动起全节点
+*******************************************
+
+chmod 777 /Users/sherlock/go/bin/iris
+chmod 777 /Users/sherlock/go/bin/iriscli
+
+iris init --chain-id=nyancat  --moniker=v0 --home=/Users/sherlock/v0
+---
+copy genesis
+persistent_peers = "c87675bcaeb72a1f93dbf7d74f7b425690a994e3@10.1.4.5:26656"
+---
+iris start --home=/Users/sherlock/v0
 
 
 
@@ -211,68 +243,6 @@ go build test.go，生成了test的文件; 　
 测试 go verison
 
 
-************************************************
-                linux goland
-************************************************
-见其他存储文档
-
-
-*******************************************
-               编译irishub windows版本
-*******************************************
-cd C:\Go\my_package\src\github.com\irisnet\irishub
-1) Clone with HTTPS  (到C:\go\my_package\src\github.com下)
-    https://github.com/shilei-wang/irishub.git
-
-2) 下载make
-    mingw-get-setup.exe
-    basic setup全部勾选  =》 apply （很慢）
-    打开MinGW的安装目录，打开bin文件夹，将mingw32-make.exe重命名为make.exe。
-    系统变量添加 C:\MinGW\bin
-
-
-3) 更新go到1.11 记得先删除旧的
-
-
-4）设置代理服务
-    1. 先打开windows小飞机 shadowsocks，试一下浏览器google是否能上 （谷歌浏览器——设置——高级——打开代理设置——局域网设置——复制代理服务器地址 里面可以看到具体ip和端口）
-    2. 右键我的电脑->属性->高级->环境变量->系统变量
-     新建2个:    HTTP_proxy  http://127.0.0.1:1080 （shadowsocks默认1080） ,  HTTPS_proxy http://127.0.0.1:1080
-    3. 打开cmd ， 测试 curl www.google.com 和 curl https://www.google.com 是否都可行
-    4. 用完以后可以改成 HTTP_proxy1 关掉， 因为局域网在翻墙的情况下会不能用
-
-5）用goland打开irishub 打开命令行 （测试 curl www.google.com ， curl https://www.google.com 之前不要打开goland，否则需要全部重新打开）
-    1. make get_tools （不用每次执行 src下有dep就行）
-        提示：
-        ---
-        make[1]: Entering directory 'C:/Go/my_package/src/github.com/irishub/deps_tools'
-        "Installing dep"
-        go get -v github.com/golang/dep/cmd/dep
-        github.com/golang/dep (download)
-        ---
-
-    2.（先要自己手动删除vendor文件夹 make get_vendor_deps 这个命令再windows下不能用）
-       dep ensure -v  (这步很重要， 成功以后会出现vendor 加v打印细节)
-        dep ensure -v -vendor-only??
-
-        3. make install
-       3个文件在 C:\go\my_package\bin中
-
-
-*******************************************
-             mac/linux  编译windows版本
-*******************************************
-在makefile中家加入以下部分，执行 source scripts/setTestEnv.sh ， make build_windows， 文件在build文件夹中
-
-build_windows:
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iris.exe ./cmd/iris && \
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iriscli.exe ./cmd/iriscli && \
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build $(BUILD_FLAGS) -o build/irislcd.exe ./cmd/irislcd && \
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iristool.exe ./cmd/iristool
-
-
-iriscli bank account faa1fku736z7vavl27he6sqqz5quztal002sagy0t3 --node=http://10.1.2.168:26657
-
 *******************************************
              linux  编译mac版本 (编译后复制到mac上 需要先运行 chmod -r 777 iriscli)
 *******************************************
@@ -290,6 +260,7 @@ cd /Users/sherlock/go/src/github.com/irishub
 make build_linux
 生成目录：
 /Users/sherlock/go/src/github.com/irishub/build
+
 
 *******************************************
      改version需要做的事
