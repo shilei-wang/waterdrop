@@ -78,6 +78,14 @@ git branch && git rev-parse HEAD
     git reset --hard e2456542a43528912207ec57113b9faeefa8bc82
     git branch && git rev-parse HEAD
 
+    === 某个 分支 ：  ==== // 96abe0f591fb56194b7ffc476f1d9f3957f49e7c
+    cd /Users/sherlock/go/src/github.com/irishub
+    git fetch --all
+    git checkout .
+    git checkout -b gov/refactor upstream/gov/refactor
+    git branch && git rev-parse HEAD
+
+
     //删除
     git checkout master
     git branch -D v0.14.4
@@ -158,7 +166,7 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 *******************************************
 
 rm -rf .iriscli .iris testnet
-iris testnet --v=2 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+iris testnet --v=2 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
 修改每个genesisi中主账号里面的第一个账户的代币数量。（修改第一个以后复制）
 把testnet压缩后打包，在群里发给多人，各自认领自己的节点。chmod。
 修改 subl /Users/sherlock/testnet/v1/iris/config/config.toml

@@ -100,12 +100,12 @@ iriscli gov query-proposal --trust-node --proposal-id=9
 所有的gov的类型、参数的统计
 
 ******************************
-1） type="TxTaxUsage"
+1） type="CommunityTaxUsage"
 // tax使用提议
 ******************************
 
 例子：
-iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --description=t --title=t --percent=0.0000000001 --type="TxTaxUsage"  --usage="Burn" --deposit=1000iris
+iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --description=t --title=t --percent=0.0000000001 --type="CommunityTaxUsage"  --usage="Burn" --deposit=1000iris
 
 参数：
 --usage="Burn" （销毁）

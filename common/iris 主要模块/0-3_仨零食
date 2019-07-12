@@ -21,6 +21,20 @@ Message: "Proposal Desciption??? '' is not valid"
 ===================
 ===================
 ===================
+
+ iriscli gov query-proposals --limit=1
+ ERROR: ABCIQuery: Response error: RPC error -32603 - Internal error: runtime error: invalid memory address or nil pointer dereference
+
+ =============
+
+echo 1234567890 | iriscli gov submit-proposal --trust-node --title=test --description=test --type=SystemHalt  --deposit=4000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa
+
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=1
+
+iriscli gov query-proposal --trust-node --proposal-id=1
+
+
+
 ===================
 ===================
 ===================

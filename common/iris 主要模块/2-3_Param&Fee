@@ -44,10 +44,6 @@ iriscli gov query-params --trust-node --module=stake
     stake/UnbondingTime=504h0m0s  [2weeks, )  (已测 默认3周)
 
 
-
-    Inflation
-
-
 ====
 slashing:
 iriscli gov query-params --trust-node --module=slashing

@@ -1,3 +1,5 @@
+gov最后upgrade测一下，弄一个压测的简单表格
+
 
 测一下
 Export还是存在一些较严重bug, 后续会更仔细测一下。
@@ -135,7 +137,7 @@ asset基本功能测试已经完成，后续会做一些探索性测试，确保
 
 第三部分bugs，共计发现5处缺陷（主要是lcd这块）。
 
-[p0] Sending native tokens to <commulity_tax_add> and initiate a "TxTaxUsage/Burn" proposal causes CONSENSUS FAILURE!
+[p0] Sending native tokens to <commulity_tax_add> and initiate a "CommunityTaxUsage/Burn" proposal causes CONSENSUS FAILURE!
 https://github.com/irisnet/irishub/issues/1654
 
 [p1] "GET /asset/tokens" doesn't work due to the bug-fix of #1625

@@ -16,8 +16,10 @@ b763cdae53b02a41a205c742da0590779726ae49 （目前这个hash可用，后续重�
 
 2. 使用
     0。编译linux版本 //这个暂时用不到了
-    linux 下： CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go
+    linux 下： CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go [整条复制]
     生成main 文件在main.go 文件夹下 ，改名字irishub-load(大约30m)
+    mv main irishub-load
+    mv irishub-load ~
 
     1. 打开xshell， 新建， 主机：35.189.50.37  用户身份验证：ubuntu 密码：fuxi05
     系统的主路径：/home/ubuntu/
@@ -81,12 +83,8 @@ b763cdae53b02a41a205c742da0590779726ae49 （目前这个hash可用，后续重�
     【命令2】先读指定账户私钥， 再生成签名数据(总数=tps*duration*60), user0， user1，user2，user3
     irishub-load signtx --config-dir=$HOME --tps=1 --duration=1 --account=user0
 
-    【命令3】广播签名数据，每次广播tps*interval个交易， 如果在interval完成， 则等待直至interval时间到。
-    irishub-load broadcast --config-dir=$HOME --tps=5 --interval=5
-
-    -- fuxi-8000 --
-    chmod 777 irishub-load
-    irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=fuxi-8000 --home=$HOME/.iriscli/ --trust-node
+    【命令3】广播签名数据，每秒广播tps个交易， 如果在1s时间段完成， 则sleep直到1s时间结束，
+    irishub-load broadcast --config-dir=$HOME --tps=20
 
     5. 监控
     最新块
@@ -102,3 +100,68 @@ b763cdae53b02a41a205c742da0590779726ae49 （目前这个hash可用，后续重�
 
 
 
+******************************************
+压力测试 云服务器
+******************************************
+
+--- 1 ：本地先用testnet先起5个节点 ---
+
+rm -rf .iriscli .iris testnet
+iris testnet --v=5 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
+修改每个genesisi中主账号里面的第一个账户的代币数量。（修改第一个以后复制）
+把testnet压缩后打包给运维（运维根据每个人ip，修改persistent_peers），再在群里把testnet发给多人，各自认领自己的节点。chmod。
+修改 subl /Users/sherlock/testnet/v1/iris/config/config.toml
+persistent_peers = "17bae70c7acd07a086559e0fd510e87bc52b26b6@<这里连接到我本机的ip(ifconfig)，大家都连我>:26656"
+
+例子："27eb4b650ba776b1f302ef804bcf4c2df2360850@35.239.142.129:26656,2768d5c9259e665c7f0f34f2fb28a411d917797b@34.80.218.185:26656,8b2d34ee5c6a5cf7faceb1d37527be0aec970986@34.92.190.85:26656,97412d786d564492730ac98f60e58a58010c7c5e@35.246.0.172:26656,e8a6fa20eb1d63f86ceb91496221cf49545e6b59@35.197.22.79:26656"
+
+--- 2 ：连接服务器 ---
+
+先关闭服务器上原有iris：
+ps -ef|grep iris
+sudo kill -9 [PID]
+
+ssh shilei@34.80.218.185 （yes ， 密码：123456， 退出 exit）
+
+1) 上传文件到云服务器 （需要事先准备linux版本iris，记得要编译最新的linux版本，方法见 1-3 "mac 编译linux"）
+//上传linux版本iris
+scp ~/iris shilei@34.80.218.185:/home/shilei
+scp ~/iriscli shilei@34.80.218.185:/home/shilei
+scp ~/irislcd shilei@34.80.218.185:/home/shilei
+
+scp ~/config.json shilei@34.80.218.185:/home/shilei
+scp ~/irishub-load shilei@34.80.218.185:/home/shilei
+
+scp -r ~/testnet shilei@34.80.218.185:/home/shilei
+
+sudo mv iris /usr/local/bin/
+sudo mv iriscli /usr/local/bin/
+sudo mv irislcd /usr/local/bin/
+sudo mv irishub-load /usr/local/bin/
+
+2）启动iris
+iris start --home=/home/shilei/testnet/v4/iris > /home/shilei/iris.log &
+tail -f /home/shilei/iris.log
+
+3）转账
+3.1 把第一个账户的钱转到faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+iriscli keys add x --recover  (seed在v0/iriscli中)
+echo 1234567890 | iriscli bank send --amount=599999980iris --fee=0.4iris --commit --chain-id=shilei-qa --from=x --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --commit
+
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+--- 3 ：运行 ---
+1）启动lcd
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=nyancat --home=$HOME/.iriscli/ --trust-node
+
+2） 【命令1】创建水龙头用户， 读取序列号， 转账*5
+    irishub-load init --config-dir=$HOME
+
+    【命令2】先读指定账户私钥， 再生成签名数据(总数=tps*duration*60), user0， user1，user2，user3，user4
+    irishub-load signtx --config-dir=$HOME --tps=1 --duration=1 --account=user0
+
+    【命令3】广播
+    irishub-load broadcast --config-dir=$HOME --tps=2
+
+3）观察 lcd返回200就正常， 一般最大tps300左右
