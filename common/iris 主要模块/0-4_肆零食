@@ -14,22 +14,7 @@
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 
-[tendermint] Tendermint追赶或完善
-https://github.com/irisnet/tendermint/pull/66
-https://github.com/irisnet/tendermint/pull/68
-https://github.com/irisnet/tendermint/pull/69
-https://github.com/irisnet/tendermint/pull/70
-https://github.com/irisnet/tendermint/pull/71
 
-https://github.com/irisnet/tendermint/pull/73
-https://github.com/irisnet/tendermint/pull/74
-https://github.com/irisnet/tendermint/pull/75
-https://github.com/irisnet/tendermint/pull/76
-https://github.com/irisnet/tendermint/pull/77
-https://github.com/irisnet/tendermint/pull/78
-https://github.com/irisnet/tendermint/pull/79
-https://github.com/irisnet/tendermint/pull/80
-https://github.com/irisnet/tendermint/pull/81
 
 
 ==============================
@@ -65,8 +50,3 @@ iriscli asset query-tokens --owner=<address>
 
 
 ==============================
-
-5个节点（Google Cloud服务器），5个LCD服务进程，5个并发压测进程分别通过5个LCD进程向网络中广播事先签好名的转账交易，持续335秒，平均tps 291.53，峰值tps 709.95
-
-
-相关参数：出块时间5s，块最大容量200MB，Tx最大长度1000B，Mempool最大容量5000个

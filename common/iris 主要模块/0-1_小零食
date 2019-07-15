@@ -4,29 +4,24 @@ iriscli bank account faa1g58n3l2l9vsqegdd7f9q0tr2khu68uw7074l5e
 
 iriscli gov submit-proposal -h
 
-PlainText/ParameterChange/SoftwareUpgrade/SystemHalt/CommunityTaxUsage/TokenAddition
+PlainText/ParameterChange//CommunityTaxUsage/TokenAddition
 
 
-----
-PlainText
+iriscli upgrade query-signals
 
-echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.5iris --commit --description='description' --title='title' --type=PlainText --deposit=1000iris
 
-iriscli gov query-proposal --trust-node --proposal-id=1
+iriscli upgrade info --trust-node
 
-echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=1
+-----
 
-iriscli gov query-vote   --voter=faa1g58n3l2l9vsqegdd7f9q0tr2khu68uw7074l5e --chain-id=shilei-qa --proposal-id=1
 
-iriscli gov query-votes     --proposal-id=1
-
-iriscli gov query-proposal --trust-node --proposal-id=1
+SoftwareUpgrade/SystemHalt
 
 
 ---- 最后测 ----
 SoftwareUpgrade
 
 
-echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=SoftwareUpgrade --deposit=1000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --software=https://github.com/irisnet/irishub/tree/v0.12.0 --version=1 --switch-height=50
+echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=SoftwareUpgrade --deposit=2000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --software=https://github.com/irisnet/irishub/tree/v0.12.0 --version=2 --switch-height=50000
 
 echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=2

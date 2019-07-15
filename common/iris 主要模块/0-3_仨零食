@@ -34,6 +34,14 @@ echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=
 iriscli gov query-proposal --trust-node --proposal-id=1
 
 
+=====
+nil
+
+iriscli upgrade info --trust-node
+Upgrade Info:
+  Current Version[success]:  proposalID: 0, version: 1, software: https://github.com/irisnet/irishub/releases/tag/v0.15.0-rc1, height: 1, threshold: 0.9000000000
+  Last Failed Version:  0
+  Upgrade In Progress:  proposalID: 0, version: 0, software: , height: 0, threshold: 0.00000<nil>
 
 ===================
 ===================
@@ -61,3 +69,17 @@ irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id
 
     【命令3】广播签名数据，每次广播tps*interval个交易， 如果在interval完成， 则等待直至interval时间到。
     irishub-load broadcast --config-dir=$HOME --tps=1500 --interval=5
+
+
+压力测试结果汇总
+
+测试条件：5个validators
+
+| 设定tps      | 实际tps | 持续时间 | 设定出块间隔 |
+| --------------- | -----  | ------- |  ------- |
+| 5节点*40=200 | 200    |  5分钟  |   5秒     |
+| 5节点*60=300 | 300    |  2分钟  |   5秒     |
+| 5节点*80=400 | 305    |  1分钟  |   5秒     |
+| 5节点*80=400 | 343    |  1分钟  |   2秒     |
+| 5节点*100=500| 264    |  1分钟  |   2秒     |
+
