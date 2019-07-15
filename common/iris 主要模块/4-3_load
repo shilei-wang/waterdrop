@@ -1,6 +1,17 @@
 ******************************************
 irishub-load 压力测试
 b763cdae53b02a41a205c742da0590779726ae49 （目前这个hash可用，后续重构了）
+
+
+cd /Users/sherlock/go/src/github.com/irishub
+git checkout .
+git reset --hard b763cdae53b02a41a205c742da0590779726ae49
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go mg
+source scripts/setTestEnv.sh
+make install
+
+
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go c 1
 ******************************************
 
 1. 安装

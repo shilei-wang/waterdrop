@@ -17,9 +17,27 @@ Message: "Proposal Desciption??? '' is not valid"
 --
 
 
+===================
+check 合法性
+echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=TokenAddition --deposit=2000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --token-symbol-min-alias=alias --token-symbol-at-source=source --token-name=token-name --token-initial-supply=10000 --token-decimal=0 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --token-symbol=a.a.a.
+===================
+
+
+echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=TokenAddition --deposit=2000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --token-symbol-min-alias=alias --token-symbol-at-source=source --token-name=token-name --token-initial-supply=10000 --token-decimal=0 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --token-symbol=a.a.a.
+
 
 ===================
+
+iriscli bank token-stats x.a01 -o=json --indent
+ERROR: {"codespace":"sdk","code":6,"message":"unknown token id"}
+
+
 ===================
+
+不应该修改 native token 的--symbol-at-source=sa33t1
+echo 1234567890 | iriscli asset edit-token a02 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --name=nn1 --symbol-at-source=sa33t1 --symbol-min-alias=sma1 --mintable=true --max-supply=20001
+
+
 ===================
 
  iriscli gov query-proposals --limit=1
@@ -50,6 +68,12 @@ Upgrade Info:
 
 {"tx":{"msg":[{"type":"irishub/bank/Send","value":{"inputs":[{"address":"faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju","coins":[{"denom":"iris-atto","amount":"1000000000000000"}]}],"outputs":[{"address":"faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju","coins":[{"denom":"iris-atto","amount":"1000000000000000"}]}]}}],"fee":{"amount":[{"denom":"iris-atto","amount":"5000000000000000000"}],"gas":"20000"},"signatures":[{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"AkQeeR40fJhMFkBmh8e/+jcOGYvMOO50YE4trqzaSJ5v"},"signature":"NQgfRRhQJk+Gw9UaxkWYkX7VQLyZYkIvOyDtOjJ5FWcEmNaK1ITnz11xnHfBaR5mGvuQo6In3RbBRPZtSKIyaw==","account_number":"3","sequence":"360003"}],"memo":""}}
 
+cd /Users/sherlock/go/src/github.com/irishub
+git checkout .
+git reset --hard b763cdae53b02a41a205c742da0590779726ae49
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go mg
+source scripts/setTestEnv.sh
+make install
 
 
    go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go c 1
@@ -65,10 +89,10 @@ irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id
     irishub-load init --config-dir=$HOME
 
     【命令2】先读指定账户私钥， 再生成签名数据(总数=tps*duration*60), user0， user1，user2，user3
-    irishub-load signtx --config-dir=$HOME --tps=2000 --duration=1 --account=user0
+    irishub-load signtx --config-dir=$HOME --tps=50 --duration=1 --account=user1
 
     【命令3】广播签名数据，每次广播tps*interval个交易， 如果在interval完成， 则等待直至interval时间到。
-    irishub-load broadcast --config-dir=$HOME --tps=1500 --interval=5
+    irishub-load broadcast --config-dir=$HOME --tps=500
 
 
 压力测试结果汇总
