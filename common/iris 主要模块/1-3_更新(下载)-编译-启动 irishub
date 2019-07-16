@@ -71,11 +71,11 @@ git branch && git rev-parse HEAD
     // git merge v0.14.4
     git branch && git rev-parse HEAD
 
-    === 某个 hash ：  ==== // 96abe0f591fb56194b7ffc476f1d9f3957f49e7c
+    === 某个 hash ：  ==== // 4fb6dcff48a9823cd3be782895eb4acafdfe5fc8
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    git reset --hard e2456542a43528912207ec57113b9faeefa8bc82
+    git reset --hard 4fb6dcff48a9823cd3be782895eb4acafdfe5fc8
     git branch && git rev-parse HEAD
 
     === 某个 分支 ：  ==== // 96abe0f591fb56194b7ffc476f1d9f3957f49e7c
@@ -122,8 +122,6 @@ go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lan
 
 source scripts/setTestEnv.sh
 
-
-
 3) 编译 irishub
 cd /Users/sherlock/go/src/github.com/irishub
 
@@ -138,8 +136,10 @@ git branch && git rev-parse HEAD
 *******************************************
                启动 irishub
 
-go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 2
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go c 1
+
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 2
+
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go nm 1
 ---
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go m 1
