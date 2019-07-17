@@ -1,13 +1,10 @@
 
+
 查询全部资产
 修改参数
 
 提测？？
 
-
-
-querys 新功能
-proposal 发token，
 ---
 从query vote s开始 完成gov
 
@@ -16,86 +13,46 @@ proposal 发token，
 =========================================================
 早点睡
 
-************************
-找一个周末：
-************************
-    淘宝还是看一下，6个月
-    咸鱼卖电脑
-    考完科目三 车后面垫子铺一下
+淘宝还是看一下，6个月
+咸鱼卖电脑
+考完科目三 车后面垫子铺一下
 
-    -------
-    查询一下 能不能买962269
 
 
 =========================================================
 工作
 =========================================================
-lcd submit propodal里面有bug 修复后加上
-
-
 文档
 iriscli distribution community-tax 文档里去掉*2
+
+
 整理一个触发收益取回的表格
 增加asset lcd
 
 1.改下lcd进度
 
-1）error code
-
+1） error code
 2） rest 自动化 ：stake delegations
 
 
-
 写lcd测试,需要补得项目:
-1)280那个改回来 submit proposal 1024
-2)stake完成后补 dist-withdraw reward 809
+1) 280那个改回来 submit proposal 1024
+2) stake完成后补 dist-withdraw reward 809
 3）text proposal
-
-
 
 其他：
 cmd 不定参数挖掘
 
-/stake/delegators/{delegatorAddr}/delegations/{validatorAddr} 删掉？？？ 忘记了
 
 
-ParameterChange格式
-{
-  "base_tx": {
-    "name": "node0",
-    "password": "1234567890",
-    "chain_id": "shilei-qa",
-    "account_number": "0",
-    "sequence": "2",
-    "gas": "20000",
-    "fee": "0.4iris",
-    "gas_adjustment": "1.2"
-    "memo": "memoaad"
-  },
-"recipient": "faa1r93p0tpdlxgpac744rghvj9kqntvd54lc3msk2",
-  "amount": "1iris"
-}
-
-
-验证：
-
-
-=========================================================
-旅游
-=========================================================
-
-
-
-=========================================================
+**************************************
 BTC
-=========================================================
+**************************************
 最好的策略就是少交易， 铆钉一个点，需要耐心
 市场波动大的时候要看下新闻 有暴跌预警的！长记性！
 
 
-**************************************
-        其他生活
-**************************************
+
 
 **************************************
         桐 （神770 刺*2）
@@ -104,7 +61,6 @@ BTC
 威夷夏 （38 90%煤吞）（35 60%）（23备用）（27狗) (---28，68)
 海碧中（老）， 汤汇悦（新）
 
-=========================================================
 
 
 **************************************
@@ -122,31 +78,3 @@ https://github.com/irisnet/irishub/issues/1578
 
 [p2] Refactor 'AccAddress' causes the query of 'distribution community-tax' unavailable
 https://github.com/irisnet/irishub/issues/1577
-
-
-详细测试报告:
-http://wiki.bianjie.ai/pages/viewpage.action?pageId=10322725
-
-**************************************
-**************************************
-
-v0.15.0-dev 第5次提测
-
-asset基本功能测试已经完成，后续会做一些探索性测试，确保新的模块不会对既有的模块产生冲突。
-
-第三部分bugs，共计发现5处缺陷（主要是lcd这块）。
-
-[p0] Sending native tokens to <commulity_tax_add> and initiate a "CommunityTaxUsage/Burn" proposal causes CONSENSUS FAILURE!
-https://github.com/irisnet/irishub/issues/1654
-
-[p1] "GET /asset/tokens" doesn't work due to the bug-fix of #1625
-https://github.com/irisnet/irishub/issues/1656
-
-[p2] The query of gateway with specified owner("GET /asset/gateways?owner=") returns total gateways.
-https://github.com/irisnet/irishub/issues/1657
-
-[p2] Lack of "GET asset/fees/gateways" and "GET asset/fees/tokens" in IRISLCD Swagger-UI
-https://github.com/irisnet/irishub/issues/1655
-
-[p3] The return of query empty gateway sets (GET /asset/gateways) is incorrect.
-https://github.com/irisnet/irishub/issues/1659
