@@ -1,0 +1,24 @@
+查询全部资产：
+
+```bash
+iriscli asset query-tokens
+```
+
+查询全部 native 资产：
+
+```bash
+iriscli asset query-tokens --source=native
+```
+
+查询名为 "cats" 的网关的全部资产：
+
+```bash
+iriscli asset query-tokens --gateway=cats
+```
+
+查询指定 owner 的全部资产：
+
+```bash
+iriscli asset query-tokens --owner=<address>
+
+
