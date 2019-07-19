@@ -48,7 +48,7 @@ iriscli asset edit-token
 max-supply 只能往下改不能往上改， 且不能低于当时的total supply
 ======================
 
-echo 1234567890 | iriscli asset edit-token a01 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --name=nn1 --symbol-at-source=sat1 --symbol-min-alias=sma1 --mintable=true --max-supply=20001
+echo 1234567890 | iriscli asset edit-token a01 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --name=nn1 --symbol-at-source=sat1 --symbol-min-alias=sma1 --mintable=true --max-supply=50001
 
 
 ======================
@@ -70,6 +70,21 @@ iriscli bank account faa1l46jua9eyrg3uaaf8rwup2snq07ew02t0rwlkn
 
 备注：
 lcd 可以通过多条件查询token， 但是需要在toml文件中开启index
+
+======================
+查询全部资产：
+iriscli asset query-tokens
+======================
+iriscli asset query-tokens
+
+查询全部 native 资产：
+iriscli asset query-tokens --source=native
+
+查询名为 "gdex" 的网关的全部资产：
+iriscli asset query-tokens --gateway=gdex
+
+查询指定 owner 的全部资产：(gateway资产不会被查询)
+iriscli asset query-tokens --owner=faa1av0pstz30a55vlfcd64k0z7la5dxkglruavqmg
 
 
 ======================

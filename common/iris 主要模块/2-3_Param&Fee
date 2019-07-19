@@ -22,31 +22,27 @@ makefile 12行 改mainnet 重新编译
     iriscli gov query-proposal --trust-node --proposal-id=1
 
 ====
-bank:
-iriscli gov query-params --trust-node --module=auth
+iriscli params
+iriscli params
 ====
-    auth/gasPriceThreshold=20000000000    (0,1iris] (已测生效1， --fee=200iris-femto)
-    auth/txSizeLimit=1000                  [500,1500] (已测500)
+整体查询， gov参数不可修改
 
 
 ====
-mint:
-iriscli gov query-params --trust-node --module=mint
+service:
+iriscli params --module=service
 ====
-mint/Inflation=1.0
-
-
-====
-stake:
-iriscli gov query-params --trust-node --module=stake
-====
-    stake/MaxValidators=100      [100,200] (已测2)
-    stake/UnbondingTime=504h0m0s  [2weeks, )  (已测 默认3周)
-
+    service/ArbitrationTimeLimit=120h0m0s    [5days,) (已测25)
+    service/ComplaintRetrospect=360h0m0s     [15days,) (已测25)
+    service/MaxRequestTimeout=20     [20,) (已测25)
+    service/MinDepositMultiple=10  [500,5000] (已测500)
+    service/ServiceFeeTax=0.0100000000  (0,0.2] (已测0.2)
+    service/SlashFraction=0.0010000000  (0,0.01] (已测0.005)
+    service/TxSizeLimit=4000         [2000,4000]   (已测2444)
 
 ====
 slashing:
-iriscli gov query-params --trust-node --module=slashing
+iriscli params --module=slashing
 ====
     slashing/CensorshipJailDuration=168h0m0s   (0, 4weeks =>672hrs， 不对区块做validateTx检查)
     slashing/DoubleSignJailDuration=120h0m0s   （暂时不测）
@@ -60,36 +56,54 @@ iriscli gov query-params --trust-node --module=slashing
 
 
 ====
+asset:
+iriscli params --module=asset
+====
+asset/AssetTaxRate:          0.4000000000
+asset/IssueTokenBaseFee:     300000000000000000000000iris-atto
+asset/MintTokenFeeRatio:     0.1000000000
+asset/CreateGatewayBaseFee:  600000000000000000000000iris-atto
+asset/GatewayAssetFeeRatio:  0.1000000000
+
+====
+mint:
+iriscli params --module=mint
+====
+mint/Inflation=1.0
+
+
+====
 distribution:
-iriscli gov query-params --trust-node --module=distr
+iriscli params --module=distr
 ====
     distr/BaseProposerReward=0.0100000000   （暂时不测, 过于麻烦，有log后再测）
     distr/BonusProposerReward=0.0400000000  （暂时不测）
     distr/CommunityTax=0.0200000000         （暂时不测）
 
 
-
 ====
-service:
-iriscli gov query-params --trust-node --module=service
+bank:
+iriscli params --module=auth
 ====
-    service/ArbitrationTimeLimit=120h0m0s    [5days,) (已测25)
-    service/ComplaintRetrospect=360h0m0s     [15days,) (已测25)
-    service/MaxRequestTimeout=20     [20,) (已测25)
-    service/MinDepositMultiple=10  [500,5000] (已测500)
-    service/ServiceFeeTax=0.0100000000  (0,0.2] (已测0.2)
-    service/SlashFraction=0.0010000000  (0,0.01] (已测0.005)
-    service/TxSizeLimit=4000         [2000,4000]   (已测2444)
+    auth/gasPriceThreshold=20000000000    (0,1iris] (已测生效1， --fee=200iris-femto)
+    auth/txSizeLimit=1000                  [500,1500] (已测500)
 
 
 ====
-asset: (暂时不支持修改)
-iriscli gov query-params --trust-node --module=asset
+stake:
+iriscli params --module=stake
 ====
-  asset/AssetTaxRate:          0.4000000000
-  asset/IssueTokenBaseFee:     300000000000000000000000iris-atto
-  asset/MintTokenFeeRatio:     0.1000000000
-  asset/CreateGatewayBaseFee:  600000000000000000000000iris-atto
-  asset/GatewayAssetFeeRatio:  0.1000000000
+    stake/MaxValidators=100      [100,200] (已测2)
+    stake/UnbondingTime=504h0m0s  [2weeks, )  (已测 默认3周)
+
+
+
+
+
+
+
+
+
+
 
 

@@ -342,3 +342,22 @@ iriscli tx multisign --chain-id=shilei-qa Tx-generate.json x1 Tx-sign-v0.json Tx
 6）广播签名
 iriscli tx broadcast Tx-signed.json --commit
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+*******************************************
+    测试coinflow
+*******************************************
+暂停链
+subl /Users/sherlock/testnet/v0/iris/config/iris.toml
+track_coin_flow = true
+起链
+
+*******************************************
+    测试prometheus
+*******************************************
+暂停链
+subl /Users/sherlock/testnet/v0/iris/config/config.toml
+prometheus = true
+起链
+
+http://localhost:26660/
