@@ -27,7 +27,7 @@ burn:
 iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
 
 iriscli keys show v0
-iriscli bank account faa1nf82jwth9228ga2tmd7slgseny6vz070phg2ep
+iriscli bank account faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5
 
 echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
@@ -40,7 +40,7 @@ iriscli asset issue-token
 ======================
 
 //这里2次输入不能用echo
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --symbol-min-alias=alias --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --canonical-symbol=alias --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
 
 ======================
 修改资产：
@@ -48,7 +48,7 @@ iriscli asset edit-token
 max-supply 只能往下改不能往上改， 且不能低于当时的total supply
 ======================
 
-echo 1234567890 | iriscli asset edit-token a01 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --name=nn1 --symbol-at-source=sat1 --symbol-min-alias=sma1 --mintable=true --max-supply=50001
+echo 1234567890 | iriscli asset edit-token a01 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --name=nn1 --symbol-at-source=sat1 --canonical-symbol=sma1 --mintable=true --max-supply=50001
 
 
 ======================
@@ -176,7 +176,7 @@ iriscli asset query-fee --token=gde.aah
 是直接发资产费用的 10%
 ======================
 
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --symbol-at-source=source --symbol-min-alias=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --symbol-at-source=source --canonical-symbol=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
 ======================
 查询资产：
@@ -198,7 +198,7 @@ echo 1234567890 | iriscli bank send --amount=100gdexx.g01 --fee=0.4iris --commit
                 因为暂时没有币，所以只有定义可以测
 ****************************************************************************************
 
-echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=TokenAddition --deposit=2000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --token-symbol-min-alias=alias --token-symbol-at-source=source --token-name=token-name --token-initial-supply=10000 --token-decimal=0 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --token-symbol=a01
+echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=TokenAddition --deposit=2000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --token-min-unit-alias=alias --token-canonical-symbol=source --token-name=token-name --token-initial-supply=10000 --token-decimal=0 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --token-symbol=a01
 
 echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=1
 

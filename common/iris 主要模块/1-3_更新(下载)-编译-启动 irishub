@@ -9,22 +9,22 @@ github工具>file>clone repository>url>clone
 repository>open in terminal:
 git remote add upstream https://github.com/irisnet/irishub.git
 git fetch --all
-git checkout -b shilei/docfix upstream/develop
+git checkout -b shilei/multisign-doc-update upstream/develop
 git branch && git rev-parse HEAD
 关闭后可以看到 图形界面的Branch 已经更新到了shilei/docfix
 
     其他：
-    git checkout -b shilei/docfix upstream/develop
+    git checkout -b shilei/multisign-doc-update upstream/develop
     git checkout shilei/docfix-software
     git branch && git rev-parse HEAD
 
     git checkout master
-    git branch -D shilei/docfix
+    git branch -D shilei/multisign-doc
 
 ----------- 直接在主分支上push
-git checkout -b shilei/modify-readme upstream/develop
+git checkout -b shilei/multisign-doc-update upstream/develop
 图形界面 git commit
-git push upstream shilei/modify-readme //第一次会创建分支
+git push upstream shilei/multisign-doc-update //第一次会创建分支
 //去网上pr
 
 WIP: Add "json indent" usage and fix the "query output format" of all the docs

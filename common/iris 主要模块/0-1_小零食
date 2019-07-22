@@ -1,0 +1,13 @@
+{
+  "base_tx": {
+    "chain_id": "shilei-qa",
+    "account_number": "0",
+    "sequence": "0",
+    "gas": "20000",
+    "fee": "0.4iris",
+    "gas_adjustment": "1.2",
+    "memo": "memo"
+  },
+  "recipient": "faa1khzenectrqnvwcu5zgr2epdmwe0h0jc6dlfc5s",
+  "amount": "1iris"
+}

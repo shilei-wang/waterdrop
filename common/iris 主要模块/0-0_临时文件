@@ -1,9 +1,15 @@
-完成了第九次测试 和bug提交
+修改了文档  验证了bug
+====
+先把紧急的 大家常用的 error message 整理一下吧
 
-开始api兼容性测试并更新docs/light-client/README.md
 
-[lcd] post需要重新测
+post需要重新测，开始api兼容性测试并更新docs/light-client/README.md
+
+
 ---
+
+
+
 从query vote s开始 完成gov
 
 =========================================================
