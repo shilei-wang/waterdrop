@@ -28,9 +28,14 @@
 ============== raw bug ================
 ============== raw bug ================
 
-
+PUT
+/asset/tokens/{id}
+Edit token information  (有问题 签名过不去)  [注意cli段也要测一下]
 
 ===================
+valid value of "proposal_type" can be "PlainText", "ParameterChange", "SoftwareUpgrade","SystemHalt","CommunityTaxUsage",TokenAddition
+
+
 ===================
 ===================
 ===================

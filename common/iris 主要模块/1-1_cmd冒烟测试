@@ -93,7 +93,7 @@ iriscli bank coin-type iris
 iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547 --generate-only >~/Tx-generate
 
 4.2  签名
-iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >~/Tx-sign
+echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >~/Tx-sign
 
 4.3  广播
 [查账]iriscli bank account faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547
@@ -463,6 +463,7 @@ iriscli service refund-deposit --chain-id=shilei-qa --def-chain-id=shilei-qa --f
 10. [交易] 服务调用 (要改provider ，返回request id)
 // iriscli keys show v0
 // 注意 request-data 必须是双位
+// request需要 16进制 1-0 a-f ,error_msg也是
 echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --bind-chain-id=shilei-qa --def-chain-id=shilei-qa --service-name=001  --method-id=1 --provider=faa1rqexxw5md3awqly7m34a20g05f05pc26qgy2yj --service-fee=1iris --request-data="Abcd"
 
 --

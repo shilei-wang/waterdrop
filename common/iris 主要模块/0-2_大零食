@@ -1,0 +1,41 @@
+
+faa1fcy67k2y5thzjx6r3ds8wd2rfhcw9w7y4pjsue
+
+fva1fcy67k2y5thzjx6r3ds8wd2rfhcw9w7yqsclp7
+
+faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+{
+  "base_tx": {
+    "chain_id": "shilei-qa",
+    "gas": "20000",
+    "fee": "0.4iris",
+    "memo": "memo"
+  },
+  "voter": "faa1fcy67k2y5thzjx6r3ds8wd2rfhcw9w7y4pjsue",
+  "option": "Yes"
+}
+
+
+echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --description=t --title=t --usage="Burn" --percent=0.0000000001 --type="CommunityTaxUsage"  --deposit=990iris
+
+
+iriscli gov query-proposal --trust-node --proposal-id=8
+
+iriscli service definition --def-chain-id=shilei-qa --service-name=001
+iriscli service bindings --def-chain-id=shilei-qa --service-name=001
+
+
+1999793039.190475195294117647iris
+1999793043.041235195294117647iris
+
+
+
+iriscli asset query-token a01
+
+iriscli bank account faa1r93p0tpdlxgpac744rghvj9kqntvd54lc3msk2
+iriscli bank account faa1fcy67k2y5thzjx6r3ds8wd2rfhcw9w7y4pjsue
+
+iriscli tendermint tx --trust-node 3E8DC006D6632711F6F68C1FBBFA45C2F11B288ED91C8238E584B54A7332DBD3
+
+
