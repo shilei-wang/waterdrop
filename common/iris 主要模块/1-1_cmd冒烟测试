@@ -623,3 +623,21 @@ iriscli bank account faa1mx78jds5qghx578w36mgcflkw7tnsxtd49ua28
 accum：代表update之前产出的reward所对应的工作量
 iriscli distribution validator-distr-info fva1tjc4x3vsnt9e05ew6ykexw3dtdrtce3sdm58j7 --chain-id=shilei-qa
 
+
+*******************************************
+               11.rand随机数
+*******************************************
+//申请10块后的随机数
+echo 1234567890 | iriscli rand request-rand --from=v0 --fee=0.004iris --commit --chain-id=shilei-qa --block-interval=10
+
+1)保存request id ,下面用
+2） Committed at block 6741 （其中6741+10=6751, 后面query-queue用）
+
+//查询该随机数
+iriscli rand query-rand --request-id=8ee602877ea1477a8bac357b3de7cd939a3f42a1daaade61090d23fd18515380
+
+//查询某一个高度的随机数申请队列， 注意：一旦随机数生成，会从队列里面删除！！
+iriscli rand query-queue --queue-height=17483
+
+//查询所有队列
+iriscli rand query-queue

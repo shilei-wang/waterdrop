@@ -1,12 +1,10 @@
-lcd还剩2个
-修改了文档  验证了bug， 测试lcd一大半 发现一些bug
+vot 1027
+测试多代币， 多次不够
 
+随机分布
 
-测完lcd，记录lcd测试方法
-再测一下lcd gov  paramter
-测试关闭issue （兼容性）
-
-
+https://github.com/irisnet/irishub/issues/1809
+ （兼容性）
 
 
 change log， 兼容性 js库？怎么测？？

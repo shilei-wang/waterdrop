@@ -40,7 +40,7 @@ iriscli asset issue-token
 ======================
 
 //这里2次输入不能用echo
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --canonical-symbol=alias --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --canonical-symbol=alias --decimal=0 --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
 
 ======================
 修改资产：
@@ -176,7 +176,7 @@ iriscli asset query-fee --token=gde.aah
 是直接发资产费用的 10%
 ======================
 
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --symbol-at-source=source --canonical-symbol=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --decimal=0 --canonical-symbol=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
 ======================
 查询资产：
