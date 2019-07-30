@@ -57,6 +57,7 @@ echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >
  {
    "tx": {
 
+
 //刚才的内容复制到这里
 
 
@@ -65,3 +66,38 @@ echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >
 
 第三步： 用cli 签名交易
 把交易贴到broadcast中广播（记得选上--commit）
+
+
+
+============
+LCD 兼容性测试
+http://wiki.bianjie.ai/pages/viewpage.action?pageId=20578417
+
+结果:
+输出有区别：
+/txs        新版本多了一项： "timestamp": "2019-07-30T06:56:48Z"
+/txs/{hash} 新版本多了一项： "timestamp": "2019-07-30T06:56:48Z",
+
+输入、输出完全一致：
+/tx/broadcast
+/tx/broadcast?simulate=true
+/blocks/{height}
+/blocks/latest
+/bank/accounts/{address}
+/block-results
+/node-info
+/stake/delegators/[$delegatorAddr]/delegations
+/stake/delegators/[$delegatorAddr]/validators
+/stake/delegators/[$delegatorAddr]/delegations/[$validatorAddr]
+/stake/validators/[$validatorAddr]
+/stake/validators
+/stake/pool
+/stake/parameters
+/gov/proposals
+/stake/delegators/[$delegator]/unbonding-delegations
+/stake/delegators/[$delegator]/unbonding_delegations/[$validatorAddr]
+/stake/delegators/{delegatorAddr}/validators/{validatorAddr}
+/distribution/{address}/rewards
+/distribution/${addr}/withdraw-address
+/stake/delegators/${addr}/redelegations
+/slashing/validators/{validatorPubKey}/signing_info

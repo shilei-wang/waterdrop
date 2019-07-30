@@ -10,7 +10,7 @@ coin在其他地方的使用
 Asset
 ****************************************************************************************
 iriscli keys show v0
-iriscli bank account faa1pd7d945pv5zzx05m00pc322k2xj5pkgnqlktlv
+iriscli bank account faa1nw9467w5yc6t35g0duaqrg2v8up60awad84gse
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 tax：,burn
@@ -48,7 +48,7 @@ iriscli asset edit-token
 max-supply 只能往下改不能往上改， 且不能低于当时的total supply
 ======================
 
-echo 1234567890 | iriscli asset edit-token a01 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --name=nn1 --symbol-at-source=sat1 --canonical-symbol=sma1 --mintable=true --max-supply=50001
+echo 1234567890 | iriscli asset edit-token a01 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --name=nn1 --canonical-symbol=sma1 --mintable=true --max-supply=50001
 
 
 ======================
@@ -190,7 +190,7 @@ iriscli asset query-token gdex.g01
 转账
 ======================
 
-echo 1234567890 | iriscli bank send --amount=100gdexx.g01 --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
+echo 1234567890 | iriscli bank send --amount=100gdex.g01 --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
 
 
 ****************************************************************************************

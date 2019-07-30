@@ -15,7 +15,7 @@ fee_used = gas_used *(自定gas_price)
 *******************************************
 makefile 12行 改mainnet 重新编译
 
-    echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type="ParameterChange" --deposit="2000iris"  --param='auth/txSizeLimit=1000' --from=v0 --chain-id=shilei-qa --fee=0.004iris  --commit
+    echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type=Parameter --deposit="2000iris"  --param='auth/txSizeLimit=1000' --from=v0 --chain-id=shilei-qa --fee=0.004iris  --commit
 
     echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=1
 

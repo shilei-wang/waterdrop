@@ -67,7 +67,7 @@ git branch && git rev-parse HEAD
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    //第一次 git checkout -b v0.14.1 v0.14.1
+    //第一次 git checkout -b v0.14.4 v0.14.4
     // git merge v0.14.4
     git branch && git rev-parse HEAD
 
@@ -82,7 +82,7 @@ git branch && git rev-parse HEAD
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    git checkout -b secret/fix-rand-lcd-output upstream/secret/fix-rand-lcd-output
+    git checkout -b haifeng/harden-coin upstream/haifeng/harden-coin
     git branch && git rev-parse HEAD
 
     如果别人改了新的代码  直接git pull就行了

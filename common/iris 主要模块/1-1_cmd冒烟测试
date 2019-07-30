@@ -197,7 +197,7 @@ iriscli stake create validator
 ====== 起一个全节点 ======
 iris init --home=/root/x1 --chain-id=shilei-qa  --moniker=x1
 copy genesis toml
-iris tendermint show-node-id --home=/root/testnet/v0/iris  //node id 下面用
+iris tendermint show-node-id --home=/Users/sherlock/testnet/v0/iris  //node id 下面用
 toml 26657=》26687 3个，seeds = "c3cea4b7f5e4aac57f9965a7f1adc3c4327ca2e3@localhost:26656"
 iris start --home=/root/x1 （此时正常追赶）
 
@@ -207,7 +207,8 @@ iriscli bank send --amount=1000iris --fee=0.004iris  --chain-id=shilei-qa --from
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 
-iris tendermint show-validator --home=/root/x1  //fcp1zcjduepqusx50xvlpkt2sw46qd92x9k9f3p69t4vcnr5xzz50dwn6leql2pq4qywer
+iris tendermint show-validator --home=/Users/sherlock/testnet/v0/iris
+//fcp1zcjduepqgkzs7ndp0t8kdes2z2py9wlxsyywq0f0jn4utfse72ffev75cm8q4q380k
 echo 1234567890 | iriscli stake create-validator --pubkey=fcp1zcjduepq6ddw2n0557pf9sx6uauz7ajyednmhcehwaqv2ujlfpa0gjw2568q9ghxhg --moniker=x1 --amount=5iris --fee=0.004iris --from=x1 --chain-id=shilei-qa --commission-rate=0.21  //这2个参数被取消了 --commission-max-rate=0.51  --commission-max-change-rate=0.11  默认都为1 且不能改
 [注意抵押代币不要>1/3,  对后续unjail测试有影响]
 iriscli stake validators
