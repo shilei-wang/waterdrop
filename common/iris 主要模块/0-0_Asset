@@ -36,7 +36,7 @@ echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.004iris --commit 
 发行资产：
 iriscli asset issue-token
 3位资产 30万 40%入tax， 60%burn
-//--symbol-at-source 这个字段native下不起作用
+//--canonical-symbol 这个字段native下不起作用
 ======================
 
 //这里2次输入不能用echo
@@ -53,7 +53,7 @@ echo 1234567890 | iriscli asset edit-token a01 --from=v0 --chain-id=shilei-qa --
 
 ======================
 增发资产：
-iriscli asset issue-token
+iriscli asset mint-token
 ======================
 
 echo 1234567890 | iriscli asset mint-token a01 --amount=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit

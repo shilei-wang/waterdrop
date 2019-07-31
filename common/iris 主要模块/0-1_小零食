@@ -1,0 +1,6 @@
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --canonical-symbol=alias --decimal=0 --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --decimal=0 --canonical-symbol=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+
+
+iriscli asset query-token a476534

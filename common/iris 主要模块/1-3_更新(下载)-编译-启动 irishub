@@ -22,9 +22,9 @@ git branch && git rev-parse HEAD
     git branch -D shilei/multisign-doc
 
 ----------- 直接在主分支上push
-git checkout -b shilei/multisign-doc-update upstream/develop
+git checkout -b shilei/update-changelog upstream/release0.15   // upstream/develop
 图形界面 git commit
-git push upstream shilei/multisign-doc-update //第一次会创建分支
+git push upstream shilei/update-changelog //第一次会创建分支
 //去网上pr
 
 WIP: Add "json indent" usage and fix the "query output format" of all the docs
@@ -67,7 +67,8 @@ git branch && git rev-parse HEAD
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    //第一次 git checkout -b v0.14.4 v0.14.4
+    //第一次 git checkout -b v0.14.4 upstream/v0.14.4
+    // git checkout -b release0.15 upstream/release0.15
     // git merge v0.14.4
     git branch && git rev-parse HEAD
 
