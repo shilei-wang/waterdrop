@@ -70,6 +70,7 @@ git branch && git rev-parse HEAD
     //第一次 git checkout -b v0.14.4 upstream/v0.14.4
     // git checkout -b release0.15 upstream/release0.15
     // git merge v0.14.4
+    // git checkout v0.14.1
     git branch && git rev-parse HEAD
 
     === 某个 hash ：  ==== // 8f0f978d40fd4af247168991c236b025862a9e04
@@ -83,7 +84,7 @@ git branch && git rev-parse HEAD
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    git checkout -b haifeng/harden-coin upstream/haifeng/harden-coin
+    git checkout -b vincent/reset upstream/vincent/reset
     git branch && git rev-parse HEAD
 
     如果别人改了新的代码  直接git pull就行了
@@ -146,8 +147,10 @@ go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lan
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go nm 1
 ---
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go m 1
-iris start --home=/Users/sherlock/v0/iris
-iris start --home=/Users/sherlock/v1/iris
+
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go t 2
+iris start --home=/Users/sherlock/testnet/v0/iris
+iris start --home=/Users/sherlock/testnet/v1/iris
 
 
 

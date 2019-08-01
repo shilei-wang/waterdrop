@@ -1,6 +1,22 @@
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --canonical-symbol=alias --decimal=0 --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go t 2
+iris start --home=/Users/sherlock/testnet/v0/iris
+iris start --home=/Users/sherlock/testnet/v1/iris
 
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --decimal=0 --canonical-symbol=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+
+echo 1234567890 | iriscli stake delegate --address-validator=fva1c9ucrt5evhk80zyx6sgwz96jegtwh0py4nugvt --amount=900iris --fee=0.004iris --commit  --from=v0  --chain-id=shilei-qa
 
 
-iriscli asset query-token a476534
+echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=1 --switch-height=150 --threshold=0.9 --commit
+
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=shilei-qa  --proposal-id=1
+
+iriscli gov query-proposal --trust-node --proposal-id=1
+
+
+iris reset --height=200 --home=/Users/sherlock/testnet/v1/iris
+
+iris start --home=/Users/sherlock/testnet/v1/iris
+
+
+ reset会提示删除，APP状态到整数点，然后replay到指定高度。 （app数据会删掉。 genesis里的状态，block数据不删掉，所以可以replay）
+

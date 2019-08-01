@@ -1,3 +1,8 @@
+主网上，我自己的rainbow地址（发奖金的地址）
+iaa13csfhe6q3xee3rr73kgrdkv9t2l7he530tfqpz
+
+可以用这个查账：
+https://irisnet-lcd.rainbow.one/swagger-ui/#/
 
 **************************************
 irishub-stage 云服务器测试
@@ -273,25 +278,14 @@ iris start --home=/Users/sherlock/testnet/v0/iris
    如果是小节点，（第一次用的签名如果不对）掉签并不会在直接在log里显示出来，会显示一切正常这点很奇怪（需要这里看iriscli tendermint block --trust-node ==>precommits）
 
 
-
-
-
-
-
-
-
-
 **************************************
                 空投
 **************************************
-lcd:
+lcd: (可以直接查账)
 https://irisnet-lcd.rainbow.one/swagger-ui/#/
 
 rpc:
 --node=http://irisnet-rpc.rainbow.one:26657
-
-我自己的账户：
-iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4
 
 strike-drop：
 drop siege embark season rally primary bullet detect scrap toilet tank fine hire praise humor leader swim entire syrup brush scheme unusual display wrong
