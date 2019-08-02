@@ -22,8 +22,8 @@ iris reset --height=100 --home=/Users/sherlock/testnet/v0/iris
 1）height在最近100块之内：不删任何数据， start之后直接从最新块开始跑。 可以搭配export使用。
 2）height超过前100块：
     此时已经没有任何数据，app数据只保留前100块，会直接到上一个tag点，以10000为间隔。
-    reset会提示删除，APP状态到整数点，然后replay到指定高度。 （app数据会删掉。 genesis里的状态，block数据不删掉，所以可以replay）
-    start后会从指定高度在replay到最新高度。
+    reset会提示删除，APP状态到整数点，然后replay到指定高度。 （app数据会删掉(比如账户里面的钱)。 genesis里的状态，block数据不删掉，所以可以replay）
+    start后会从指定高度在replay到最新高度（一步一步能计算出账户里面的钱）。
 3）大于最新高度或者等于0，都是直接reset最新高度。
 
 iris start --home=/Users/sherlock/testnet/v0/iris

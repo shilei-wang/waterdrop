@@ -84,7 +84,7 @@ git branch && git rev-parse HEAD
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    git checkout -b vincent/reset upstream/vincent/reset
+    git checkout -b vincent/coin-fix upstream/vincent/coin-fix
     git branch && git rev-parse HEAD
 
     如果别人改了新的代码  直接git pull就行了
