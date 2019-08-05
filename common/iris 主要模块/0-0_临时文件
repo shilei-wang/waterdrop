@@ -1,8 +1,6 @@
-更新docs/light-client/README.md *2
+lcd自动化 + 更新docs/light-client/README.md *2
 
-
-自动化 + （Params 还有其他的命令）
-
+generateonly = true
 
 ---
 租金6600

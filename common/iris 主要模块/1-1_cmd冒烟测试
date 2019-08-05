@@ -1,7 +1,7 @@
 ﻿go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go c 1
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 2
 
-irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.iriscli/ --trust-node
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd/ --trust-node
 
 ********
 自己启动

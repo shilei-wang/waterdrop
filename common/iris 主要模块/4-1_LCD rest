@@ -62,6 +62,12 @@ echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >
 
 //刚才的内容复制到这里
 
+ {
+   "tx": {
+
+
+
+"msg":[{"type":"irishub/bank/Send","value":{"inputs":[{"address":"faa13jyzh8zv0c64s35kd90n57m4r7l83kjuexts2d","coins":[{"denom":"iris-atto","amount":"123000000000000000000"}]}],"outputs":[{"address":"faa1ymfj9tksll0g5vvlycq4r7lctfc3elu8k6a6yl","coins":[{"denom":"iris-atto","amount":"123000000000000000000"}]}]}}],"fee":{"amount":[{"denom":"iris-atto","amount":"600000000000000000"}],"gas":"100000"},"signatures":[{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"A457LNY7yT5YAMx5xFvDDYhQCSVog2KJj578xC9tO03p"},"signature":"QtlhIKNLdJBjJaQ5Syf0RiVVkBRS6SfyclESy+7sCm4eO6J9VRagYh0baz/aWImA9drPMwT73m6PP9c5MpveBQ==","account_number":"2","sequence":"1"}],"memo":""}}
 
 
 ---

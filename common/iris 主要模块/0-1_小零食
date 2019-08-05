@@ -9,7 +9,5 @@ iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=shilei-qa
 
 iriscli tx sign /Users/sherlock/my_workspace/Tx-generate --chain-id=shilei-qa --node=localhost:26657 --name=node0 --fee=0.4iris --commit --gas=50000
 
-lcd自动化 + 更新docs/light-client/README.md *2
 
-generateonly = true
 
