@@ -6,3 +6,45 @@
 ========================================================================================================================
 ========================================================================================================================
 
+v0
+fva1epwgh4n6xrgqswx4zkegsgdx966v502acrvchd
+faa1epwgh4n6xrgqswx4zkegsgdx966v502adjxh22
+
+v1
+fva12xu0qyu7whdzvjchlg4gnlw27y9mlsta6k7yfl
+faa12xu0qyu7whdzvjchlg4gnlw27y9mlsta085t5c
+
+v2
+fva1gmlmkl39454cwltp269p205cnufu7ague9gy74
+faa1gmlmkl39454cwltp269p205cnufu7aguv5ztrj
+
+v3
+fva1f26py8pevwjd5cn76g9tlylzl32juyyamd5374
+faa1f26py8pevwjd5cn76g9tlylzl32juyyawu77rj
+
+
+
+
+v2 10 --> v0
+
+echo 1234567890 | iriscli stake delegate --address-validator=fva1epwgh4n6xrgqswx4zkegsgdx966v502acrvchd --amount=10iris --fee=0.004iris --commit  --from=v2  --chain-id=shilei-qa
+
+
+v0 ---> unbond all
+
+echo 1234567890 | iriscli stake unbond --address-validator=fva1epwgh4n6xrgqswx4zkegsgdx966v502acrvchd --shares-percent=1 --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa
+
+
+v2 re 5 v0 --> v1
+
+echo 1234567890 | iriscli stake redelegate --address-validator-source=fva1epwgh4n6xrgqswx4zkegsgdx966v502acrvchd --address-validator-dest=fva12xu0qyu7whdzvjchlg4gnlw27y9mlsta6k7yfl --shares-amount=5 --fee=0.004iris --from=v2 --chain-id=shilei-qa --commit
+
+iriscli stake validators
+
+
+v2 re 5 v1 --> v3
+
+echo 1234567890 | iriscli stake redelegate --address-validator-source=fva12xu0qyu7whdzvjchlg4gnlw27y9mlsta6k7yfl --address-validator-dest=fva1f26py8pevwjd5cn76g9tlylzl32juyyamd5374 --shares-amount=5 --fee=0.004iris --from=v2 --chain-id=shilei-qa --commit
+
+
+redelegation to this validator already in progress, first redelegation to this validator must complete before next redelegation

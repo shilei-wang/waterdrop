@@ -90,14 +90,14 @@ iriscli bank coin-type iris
 
 4. 构造、签名、 （这块因为要写文件，不能autotest）
 4.1  构造
-iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547 --generate-only >~/Tx-generate
+iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547 --generate-only >~/my_workspace/Tx-generate
 
 4.2  签名
-echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >~/Tx-sign
+echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
 
 4.3  广播
 [查账]iriscli bank account faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547
-iriscli tx broadcast ~/Tx-sign --commit
+iriscli tx broadcast ~/my_workspace/Tx-sign --commit
 [查账]iriscli bank account faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547
 [查hash] iriscli tendermint tx --trust-node D5EC826174558336BFE0849C3CFA97EB3DB5D585D1A8346EB932C64A4593241E
 

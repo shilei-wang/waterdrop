@@ -210,16 +210,20 @@ iris unsafe-reset-all --home=/root/testnet/v1/iris
 ==================================
 1. 初始化链，并不启动。 用 t 1
 2. 修改genesis 把里面的upgrade的version改成0
+iris start --home=/Users/sherlock/testnet/v0/iris
+
 3. 起链
 4. 提交议题 到version 1
 
-echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=1 --switch-height=950 --threshold=0.9 --commit
+echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=1 --switch-height=160 --threshold=0.9 --commit
 
-echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=shilei-qa  --proposal-id=1
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=shilei-qa  --proposal-id=1 --commit
+
+iriscli gov query-proposal --trust-node --proposal-id=1
 
 5.等到第950块 自动升级。 逻辑切换到v1
 
-
+iriscli upgrade info --trust-node
 
 
 

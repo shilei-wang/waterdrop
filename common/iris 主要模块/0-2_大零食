@@ -1,0 +1,45 @@
+TestData faucet = findTestData('base/faucet')
+v0 = faucet.getValue('name', 1)
+
+
+//command ="iriscli bank send".concat(GlobalVariable.chainId).concat(GlobalVariable.node)+" --amount=1iris --to="+GlobalVariable.address_aa+" --from=node0 --fee=0.4iris --commit --gas=50000"
+//re = CmdUtils.sendRequest('cmd/CmdWithOneArgs', command, "wait")
+//WS.verifyEqual(StringUtils.stringContains(re.responseBodyContent,"tx hash"), true)
+//CmdUtils.pl(re.responseBodyContent)
+
+
+command ="iriscli tx sign /Users/sherlock/my_workspace/Tx-generate".concat(GlobalVariable.chainId).concat(GlobalVariable.node)+" --name=node0 --fee=0.4iris --commit --gas=50000"
+re = CmdUtils.sendRequest('cmd/CmdWithOneArgs', command, "wait")
+CmdUtils.pl(re.responseBodyContent)
+
+
+=====================
+
+data = findTestData('bank/send/IRISHUB-967')
+faucet = findTestData('base/faucet')
+v0 = faucet.getValue('name', 1)
+v1 = faucet.getValue('name', 2)
+v0_faa = RestUtils.getAddressFromName(v0, "acc")
+v1_faa = RestUtils.getAddressFromName(v1, "acc")
+
+// 给他人转账123iris（验证余额是否扣除，余额是否到账）
+i=1
+amount = data.getValue("amount", i)
+v0_balance_before = RestUtils.getBalance(v0_faa, "acc")
+v1_balance_before = RestUtils.getBalance(v1_faa, "acc")
+BankUtils.send(v0, v1_faa, amount)
+v0_balance_after = RestUtils.getBalance(v0_faa, "acc")
+v1_balance_after = RestUtils.getBalance(v1_faa, "acc")
+v0_actual = v0_balance_before - v0_balance_after
+v1_actual = v1_balance_after - v1_balance_before
+expected = Double.valueOf(amount.replace("iris", ""))
+WS.verifyEqual(CmdUtils.compareIgnoreFee(v0_actual, expected), true)
+WS.verifyEqual(v1_actual, expected)
+
+//给自己转账456iris-atto （验证是不是只扣除了fee）
+i=2
+amount = data.getValue("amount", i)
+v0_balance_before = RestUtils.getBalance(v0, "name")
+BankUtils.send(v0, v0_faa, amount)
+v0_balance_after = RestUtils.getBalance(v0, "name")
+WS.verifyEqual(CmdUtils.compareIgnoreFee(v0_balance_before, v0_balance_after), true)
