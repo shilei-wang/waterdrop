@@ -43,7 +43,34 @@ proposal_id = GovUtils.submitProposalWithParams(v1,"proposer:"+v1_faa, "version:
 
 
 ===================
+{
+  "base_tx": {
+    "sequence": "23",
+    "account_number": "2",
+    "password": "1234567890",
+    "chain_id": "shilei-qa",
+    "gas_adjustment": "1.2",
+    "fee": "0.6iris",
+    "name": "node0",
+    "gas": "100000"
+  },
+  "def_chain_id": "shilei-qa",
+  "service_name": "001_service_01667777",
+  "binding_type": "Local",
+  "deposit": "0iris",
+  "prices": [
+    "0iris",
+    "0iris"
+  ],
+  "level": {
+    "avg_rsp_time": "0",
+    "usable_time": "0"
+  }
+}
 
+PUT
+/service/bindings/{defChainId}/{serviceName}/{provider}
+无法生成有bug deposit=0 or price=0
 ===================
 
 ===================
