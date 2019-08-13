@@ -15,7 +15,6 @@ swap用例自动化
 =========================================================
 早点睡
 
-淘宝还是看一下，6个月
 咸鱼卖电脑
 税务问下免税
 
@@ -29,21 +28,6 @@ iriscli distribution community-tax 文档里去掉*2
 
 
 整理一个触发收益取回的表格
-增加asset lcd
-
-1.改下lcd进度
-
-1） error code
-2） rest 自动化 ：stake delegations
-
-
-写lcd测试,需要补得项目:
-1) 280那个改回来 submit proposal 1024
-2) stake完成后补 dist-withdraw reward 809
-3）text proposal
-
-其他：
-cmd 不定参数挖掘
 
 
 
