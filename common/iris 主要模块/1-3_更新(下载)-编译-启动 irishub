@@ -73,14 +73,14 @@ git branch && git rev-parse HEAD
     // git checkout v0.14.1
     git branch && git rev-parse HEAD
 
-    === 某个 hash ：  ==== // 8f0f978d40fd4af247168991c236b025862a9e04
+    === 某个 hash ：  ==== // 126f9155cf596e254f312a787b26d6a20b4e8d90
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    git reset --hard 8f0f978d40fd4af247168991c236b025862a9e04
+    git reset --hard 126f9155cf596e254f312a787b26d6a20b4e8d90
     git branch && git rev-parse HEAD
 
-    === 某个 分支 ：  ==== // 96abe0f591fb56194b7ffc476f1d9f3957f49e7c
+    === 某个 分支 ：  ==== // 126f9155cf596e254f312a787b26d6a20b4e8d90
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .

@@ -20,6 +20,10 @@
 
 
 ============== raw bug ================
+liq低了返回不一致
+Msg 0 failed: {"codespace":"coinswap","code":105,"message":"liquidity[1] is less than user 's min reward[10]"}
+
+
 ============== raw bug ================
 ============== raw bug ================
 ============== raw bug ================
@@ -72,7 +76,12 @@ PUT
 /service/bindings/{defChainId}/{serviceName}/{provider}
 无法生成有bug deposit=0 or price=0
 ===================
+//0iris service fee 的事 都暂时放一下 重构后在一起弄
+	if (i==3){
+		continue
+	}
 
+	enable的时候 抵押0iris出错
 ===================
 ===================
 ===================
