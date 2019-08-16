@@ -361,3 +361,30 @@ prometheus = true
 起链
 
 http://localhost:26660/
+
+
+*******************************************
+    测试正则表达式
+    正则表达式校验：只对bank send有效。 对memo进行正则检查，比如交易所需要6位数字 ^[0-9]{6}$
+    正则超过50位限制失败， "^[z-a]+$" 这种也会失败
+*******************************************
+
+-----
+设置正则表达式
+-----
+echo 1234567890 | iriscli bank set-memo-regexp --regexp="^[A-Za-z0-9]+$"  --from=v1 --fee=0.04iris --chain-id=shilei-qa  --commit
+
+通过：
+echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1acym9unp9mst43l9f668lvuglzq9aynskd76ek --memo="sss。。ss"
+
+不通过：
+echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1acym9unp9mst43l9f668lvuglzq9aynskd76ek --memo="..."
+
+
+-----
+清空正则表达式
+-----
+echo 1234567890 | iriscli bank set-memo-regexp --regexp=""  --from=v0 --fee=0.04iris --chain-id=shilei-qa  --commit
+
+
+
