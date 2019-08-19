@@ -24,7 +24,7 @@ git branch && git rev-parse HEAD
 ----------- 直接在主分支上push
 git checkout -b shilei/update-changelog-0.15 upstream/release0.15   // upstream/develop
 图形界面 git commit
-git push upstream shilei/update-changelog //第一次会创建分支
+git push upstream shilei/update-changelog-0.15 //第一次会创建分支
 //去网上pr
 
 WIP: Add "json indent" usage and fix the "query output format" of all the docs
