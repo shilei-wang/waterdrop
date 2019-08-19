@@ -208,7 +208,9 @@ iris unsafe-reset-all --home=/root/testnet/v1/iris
 ==================================
     最新测试升级的步骤
 ==================================
-1. 初始化链，并不启动。 用 t 1
+1. 初始化链，并不启动。 用 t 1  (注意autolanch 里注释掉unbonding time)
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go t 1
+
 2. 修改genesis 把里面的upgrade的version改成0
 iris start --home=/Users/sherlock/testnet/v0/iris
 
@@ -221,7 +223,10 @@ echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain
 
 iriscli gov query-proposal --trust-node --proposal-id=1
 
-5.等到第950块 自动升级。 逻辑切换到v1
+iriscli upgrade info --trust-node //此时是v0
+
+
+5.等到第160块 自动升级。 逻辑切换到v1
 
 iriscli upgrade info --trust-node
 

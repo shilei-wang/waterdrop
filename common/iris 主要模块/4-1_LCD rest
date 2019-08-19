@@ -48,6 +48,9 @@ iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=shilei-qa --from=v0
 echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >~/Tx-sign
 
 
+//注意： 最新的版本已经不需要替换 {"tx": {
+
+
 复制签名后的内容，注意只要复制后面一段：
 {"type":"irishub/bank/StdTx","value":{
 
