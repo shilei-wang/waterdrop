@@ -209,7 +209,7 @@ iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 iris tendermint show-validator --home=/Users/sherlock/testnet/v0/iris
 //fcp1zcjduepqgkzs7ndp0t8kdes2z2py9wlxsyywq0f0jn4utfse72ffev75cm8q4q380k
-echo 1234567890 | iriscli stake create-validator --pubkey=fcp1zcjduepq6ddw2n0557pf9sx6uauz7ajyednmhcehwaqv2ujlfpa0gjw2568q9ghxhg --moniker=x1 --amount=5iris --fee=0.004iris --from=x1 --chain-id=shilei-qa --commission-rate=0.21  //这2个参数被取消了 --commission-max-rate=0.51  --commission-max-change-rate=0.11  默认都为1 且不能改
+echo 1234567890 | iriscli stake create-validator --pubkey=fcp1zcjduepq6ddw2n0557pf9sx6uauz7ajyednmhcehwaqv2ujlfpa0gjw2568q9ghxhg --moniker=x1 --amount=5iris --fee=0.004iris --from=x1 --chain-id=shilei-qa --commission-rate=0.21 --commit //这2个参数被取消了 --commission-max-rate=0.51  --commission-max-change-rate=0.11  默认都为1 且不能改
 [注意抵押代币不要>1/3,  对后续unjail测试有影响]
 iriscli stake validators
 

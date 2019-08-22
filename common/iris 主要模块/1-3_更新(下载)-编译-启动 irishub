@@ -63,13 +63,13 @@ git branch && git rev-parse HEAD
     // git reset --hard upstream/develop
     // git reset --hard 5d82613b2bb1c1d6b16054ddff5bb8275bb137d9
 
-    === 某个 tag ： v0.15.0-rc4 ====  tag和分支不同 下载时先fetch ，不用upstream
+    === 某个 tag ： v0.15.0 ====  tag和分支不同 下载时先fetch ，不用upstream
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    //第一次 git checkout -b v0.15.0-rc4 v0.15.0-rc4
-    // git merge v0.15.0-rc4
-    // git checkout v0.15.0-rc4
+    //第一次 git checkout -b v0.15.0 v0.15.0
+    // git merge v0.15.0
+    // git checkout v0.15.0
     git branch && git rev-parse HEAD
 
     === 某个 hash ：  ==== // bb72b8129937f7c3e3b290b779809f974dacd81c
@@ -94,7 +94,7 @@ git branch && git rev-parse HEAD
 
     //删除
     git checkout master
-    git branch -D vincent/gas-consume-base
+    git branch -D update-changelog
 
     另外 ：
     pull =  git fetch + git merge

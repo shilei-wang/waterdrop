@@ -135,49 +135,7 @@ echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=
 4)  type="ParameterChange"
 //参数修改
 ******************************
-
-例子：
-echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type="ParameterChange" --deposit="2000iris"  --param='auth/txSizeLimit=1000' --from=v0 --chain-id=shilei-qa --fee=0.004iris  --commit
-
-具体参数：
-bank:
-    auth/gasPriceThreshold=20000000000    (0,1iris]
-    auth/txSizeLimit=1000                  [500,1500]
-
-mint:
-    mint/Inflation=0.0400000000   [0,0.2]
-
-stake:
-    stake/MaxValidators=100      [100,200]
-    stake/UnbondingTime=504h0m0s  [2weeks, )
-
-slashing:
-    slashing/CensorshipJailDuration=168h0m0s   (0, 4weeks)
-    slashing/DoubleSignJailDuration=120h0m0s
-    slashing/DowntimeJailDuration=48h0m0s
-    slashing/MaxEvidenceAge=24h0m0s
-    slashing/MinSignedPerWindow=0.5000000000
-    slashing/SignedBlocksWindow=20000
-    slashing/SlashFractionDoubleSign=0.0100000000
-    slashing/SlashFractionDowntime=0.0050000000
-    slashing/SlashFractionCensorship=0.02   [0.005, 0.1]
-
-distribution:
-    distr/BaseProposerReward=0.0100000000
-    distr/BonusProposerReward=0.0400000000
-    distr/CommunityTax=0.0200000000
-
-service:
-    service/ArbitrationTimeLimit=120h0m0s    [5days,)
-    service/ComplaintRetrospect=360h0m0s     [15days,)
-    service/MaxRequestTimeout=20     [20,)
-    service/MinDepositMultiple=10  [500,5000]
-    service/ServiceFeeTax=0.0100000000  (0,0.2]
-    service/SlashFraction=0.0010000000  (0,0.01]
-    service/TxSizeLimit=4000         [2000,4000]
-
-最新参数范围请参照：
-https://gitlab.bianjie.ai/irishub/internal-spec/blob/master/params/params.md
+见2-3
 
 
 
