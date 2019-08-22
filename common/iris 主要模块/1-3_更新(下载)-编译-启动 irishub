@@ -87,6 +87,7 @@ git branch && git rev-parse HEAD
     git fetch --all
     git checkout .
     git checkout -b release0.15 upstream/release0.15
+    //git merge upstream/release0.15
     git branch && git rev-parse HEAD
 
     如果别人改了新的代码  直接git pull就行了
@@ -94,7 +95,7 @@ git branch && git rev-parse HEAD
 
     //删除
     git checkout master
-    git branch -D update-changelog
+    git branch -D release0.15
 
     另外 ：
     pull =  git fetch + git merge

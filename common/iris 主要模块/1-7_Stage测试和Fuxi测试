@@ -35,7 +35,7 @@ fuxi 测试网 回归测试 (刚起的新链，可以追赶的情况)
 3)  新建node1
     iriscli keys add node1   //faa16gujqyv62frjers2wpyd786lg3tr45udyd54tf ： steak plate wage pact unfold moment grief version toward ice episode primary night glue logic champion crew jar dismiss parrot salute rough trap opinion
     转账给node1
-    echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.4iris  --chain-id=fuxi --from=node0 --to=faa16gujqyv62frjers2wpyd786lg3tr45udyd54tf --commit
+    echo 1234567890 | iriscli bank send --amount=100000iris --fee=0.4iris  --chain-id=fuxi --from=node0 --to=faa16gujqyv62frjers2wpyd786lg3tr45udyd54tf --commit
     查账
     iriscli bank account faa16gujqyv62frjers2wpyd786lg3tr45udyd54tf
 4） node1 创建验证人 (注意power和node0一样多)
