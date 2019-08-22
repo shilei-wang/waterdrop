@@ -33,10 +33,10 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 export：
 ***********
 导出当前区块链状态：只能看看， 没什么具体用处。 在当前目录导出genesis.json,里面有所有账户的信息
-iris export --home=/Users/sherlock/testnet/v0/iris
+iris export --home=/Users/sherlock/testnet/v0/iris --output-file=/Users/sherlock/genesis.json
 
 导出当前高度的区块链状态，并且以这个状态启动一条新链
-iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris
+iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris --output-file=/Users/sherlock/genesis.json
 
 必须配合 unsafe-reset-all  使用
 iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris

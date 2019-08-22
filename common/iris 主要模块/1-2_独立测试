@@ -38,15 +38,15 @@ iris tendermint show-validator
 *******************************************
     iris add-genesis-account
 *******************************************
-iris add-genesis-account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 200iris,20.4iris-milli --home=/root/testnet/v0/iris
-gedit /root/testnet/v0/iris/config/genesis.json
+iris add-genesis-account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 200iris,20.4iris-milli --home=/Users/sherlock/testnet/v0/iris
+gedit /Users/sherlock/testnet/v0/iris/config/genesis.json
 
 ---
 cd ~
 rm -rf .iriscli .iris testnet
-iris testnet --v=1 --output-dir=/root/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
 【加入上面的】
-iris start --home=/root/testnet/v0/iris
+iris start --home=/Users/sherlock/testnet/v0/iris
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 
@@ -135,28 +135,28 @@ http://localhost:1317/txs?tx.height=1379
    先用autotest 跑一边构造数据
 
 2.【最后块(或者距离最新块<100块)】
-echo y | rm /root/genesis.json
-iris export --for-zero-height --home=/root/testnet/v0/iris --output-file=/root/genesis.json
-iris unsafe-reset-all --home=/root/testnet/v0/iris
-iris unsafe-reset-all --home=/root/testnet/v1/iris
-echo y | cp /root/genesis.json /root/testnet/v0/iris/config/genesis.json
-echo y | cp /root/genesis.json /root/testnet/v1/iris/config/genesis.json
-iris start --home=/root/testnet/v0/iris
-iris start --home=/root/testnet/v1/iris (新tab)
+echo y | rm /Users/sherlock/genesis.json
+iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris --output-file=/Users/sherlock/genesis.json
+iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris
+iris unsafe-reset-all --home=/Users/sherlock/testnet/v1/iris
+echo y | cp /Users/sherlock/genesis.json /Users/sherlock/testnet/v0/iris/config/genesis.json
+echo y | cp /Users/sherlock/genesis.json /Users/sherlock/testnet/v1/iris/config/genesis.json
+iris start --home=/Users/sherlock/testnet/v0/iris
+iris start --home=/Users/sherlock/testnet/v1/iris (新tab)
 用autotest全部 再跑一边，确认没问题
 
 
 3.【中间块， 距离最新块>100块】
-rm /root/genesis.json
-iris export --for-zero-height --home=/root/testnet/v0/iris --height=300  【此时应该报错】
-iris start --home=/root/testnet/v0/iris --replay_height=300   【yes】
-iris export --for-zero-height --home=/root/testnet/v0/iris --height=300 --output-file=/root/genesis.json
-iris unsafe-reset-all --home=/root/testnet/v0/iris
-iris unsafe-reset-all --home=/root/testnet/v1/iris
-echo y | cp /root/genesis.json /root/testnet/v0/iris/config/genesis.json
-echo y | cp /root/genesis.json /root/testnet/v1/iris/config/genesis.json
-iris start --home=/root/testnet/v0/iris
-iris start --home=/root/testnet/v1/iris (新tab)
+rm /Users/sherlock/genesis.json
+iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris --height=300  【此时应该报错】
+iris start --home=/Users/sherlock/testnet/v0/iris --replay_height=300   【yes】
+iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris --height=300 --output-file=/Users/sherlock/genesis.json
+iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris
+iris unsafe-reset-all --home=/Users/sherlock/testnet/v1/iris
+echo y | cp /Users/sherlock/genesis.json /Users/sherlock/testnet/v0/iris/config/genesis.json
+echo y | cp /Users/sherlock/genesis.json /Users/sherlock/testnet/v1/iris/config/genesis.json
+iris start --home=/Users/sherlock/testnet/v0/iris
+iris start --home=/Users/sherlock/testnet/v1/iris (新tab)
 用autotest-stake 再跑一边
 
 
@@ -202,8 +202,8 @@ echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=10001 -
 每个块默认增发 = （20亿*0.04）/(365.25*24*3600) * 5s = 12.5iris  (修改出块时间不影响这个值， 也就是出块时间减少， 每年增发会变多)
 
 起单节点 每隔20块 停一下 ， 执行
-echo y | rm /root/genesis.json
-iris export --for-zero-height --home=/root/testnet/v0/iris --output-file=/root/genesis.json
+echo y | rm /Users/sherlock/genesis.json
+iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris --output-file=/Users/sherlock/genesis.json
 可以看到account中每次增加 12.5*20 =250iris
 
 也可以在 26657的rpc接口查每个块的增发
@@ -218,18 +218,18 @@ Base64 decode ，https://www.base64decode.net/
 *******************************************
 1. iriscli status //获取验证人节点"id": "85ff3a906a27999d23cdf72451414e045ae39e84",
 2. 暂停主节点
-3. 新页面， iris init --moniker=sentry --home=/root/sentry  //获取sentry节点"id" = bccb80864e540af719fa1be6ae913ce50a74feaf
-4. 自动在home目录创建 sentry， copy验证人节点 genesis.json文件复制到 /root/sentry/config/
-5. sentry节点 /root/sentry/config/config.toml进行编辑：
+3. 新页面， iris init --moniker=sentry --home=/Users/sherlock/sentry  //获取sentry节点"id" = bccb80864e540af719fa1be6ae913ce50a74feaf
+4. 自动在home目录创建 sentry， copy验证人节点 genesis.json文件复制到 /Users/sherlock/sentry/config/
+5. sentry节点 /Users/sherlock/sentry/config/config.toml进行编辑：
     private_peer_ids="85ff3a906a27999d23cdf72451414e045ae39e84" //设置验证节点id
     改3个5 改成6
     保存
-6. iris start --home=/root/sentry  //启动sentry节点
-7. 验证节点 /root/testnet/v0/iris/config/config.toml进行编辑：
+6. iris start --home=/Users/sherlock/sentry  //启动sentry节点
+7. 验证节点 /Users/sherlock/testnet/v0/iris/config/config.toml进行编辑：
     persistent_peers = "bccb80864e540af719fa1be6ae913ce50a74feaf@127.0.0.1:26666"  //设置sentry节点id， 26666是上面改的
     pex=false //pex=false 不与其他节点进行peers交换
     保存
-8. iris start --home=/root/testnet/v0/iris //启动验证人节点， 2个节点同步
+8. iris start --home=/Users/sherlock/testnet/v0/iris //启动验证人节点， 2个节点同步
 9. 使用sentry节点 (一般只暴露哨兵节点)
    echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --commit --node=http://10.1.2.168:26667
    使用验证人节点
@@ -241,7 +241,7 @@ Base64 decode ，https://www.base64decode.net/
 *******************************************
 1. iris.toml (暂停链)
     track_coin_flow = true
-2. iris start --home=/root/testnet/v0/iris
+2. iris start --home=/Users/sherlock/testnet/v0/iris
 3. echo 1234567890 | iriscli bank send --amount=20000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 4. iriscli tendermint tx --trust-node EE189BBF3A74893BFA17E440B21D308A55D64B2FAAAA88813E4F1DCA9FA1E898 //最后log
 

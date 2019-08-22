@@ -2,7 +2,7 @@
 fuxi 测试网 回归测试 (刚起的新链，可以追赶的情况)
 **************************************
 
-
+先删除 rm -rf ~/.iriscli
 ===
 1. 需要提供
 ===
@@ -33,15 +33,15 @@ fuxi 测试网 回归测试 (刚起的新链，可以追赶的情况)
     查一下账
     iriscli bank account faa169x02pq8km0rvum8tgqseexaq7dk5mx57cpyc4
 3)  新建node1
-    iriscli keys add node1   //faa17lxjwgkk3tntq2nuyprazcyfg876cqu40d3v8e
+    iriscli keys add node1   //faa16gujqyv62frjers2wpyd786lg3tr45udyd54tf ： steak plate wage pact unfold moment grief version toward ice episode primary night glue logic champion crew jar dismiss parrot salute rough trap opinion
     转账给node1
-    echo 1234567890 | iriscli bank send --amount=1000000iris --fee=0.4iris  --chain-id=fuxi --from=node0 --to=faa17lxjwgkk3tntq2nuyprazcyfg876cqu40d3v8e --commit
+    echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.4iris  --chain-id=fuxi --from=node0 --to=faa16gujqyv62frjers2wpyd786lg3tr45udyd54tf --commit
     查账
-    iriscli bank account faa17lxjwgkk3tntq2nuyprazcyfg876cqu40d3v8e
+    iriscli bank account faa16gujqyv62frjers2wpyd786lg3tr45udyd54tf
 4） node1 创建验证人 (注意power和node0一样多)
     iris tendermint show-validator --home=/Users/sherlock/fuxi_node
-    // fcp1zcjduepqdt38vhax6zqjyeepvpq5spcepepys6u606vcwmsz4kkcu8y4vu7sgw2h28
-    echo 1234567890 | iriscli stake create-validator --pubkey=fcp1zcjduepqdt38vhax6zqjyeepvpq5spcepepys6u606vcwmsz4kkcu8y4vu7sgw2h28 --moniker=node1 --amount=100iris --fee=0.4iris --from=node1 --chain-id=fuxi --commission-rate=0.21 --commit
+    // fcp1zcjduepqgzh3hnx7399tqp5zwrrsn5wh8y8zf9r0s0m7z3d28u4rdudh7d8qcnlgjq
+    echo 1234567890 | iriscli stake create-validator --pubkey=fcp1zcjduepqgzh3hnx7399tqp5zwrrsn5wh8y8zf9r0s0m7z3d28u4rdudh7d8qcnlgjq --moniker=node1 --amount=900iris --fee=0.4iris --from=node1 --chain-id=fuxi --commission-rate=0.21 --commit
     验证:
     iriscli stake validators
 
@@ -90,7 +90,7 @@ echo 1234567890 | iriscli gov vote --option=Yes --fee=0.4iris --commit --from=no
 6. unbond node1
 ===
 iriscli keys show node1 --bech val //
-echo 1234567890 | iriscli stake unbond --address-validator=fva17lxjwgkk3tntq2nuyprazcyfg876cqu46umr67 --shares-percent=1 --fee=0.4iris --commit --from=node1 --chain-id=fuxi
+echo 1234567890 | iriscli stake unbond --address-validator=fva16gujqyv62frjers2wpyd786lg3tr45ud3u76kw --shares-percent=1 --fee=0.4iris --commit --from=node1 --chain-id=fuxi
     验证:
     iriscli stake validators  （一小时 iriscli params --module=stake）
 交还。

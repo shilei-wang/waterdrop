@@ -72,11 +72,11 @@ git branch && git rev-parse HEAD
     // git checkout v0.15.0
     git branch && git rev-parse HEAD
 
-    === 某个 hash ：  ==== // bb72b8129937f7c3e3b290b779809f974dacd81c
+    === 某个 hash ：  ==== // 92f8a6525c2f5ecc4d86a714127d8745bf56910a
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    git reset --hard bb72b8129937f7c3e3b290b779809f974dacd81c
+    git reset --hard 92f8a6525c2f5ecc4d86a714127d8745bf56910a
     git branch && git rev-parse HEAD
 
     === 某个 分支 ：  ==== // vincent/gas-consume-base
@@ -86,7 +86,7 @@ git branch && git rev-parse HEAD
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    git checkout -b vincent/gas-consume-base origin/vincent/gas-consume-base
+    git checkout -b release0.15 upstream/release0.15
     git branch && git rev-parse HEAD
 
     如果别人改了新的代码  直接git pull就行了

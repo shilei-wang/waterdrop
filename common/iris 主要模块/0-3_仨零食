@@ -2,6 +2,26 @@
 ========================================================================================================================
 ========================================================================================================================
 ========================================================================================================================
+2.【最后块(或者距离最新块<100块)】
+
+iris export --for-zero-height --home=/Users/sherlock/fuxi_node --output-file=/Users/sherlock/genesis.json
+
+
+
+iris unsafe-reset-all --home=/Users/sherlock/fuxi_node
+echo y | cp /Users/sherlock/genesis.json /Users/sherlock/fuxi_node/config/genesis.json
+iris start --home=/Users/sherlock/fuxi_node
+
+
+echo 1234567890 | iriscli stake delegate --address-validator=fva16gujqyv62frjers2wpyd786lg3tr45ud3u76kw --amount=2000iris --fee=0.4iris --commit  --from=node1  --chain-id=fuxi
+
+echo 1234567890 | iriscli stake unjail --fee=0.4iris --commit --from=node1 --chain-id=fuxi
+
+echo 1234567890 | iriscli stake unbond --address-validator=fva16gujqyv62frjers2wpyd786lg3tr45ud3u76kw --shares-percent=1 --fee=0.4iris --commit --from=node1 --chain-id=fuxi
+
+
+echo 1234567890 | iriscli stake delegate --address-validator=fva169x02pq8km0rvum8tgqseexaq7dk5mx5tftt9j --amount=10000iris --fee=0.4iris --commit  --from=node0  --chain-id=fuxi
+
 ========================================================================================================================
 ========================================================================================================================
 ========================================================================================================================
