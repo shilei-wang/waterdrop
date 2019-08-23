@@ -74,6 +74,4 @@ echo 1234567890 | iriscli stake delegate --address-validator=fva1rdz2hj85569jpdt
 
 
 '''''
-coinswap.liquidities.(id).deposit
-
-
+1000000000000000000

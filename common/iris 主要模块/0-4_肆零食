@@ -85,3 +85,11 @@ PUT
 ===================
 ===================
 ===================
+第一次
+re = CoinswapUtils.deposit(v0, "t142266", "10000", "1", "default", "default", "default")
+比例
+10000：1
+第二次
+re = CoinswapUtils.deposit(v0, "t142266", "5000", "1", "default", "default", "default")
+根据公式
+dt = 5000/10000*1 +1  =1 实际这个1在代码里遗漏了
