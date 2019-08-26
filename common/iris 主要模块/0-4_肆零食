@@ -1,5 +1,5 @@
 
-**Describe the bug**
+
 **To Reproduce**
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
@@ -7,6 +7,18 @@
 -------------------------------------------------------------------------------------
 
 
+[p1] The calculation formula of "Add Liquidity" does not agree with the Spec.
+
+**Describe the bug**
+Wrong application of formulas in code implementation.
+
+In practice：
+∆t = ⌊(∆i/i) * t⌋
+∆l = ⌊(∆i/i) * l⌋ + 1
+
+But in Spec：
+∆t = ⌊(∆i/i) * t⌋ + 1
+∆l = ⌊(∆i/i) * l⌋
 
 
 
@@ -93,4 +105,6 @@ re = CoinswapUtils.deposit(v0, "t142266", "10000", "1", "default", "default", "d
 re = CoinswapUtils.deposit(v0, "t142266", "5000", "1", "default", "default", "default")
 根据公式
 dt = 5000/10000*1 +1  =1 实际这个1在代码里遗漏了
+
+
 
