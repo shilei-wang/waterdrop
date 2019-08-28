@@ -40,3 +40,6 @@ curl -X POST "http://localhost:1317/coinswap/liquidities/sell" -H "accept: */*" 
 echo "11111111" | iriscli tx sign unsigned_sell.json --name test > signed_sell.json
 
 iriscli tx broadcast signed_sell.json --commit
+
+8924931410249347158
+10000000000000000000

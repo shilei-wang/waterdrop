@@ -1,27 +1,50 @@
 
-
+**Describe the bug**
 **To Reproduce**
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
+
+
+t507602
+
+user_84526427
+
+faa1mrah3cc3c080vujkw7wn97ka2dwchyeamrqp4m
 -------------------------------------------------------------------------------------
 
+exchange fee 全部打入流动池吗
 
-[p1] The calculation formula of "Add Liquidity" does not agree with the Spec.
+bug  swag 没有更新
 
+
+[p2] "swagger-ui/Coinswap" not updated in time
 **Describe the bug**
-Wrong application of formulas in code implementation.
+Since we use "is_buy_order" to distinguish "buy" from "sell", we dont need the following apis any more.
 
-In practice：
-∆t = ⌊(∆i/i) * t⌋
-∆l = ⌊(∆i/i) * l⌋ + 1
+POST /coinswap/liquidities/buy
 
-But in Spec：
-∆t = ⌊(∆i/i) * t⌋ + 1
-∆l = ⌊(∆i/i) * l⌋
+POST /coinswap/liquidities/sell
 
 
 
+
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+[p1] The calculation formula of "Add Liquidity" does not agree with the Spec.
+https://github.com/irisnet/irishub/issues/1914
+
+[p1] Coin set Panic caused by sending liquidity without "-min"
+https://github.com/irisnet/irishub/issues/1916
+
+[p1] LCD server Panic caused by trying to withdraw with negative liquidity
+https://github.com/irisnet/irishub/issues/1923
+
+[p3] The "min reward" expression is no longer used.
+https://github.com/irisnet/irishub/issues/1924
+
+[p1] "Coinswap/buyOrder" does not run as expected， continuous buy-order will reduce token prices.
+https://github.com/irisnet/irishub/issues/1927
 
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
@@ -32,10 +55,6 @@ But in Spec：
 
 
 ============== raw bug ================
-liq低了返回不一致
-Msg 0 failed: {"codespace":"coinswap","code":105,"message":"liquidity[1] is less than user 's min reward[10]"}
-
-
 ============== raw bug ================
 ============== raw bug ================
 ============== raw bug ================
@@ -97,14 +116,6 @@ PUT
 ===================
 ===================
 ===================
-第一次
-re = CoinswapUtils.deposit(v0, "t142266", "10000", "1", "default", "default", "default")
-比例
-10000：1
-第二次
-re = CoinswapUtils.deposit(v0, "t142266", "5000", "1", "default", "default", "default")
-根据公式
-dt = 5000/10000*1 +1  =1 实际这个1在代码里遗漏了
 
 
 
