@@ -5,26 +5,15 @@
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 
-
-t507602
-
-user_84526427
-
-faa1mrah3cc3c080vujkw7wn97ka2dwchyeamrqp4m
--------------------------------------------------------------------------------------
-
-exchange fee 全部打入流动池吗
-
-bug  swag 没有更新
+取出代币》现有代币数量时 后面那个1000 应该表述不对， 更新代码后验证
+************** mark ***************
+Msg 0 failed: {"codespace":"coinswap","code":105,"message":"token amount (46999124046248751815) to be bought was less than the minimum amount (10000000000000000000)"}
+*****************************
 
 
-[p2] "swagger-ui/Coinswap" not updated in time
-**Describe the bug**
-Since we use "is_buy_order" to distinguish "buy" from "sell", we dont need the following apis any more.
 
-POST /coinswap/liquidities/buy
 
-POST /coinswap/liquidities/sell
+
 
 
 
@@ -46,9 +35,17 @@ https://github.com/irisnet/irishub/issues/1924
 [p1] "Coinswap/buyOrder" does not run as expected， continuous buy-order will reduce token prices.
 https://github.com/irisnet/irishub/issues/1927
 
--------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------
+[p3] Incorrect description of error prompt when user try to swap all the tokens from the liquid-pool
+https://github.com/irisnet/irishub/issues/1931
 
+[p3] Incorrect description of error prompt when the amount of input iris is less than the actual amount
+https://github.com/irisnet/irishub/issues/1932
+
+
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+46999124046248751815
+10000000000000000000
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
