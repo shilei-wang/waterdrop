@@ -5,21 +5,30 @@
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 
-取出代币》现有代币数量时 后面那个1000 应该表述不对， 更新代码后验证
-************** mark ***************
-Msg 0 failed: {"codespace":"coinswap","code":105,"message":"token amount (46999124046248751815) to be bought was less than the minimum amount (10000000000000000000)"}
-*****************************
-
-
-
-
-
-
 
 
 
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+
+
+
+============== raw bug ================
+============== raw bug ================
+============== raw bug ================
+@奚海峰  @程文席
+
+v0.16.0-dev coinswap提测已经完成
+共计10处bug, 另重新reopen一处已关闭bug(coinswap会重新触发)。
+
+[p1] "ProposalBlock Invalid" is observed after starting a new chain from exported genesis
+https://github.com/irisnet/irishub/issues/1960
+
 [p1] The calculation formula of "Add Liquidity" does not agree with the Spec.
 https://github.com/irisnet/irishub/issues/1914
 
@@ -29,11 +38,17 @@ https://github.com/irisnet/irishub/issues/1916
 [p1] LCD server Panic caused by trying to withdraw with negative liquidity
 https://github.com/irisnet/irishub/issues/1923
 
-[p3] The "min reward" expression is no longer used.
-https://github.com/irisnet/irishub/issues/1924
-
 [p1] "Coinswap/buyOrder" does not run as expected， continuous buy-order will reduce token prices.
 https://github.com/irisnet/irishub/issues/1927
+
+[p2] "invalid coin denominations" was observed under specific use cases
+https://github.com/irisnet/irishub/issues/1963
+
+[p2] "panic recovered: interface conversion" was observed after submitting a upgrade proposal in rest api
+https://github.com/irisnet/irishub/issues/1964
+
+[p3] The "min reward" expression is no longer used.
+https://github.com/irisnet/irishub/issues/1924
 
 [p3] Incorrect description of error prompt when user try to swap all the tokens from the liquid-pool
 https://github.com/irisnet/irishub/issues/1931
@@ -41,38 +56,12 @@ https://github.com/irisnet/irishub/issues/1931
 [p3] Incorrect description of error prompt when the amount of input iris is less than the actual amount
 https://github.com/irisnet/irishub/issues/1932
 
-
--------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------
-46999124046248751815
-10000000000000000000
--------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------
-
+(Reopen. The bug was still observed in Coinswap)
+[p1] Export Fuxi testnet for-zero-height panics
+https://github.com/irisnet/irishub/issues/1897
 
 ============== raw bug ================
 ============== raw bug ================
-============== raw bug ================
-============== raw bug ================
-============== raw bug ================
-
- submit proposal 911
-
-proposal_id = GovUtils.submitProposalWithParams(v1,"proposer:"+v1_faa, "version:2" ,"proposal_type:SoftwareUpgrade", "initial_deposit:1200iris","switch-height:50000000", "software:t","title:title","description:description")
-
-先在 signAndBroadcast 得到签名后交易
-		String tx_signed = CmdUtils.sign(account)
-		CmdUtils.pl(tx_signed)
-
-		return ""
-
-
-在lcd网页上广播
-
-
-{"codespace":"sdk","code":1,"message":"recovered: interface conversion: gov.Content is gov.MsgSubmitProposal, not gov.MsgSubmitSoftwareUpgradeProposal\nstack:\ngoroutine 116 [running]:\nruntime/debug.Stack(0xc0008415a8, 0x4d346c0, 0xc003c53f80)\n\t/usr/local/Cellar/go/1.12.5/libexec/src/runtime/debug/stack.go:24 +0x9d\ngithub.com/irisnet/irishub/app.(*BaseApp).runTx.func1(0xc000843a28, 0xc000843800, 0xc000843778)\n\t/Users/sherlock/go/src/github.com/irishub/app/baseapp.go:757 +0x93\npanic(0x4d346c0, 0xc003c53f80)\n\t/usr/local/Cellar/go/1.12.5/libexec/src/runtime/panic.go:522 +0x1b5\ngithub.com/irisnet/irishub/app/v1/gov.createSoftwareUpgradeInfo.func1.1(0x0, 0xc003833e15, 0x5, 0xc003833e30, 0xb, 0x102, 0xc00388fa40, 0xc00388fa60, 0xc00388fa80, 0xc00388faa0, ...)\n\t/Users/sherlock/go/src/github.com/irishub/app/v1/gov/proposal_util.go:47 +0x227\ngithub.com/irisnet/irishub/app/v1/gov.buildProposal(0xa0607c8, 0xc003710540, 0x4ffdf80, 0xc000171680, 0xffffffffffffffff)\n\t/Users/sherlock/go/src/github.com/irishub/app/v1/gov/proposal_util.go:128 +0x28d\ngithub.com/irisnet/irishub/app/v1/gov.createSoftwareUpgradeInfo.func1(0xa0607c8, 0xc003710540, 0x4e8d567, 0xf)\n\t/Users/sherlock/go/src/github.com/irishub/app/v1/gov/proposal_util.go:46 +0x41\ngithub.com/irisnet/irishub/app/v1/gov.ProposalKind.NewProposal(0xc003710502, 0xa0607c8, 0xc003710540, 0xa0607c8, 0xc003710540, 0x4e558a0, 0xc00388f170)\n\t/Users/sherlock/go/src/github.com/irishub/app/v1/gov/proposals.go:293 +0x86\ngithub.com/irisnet/irishub/app/v1/gov.Keeper.SubmitProposal(0x51b9500, 0xc0001f3c70, 0xc00012d1f0, 0xc00012d1f0, 0x51b9500, 0xc0001f3c90, 0x51b9540, 0xc0001f3ca0, 0xc000a58e00, 0x3, ...)\n\t/Users/sherlock/go/src/github.com/irishub/app/v1/gov/keeper.go:90 +0xa7\ngithub.com/irisnet/irishub/app/v1/gov.handleMsgSubmitProposal(0x51c8200, 0xc003c53f50, 0xc00391ddc0, 0x1c, 0x51b9500, 0xc0001f3c70, 0xc00012d1f0, 0xc00012d1f0, 0x51b9500, 0xc0001f3c90, ...)\n\t/Users/sherlock/go/src/github.com/irishub/app/v1/gov/handler.go:31 +0xe1\ngithub.com/irisnet/irishub/app/v1/gov.NewHandler.func1(0x51c8200, 0xc003c53f50, 0xc00391ddc0, 0x1c, 0x51cc640, 0xc003710540, 0x0, 0x0, 0x0, 0x0, ...)\n\t/Users/sherlock/go/src/github.com/irishub/app/v1/gov/handler.go:18 +0x137\ngithub.com/irisnet/irishub/app.(*BaseApp).runMsgs(0xc00019e2c0, 0x51c8200, 0xc003c53ec0, 0xc00391ddc0, 0x1b, 0xc0035fb080, 0x1, 0x1, 0x51c8202, 0x0, ...)\n\t/Users/sherlock/go/src/github.com/irishub/app/baseapp.go:643 +0x1143\ngithub.com/irisnet/irishub/app.(*BaseApp).runTx(0xc00019e2c0, 0x2, 0xc003492200, 0xf6, 0xf6, 0x51bb500, 0xc003fbd1a0, 0x0, 0x0, 0x0, ...)\n\t/Users/sherlock/go/src/github.com/irishub/app/baseapp.go:866 +0xa4f\ngithub.com/irisnet/irishub/app.(*BaseApp).DeliverTx(0xc00019e2c0, 0xc003492200, 0xf6, 0xf6, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, ...)\n\t/Users/sherlock/go/src/github.com/irishub/app/baseapp.go:570 +0x286\ngithub.com/tendermint/tendermint/abci/client.(*localClient).DeliverTxAsync(0xc0000a33e0, 0xc003492200, 0xf6, 0xf6, 0x0)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/abci/client/local_client.go:88 +0xc5\ngithub.com/tendermint/tendermint/proxy.(*appConnConsensus).DeliverTxAsync(0xc000a161c0, 0xc003492200, 0xf6, 0xf6, 0x9)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/proxy/app_conn.go:73 +0x51\ngithub.com/tendermint/tendermint/state.execBlockOnProxyApp(0x51c8dc0, 0xc000107000, 0x51d42c0, 0xc000a161c0, 0xc002b73a40, 0xc003e538f0, 0x51dc820, 0xc000010200, 0x6, 0xc000a0b3f0, ...)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/state/execution.go:275 +0x5e2\ngithub.com/tendermint/tendermint/state.(*BlockExecutor).ApplyBlock(0xc00012c0e0, 0x9, 0x1, 0xc000a0b3d6, 0x6, 0xc000a0b3f0, 0x9, 0x2606, 0x8a, 0xc003d74d60, ...)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/state/execution.go:104 +0x195\ngithub.com/tendermint/tendermint/consensus.(*ConsensusState).finalizeCommit(0xc0008c6000, 0x2607)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/consensus/state.go:1331 +0x969\ngithub.com/tendermint/tendermint/consensus.(*ConsensusState).tryFinalizeCommit(0xc0008c6000, 0x2607)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/consensus/state.go:1262 +0x3e0\ngithub.com/tendermint/tendermint/consensus.(*ConsensusState).enterCommit.func1(0xc0008c6000, 0x0, 0x2607)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/consensus/state.go:1208 +0x91\ngithub.com/tendermint/tendermint/consensus.(*ConsensusState).enterCommit(0xc0008c6000, 0x2607, 0x0)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/consensus/state.go:1239 +0x61e\ngithub.com/tendermint/tendermint/consensus.(*ConsensusState).addVote(0xc0008c6000, 0xc0032a8c80, 0xc00088c0c0, 0x28, 0x6501460, 0xc000845ad8, 0xc000845b18)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/consensus/state.go:1664 +0xb43\ngithub.com/tendermint/tendermint/consensus.(*ConsensusState).tryAddVote(0xc0008c6000, 0xc0032a8c80, 0xc00088c0c0, 0x28, 0x106, 0x106, 0x0)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/consensus/state.go:1510 +0x5c\ngithub.com/tendermint/tendermint/consensus.(*ConsensusState).handleMsg(0xc0008c6000, 0x51a9ee0, 0xc003f64ba8, 0xc00088c0c0, 0x28)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/consensus/state.go:689 +0x6cc\ngithub.com/tendermint/tendermint/consensus.(*ConsensusState).receiveRoutine(0xc0008c6000, 0x0)\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/consensus/state.go:637 +0x6a0\ncreated by github.com/tendermint/tendermint/consensus.(*ConsensusState).OnStart\n\t/Users/sherlock/go/pkg/mod/github.com/irisnet/tendermint@v0.31.0/consensus/state.go:322 +0x13a\n"}
-
 
 ===================
 {

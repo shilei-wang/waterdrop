@@ -72,11 +72,11 @@ git branch && git rev-parse HEAD
     // git checkout v0.15.0
     git branch && git rev-parse HEAD
 
-    === 某个 hash ：  ==== // 92f8a6525c2f5ecc4d86a714127d8745bf56910a
+    === 某个 hash ：  ==== // 78ef3b92b363cbbddd1ba0c6b105b7689481a64a
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    git reset --hard 92f8a6525c2f5ecc4d86a714127d8745bf56910a
+    git reset --hard 78ef3b92b363cbbddd1ba0c6b105b7689481a64a
     git branch && git rev-parse HEAD
 
     === 某个 分支 ：  ==== // vincent/gas-consume-base
