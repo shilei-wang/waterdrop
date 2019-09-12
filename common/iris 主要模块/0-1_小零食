@@ -1,0 +1,8 @@
+echo 1234567890 | iriscli bank send --amount=11000000iris-micro --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+Cases/cmd/stake/delegate/IRISHUB-895
+Cases/cmd/service/invocation/refund-fees/IRISHUB-793
+Cases/cmd/service/invocation/withdraw-fees/IRISHUB-795
+
+测试token 名字里含有uni

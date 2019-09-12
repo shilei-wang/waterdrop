@@ -10,7 +10,7 @@ git checkout -b vincent upstream/vincent/iris
 git branch
 
 subl  ~/.bash_profile
-export GO111MODULE=auto          ==> [然后save]
+export GO111MODULE=auto          ==> [然后save]  编译之前有时候要改成on
 source ~/.bash_profile
 
 cd /Users/sherlock/go/src/github.com/irisnet/iks
@@ -19,7 +19,7 @@ make install
 新页面 :
 brew install jq
 
-iris需要编译主网版本
+iris需要编译主网版本!!!
 cd /Users/sherlock/go/src/github.com/irishub
 make install
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go nm 1
@@ -31,9 +31,10 @@ go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lan
 ------------------
 rm -rf  ~/.iks
 
-// config 存在,默认是localhost，: subl ~/.iks/config.yaml
-// 可以改成主网 node: http://irisnet-rpc.rainbow.one:26657
 iks config
+// config 存在,默认是localhost，: subl ~/.iks/config.yaml
+// 可以改成主网 node: http://irisnet-rpc.rainbow.one:26657  （本地测localhost保持不变）
+
 iks serve
 
 新页面，创建用户a：保存在  ~/.iks
@@ -43,7 +44,7 @@ iks keys post a 1234567890 | jq
 {
   "name": "a",
   "type": "local",
-  "address": "iaa1wr04c02ju9tqt7tfk5ktq770q2ydxmmcx2he88",
+  "address": "iaa178wrg5w9dpl6hjkyy3w4k7yg6n49pdsw53u2pl",
   "pub_key": "iap1addwnpepqfgxhv6ypv4z44qvhv5flzmk84yz34jxh0c5xn77a375t7332uqdxpfla9z",
   "seed": "erupt parent federal gown choice ready dwarf winner antenna eye brush trap insect trip raccoon neither near scene assault citizen swap obtain upgrade perfect"
 }
@@ -52,7 +53,7 @@ iks keys post b 1234567890 | jq
 
 
 给账户里转一笔钱：
-echo 1234567890 | iriscli bank send --amount=20000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=iaa1xccvlwezu6hwn8xrnns9a7yrje3f750at2mfqf
+echo 1234567890 | iriscli bank send --amount=20000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=iaa178wrg5w9dpl6hjkyy3w4k7yg6n49pdsw53u2pl
 
 cd ~
 //从第一个账户地址转账到第二个账户地址, chain-id，memo ，fee
@@ -62,7 +63,7 @@ iks tx bank send $(iks keys show a | jq -r .address) $(iks keys show b | jq -r .
 iriscli bank account $(iks keys show a | jq -r .address)
 
 //签名, chain-id ，account num, sequence id
-iks tx sign a 1234567890 shilei-qa 1 0 unsigned.json > signed.json
+iks tx sign a 1234567890 shilei-qa 3 0 unsigned.json > signed.json
 
 //广播
 iks tx broadcast signed.json
@@ -71,7 +72,7 @@ iks tx broadcast signed.json
 注：如果交易没成功，则没有任何提示，看节点log只能看到交易数量为0.此时也可以用 iriscli tx broadcast signed.json --commit 来看下到底什么原因导致失败
 
 //查询
-iriscli tendermint tx 30C139012B379B41CAAA23348617B2201234D18CFC9230CAF10A3A5437B79CE9 --trust-node
+iriscli tendermint tx 03BF9EB3517F0BD67BA73F2A66D18968C58DE08BBE3A4F53CEE407428DC43F3A --trust-node
 
 ------------------
 使用 rest
@@ -91,8 +92,8 @@ localhost:3000/keys
 	"mnemonic": "caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save"
 }
 
->>>> GET /keys/c?bech=acc <<<<
-localhost:3000/keys/c?bech=acc
+>>>> GET /keys/a?bech=acc <<<<
+localhost:3000/keys/a?bech=acc
 
 >>>> PUT  /keys/{name} <<<<
 localhost:3000/keys/{name}
@@ -110,9 +111,9 @@ localhost:3000/keys/c
 >>>> POST  /tx/bank/send  构造交易<<<<
 localhost:3000/tx/bank/send
 {
-	"sender": "iaa1xccvlwezu6hwn8xrnns9a7yrje3f750at2mfqf",
+	"sender": "iaa178wrg5w9dpl6hjkyy3w4k7yg6n49pdsw53u2pl",
 	"reciever": "iaa1p2fspv2wltf4v5pecw9kdpekpqcrlyzzd8dxz3",
-	"amount": "10iris",
+	"amount": "1000iris",
 	"chain-id": "shilei-qa",
 	"memo": "test-1iris",
 	"fees": "1iris",
@@ -129,11 +130,11 @@ localhost:3000/tx/sign
 
 {
 	"name":"a",
-	"passphrase": "1234567890",
+	"password": "1234567890",
 	"chain_id": "shilei-qa",
 	"account_number": "3",
-	"sequence": "0",
-	"tx": {"type":"irishub/bank/StdTx","value":{"msg":[{"type":"irishub/bank/Send","value":{"inputs":[{"address":"iaa1xccvlwezu6hwn8xrnns9a7yrje3f750at2mfqf","coins":[{"denom":"iris-atto","amount":"10000000000000000000"}]}],"outputs":[{"address":"iaa1p2fspv2wltf4v5pecw9kdpekpqcrlyzzd8dxz3","coins":[{"denom":"iris-atto","amount":"10000000000000000000"}]}]}}],"fee":{"amount":[{"denom":"iris-atto","amount":"1000000000000000000"}],"gas":"50000"},"signatures":[],"memo":"test-1iris"}}
+	"sequence": "1",
+	"tx": {"type":"irishub/bank/StdTx","value":{"msg":[{"type":"irishub/bank/Send","value":{"inputs":[{"address":"iaa1tqsvc4ydjz6agkd0x3ufurlf0lqavqlmlnck45","coins":[{"denom":"iris-atto","amount":"1000000000000000000000"}]}],"outputs":[{"address":"iaa1p2fspv2wltf4v5pecw9kdpekpqcrlyzzd8dxz3","coins":[{"denom":"iris-atto","amount":"1000000000000000000000"}]}]}}],"fee":{"amount":[{"denom":"iris-atto","amount":"1000000000000000000"}],"gas":"50000"},"signatures":[],"memo":"test-1iris"}}
 }
 
 返回type，贴在下面命令里：
@@ -149,6 +150,7 @@ localhost:3000/tx/broadcast
 
 
 返回type，查询交易：
-{"height":"0","txhash":"CE17CC83B678314877F13576ABA8F61C4A73FE08484D6BF6666E8D1621F39224"}
+{"height":"0","txhash":"17D5CBCB3B4CCC7040A9D7AE6881878BBDD7F7769735450F67DDC9B6E83D6002"}
 
-iriscli tendermint tx CE17CC83B678314877F13576ABA8F61C4A73FE08484D6BF6666E8D1621F39224 --trust-node
+iriscli tendermint tx 17D5CBCB3B4CCC7040A9D7AE6881878BBDD7F7769735450F67DDC9B6E83D6002 --trust-node
+iriscli bank account $(iks keys show a | jq -r .address)
