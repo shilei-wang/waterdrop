@@ -5,4 +5,6 @@ Cases/cmd/stake/delegate/IRISHUB-895
 Cases/cmd/service/invocation/refund-fees/IRISHUB-793
 Cases/cmd/service/invocation/withdraw-fees/IRISHUB-795
 
-测试token 名字里含有uni
+[p1] "panic: invalid coin set" is observed when trying to send tokens with "iris-micro" unit
+测一下  抵押！！？
+
