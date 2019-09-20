@@ -225,7 +225,7 @@ HTLC
 
 
 ======================
-概念
+概念： 管理 HTCL，同其他链上的资产进行原子交换
 ======================
 htlc : asset/receiver/hashlock/timeout
 
@@ -235,6 +235,53 @@ B: hashlock(A的) -> HTLC（地址为A）
 A用自secret claimB的HTLC
 B得到了A的secret 然后claimA的HTLC
 
+
+======================
+工具
+======================
+
+---
+生成随机secret
+---
+iristool debug rand-bech32
+（secret）c11253563a79bc91d35070834034f9896f27a6bfa2938ede3cd1acff3a57d5dc
+
+---
+通过secret生成hash-lock (注意：带不带timestamp结果是不一样的， timestamp是适配币安)
+---
+iristool debug hash-lock c11253563a79bc91d35070834034f9896f27a6bfa2938ede3cd1acff3a57d5dc 1580000000
+ff9878983871e35a4b267e9d38c73f13d3f5a2736dda1bd066e95a27d825acd6
+
+iristool debug hash-lock 5aa2bbf19ef41b0616908cd4bc81f137f92890f50ea12e17f13264539ca00c74
+72f5ba7d4b2027b86415a757164013f4b797f0b14ec3a5a06ddf9dc849593a7e
+
+
+======================
+Create htlc
+======================
+//注意：因为本链 所以other-chain这个暂时00
+echo 1234567890 | iriscli htlc create --from=v0 --receiver=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=10iris --time-lock=50 --timestamp=1580000000 --hash-lock=ff9878983871e35a4b267e9d38c73f13d3f5a2736dda1bd066e95a27d825acd6 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=shilei-qa --commit
+
+
+======================
+查询  query-htlc
+======================
+
+iriscli htlc query-htlc ff9878983871e35a4b267e9d38c73f13d3f5a2736dda1bd066e95a27d825acd6
+
+
+======================
+声明所有 claim
+======================
+
+echo 1234567890 | iriscli htlc claim --hash-lock=ff9878983871e35a4b267e9d38c73f13d3f5a2736dda1bd066e95a27d825acd6 --secret=c11253563a79bc91d35070834034f9896f27a6bfa2938ede3cd1acff3a57d5dc --from=v0 --fee=0.3iris --chain-id=shilei-qa --commit
+
+
+======================
+取回过期  htlc refund
+======================
+
+echo 1234567890 | iriscli htlc refund --from=v0 --hash-lock=ff9878983871e35a4b267e9d38c73f13d3f5a2736dda1bd066e95a27d825acd6 --fee=0.3iris --chain-id=shilei-qa --commit
 
 
 
