@@ -7,10 +7,12 @@
 
 
 
+[p2] stampstamp support empty
+
 ---
 
 
--------------------------------------------------------------------------------------
+-------------------------------------------------------------------S------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
@@ -20,8 +22,16 @@
 [p1][HTLC] Security issue：User can refund htlc which has been already claimed.
 https://github.com/irisnet/irishub/issues/2000
 
+[p1][HTLC] Two parameters（secret&hashlock）reversed makes programs behave erratically.
+https://github.com/irisnet/irishub/issues/2011
+
+[p2][HTLC] Request body in "Swagger/HTLC/Claim/Model" is not correct.
+https://github.com/irisnet/irishub/issues/2010
+
 [p3] Query-htlc Base64 encode should neglect NULL field
 https://github.com/irisnet/irishub/issues/2001
+
+
 
 [p1] "panic: invalid coin set" is observed when trying to send tokens with "iris-micro" unit
 https://github.com/irisnet/irishub/issues/1969

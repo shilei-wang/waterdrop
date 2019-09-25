@@ -83,7 +83,7 @@ irishub-load 压力测试
     irishub-load signtx --config-dir=$HOME --tps=1 --duration=1 --account=user0
 
     【命令3】广播签名数据，每秒广播tps个交易， 如果在1s时间段完成， 则sleep直到1s时间结束，
-    irishub-load broadcast --config-dir=$HOME --tps=20
+    irishub-load broadcast --config-dir=$HOME --tps=5
 
     5. 监控
     最新块
