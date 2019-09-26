@@ -80,10 +80,10 @@ irishub-load 压力测试
     irishub-load init --config-dir=$HOME
 
     【命令2】先读指定账户私钥， 再生成签名数据(总数=tps*duration*60), user0， user1，user2，user3
-    irishub-load signtx --config-dir=$HOME --tps=1 --duration=1 --account=user0
+    irishub-load signtx --config-dir=$HOME --tps=3000 --duration=1 --account=user0
 
     【命令3】广播签名数据，每秒广播tps个交易， 如果在1s时间段完成， 则sleep直到1s时间结束，
-    irishub-load broadcast --config-dir=$HOME --tps=5
+    irishub-load broadcast --config-dir=$HOME --tps=500
 
     5. 监控
     最新块
@@ -178,3 +178,5 @@ irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id
 | 5节点*80=400 | 305    |  1分钟  |   5秒     |
 | 5节点*80=400 | 343    |  1分钟  |   2秒     |
 | 5节点*100=500| 264    |  1分钟  |   2秒     |
+
+最新的代码单机的tps上限在500-550
