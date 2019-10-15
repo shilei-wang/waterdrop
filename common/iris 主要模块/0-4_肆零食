@@ -17,9 +17,7 @@
 -------------------------------------------------------------------------------------
 
 
-[p1] "panic: invalid coin set" is observed when trying to send tokens with "iris-micro" unit
-https://github.com/irisnet/irishub/issues/1969
-[12345iris-femto 注意delegate这个也会出错] Cases/cmd/stake/delegate/IRISHUB-895
+
 
 ============== raw bug ================
 ============== raw bug ================
@@ -32,76 +30,11 @@ v0.16.0-dev coinswap提测已经完成
 [p1] "ProposalBlock Invalid" is observed after starting a new chain from exported genesis
 https://github.com/irisnet/irishub/issues/1960
 
-[p1] The calculation formula of "Add Liquidity" does not agree with the Spec.
-https://github.com/irisnet/irishub/issues/1914
 
-[p1] Coin set Panic caused by sending liquidity without "-min"
-https://github.com/irisnet/irishub/issues/1916
-
-[p1] LCD server Panic caused by trying to withdraw with negative liquidity
-https://github.com/irisnet/irishub/issues/1923
-
-[p1] "Coinswap/buyOrder" does not run as expected， continuous buy-order will reduce token prices.
-https://github.com/irisnet/irishub/issues/1927
-
-[p2] "invalid coin denominations" was observed under specific use cases
-https://github.com/irisnet/irishub/issues/1963
-
-[p2] "panic recovered: interface conversion" was observed after submitting a upgrade proposal in rest api
-https://github.com/irisnet/irishub/issues/1964
-
-[p3] The "min reward" expression is no longer used.
-https://github.com/irisnet/irishub/issues/1924
-
-[p3] Incorrect description of error prompt when user try to swap all the tokens from the liquid-pool
-https://github.com/irisnet/irishub/issues/1931
-
-[p3] Incorrect description of error prompt when the amount of input iris is less than the actual amount
-https://github.com/irisnet/irishub/issues/1932
-
-(Reopen. The bug was still observed in Coinswap)
-[p1] Export Fuxi testnet for-zero-height panics
-https://github.com/irisnet/irishub/issues/1897
 
 ============== raw bug ================
 ============== raw bug ================
 
-===================
-{
-  "base_tx": {
-    "sequence": "23",
-    "account_number": "2",
-    "password": "1234567890",
-    "chain_id": "shilei-qa",
-    "gas_adjustment": "1.2",
-    "fee": "0.6iris",
-    "name": "node0",
-    "gas": "100000"
-  },
-  "def_chain_id": "shilei-qa",
-  "service_name": "001_service_01667777",
-  "binding_type": "Local",
-  "deposit": "0iris",
-  "prices": [
-    "0iris",
-    "0iris"
-  ],
-  "level": {
-    "avg_rsp_time": "0",
-    "usable_time": "0"
-  }
-}
-
-PUT
-/service/bindings/{defChainId}/{serviceName}/{provider}
-无法生成有bug deposit=0 or price=0
-===================
-//0iris service fee 的事 都暂时放一下 重构后在一起弄
-	if (i==3){
-		continue
-	}
-
-	enable的时候 抵押0iris出错
 ===================
 ===================
 ===================

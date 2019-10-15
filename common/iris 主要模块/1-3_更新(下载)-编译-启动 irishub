@@ -67,9 +67,9 @@ git branch && git rev-parse HEAD
     cd /Users/sherlock/go/src/github.com/irishub
     git fetch --all
     git checkout .
-    //第一次 git checkout -b v0.15.1 v0.15.1
-    // git merge v0.15.0
-    // git checkout v0.15.0
+    //第一次 git checkout -b v0.15.4 v0.15.4
+    // git merge v0.15.4
+    // git checkout v0.15.4
     git branch && git rev-parse HEAD
 
     === 某个 hash ：  ==== // 78ef3b92b363cbbddd1ba0c6b105b7689481a64a
