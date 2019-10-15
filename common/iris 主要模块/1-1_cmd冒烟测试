@@ -303,7 +303,7 @@ echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=
 ===
 
 
-5. 查询投票和赞助。 proposal生命周期结束会删除 （最后修改 vote peroid时候在看 时间太短）
+5. 查询投票和赞助。 proposal生命周期结束会删除
 iriscli gov query-vote      --voter=faa12xwh42s7k0a6s6hhszatektahewegg2flfjpu4 --chain-id=shilei-qa --proposal-id=1
 iriscli gov query-votes     --proposal-id=1
 iriscli gov query-deposit   --depositor=faa12xwh42s7k0a6s6hhszatektahewegg2flfjpu4 --proposal-id=12
@@ -320,11 +320,12 @@ iriscli gov query-tally --proposal-id=1
 
 8. param
 
-8.1 查询可治理参数
-    iriscli gov query-params --trust-node --module=stake
+8.1 查询可治理参数 （参见param）
+    iriscli params
+    iriscli params --module=service
 
 8.2 [交易] 发起修改参数提议
-    echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type="ParameterChange" --deposit="2000iris"  --param='stake/UnbondingTime=0h3m0s' --from=v0 --chain-id=shilei-qa --fee=0.004iris  --commit
+    echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type=Parameter --deposit="2000iris"  --param='auth/txSizeLimit=1000' --from=v0 --chain-id=shilei-qa --fee=0.004iris  --commit
 
 
 9. SoftwareHalt
@@ -342,8 +343,10 @@ echo 1234567890 | iriscli gov submit-proposal --trust-node --title=test --descri
    //先产生fee
 echo 1234567890 | iriscli bank send --amount=1iris-atto --to=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p --from=v0 --gas=10000 --fee=2260.9575iris --chain-id=shilei-qa --commit
 
+【添加新的trustee，只有trustee才能成为接收转账的对象】
 echo 1234567890 | iriscli guardian add-trustee --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=v0
 
+【Burn Distribute Grant】
    ====
    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test"  --title="burn tokens 5%" --type="CommunityTaxUsage" --usage="Burn" --percent=0.05
 
@@ -493,14 +496,18 @@ iriscli service response --request-chain-id=shilei-qa  --request-id=1815-1715-0
 
 14. 查询所有的服务费
 iriscli service fees faa1kepfks8l9s5h2yrglgq2vmarrdt0v9s7e8e5e5
+{
+  "returned_fee": ***,
+  "incoming_fee": ***
+}
 
-15. 取回服务调用退回的服务费
+15. 取回服务调用退回的服务费（买家）
 iriscli service refund-fees --chain-id=shilei-qa --from=v0 --fee=0.004iris
 
-16. 取回服务调用产生的服务费
+16. 取回服务调用产生的服务费（卖家）
 iriscli service withdraw-fees --chain-id=shilei-qa --from=v0 --fee=0.004iris
 
-17. trustees取回tax  （这里处理的是service price所收的tax） // iriscli guardian trustees
+17. trustees取回tax  （这里处理的是service price所收的tax） // 接受者必须为 trustees，  iriscli guardian trustees
 iriscli service withdraw-tax --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --dest-address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --withdraw-amount=0.017iris
 
 //iriscli bank account faa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9keyu4d
@@ -526,7 +533,7 @@ iriscli service requests --def-chain-id=shilei-qa --bind-chain-id=shilei-qa --pr
                9.cli config
 *******************************************
 gedit /root/.iriscli/config/config.toml
-1.
+
 iriscli config
 
 *******************************************
@@ -605,11 +612,6 @@ iriscli distribution rewards (新加查询接口 不需要余额大于fee)
          iriscli distribution withdraw-rewards --is-validator=true --from=v0 --fee=0.004iris --chain-id=shilei-qa --dry-run
 
      ===========================
-               查询community tax（来源： fee和通胀，trustee可以在gov中发起取回）
-     ===========================
-iriscli distribution community-tax
-
-     ===========================
       添加一个小小的delegator t1 ，方便读 validator-distr-info
      ===========================
 iriscli keys add t1
@@ -637,7 +639,7 @@ echo 1234567890 | iriscli rand request-rand --from=v0 --fee=0.004iris --commit -
 iriscli rand query-rand --request-id=8ee602877ea1477a8bac357b3de7cd939a3f42a1daaade61090d23fd18515380
 
 //查询某一个高度的随机数申请队列， 注意：一旦随机数生成，会从队列里面删除！！
-iriscli rand query-queue --queue-height=17483
+iriscli rand query-queue --queue-height=10433
 
 //查询所有队列
 iriscli rand query-queue

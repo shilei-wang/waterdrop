@@ -1,0 +1,77 @@
+**************************************************************************************
+bech32 prefix 的配置信息通过环境变量动态指定
+**************************************************************************************
+     --------------- 原始 -------------------
+    #export Bech32PrefixAccAddr="iaa" faa
+    #export Bech32PrefixAccPub="iap"  fap
+    #export Bech32PrefixValAddr="iva" fva
+    #export Bech32PrefixValPub="ivp"  fvp
+    #export Bech32PrefixConsAddr="ica" fca
+    #export Bech32PrefixConsPub="icp" fcp
+     ----------------------------------------
+
+1. 下载代码
+2. gedit /Users/sherlock/go/src/github.com/irisnet/irishub/tools/script/setBechPrefix.sh
+    export Bech32PrefixAccAddr="gaa"
+    export Bech32PrefixAccPub="gab"
+    export Bech32PrefixValAddr="gvc"
+    export Bech32PrefixValPub="gvd"
+    export Bech32PrefixConsAddr="gce"
+    export Bech32PrefixConsPub="gcf"
+
+3. source /Users/sherlock/go/src/github.com/irisnet/irishub/tools/script/setBechPrefix.sh
+    验证
+    echo $Bech32PrefixAccAddr
+
+4.
+make install
+go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 1
+
+5.
+// gaa gab => faa fap
+iriscli keys list
+// gvc gvd => fva fvp
+iriscli stake validators
+//     gcf =>     fcp  (fca暂时没有办法测)
+iris tendermint show-validator
+
+
+
+
+**************************************************************************************
+    iris add-genesis-account
+**************************************************************************************
+iris add-genesis-account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 200iris,20.4iris-milli --home=/Users/sherlock/testnet/v0/iris
+gedit /Users/sherlock/testnet/v0/iris/config/genesis.json
+
+---
+cd ~
+rm -rf .iriscli .iris testnet
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+【加入上面的】
+iris start --home=/Users/sherlock/testnet/v0/iris
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+**************************************************************************************
+    iristool (通过faa查出其他地址，或者反查) 。 反序列化 解析TX交易
+**************************************************************************************
+iristool debug addr faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+iristool debug addr fca1lcuw6ewd2gfxap37sejewmta205sgssmsa55dc
+iristool debug pubkey fvp1zcjduepq5rcpk6efzreexwwmp7pl7k47asyh4lrp3y85sd86ytlz0sz02k0q7l8jfs
+iristool debug pubkey fap1zcjduepq5rcpk6efzreexwwmp7pl7k47asyh4lrp3y85sd86ytlz0sz02k0qpkwgzw
+
+其中： iristool debug addr faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+{
+    Address (Hex): FE38ED65CD52126E863E8665976D7D53E904421B
+    Bech32 Acc: faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+    Bech32 Val: fva1lcuw6ewd2gfxap37sejewmta205sgssme9ru0m
+    Bech32 Cons: fca1lcuw6ewd2gfxap37sejewmta205sgssmsa55dc
+}
+
+反序列化 解析TX交易：
+    ====
+    交易 tx 返回高度
+    http://10.1.2.168:26657/block?height=3320 得到 txs中tx
+    iristool debug tx  mgLZHnawCoABKpckrAo8ChRR6dnhekT/4VmzZuNfHOHhXDwS9hIkCglpcmlzLWF0dG8SFzIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwEjwKFP447WXNUhJuhj6GZZdtfVPpBEIbEiQKCWlyaXMtYXR0bxIXMjAwMDAwMDAwMDAwMDAwMDAwMDAwMDASIwodCglpcmlzLWF0dG8SEDQwMDAwMDAwMDAwMDAwMDAQoJwBGmwKJuta6YchArpvEfXpMeqnKqQmI+uH7+YVL2bTNVk6NWx5FeWmsb7DEkCXO6Ugvfxb1jvYrq99V1jXIbhRZH/QfOh2ncAytziqWka0cXvYT+6dFAbhWfkA6WV1OhewF+DfELz/IFx6ty7XIAE=
+    ====
