@@ -190,10 +190,3 @@ estimate fee = 6751 * (0.3iris / 50000) = 0.040506iris
 
  Cosmos & IRISnet 的关系： IRISnet 是继Cosmos之后，由 ICF跨链基金会为了实现多Hub愿景支持开发的另外一个跨链项目，Cosmos官网在自我介绍（Who we are）时的说明： IRISnet 是 Cosmos 大跨链生态中的另外一个Cosmos Hub，它支持跨链服务，也将促进去中心化商业应用的构建。IRISnet Hub和Cosmos Hub是Cosmos网络中的最早的两个枢纽，他们都基于Cosmos-SDK技术开发和实施。Cosmos Hub的代币叫做ATOM ，IRISnet Hub的代币叫做IRIS。
 
-*******************
-起链后简单命令
-*******************
-iriscli keys list
-iriscli keys add test_user
-iriscli bank send --amount=100iris --fee=0.4iris --commit --chain-id=*** --from=<user in keys list> --to=faa1***
-iriscli bank account faa1***

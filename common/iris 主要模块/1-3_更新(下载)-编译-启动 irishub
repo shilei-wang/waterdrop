@@ -1,25 +1,10 @@
 *******************************************
           更新 doc： 独立的仓库和测试分开
 *******************************************
-mkdir ~/my_workspace
-github工具>file>clone repository>url>clone
-    参数：https://github.com/irisnet/irishub.git (选择path： my_workspace,自动填充irishub)
-
-
 repository>open in terminal:
 git remote add upstream https://github.com/irisnet/irishub.git
 git fetch --all
-git checkout -b shilei/multisign-doc-update upstream/develop
-git branch && git rev-parse HEAD
-关闭后可以看到 图形界面的Branch 已经更新到了shilei/docfix
 
-    其他：
-    git checkout -b shilei/multisign-doc-update upstream/develop
-    git checkout shilei/docfix-software
-    git branch && git rev-parse HEAD
-
-    git checkout master
-    git branch -D shilei/update-changelog-0.15
 
 ----------- 直接在主分支上push
 git checkout -b shilei/update-changelog-0.15 upstream/release0.15   // upstream/develop
@@ -28,15 +13,13 @@ git push upstream shilei/update-changelog-0.15 //第一次会创建分支
 //去网上pr
 
 WIP: Add "json indent" usage and fix the "query output format" of all the docs
-R4R
 R4R: Update `doc/swagger version/version.go` to v0.14.1
 
 
 
 *******************************************
-   测试用irishub ： 和doc分开
+   第一次，下载
 *******************************************
-第一次：
 注意在 github中直接clone远程的
 cd /Users/sherlock/go/src/github.com/
 git clone https://github.com/irisnet/irishub.git
@@ -46,81 +29,89 @@ git fetch --all //此时应该Fetching origin；  Fetching upstream
 git checkout -b develop upstream/develop   //git branch 建立本地develop代码分支， 不能同时拥有origin和upstream
 git branch
 
-1) 更新
+
+
+
+******************************************
+   后续，更新
+******************************************
 cd /Users/sherlock/go/src/github.com/irishub
 
+================
+  更新develop
+================
 git fetch --all
 git checkout .  //放弃当前目录下的修改
 git merge upstream/develop
 git branch && git rev-parse HEAD
 
 
-其他可能用到的命令：
-    // git remote -v 查看origin和upstream具体指向的位置
-    // git config --global user.name "shilei-wang" 换电脑的话要改下git的名字， 不然网上commit会显示电脑默认名。 重新一个commit后会恢复
+================
+  下载某个tag v0.15.1  //tag和分支不同 下载时先fetch ，不用upstream
+================
+cd /Users/sherlock/go/src/github.com/irishub
+git fetch --all
+git checkout .
+//第一次 git checkout -b v0.15.4 v0.15.4
+// git merge v0.15.4
+// git checkout v0.15.4
+git branch && git rev-parse HEAD
 
-    // git checkout develop
-    // git reset --hard upstream/develop
-    // git reset --hard 5d82613b2bb1c1d6b16054ddff5bb8275bb137d9
 
-    === 某个 tag ： v0.15.1 ====  tag和分支不同 下载时先fetch ，不用upstream
-    cd /Users/sherlock/go/src/github.com/irishub
-    git fetch --all
-    git checkout .
-    //第一次 git checkout -b v0.15.4 v0.15.4
-    // git merge v0.15.4
-    // git checkout v0.15.4
-    git branch && git rev-parse HEAD
+================
+  下载某个tag   78ef3b92b363cbbddd1ba0c6b105b7689481a64a
+================
+cd /Users/sherlock/go/src/github.com/irishub
+git fetch --all
+git checkout .
+git reset --hard 78ef3b92b363cbbddd1ba0c6b105b7689481a64a
+git branch && git rev-parse HEAD
 
-    === 某个 hash ：  ==== // 78ef3b92b363cbbddd1ba0c6b105b7689481a64a
-    cd /Users/sherlock/go/src/github.com/irishub
-    git fetch --all
-    git checkout .
-    git reset --hard 78ef3b92b363cbbddd1ba0c6b105b7689481a64a
-    git branch && git rev-parse HEAD
 
-    === 某个 分支 ：  ==== // vincent/gas-consume-base
-    // 注意一定要加origin (注意 我设置的remote 和origin指向的地址都是一样的)
-    // git remote -v     : 	https://github.com/irisnet/irishub.git
-    ====================
-    cd /Users/sherlock/go/src/github.com/irishub
-    git fetch --all
-    git checkout .
-    git checkout -b htlc-tool upstream/segue/htlc-tool
-    //git merge upstream/segue/htlc-tool
-    git branch && git rev-parse HEAD
-
+================
+    某个 分支 ：  ==== // vincent/gas-consume-base
     如果别人改了新的代码  直接git pull就行了
+================
+cd /Users/sherlock/go/src/github.com/irishub
+git fetch --all
+git checkout .
+git checkout -b htlc-tool upstream/segue/htlc-tool
+//git merge upstream/segue/htlc-tool
+git branch && git rev-parse HEAD
+
+================
+其他可能用到的命令：
+================
+//删除
+git checkout master
+git branch -D develop
+
+// git remote -v 查看origin和upstream具体指向的位置，注意 我设置的remote和origin指向的地址都是一样的 返回https://github.com/irisnet/irishub.git
+// git config --global user.name "shilei-wang" 换电脑的话要改下git的名字， 不然网上commit会显示电脑默认名。 重新一个commit后会恢复
+
+// git checkout develop
+// git reset --hard upstream/develop
+// git reset --hard 5d82613b2bb1c1d6b16054ddff5bb8275bb137d9
 
 
-    //删除
-    git checkout master
-    git branch -D develop
+另外 ：
+pull =  git fetch + git merge
 
-    另外 ：
-    pull =  git fetch + git merge
-    git config --global user.email "shelwin_wang@hotmail.com"
-    git config --global user.name "shilei-wang"
-    git merge upstream/master
-    git pull
-    git checkout -b release0.13 upstream/release0.13
-    git checkout develop
-    git branch -D master
-    git branch -D shilei/docfix-query-ouput  //删除本地
-    git push origin --delete docfix-introduction //删除 origin 中的docfix分支
-    下载某tag(tag是全局 不需要+ upstream/): git checkout -b v0.13.1 v0.13.1
-
-    //自己建一个基于master的分支， 提交到origin在pr到master（一个分支只能由一个pr）
-    git checkout -b docfix-introduction upstream/master
-
-    //下载分支到本地并且切换
-    git checkout -b docfix-introduction upstream/master
-    git branch && git rev-parse HEAD
+配置:
+git config --global user.email "shelwin_wang@hotmail.com"
+git config --global user.name "shilei-wang"
+git merge upstream/master
+git pull
+git push origin --delete docfix-introduction //删除 origin 中的docfix分支
+下载某tag(tag是全局 不需要+ upstream/): git checkout -b v0.13.1 v0.13.1
 
 
-2) 更改 配置 (这个不执行 autotest 起不来，参数不允许)
+
+******************************************
+   更改 配置
+******************************************
+(这个不执行 autotest 起不来，参数不允许 ，改 testnet ， panic)
 gedit scripts/setTestEnv.sh
-        改 testnet ， panic
 
 go mod download (如果依赖变了，则要执行这个操作)
 
@@ -129,29 +120,25 @@ go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lan
 
 source scripts/setTestEnv.sh
 
-3) 编译 irishub
+
+******************************************
+   编译 irishub // curl www.google.com
+******************************************
 cd /Users/sherlock/go/src/github.com/irishub
 
 make install
 iris version
 git branch && git rev-parse HEAD
 
-    // 注意 第一次要先 make get_tools
-    // 注意 如果编译出现 fail to write *** 可以尝试删除gopath下的pkg文件，可能是该文件版本冲突 rm -rf /Users/sherlock/go/pkg]
-    // curl www.google.com
+
 
 *******************************************
-               启动 irishub
-
+   启动 irishub
+*******************************************
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go c 1
-
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 2
-
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go nm 1
----
-go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go m 1
 
-go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go t 2
 iris start --home=/Users/sherlock/testnet/v0/iris
 iris start --home=/Users/sherlock/testnet/v1/iris
 
@@ -171,22 +158,6 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 
 
 *******************************************
-          用testnet 手动起多节点，并发送给他人，一起起多验证人网络（用于压力测试）
-*******************************************
-
-rm -rf .iriscli .iris testnet
-iris testnet --v=2 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
-修改每个genesisi中主账号里面的第一个账户的代币数量。（修改第一个以后复制）
-把testnet压缩后打包，在群里发给多人，各自认领自己的节点。chmod。
-修改 subl /Users/sherlock/testnet/v1/iris/config/config.toml
-persistent_peers = "17bae70c7acd07a086559e0fd510e87bc52b26b6@<这里连接到我本机的ip(ifconfig)，大家都连我>:26656"
-
-各自启动：
-iris start --home=/Users/sherlock/testnet/v0/iris
-iris start --home=/Users/sherlock/testnet/v1/iris
-
-
-*******************************************
           不用testnet ， 用别人的genesis手动起全节点
 *******************************************
 
@@ -196,6 +167,7 @@ chmod 777 /Users/sherlock/go/bin/iriscli
 iris init --chain-id=nyancat  --moniker=v0 --home=/Users/sherlock/v0
 ---
 copy genesis
+//修改 subl /Users/sherlock/testnet/v1/iris/config/config.toml
 persistent_peers = "c87675bcaeb72a1f93dbf7d74f7b425690a994e3@10.1.4.5:26656"
 ---
 iris start --home=/Users/sherlock/v0
@@ -223,68 +195,3 @@ git checkout .
 git branch
 
 
-
-*******************************************
-               启动 irislcd
-*******************************************
-1）启动 irislcd
-irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --trust-node --home=$HOME/.irislcd/
-验证 http://10.1.2.236:1317/keys
-
-2）启动swag？？
-
-************************************************
-                linux 安装go
-************************************************
-删除 /usr/local/go
-tar  -C /usr/local  -zxf   go1.11.linux-amd64.tar.gz
-
-gedit ~/.bashrc
-    export GOROOT=/usr/local/go
-    export GOPATH=/Users/sherlock/go
-    export PATH=$PATH:/Users/sherlock/go/bin:$GOROOT/bin
-
-source ~/.bashrc
-go version
-go env
-
-#自己写个test.go 在/Users/sherlock/go/package/src/test目录下
-package main
-import "fmt"
-func main() {
-    fmt.Printf("Hello, world.\n")
-}
-go build test.go，生成了test的文件; 　
-或者直接执行 go run test.go 测试
-
-测试 go verison
-
-
-*******************************************
-             linux  编译mac版本 (编译后复制到mac上 需要先运行 chmod -r 777 iriscli)
-*******************************************
-
-build_mac: update_irislcd_swagger_docs echo_bech32_prefix
-	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iris ./cmd/iris && \
-	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iriscli ./cmd/iriscli && \
-	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/irislcd ./cmd/irislcd && \
-	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iristool ./cmd/iristool
-
-*******************************************
-    mac 编译linux (编译后复制到linux上 需要先运行 chmod -r 777 iriscli)
-*******************************************
-cd /Users/sherlock/go/src/github.com/irishub
-make build_linux
-生成目录：
-/Users/sherlock/go/src/github.com/irishub/build
-
-
-*******************************************
-     改version需要做的事
-*******************************************
-changelog *2
-getstart *2
-irishub/lite/swagger-ui/swagger.yaml*1
-version/version.go*1
-
-update `doc/swagger version/version.go` to v0.14.1

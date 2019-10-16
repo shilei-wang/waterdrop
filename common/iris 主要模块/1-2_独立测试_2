@@ -164,3 +164,52 @@ prometheus = true
 起链
 
 http://localhost:26660/
+
+
+
+************************************************
+                linux 安装go
+************************************************
+删除 /usr/local/go
+tar  -C /usr/local  -zxf   go1.11.linux-amd64.tar.gz
+
+gedit ~/.bashrc
+    export GOROOT=/usr/local/go
+    export GOPATH=/Users/sherlock/go
+    export PATH=$PATH:/Users/sherlock/go/bin:$GOROOT/bin
+
+source ~/.bashrc
+go version
+go env
+
+#自己写个test.go 在/Users/sherlock/go/package/src/test目录下
+package main
+import "fmt"
+func main() {
+    fmt.Printf("Hello, world.\n")
+}
+go build test.go，生成了test的文件; 　
+或者直接执行 go run test.go 测试
+
+测试 go verison
+
+
+*******************************************
+    linux  编译mac版本 (编译后复制到mac上 需要先运行 chmod -r 777 iriscli)
+*******************************************
+
+build_mac: update_irislcd_swagger_docs echo_bech32_prefix
+	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iris ./cmd/iris && \
+	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iriscli ./cmd/iriscli && \
+	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/irislcd ./cmd/irislcd && \
+	GOOS=darwin GOARCH=amd64 go build $(BUILD_FLAGS) -o build/iristool ./cmd/iristool
+
+
+*******************************************
+    mac 编译linux (编译后复制到linux上 需要先运行 chmod -r 777 iriscli)
+*******************************************
+cd /Users/sherlock/go/src/github.com/irishub
+make build_linux
+生成目录：
+/Users/sherlock/go/src/github.com/irishub/build
+

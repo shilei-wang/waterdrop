@@ -172,7 +172,7 @@ irislcd-qa start --node=tcp://35.220.168.203:30657 --laddr=tcp://0.0.0.0:1317 --
 疑似账户暂未发放。
 
 **************************************
-                主网稳定节点 iaa是legder地址
+   主网稳定节点 iaa是legder地址
 **************************************
 iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://irisnet-rpc.rainbow.one:26657
 
