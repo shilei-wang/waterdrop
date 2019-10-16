@@ -213,3 +213,38 @@ make build_linux
 生成目录：
 /Users/sherlock/go/src/github.com/irishub/build
 
+
+*****************************
+    ubuntu打开 26657 30317端口
+*****************************
+ufw allow 26657 && ufw enable
+验证 http://120.79.226.163:26657
+iriscli status (此时rest 还没有开)
+
+打开rest接口 （ufw allow 30317 && ufw enable）
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=shilei-qa --trust-node
+验证 http://10.1.2.168:30317/keys
+
+
+*****************************
+    monitor相关知识
+*****************************
+【注意 带--home都是iris操作，  iriscli都是有本地用户的操作】
+
+ubuntu：
+ufw allow 46657 && ufw enable （46657 ： iris -> iriscli monitor 的端口，rpc端口）
+ufw allow 26660 && ufw enable （26660 ： iriscli monitor -> prometheus 的端口，metrics端口）
+ufw allow 1317 && ufw enable （1317 rest api端口）
+
+centos：
+firewall-cmd --zone=public --add-port=26657/tcp --permanent
+firewall-cmd --zone=public --add-port=30137/tcp --permanent
+firewall-cmd --reload && systemctl restart firewalld.service
+
+iriscli monitor -n=tcp://10.1.2.168:46657 （iris哪里log应该正常 没有红色）
+
+验证 curl http://120.79.226.163:26660 （外网再验证）
+
+打开rest端口
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=shilei-qa --trust-node
+http://120.79.226.163:1317/keys
