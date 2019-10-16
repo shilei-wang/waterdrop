@@ -75,3 +75,92 @@ iristool debug pubkey fap1zcjduepq5rcpk6efzreexwwmp7pl7k47asyh4lrp3y85sd86ytlz0s
     http://10.1.2.168:26657/block?height=3320 得到 txs中tx
     iristool debug tx  mgLZHnawCoABKpckrAo8ChRR6dnhekT/4VmzZuNfHOHhXDwS9hIkCglpcmlzLWF0dG8SFzIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwEjwKFP447WXNUhJuhj6GZZdtfVPpBEIbEiQKCWlyaXMtYXR0bxIXMjAwMDAwMDAwMDAwMDAwMDAwMDAwMDASIwodCglpcmlzLWF0dG8SEDQwMDAwMDAwMDAwMDAwMDAQoJwBGmwKJuta6YchArpvEfXpMeqnKqQmI+uH7+YVL2bTNVk6NWx5FeWmsb7DEkCXO6Ugvfxb1jvYrq99V1jXIbhRZH/QfOh2ncAytziqWka0cXvYT+6dFAbhWfkA6WV1OhewF+DfELz/IFx6ty7XIAE=
     ====
+
+
+**************************************************************************************
+    block gas limit （超过gas将不被打包）
+    //需要改代码， 用定制版
+    //目的是为了测试一个block中只能包含小于指定gas的数据
+    //发两笔交易超过gas限制。有两道门， 第一道门需要改代码才可以进去， 需要验证的是第二道门 proposer 一个块的时候 gas不能大于7000.
+**************************************************************************************
+1. 编译指定代码， 把原irisnet重命名， 覆盖irisnet,  dep+install
+2. 启动iris， （用t来启动测试网 中间停一下 修改genesis）
+   修改 block_size->max_gas 10000
+   修改 block间隔 8秒
+   // 备注一个send大约4000gas
+
+3. 分别在一个块的开始执行下列操作 sequence 1-2-3
+
+echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=1 && echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=2 && echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=3
+
+返回：
+async tx sent (tx hash: 1D1C9661E1504682F3E824484BDAFD075CF3D6E593CAB46C032E9051DEC92F01)
+async tx sent (tx hash: DE29F3D5FAF2E43C6269D8BFA50B24274C742377BC1DFA78B7E0CBF6D0777CB2)
+async tx sent (tx hash: 256578FA0CD10EE8427385E164DC91C3AB351CD17F689D2B2CEB224B8E65E94C)
+
+此时观察iris log会出现：
+module=state height=15 validTxs=2 invalidTxs=1
+//2条交易valid（4000+4000）， 1条交易invalid（4000这个加上就超过10000了）
+
+执行：
+iriscli tendermint tx --trust-node F41BA083597A3F25D3C0382E33D5E3C4B02FE24E4DEED7275F7892AD0E486559  // 查看result字段显示正常
+iriscli tendermint tx --trust-node E1FADC2EFD15C7A928E00B1C1ADA42941ECA29752F87C1FD227D987E392F20E8  // 查看result字段显示正常
+iriscli tendermint tx --trust-node 657B43FBA7B4D877963BE43DA51E8B0131147744245CF613D2A13111791BE241  // 查看result字段显示 out of gas in location: block gas meter
+
+
+其他：
+//这条直接拒绝 超过10000了， 超时了也未能被打包
+echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=10001 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+
+
+**************************************************************************************
+   mint inflation 相关概念和查询
+**************************************************************************************
+每个块默认增发 = （20亿*0.04）/(365.25*24*3600) * 5s = 12.5iris  (修改出块时间不影响这个值， 也就是出块时间减少， 每年增发会变多)
+
+起单节点 每隔20块 停一下 ， 执行
+echo y | rm /Users/sherlock/genesis.json
+iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris --output-file=/Users/sherlock/genesis.json
+可以看到account中每次增加 12.5*20 =250iris
+
+也可以在 26657的rpc接口查每个块的增发
+http://10.1.2.168:26657/block_results?height=2
+中的tags中的2， value="MTI2NzUyMzUxMjU2MTE1ODAwOTRpcmlzLWF0dG8="
+Base64 decode ，https://www.base64decode.net/
+12675235125611580094iris-atto （12.6iris）
+
+
+**************************************************************************************
+   sentry  哨兵节点
+**************************************************************************************
+1. iriscli status //获取验证人节点"id": "85ff3a906a27999d23cdf72451414e045ae39e84",
+2. 暂停主节点
+3. 新页面， iris init --moniker=sentry --home=/Users/sherlock/sentry  //获取sentry节点"id" = bccb80864e540af719fa1be6ae913ce50a74feaf
+4. 自动在home目录创建 sentry， copy验证人节点 genesis.json文件复制到 /Users/sherlock/sentry/config/
+5. sentry节点 /Users/sherlock/sentry/config/config.toml进行编辑：
+    private_peer_ids="85ff3a906a27999d23cdf72451414e045ae39e84" //设置验证节点id
+    改3个5 改成6
+    保存
+6. iris start --home=/Users/sherlock/sentry  //启动sentry节点
+7. 验证节点 /Users/sherlock/testnet/v0/iris/config/config.toml进行编辑：
+    persistent_peers = "bccb80864e540af719fa1be6ae913ce50a74feaf@127.0.0.1:26666"  //设置sentry节点id， 26666是上面改的
+    pex=false //pex=false 不与其他节点进行peers交换
+    保存
+8. iris start --home=/Users/sherlock/testnet/v0/iris //启动验证人节点， 2个节点同步
+9. 使用sentry节点 (一般只暴露哨兵节点)
+   echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --commit --node=http://10.1.2.168:26667
+   使用验证人节点
+   echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --commit --node=http://10.1.2.168:26657
+
+
+*******************************************
+    测试prometheus
+*******************************************
+暂停链
+subl /Users/sherlock/testnet/v0/iris/config/config.toml
+prometheus = true
+起链
+
+http://localhost:26660/
