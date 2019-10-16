@@ -1,9 +1,3 @@
-老版本
-b0a657622e86ac42ee4844fc97091fe0dfe76dee
-
-连主网：
-irislcd start --node=tcp://rpc.irisnet.org:26657 --laddr=tcp://0.0.0.0:1317  --home=$HOME/.irislcd/ --trust-node
-
 *******************************************
                常用操作
 *******************************************
@@ -83,8 +77,9 @@ echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >
 
 
 
-============
+*******************************************
 LCD 兼容性测试
+*******************************************
 http://wiki.bianjie.ai/pages/viewpage.action?pageId=20578417
 
 结果:

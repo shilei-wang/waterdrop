@@ -1,6 +1,6 @@
 curl www.google.com ， curl https://www.google.com
 cd /Users/sherlock/go/src/github.com/irisnet/irishub
-密码 (shilei-wang  wa**08)
+密码 (shilei-wang  wangshilei****08)
 
 ==================================================================
                      更新本地仓库
@@ -151,7 +151,6 @@ git push -f -u origin master
 
 ==================================================================
                 PR后有冲突的解决
-
 ==================================================================
 1. git fetch --all
 2. git merge upstream/master （此处会显示冲突）
