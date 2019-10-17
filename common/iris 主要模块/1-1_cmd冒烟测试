@@ -343,11 +343,15 @@ echo 1234567890 | iriscli gov submit-proposal --trust-node --title=test --descri
    //先产生fee
 echo 1234567890 | iriscli bank send --amount=1iris-atto --to=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p --from=v0 --gas=10000 --fee=2260.9575iris --chain-id=shilei-qa --commit
 
+
 【添加新的trustee，只有trustee才能成为接收转账的对象】
 echo 1234567890 | iriscli guardian add-trustee --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=v0
 
 【Burn Distribute Grant】
    ====
+   // 查税
+   iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+
    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test"  --title="burn tokens 5%" --type="CommunityTaxUsage" --usage="Burn" --percent=0.05
 
    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Distribute tokens 99%" --type="CommunityTaxUsage" --usage="Distribute" --percent=0.9999 --dest-address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju

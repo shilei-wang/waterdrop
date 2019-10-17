@@ -84,4 +84,3 @@ iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris
 
 cp genesis.json /Users/sherlock/testnet/v0/iris/config
 iris start --home=/Users/sherlock/testnet/v0/iris
-

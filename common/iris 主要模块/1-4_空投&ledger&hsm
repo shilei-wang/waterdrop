@@ -10,15 +10,31 @@ iriscli keys add a --ledger
 
 
 ========
-测试网
+测试网 旧机器
 ========
 
 // 一般faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg 不会变
 iriscli bank account faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg
-iriscli bank send --amount=10000iris --fee=0.1iris --chain-id=shilei-qa --from=v0 --to=faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg --commit
+echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.1iris --chain-id=shilei-qa --from=v0 --to=faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg --commit
 iriscli bank account faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg
 
 iriscli bank send --amount=1iris --fee=0.1iris --chain-id=shilei-qa --from=a --to=faa124ngsdftl8um8zs9c83g08h8cqg37x6vyv2gx6 --commit
+
+
+========
+测试网 nano x 新机器
+========
+
+Ledger 输入pin 00000000，进入cosmos app
+iriscli keys list
+iriscli keys add b --ledger  // faa14qy8a6eed5xqjudzgnmutth6ck4f6yz3cnka6k
+
+echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.1iris --chain-id=shilei-qa --from=v0 --to=faa14qy8a6eed5xqjudzgnmutth6ck4f6yz3cnka6k --commit
+iriscli bank account faa14qy8a6eed5xqjudzgnmutth6ck4f6yz3cnka6k
+
+iriscli bank send --amount=1iris --fee=0.1iris --chain-id=shilei-qa --from=b --to=faa124ngsdftl8um8zs9c83g08h8cqg37x6vyv2gx6 --commit
+iriscli bank account faa124ngsdftl8um8zs9c83g08h8cqg37x6vyv2gx6
+
 
 ========
 主网

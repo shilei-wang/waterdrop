@@ -35,11 +35,11 @@ git branch
 ******************************************
    后续，更新
 ******************************************
-cd /Users/sherlock/go/src/github.com/irishub
 
 ================
   更新develop
 ================
+cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .  //放弃当前目录下的修改
 git merge upstream/develop
