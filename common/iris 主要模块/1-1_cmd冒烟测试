@@ -534,24 +534,24 @@ echo 1234567890 | iriscli service respond --chain-id=shilei-qa --request-chain-i
 iriscli service requests --def-chain-id=shilei-qa --bind-chain-id=shilei-qa --provider=faa1h27mc0zkf88vmah0kzas3erqv0j62ca6w78lzf --service-name=001
 
 *******************************************
-               9.cli config
+       9.cli config
 *******************************************
 gedit /root/.iriscli/config/config.toml
 
 iriscli config
 
 *******************************************
-               10.Distribution
-                    iriscli distribution set-withdraw-addr
-                    iriscli distribution withdraw-address
+       10.Distribution
+            iriscli distribution set-withdraw-addr
+            iriscli distribution withdraw-address
 
-                    iriscli distribution withdraw-rewards
-                        --only-from-validator
-                        --is-validator=true
+            iriscli distribution withdraw-rewards
+                --only-from-validator
+                --is-validator=true
 
-                    iriscli distribution delegation-distr-info (单个)
-                    iriscli distribution delegator-distr-info (多个)
-                    iriscli distribution validator-distr-info
+            iriscli distribution delegation-distr-info (单个)
+            iriscli distribution delegator-distr-info (多个)
+            iriscli distribution validator-distr-info
 *******************************************
 
      ===========================
