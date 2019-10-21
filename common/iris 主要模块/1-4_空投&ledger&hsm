@@ -151,10 +151,10 @@ iris start --home=/Users/sherlock/testnet/v0/iris
                 空投
 **************************************
 lcd: (可以直接查账)
-https://irisnet-lcd.rainbow.one/swagger-ui/#/
+https://rpc.irisnet.org/swagger-ui/
 
 rpc:
---node=http://irisnet-rpc.rainbow.one:26657
+--node=http://seed-1.mainnet.irisnet.org:26657
 
 strike-drop：
 drop siege embark season rally primary bullet detect scrap toilet tank fine hire praise humor leader swim entire syrup brush scheme unusual display wrong
@@ -162,7 +162,7 @@ iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93
 
 
 (公司服务器上的主网全节点)
-irislcd-mainnet start --node=tcp://192.168.150.31:30657 --laddr=tcp://0.0.0.0:1317 --chain-id=irisnet --home=$HOME/.irislcd/ --trust-node
+irislcd-mainnet start --node=http://seed-1.mainnet.irisnet.org:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=irisnet --home=$HOME/.irislcd/ --trust-node
 
 主网查账:
 iriscli bank account iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93 --node=tcp://192.168.150.31:30657 (这个是不稳定节点)
