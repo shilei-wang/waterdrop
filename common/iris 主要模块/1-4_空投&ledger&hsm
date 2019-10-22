@@ -46,6 +46,15 @@ iriscli bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4
 // 用测试账户转账5iris到主网ledger账户中
 //echo 1234567890 | iriscli bank send --amount=5iris --fee=0.3iris --commit --chain-id=irishub --from=airdrop --to=iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://120.55.8.201:26657
 
+**************************************
+   主网稳定节点 iaa是legder地址
+**************************************
+iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://irisnet-rpc.rainbow.one:26657
+
+iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://47.110.246.130:26657
+
+iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://124.156.103.49:26657 （文席）
+
 
 *******************************************
    HSM （Mac）
@@ -148,12 +157,21 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 
 
 **************************************
-                空投
+    空投
+    ！！！！
+    详细步骤看airdrop.go的注释
+    ！！！！
 **************************************
-lcd: (可以直接查账)
-https://rpc.irisnet.org/swagger-ui/
+lcd:
+irislcd start --node=http://seed-1.mainnet.irisnet.org:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=irisnet --home=$HOME/.irislcd/ --trust-node
 
-rpc:
+
+主网查账
+https://rpc.irisnet.org/swagger-ui/
+https://www.irisplorer.io/#/address/iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93
+iriscli bank account iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93 --node=http://seed-1.mainnet.irisnet.org:26657
+
+pc:
 --node=http://seed-1.mainnet.irisnet.org:26657
 
 strike-drop：
@@ -161,44 +179,13 @@ drop siege embark season rally primary bullet detect scrap toilet tank fine hire
 iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93
 
 
-(公司服务器上的主网全节点)
-irislcd-mainnet start --node=http://seed-1.mainnet.irisnet.org:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=irisnet --home=$HOME/.irislcd/ --trust-node
-
-主网查账:
-iriscli bank account iaa13nzsae74qype65rshc0wyvhk9s0l3uecwf8y93 --node=tcp://192.168.150.31:30657 (这个是不稳定节点)
-
-备用网址：
-iriscli bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://120.55.8.201:26657
-
---------
-QA
-http://35.220.168.203:30201/
-injury work lecture coach where total burger dolphin wool retire beef quick learn family choose angry snack buzz fragile drama juice gown option spare
-0.3iris 50000
-irislcd-qa start --node=tcp://35.220.168.203:30657 --laddr=tcp://0.0.0.0:1317 --chain-id=rainbow-qa --home=$HOME/.irislcd/ --trust-node
-
 ----
 @奚海峰(奚海峰)
-
 3月20日 （补发 第1轮）空投币给我转账一下 ， 166 * 20.05 = 3328
-===
 3月20日 （第1轮） 空投计划已经顺利完成!
 共计：空投16个地址 ,  消耗iris（含fee）总计约 321 。本次余额足够无需转账， 当前 airDrop 账户余额 240.82646 iris
-
 疑似账户暂未发放。
 
-**************************************
-   主网稳定节点 iaa是legder地址
-**************************************
-iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://irisnet-rpc.rainbow.one:26657
-
-iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://47.110.246.130:26657
-
-iriscli-main bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --node=http://124.156.103.49:26657 （文席）
-
-
-节点：
-https://iris-relay.01node.com/
 
 
 *******************************************
