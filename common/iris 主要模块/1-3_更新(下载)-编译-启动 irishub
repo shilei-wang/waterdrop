@@ -29,8 +29,15 @@ git fetch --all //此时应该Fetching origin；  Fetching upstream
 git checkout -b develop upstream/develop   //git branch 建立本地develop代码分支， 不能同时拥有origin和upstream
 git branch
 
-
-
+*******************************************
+   下载别人的repo上的分支
+*******************************************
+cd /Users/sherlock/go/src/github.com/irishub
+git remote add zhiqiang-upstream https://github.com/zhiqiang-bianjie/irishub.git
+git fetch --all
+git checkout .
+git checkout -b zhiqiang-snapshot zhiqiang-upstream/snapshot
+git branch
 
 ******************************************
    后续，更新
@@ -42,6 +49,7 @@ git branch
 cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .  //放弃当前目录下的修改
+//git checkout develop
 git merge upstream/develop
 git branch && git rev-parse HEAD
 
