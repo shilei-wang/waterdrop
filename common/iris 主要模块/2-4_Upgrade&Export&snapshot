@@ -90,7 +90,16 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 snapshot
 ======================================================================================================
 用处：
+用于导出导出当前链的data数据，会删除所有共识数据，保留所有应用层数据。 snapshot恢复后不能export节点前数据。
+
+必须先停链。
+iris snapshot --home=/Users/sherlock/testnet/v0/iris
+
+替换data文件夹
+rm -rf /Users/sherlock/testnet/v0/iris/data
+mv /Users/sherlock/testnet/v0/iris/data.bak /Users/sherlock/testnet/v0/iris/data
+
+iris start --home=/Users/sherlock/testnet/v0/iris
 
 
 
-iris export
