@@ -30,22 +30,25 @@ iriscli upgrade query-signals
 1. 初始化链，并不启动。 用 t 1  (注意autolanch 里注释掉unbonding time)
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go t 1
 
-2. 修改genesis 把里面的upgrade的version改成0(现在可能要改成1 后面改成verison=2)
+2. 修改genesis 把里面的upgrade的version改成1
+subl /Users/sherlock/testnet/v0/iris/config/genesis.json
 iris start --home=/Users/sherlock/testnet/v0/iris
 
 3. 起链
-4. 提交议题 到version 1
+4. 提交议题 到version 2
 
-echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=1 --switch-height=160 --threshold=0.9 --commit
+echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=2 --switch-height=150 --threshold=0.9 --commit
 
 echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=shilei-qa  --proposal-id=1 --commit
 
+//默认2分钟pass
 iriscli gov query-proposal --trust-node --proposal-id=1
 
-iriscli upgrade info --trust-node //此时是v0
+//此时是v1
+iriscli upgrade info --trust-node
 
 
-5.等到第160块 自动升级。 逻辑切换到v1
+5.等到第160块 自动升级。 逻辑切换到v2
 
 iriscli upgrade info --trust-node
 

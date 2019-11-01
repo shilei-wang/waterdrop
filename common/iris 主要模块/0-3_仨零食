@@ -13,3 +13,19 @@
 ========================================================================================================================
 ========================================================================================================================
 ========================================================================================================================
+
+	file := HOME+"go/src/github.com/irishub/types/duration.go"
+	str = strings.Replace(str, "TwentySeconds = 20 * time.Second", "TwentySeconds = 1 * time.Second", -1)
+
+	file = HOME+"go/src/github.com/irishub/app/v1/stake/types/params.go"
+	str = strings.Replace(str, "else if v < 2*time.Minute", "else if v < 2*time.Second", -1)
+
+	file = HOME+"go/src/github.com/irishub/app/v1/service/params.go"
+	str = strings.Replace(str, "else if v < 20*time.Second", "else if v < 1*time.Second", -1)
+
+	file = HOME+"go/src/github.com/irishub/app/v2/htlc/internal/types/msgs.go"
+	str = strings.Replace(str, "= 50", "= 3", -1)
+
+
+
+26,10152 9300
