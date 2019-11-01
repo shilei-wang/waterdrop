@@ -40,32 +40,3 @@ iris reset --height=100 --home=/Users/sherlock/testnet/v1/iris
 iris start --home=/Users/sherlock/testnet/v1/iris
 
 
-----
-3、Snapshot 命令导出的全节点数据快照可用于快速启动并同步一个新节点（使用v1升级前后两个高度分别测试；用这种方式启动的新节点能够通过 export 命令导出正确的 genesis 文件）
-
-----
-
-1. 初始化链，并不启动。 用 t 1  (注意autolanch 里注释掉unbonding time)
-go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go t 1
-
-2. 修改genesis 把里面的upgrade的version改成1
-subl /Users/sherlock/testnet/v0/iris/config/genesis.json
-iris start --home=/Users/sherlock/testnet/v0/iris
-
-3. 起链
-4. 提交议题 到version 2
-
-echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=2 --switch-height=1110 --threshold=0.9 --commit
-
-echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=shilei-qa  --proposal-id=8 --commit
-
-//默认2分钟pass
-iriscli gov query-proposal --trust-node --proposal-id=8
-
-//此时是v1
-iriscli upgrade info --trust-node
-
-
-5.等到第160块 自动升级。 逻辑切换到v2
-
-iriscli upgrade info --trust-node

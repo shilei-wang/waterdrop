@@ -1,4 +1,46 @@
 ﻿**************************************
+    UAT测试 我本机做服务器
+**************************************
+1. 下载编译老的版本节点， 把2个2进制文件分发给他人（因为我要改代码）。 如文件不能用，我改了以下代码：
+	file := HOME+"go/src/github.com/irishub/types/duration.go"
+	str = strings.Replace(str, "TwentySeconds = 20 * time.Second", "TwentySeconds = 1 * time.Second", -1)
+
+	file = HOME+"go/src/github.com/irishub/app/v1/stake/types/params.go"
+	str = strings.Replace(str, "else if v < 2*time.Minute", "else if v < 2*time.Second", -1)
+
+	file = HOME+"go/src/github.com/irishub/app/v1/service/params.go"
+	str = strings.Replace(str, "else if v < 20*time.Second", "else if v < 1*time.Second", -1)
+
+	file = HOME+"go/src/github.com/irishub/app/v2/htlc/internal/types/msgs.go"
+	str = strings.Replace(str, "= 50", "= 3", -1)
+
+
+2. 自己起一个单节点 （这里千万不能错，不要用c 1 起）
+   go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 1
+
+
+   创建faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju , 转账1000000iris
+   echo 1234567890 | iriscli bank send --amount=1000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+   助记词：caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
+   自己本机创建这账户的私钥， 把账户助记词给其他人，让他从这个助记词生成验证人账户。
+
+
+3. genesis分发给别人， id@ip
+   iris tendermint show-node-id --home=/Users/sherlock/testnet/v0/iris
+   c16c77500fe3ee9a68afc21858e95cb59e709262
+
+   ifconfig得到ip
+   c16c77500fe3ee9a68afc21858e95cb59e709262@ip
+
+4. 别人连上后自己创建都连上后确认validators
+    v0 和 v1 保持一致 1000或者100的抵押， 其他节点权重要低。
+
+
+5. 跑自动化，会有一些失败 逐个排查
+
+
+
+**************************************
 fuxi 测试网 回归测试 (刚起的新链，可以追赶的情况)
 **************************************
 

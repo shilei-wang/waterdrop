@@ -18,7 +18,7 @@ x1 = faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 ********
 转账
 ********
-echo 1234567890 | iriscli bank send --amount=150iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 ********
