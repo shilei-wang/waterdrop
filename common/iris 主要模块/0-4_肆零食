@@ -8,8 +8,6 @@
 
 
 
-
-
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
@@ -21,6 +19,11 @@
 [p1] Trying to reset the node, which restarted from a snapshot data, will corrupt data file and return panic runtime error.
 https://github.com/irisnet/irishub/issues/2045
 
+
+
+[p2]Should add a length limit to the Secret field in `htlc create`
+**To Reproduce**
+echo 1234567890 | iriscli htlc create --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=15iris --time-lock=50 --timestamp=1580000000 --secret=00 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=shilei-qa --commit
 
 
 ============== raw bug ================
