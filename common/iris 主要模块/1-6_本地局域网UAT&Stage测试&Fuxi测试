@@ -16,7 +16,10 @@
 
 
 2. 自己起一个单节点 （这里千万不能错，不要用c 1 起）
-   go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 1
+    go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 1
+    commander
+    irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd/ --trust-node
+
 
 
    创建faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju , 转账1000000iris
@@ -25,12 +28,13 @@
    自己本机创建这账户的私钥， 把账户助记词给其他人，让他从这个助记词生成验证人账户。
 
 
-3. genesis分发给别人， id@ip
+3. 1）genesis分发给别人， 2）id@ip:26657
+
    iris tendermint show-node-id --home=/Users/sherlock/testnet/v0/iris
    c16c77500fe3ee9a68afc21858e95cb59e709262
 
    ifconfig得到ip
-   c16c77500fe3ee9a68afc21858e95cb59e709262@ip
+   c16c77500fe3ee9a68afc21858e95cb59e709262@ip:26657
 
 4. 别人连上后自己创建都连上后确认validators
     v0 和 v1 保持一致 1000或者100的抵押， 其他节点权重要低。

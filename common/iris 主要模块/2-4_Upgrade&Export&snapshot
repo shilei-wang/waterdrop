@@ -103,6 +103,8 @@ rm -rf /Users/sherlock/testnet/v0/iris/data
 mv /Users/sherlock/testnet/v0/iris/data.bak /Users/sherlock/testnet/v0/iris/data
 
 iris start --home=/Users/sherlock/testnet/v0/iris
+//iris start --home=/Users/sherlock/testnet/v1/iris
+
 
 
 

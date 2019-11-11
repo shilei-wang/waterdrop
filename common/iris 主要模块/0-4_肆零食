@@ -20,6 +20,8 @@
 https://github.com/irisnet/irishub/issues/2045
 
 
+[p1] Query the block （which height before snapshot）return panic error message.
+
 
 [p2]Should add a length limit to the Secret field in `htlc create`
 **To Reproduce**
