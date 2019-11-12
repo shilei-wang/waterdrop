@@ -28,13 +28,13 @@
    自己本机创建这账户的私钥， 把账户助记词给其他人，让他从这个助记词生成验证人账户。
 
 
-3. 1）genesis分发给别人， 2）id@ip:26657
+3. 1）genesis分发给别人， 2）id@ip:26656  （注意是56）
 
    iris tendermint show-node-id --home=/Users/sherlock/testnet/v0/iris
    c16c77500fe3ee9a68afc21858e95cb59e709262
 
-   ifconfig得到ip
-   c16c77500fe3ee9a68afc21858e95cb59e709262@ip:26657
+   ifconfig 得到ip
+   c16c77500fe3ee9a68afc21858e95cb59e709262@ip:26656
 
 4. 别人连上后自己创建都连上后确认validators
     v0 和 v1 保持一致 1000或者100的抵押， 其他节点权重要低。
