@@ -19,6 +19,14 @@ git checkout .
 git checkout v1
 
 git checkout master
+git branch && git rev-parse HEAD
+
+===
+katalon tag
+===
+git tag 0.16.0-rc1
+// katalon tag : 81e31c19cced004a43acbfb9f5fad14848e4b1d1
+// iris verison 0.16.0. develop : ef30c8db194f589465d54cfcad7011fa7a308b26
 
 **************************************
         桐 （神 3560-800？2760？元）
