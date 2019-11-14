@@ -1,4 +1,7 @@
-git tag v1
+git tag v1  //53ba4f52edd7fd1f075e6e8ab16cf692f0c9e93c
+git push remote v1
+
+
 
 学习IBC 命令， ics 80页文档
 
