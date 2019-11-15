@@ -190,16 +190,15 @@ echo 1234567890 | iriscli bank send --amount=100gdex.g01 --fee=0.4iris --commit 
                 因为暂时没有币，所以只有定义可以测
 ****************************************************************************************
 
-echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=TokenAddition --deposit=2000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --token-min-unit-alias=alias --token-canonical-symbol=source --token-name=token-name --token-initial-supply=10000 --token-decimal=0 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --token-symbol=a01
+echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=TokenAddition --deposit=2000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --token-min-unit-alias=alias --token-canonical-symbol=source --token-name=token-name --token-decimal=0 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --token-symbol=a01
 
-echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=1
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=4
 
 iriscli gov query-proposal --trust-node --proposal-id=1
 
 iriscli asset query-token x.a01
 
 iriscli bank token-stats x.a01 -o=json --indent （这个好像有bug）
-
 
 
 ********************************************************************************************************************************************************************************
