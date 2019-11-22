@@ -130,7 +130,8 @@ iriscli --home ibc-iris/n0/iriscli q ibc client self-consensus-state -o json | j
 iriscli --home ibc-iris/n0/iriscli q ibc client self-consensus-state -o json >ibc-gaia/n0/consensus_state.json
 
 # create client on chain-gaia
-echo 12345678 | gaiacli --home ibc-gaia/n0/gaiacli tx ibc client create client-to-iris ibc-gaia/n0/consensus_state.json --from n0 -y -o text --broadcast-mode=block
+echo 12345678 | gaiacli --home ibc-gaia/n0/gaiacli tx
+ibc client create client-to-iris ibc-gaia/n0/consensus_state.json --from n0 -y -o text --broadcast-mode=block
 
 Query client
 

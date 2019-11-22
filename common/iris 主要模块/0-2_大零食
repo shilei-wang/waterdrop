@@ -1,0 +1,42 @@
+
+最后测一下本地起一个  测一下cli 和rest
+**************************************
+nyancat 测试网
+注意：这个是编译testnet版本。
+自己起一个全节  http://35.234.10.84:26657 (rpc端口)
+测试 iriscli status --node=http://35.234.10.84:26657
+浏览器 https://nyancat.irisplorer.io/#/home
+**************************************
+0) 先确认要测的tag : v0.16.0-rc1
+cd /Users/sherlock/go/src/github.com/irishub
+git fetch --all
+git checkout .
+git checkout -b v0.16.0-rc1 v0.16.0-rc1
+git branch && git rev-parse HEAD为什么
+source scripts/setTestEnv.sh
+make install
+iris version
+删除 rm -rf ~/.iriscli
+
+1）准备好genesis和toml （已备份）， genensis看下chain-id  ：nyancat-6
+  config.toml
+  Seeds:
+  174e6f483d925c3b5b70e2ced098916a8cf8fe4b@35.234.10.84:26656
+  Persistent Peers:
+  c87675bcaeb72a1f93dbf7d74f7b425690a994e3@34.80.202.172:26656
+
+2) iris init --home=/Users/sherlock/nyancat --chain-id=nyancat-6  --moniker=shilei-qa
+3） copy genesis和toml 到 nyancat/config文件夹
+4) iris start --home=/Users/sherlock/nyancat （此时正常追赶，记得打开"Mac 最大连接数限制"，已记录）
+   iriscli status --node=http://35.234.10.84:26657  (看下最新到多少块了，大概心理知道要多久追上)
+
+
+iriscli upgrade info --trust-node --node=http://35.234.10.84:26657
+
+caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
+
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --node=http://34.80.202.172:26657
+
+
+
+

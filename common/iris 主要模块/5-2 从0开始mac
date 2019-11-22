@@ -116,3 +116,30 @@ Mac 打开应用提示已损坏的解决办法
 1、打开终端，输入代码：sudo spctl --master-disable（master前面为两个短横线）注意红框处是空格。
 按回车输入自己电脑的密码，然后回车（这里输入的密码不会显示出来，实际你已经输入了），输完按下回车即可。
 2、打开系统偏好设置 » 安全性与隐私，若显示任何来源，大功告成
+
+
+==========================
+Mac 最大连接数限制和端口的相关参数的设置
+==========================
+//新建系统文件
+sudo touch /etc/sysctl.conf
+//编辑
+subl /etc/sysctl.conf
+//添加以下内容，以便重启电脑后也可以生效
+kern.maxfiles=1048600
+kern.maxfilesperproc=1048576
+net.inet.ip.portrange.first=49152
+net.inet.ip.portrange.last=65535
+//重启系统，查看结果，显示成功。
+sysctl kern.maxfiles  (全局)
+sysctl kern.maxfilesperproc  (单个进程)
+
+//打开终端文件数限制
+subl /etc/profile
+//在最后加入
+ulimit -n 65535
+//source
+source /etc/profile
+
+//查询
+ulimit -n

@@ -33,6 +33,7 @@ go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lan
 2. 修改genesis 把里面的upgrade的version改成1
 subl /Users/sherlock/testnet/v0/iris/config/genesis.json
 iris start --home=/Users/sherlock/testnet/v0/iris
+iriscli upgrade info --trust-node //version: 1
 
 3. 起链
 4. 提交议题 到version 2
