@@ -219,13 +219,25 @@ HTLC
 ======================
 htlc : asset/receiver/hashlock/timeout
 
-A: secret -> hashlock -> HTLC （地址为B）
-B: hashlock(A的) -> HTLC（地址为A）
+======================
+两条链，具体交换过程。
+A链（iris）：地址a1，地址b1
+B链（btc）：地址a2，地址b2
 
-A用自secret claimB的HTLC
-B得到了A的secret 然后claimA的HTLC
+第一步：User_a 在A链上创建HTLC
+    内容：a1（10iris）---> b1
+    返回给user_a：secret和hashlock
+    user_a把hashlock提供给user_b  （其实这个hashlock存在这个链上了，所以user_b可以监听到）
 
+第二步：User_b 在B链上用hashlock 创建HTLC （注意）
+    内容：b2 （10btc）---> a2
 
+第三步：此时，user_a可以用secret和hashlock在B链上吧10btc给claim了。 在claim之后会在B链上留下secret
+
+第四步：user_b得到secret后可以在A链上把最初的交易claim了。
+======================
+
+有点问题 ，下面命令要改一下。
 ======================
 工具
 ======================
