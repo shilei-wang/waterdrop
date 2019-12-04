@@ -8,17 +8,3 @@
 ========================================================================================================================
 ========================================================================================================================
 
-go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go nm 2
-iris start --home=/Users/sherlock/testnet/v0/iris
-iris start --home=/Users/sherlock/testnet/v1/iris
-iriscli stake validators
-echo 1234567890 | iriscli stake delegate --address-validator=fva1szrfglcpk5yadsm3yfmufeapeuuysdydltul6p --amount=500iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa
-
-iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris
-iris start --home=/Users/sherlock/testnet/v0/iris
-
-iris snapshot --home=/Users/sherlock/testnet/v0/iris
-rm -rf /Users/sherlock/testnet/v0/iris/data
-mv /Users/sherlock/testnet/v0/iris/data.bak /Users/sherlock/testnet/v0/iris/data
-
-iris start --home=/Users/sherlock/testnet/v0/iris
