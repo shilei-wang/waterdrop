@@ -1,0 +1,17 @@
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --canonical-symbol=alias --decimal=0 --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=btc
+
+
+faa1fnh0zp6rdd5qxt5gvq5tagg53vkku8uqw4fw3h
+
+iriscli bank account faa1fnh0zp6rdd5qxt5gvq5tagg53vkku8uqw4fw3h
+
+
+echo 1234567890 | iriscli bank send --amount=5uni:t504322 --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1qe4mgr2yr8jjndkh3mdytc9vj7tvagskcntf9a
+
+
+iriscli bank account faa1772xpvtll8j32vasqhwa5utf4jp330w29krn50
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+200t504322
+
+iriscli bank account  faa1qe4mgr2yr8jjndkh3mdytc9vj7tvagskcntf9a
