@@ -1,17 +1,33 @@
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --canonical-symbol=alias --decimal=0 --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=btc
+cd /Users/sherlock/go/src/github.com/irishub
+git fetch --all
+git checkout .
+git checkout -b v1.0.0-refactor upstream/v1.0.0-refactor
+//git merge upstream/segue/htlc-tool
+git branch && git rev-parse HEAD
 
 
-faa1fnh0zp6rdd5qxt5gvq5tagg53vkku8uqw4fw3h
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
+iris start --home=/Users/sherlock/testnet/v0/iris
+mv /Users/sherlock/testnet/v0/iriscli /Users/sherlock/.iriscli
+iriscli keys list
 
-iriscli bank account faa1fnh0zp6rdd5qxt5gvq5tagg53vkku8uqw4fw3h
+========================================================================================================================
+
+iriscli keys show v0
+iriscli query account faa1meq8el2m9ud62ffk3wkjfkc0yl7qhrj43e2nr8 --chain-id=shilei-qa
+echo 12345678 | iriscli keys add v1
+iriscli keys add v2 --recover
+figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
+iriscli keys update v2
+iriscli keys delete v2
+iriscli keys export v0 //这里和我们原来有区别 --output-file不用了
 
 
-echo 1234567890 | iriscli bank send --amount=5uni:t504322 --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1qe4mgr2yr8jjndkh3mdytc9vj7tvagskcntf9a
+1. 转账 (小数点会panic)
+iriscli tx send v0 faa1pm432kqz62mutq439ynqs87u30r36062czga7r 1stake --chain-id=shilei-qa --fees=4stake -b block -y
+iriscli query account faa1pm432kqz62mutq439ynqs87u30r36062czga7r --chain-id=shilei-qa
+
+2. staking
 
 
-iriscli bank account faa1772xpvtll8j32vasqhwa5utf4jp330w29krn50
-iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
-
-200t504322
-
-iriscli bank account  faa1qe4mgr2yr8jjndkh3mdytc9vj7tvagskcntf9a

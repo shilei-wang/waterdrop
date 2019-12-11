@@ -1,0 +1,9 @@
+echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1pm432kqz62mutq439ynqs87u30r36062czga7r
+iriscli tendermint tx --trust-node EE189BBF3A74893BFA17E440B21D308A55D64B2FAAAA88813E4F1DCA9FA1E898
+
+
+
+iriscli tx send v0 faa1pm432kqz62mutq439ynqs87u30r36062czga7r 1iris --chain-id=shilei-qa --fees=4stake -b block -y
+
+
+iriscli tx staking -h
