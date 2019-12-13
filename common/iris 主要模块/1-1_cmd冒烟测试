@@ -194,11 +194,11 @@ iriscli stake signing-info fvp1zcjduepqn8l4dj70m2jpk0r9gny4ml5k2zsmq3araezfvj4az
 iriscli stake create validator
 
 ====== 起一个全节点 ======
-iris init --home=/root/x1 --chain-id=shilei-qa  --moniker=x1
+iris init --home=/Users/sherlock/v1 --chain-id=shilei-qa  --moniker=x1
 copy genesis toml
 iris tendermint show-node-id --home=/Users/sherlock/testnet/v0/iris  //node id 下面用
-toml 26657=》26687 3个，seeds = "c3cea4b7f5e4aac57f9965a7f1adc3c4327ca2e3@localhost:26656"
-iris start --home=/root/x1 （此时正常追赶）
+toml 26657=》26687 3个，seeds = "f63440fe308c176380c0d80047871f3a667995ef@localhost:26656"
+iris start --home=/Users/sherlock/v1 （此时正常追赶）
 
 iriscli keys add x1 --recover (上面已经创建？faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju)
 iriscli keys show x1 //faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
