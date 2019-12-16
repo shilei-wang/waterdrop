@@ -6,7 +6,9 @@ query
 
 
 iriscli tx -h
-iriscli tx gov -h
+iriscli tx slashing -h
+
+
 
 
 
