@@ -18,6 +18,34 @@ tx send中 --from描述不准确，实际不可用
 ========================================================================================================================
 tx 中generate-only 不可用
 ========================================================================================================================
-
+节点下线后jail的功能不正常，不会被jail
 ========================================================================================================================
+swagger暂时不可用， 前缀https://stargate.cosmos.network/需要改掉
+========================================================================================================================
+--home=/Users/sherlock/testnet/v0/iriscli
+
+gaia
+
+iriscli keys list --home=/Users/sherlock/testnet/v0/iriscli
+iriscli query account faa1f7aunmtgfdu397yrjq9ulktnvxn4nuumxpeh5s --chain-id=shilei-qa --home=/Users/sherlock/testnet/v0/iriscli --node=tcp://localhost:26667
+iriscli status --indent --node=tcp://localhost:26667
+
+echo 12345678 | iriscli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 1stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/Users/sherlock/testnet/v0/iriscli --node=tcp://localhost:26667
+5394E73391FDFEA794EFDEE22BD10059B23D6F6C344AAFDCFCF40BA1EF29D142
+
+----------------------------
+irisnet
+
+rm -rf /Users/sherlock/testnet2
+iris2 testnet --v=1 --output-dir=/Users/sherlock/testnet2  --node-dir-prefix=v --starting-ip-address=127.0.2.1 --chain-id=shilei-qa
+iris2 start --home=/Users/sherlock/testnet2/v0/iris
+irislcd2 start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd2/ --trust-node
+
+iriscli2 keys list --home=/Users/sherlock/testnet2/v0/iriscli
+iriscli2 bank account faa1ttefs3wwkwsg7vau4g83arpcrccdkaxypc6dl9 --chain-id=shilei-qa --home=/Users/sherlock/testnet2/v0/iriscli --node=tcp://localhost:26657
+iriscli2 status --indent --node=tcp://localhost:26657
+
+echo 1234567890 | iriscli2 bank send --amount=1iris --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --home=/Users/sherlock/testnet2/v0/iriscli --node=tcp://localhost:26657
+0D8CA96AAADA43BE54CFEE37C6C8E2C267695DD32BFCC1CBF2270858D19F3492
+
 

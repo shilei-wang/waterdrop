@@ -1,4 +1,54 @@
 
+
+
+
+
+
+
+
+
+
+
+
+总体不同：
+iris 有type value的格式，cosmos没有
+result 里面不同格式不同 iris有   "Data"，"Log"
+
+iris 和 cosmos广播的格式不同（iris是 POST/tx/broadcast ， cosmos是）
+
+具体不同：
+GET /txs
+iris 用的是tag的方式和cosmos不同
+
+GET /node_info
+格式不同：
+iris是protocol_version， cosmos是protocol_version+node_info
+
+GET /validatorsets/latest
+有些参数的key值不同，比如iris是power，accum；cosmos是voting_power，proposer_priority
+
+GET /bank/balances/{address}
+iris包含余额和account信息， cosmos则是分开余额和account信息分别查询
+
+POST /bank/accounts/{address}/transfers
+send交易
+iris和cosmos的发请求的地址不同，post内的格式也有较大的不同。
+
+
+Staking
+Stake module APIs
+？？？
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 **Describe the bug**
 **To Reproduce**
 -------------------------------------------------------------------------------------

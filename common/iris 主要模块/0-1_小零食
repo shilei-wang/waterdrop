@@ -105,3 +105,5 @@ echo 12345678 | iriscli tx staking edit-validator --moniker=v11 --from=v1 --chai
 
 //redelegate (gas会抄)
 echo 12345678 | iriscli tx staking redelegate fva1jajds058muyuqr9e2uxgr8g3phjceu6z2tntj0 fva1lcuw6ewd2gfxap37sejewmta205sgssme9ru0m 5stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --gas=300000
+
+iriscli query slashing signing-info --chain-id=shilei-qa fcp1zcjduepqpzudzh5k84h5zpnsp9l96pql7n0yaqd9pfcvcw603ngyvrcz6fdqf09vng
