@@ -1,9 +1,12 @@
 cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .
-git checkout -b v1.0.0-refactor upstream/v1.0.0-refactor
+git checkout -b v1.0.0-refactor upstream/v1.0.0-refactor  //git checkout v1.0.0-refactor //git pull
 //git merge upstream/segue/htlc-tool
 git branch && git rev-parse HEAD
+
+source scripts/setTestEnv.sh
+make install
 
 
 rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
@@ -21,7 +24,7 @@ iriscli keys list
 ========================================================================================================================
 
 iriscli keys show v0
-iriscli query account faa1jajds058muyuqr9e2uxgr8g3phjceu6zl6ey0g --chain-id=shilei-qa
+iriscli query account faa1u8deelp6a30mg55vsjvjls5f08ar42dvgzvdpd --chain-id=shilei-qa
 echo 12345678 | iriscli keys add v1
 iriscli keys add v2 --recover
 figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
@@ -38,10 +41,10 @@ iriscli query account faa1pm432kqz62mutq439ynqs87u30r36062czga7r --chain-id=shil
 iriscli query staking validators --chain-id=shilei-qa
 iriscli query staking validator fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
 iriscli tx staking delegate fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q 5stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query staking delegation faa1jajds058muyuqr9e2uxgr8g3phjceu6zl6ey0g fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
-iriscli query staking delegations faa1jajds058muyuqr9e2uxgr8g3phjceu6zl6ey0g --chain-id=shilei-qa
+iriscli query staking delegation faa1u8deelp6a30mg55vsjvjls5f08ar42dvgzvdpd fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
+iriscli query staking delegations faa1u8deelp6a30mg55vsjvjls5f08ar42dvgzvdpd --chain-id=shilei-qa
 echo 12345678 | iriscli tx staking unbond fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q 100stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query staking unbonding-delegation faa1jajds058muyuqr9e2uxgr8g3phjceu6zl6ey0g fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa  （有问题）
+iriscli query staking unbonding-delegation faa1u8deelp6a30mg55vsjvjls5f08ar42dvgzvdpd fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa  （有问题）
 echo 12345678 | iriscli tx distribution set-withdraw-addr faa18fxvahs5nc56zgtxu935zm22z20vgpvlhcqpnh --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
 echo 12345678 | iriscli tx distribution withdraw-all-rewards --from v0 --chain-id=shilei-qa --fees=4stake -b block -y
 iriscli query account faa18fxvahs5nc56zgtxu935zm22z20vgpvlhcqpnh --chain-id=shilei-qa
