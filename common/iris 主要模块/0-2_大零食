@@ -25,8 +25,18 @@ iriscli rest-server --node=tcp://localhost:26667 --laddr=tcp://0.0.0.0:1318 --ch
 --------------
 
 
+  rand         Rand transaction subcommands
+  service      Service transaction subcommands
+  staking      Staking transaction subcommands
+  guardian     guardian transaction subcommands
+  htlc         HTLC subcommands
+  distribution Distribution transactions subcommands
+  crisis       Crisis transactions subcommands
+  asset        Asset transaction subcommands
+  gov          Governance transactions subcommands
+  slashing     Slashing transactions subcommands
 
-
+--------------
 
 
 
