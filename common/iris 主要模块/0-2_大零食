@@ -39,10 +39,17 @@ iriscli rest-server --node=tcp://localhost:26667 --laddr=tcp://0.0.0.0:1318 --ch
 --------------
 
 
+iriscli tx htlc -h
 
 
 
+Usage:
+  iriscli tx htlc [flags]
+  iriscli tx htlc [command]
 
-
+Available Commands:
+  create      Create an HTLC
+  claim       Claim an opened HTLC
+  refund      Refund from an expired HTLC
 
 

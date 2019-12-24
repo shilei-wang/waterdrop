@@ -1,3 +1,20 @@
+
+1）查询随机数的命令设计比较奇怪
+原先的设计：
+iriscli rand query-rand  *****
+重构后的设计：（rand重复了2次容易混淆）
+iriscli query rand rand ****
+htlc 也有这个问题
+iriscli query htlc htlc c29a9fee2e7848efd14430b8044739cb46a8937c7871915277e2d7e7834814ed --chain-id=shilei-qa
+
+2） iriscli query rand query-queue  有问题，返回不正确
+
+3）example里面的fee显示 **iris，实际不能使用iris （iriscli tx guardian add-profiler -h）
+
+4） htlc refund之后无法查询，查询逻辑错误
+=====================================================================
+
+
 测试 v1.0.0 先期发现的一些需要注意的问题：
 
 1） iriscli不会创建$HOME/.iriscli ，但是使用时默认的home却是$HOME/.iriscli
