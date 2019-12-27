@@ -12,6 +12,8 @@ iriscli query htlc htlc c29a9fee2e7848efd14430b8044739cb46a8937c7871915277e2d7e7
 3）example里面的fee显示 **iris，实际不能使用iris （iriscli tx guardian add-profiler -h）
 
 4） htlc refund之后无法查询，查询逻辑错误
+
+5)testnet 密码只能设8位
 =====================================================================
 
 

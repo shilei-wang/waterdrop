@@ -28,3 +28,15 @@ echo 1234567890 | iriscli2 bank send --amount=1iris --fee=0.4iris --commit --cha
 0D8CA96AAADA43BE54CFEE37C6C8E2C267695DD32BFCC1CBF2270858D19F3492
 
 
+
+
+
+
+
+
+
+
+
+
+
+
