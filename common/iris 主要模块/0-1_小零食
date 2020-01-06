@@ -23,14 +23,31 @@ iriscli keys list
 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
 ========================================================================================================================
 
+------
+用钥匙串的方式 （如果锁定失效了  可以在文件》锁定登录里点一下开启）
+------
 iriscli keys show v0
-iriscli query account faa1nyygpx0ysa8x6p8zwce67wemg6zc4z68z5797g --chain-id=shilei-qa
-echo 12345678 | iriscli keys add v1
+iriscli query account faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 --chain-id=shilei-qa
+iriscli keys add v1
 iriscli keys add v2 --recover
 figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
-iriscli keys update v2
+//iriscli keys update v2 //update 没有了
 iriscli keys delete v2
 iriscli keys export v0 //这里和我们原来有区别 --output-file不用了
+
+------
+用file的方式
+------
+iriscli keys add x0 --keyring-backend=file --home=/Users/sherlock/iriscli
+echo 12345678 | iriscli keys add x0 --keyring-backend=file --home=/Users/sherlock/iriscli
+iriscli keys show x0 --keyring-backend=file --home=/Users/sherlock/iriscli
+echo 12345678 | iriscli keys list --keyring-backend=file --home=/Users/sherlock/iriscli
+iriscli keys add v1 --keyring-backend=file --home=/Users/sherlock/iriscli
+echo 12345678 | iriscli keys delete v1 --keyring-backend=file --home=/Users/sherlock/iriscli
+
+
+
+
 
 
 1. 转账 (小数点会panic)
@@ -41,10 +58,10 @@ iriscli query account faa1pm432kqz62mutq439ynqs87u30r36062czga7r --chain-id=shil
 iriscli query staking validators --chain-id=shilei-qa
 iriscli query staking validator fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
 iriscli tx staking delegate fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q 5stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query staking delegation faa1nyygpx0ysa8x6p8zwce67wemg6zc4z68z5797g fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
-iriscli query staking delegations faa1nyygpx0ysa8x6p8zwce67wemg6zc4z68z5797g --chain-id=shilei-qa
+iriscli query staking delegation faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
+iriscli query staking delegations faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 --chain-id=shilei-qa
 echo 12345678 | iriscli tx staking unbond fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q 100stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query staking unbonding-delegation faa1nyygpx0ysa8x6p8zwce67wemg6zc4z68z5797g fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa  （有问题）
+iriscli query staking unbonding-delegation faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa  （有问题）
 echo 12345678 | iriscli tx distribution set-withdraw-addr faa18fxvahs5nc56zgtxu935zm22z20vgpvlhcqpnh --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
 echo 12345678 | iriscli tx distribution withdraw-all-rewards --from v0 --chain-id=shilei-qa --fees=4stake -b block -y
 iriscli query account faa18fxvahs5nc56zgtxu935zm22z20vgpvlhcqpnh --chain-id=shilei-qa

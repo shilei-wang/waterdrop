@@ -11,9 +11,30 @@ iriscli query htlc htlc c29a9fee2e7848efd14430b8044739cb46a8937c7871915277e2d7e7
 
 3）example里面的fee显示 **iris，实际不能使用iris （iriscli tx guardian add-profiler -h）
 
-4） htlc refund之后无法查询，查询逻辑错误
+4）htlc refund之后无法查询，查询逻辑错误
 
-5)testnet 密码只能设8位
+5) testnet 密码只能设8位
+
+6）在没有密码的前提下 要求输入密码 iriscli keys update
+
+7） iriscli keys list 需要重复输2次密码
+
+8）--keyring-backend=file 模式下 ，连续输错密码 会导致奔溃。
+
+9) 我们需要在spec里面写明 一旦用户误点了拒绝后应该怎么办。 误点了拒绝后，整个keys 就无法再使用。
+---
+
+
+1） iriscli不会创建$HOME/.iriscli ，但是使用时默认的home却是$HOME/.iriscli
+2） iriscli config 不可用，提示 config.toml does not exist
+3） iriscli version 返回错误
+4） keys export 不支持直接导出到文件
+5） 在tx send， 如果fee含有小数，则会引起panic
+6） tx send中 --from描述不准确，实际不可用
+7） tx 中generate-only 不可用
+8） 节点下线后jail的功能不正常，不会被jail
+9） swagger暂时不可用， 前缀
+
 =====================================================================
 
 

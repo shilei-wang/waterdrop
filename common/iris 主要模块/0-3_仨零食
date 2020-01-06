@@ -1,42 +1,8 @@
+iriscli keys show v0
+iriscli query account faa1zgz20kzy3kttqxcu4klfw889yxpw250kgv5n2c --chain-id=shilei-qa
+
+iriscli tx send v0 faa1pm432kqz62mutq439ynqs87u30r36062czga7r 1stake --chain-id=shilei-qa --fees=4stake -b block -y
 
 
-========================================================================================================================
---home=/Users/sherlock/testnet/v0/iriscli
-
-gaia
-
-iriscli keys list --home=/Users/sherlock/testnet/v0/iriscli
-iriscli query account faa1f7aunmtgfdu397yrjq9ulktnvxn4nuumxpeh5s --chain-id=shilei-qa --home=/Users/sherlock/testnet/v0/iriscli --node=tcp://localhost:26667
-iriscli status --indent --node=tcp://localhost:26667
-
-echo 12345678 | iriscli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 1stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/Users/sherlock/testnet/v0/iriscli --node=tcp://localhost:26667
-5394E73391FDFEA794EFDEE22BD10059B23D6F6C344AAFDCFCF40BA1EF29D142
-
-----------------------------
-irisnet
-
-rm -rf /Users/sherlock/testnet2
-iris2 testnet --v=1 --output-dir=/Users/sherlock/testnet2  --node-dir-prefix=v --starting-ip-address=127.0.2.1 --chain-id=shilei-qa
-iris2 start --home=/Users/sherlock/testnet2/v0/iris
-irislcd2 start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd2/ --trust-node
-
-iriscli2 keys list --home=/Users/sherlock/testnet2/v0/iriscli
-iriscli2 bank account faa1ttefs3wwkwsg7vau4g83arpcrccdkaxypc6dl9 --chain-id=shilei-qa --home=/Users/sherlock/testnet2/v0/iriscli --node=tcp://localhost:26657
-iriscli2 status --indent --node=tcp://localhost:26657
-
-echo 1234567890 | iriscli2 bank send --amount=1iris --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --home=/Users/sherlock/testnet2/v0/iriscli --node=tcp://localhost:26657
-0D8CA96AAADA43BE54CFEE37C6C8E2C267695DD32BFCC1CBF2270858D19F3492
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+echo 12345678 | iriscli keys delete v122 --keyring-backend=file --home=/Users/sherlock/iriscli
+iriscli keys delete v122
