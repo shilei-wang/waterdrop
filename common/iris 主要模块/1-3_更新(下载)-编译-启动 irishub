@@ -67,12 +67,12 @@ git branch && git rev-parse HEAD
 
 
 ================
-  下载某个commit  15c79b2af3726df4fa22c4b28bd2c46ca8b002f1
+  下载某个commit  1316ad62d5e467bd594baf71096df7e8337b5771
 ================
 cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .
-git reset --hard 15c79b2af3726df4fa22c4b28bd2c46ca8b002f1
+git reset --hard 1316ad62d5e467bd594baf71096df7e8337b5771
 git branch && git rev-parse HEAD
 
 
