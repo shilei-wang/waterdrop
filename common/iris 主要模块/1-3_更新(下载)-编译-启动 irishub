@@ -55,14 +55,14 @@ git branch && git rev-parse HEAD
 
 
 ================
-  下载某个tag v0.15.1  //tag和分支不同 下载时先fetch ，不用upstream
+  下载某个tag v0.16.0-rc1   //tag和分支不同 下载时先fetch ，不用upstream
 ================
 cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .
 //第一次 git checkout -b v0.15.5 v0.15.5
 // git merge v0.15.4
-// git checkout v0.15.4
+// git checkout v0.16.0-rc1
 git branch && git rev-parse HEAD
 
 
