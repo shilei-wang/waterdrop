@@ -2,7 +2,7 @@ cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .
 git checkout -b v1.0.0-refactor upstream/v1.0.0-refactor  //git checkout v1.0.0-refactor //git pull
-//git merge upstream/segue/htlc-tool
+//git merge upstream/v1.0.0-refactor
 git branch && git rev-parse HEAD
 
 source scripts/setTestEnv.sh
@@ -27,7 +27,7 @@ iriscli keys list
 用钥匙串的方式 （如果锁定失效了  可以在文件》锁定登录里点一下开启）
 ------
 iriscli keys show v0
-iriscli query account faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 --chain-id=shilei-qa
+iriscli query account faa1gqz4pl8z43jfxpqvxzg65vdc39ag795grnhrmt --chain-id=shilei-qa
 iriscli keys add v1
 iriscli keys add v2 --recover
 figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
