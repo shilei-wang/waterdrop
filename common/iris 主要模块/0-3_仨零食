@@ -1,0 +1,70 @@
+commit id: 20a91f892c1540addd29e0930c7cd0adc8032405
+spec: https://gitlab.bianjie.ai/irishub/internal-spec/tree/v0.17.0
+
+1. gov模块升级（https://github.com/irisnet/irishub/issues/2161）
+【价格对不上啊 1iris】
+2. asset模块重构，仅保留native token相关操作（https://github.com/irisnet/irishub/issues/2169）
+3. service definition重构，使用json schema替换protobuf https://gitlab.bianjie.ai/irishub/internal-spec/blob/v0.17.0/service/new_service_spec.md
+
+保留Token发行、编辑、转让、增发功能。
+资产分类只有Fungible Tokens。
+资产来源只有原生Token。
+删除Gateway的创建/编辑/转让功能。
+删除链上已存在的Gateway、Gateway资产、External资产。
+治理参数删除字段CreateGatewayBaseFee、GatewayAssetFeeRatio。
+删除链上已存在的Gateway、Gateway资产、External资产。
+
+
+--------------------------------
+
+
+10. CommunityTaxUsage （这里处理的是交易产生的fee所收的tax）
+   // 社区基金使用提议 Burn=销毁  Distribute,Grant=转账（只能转给trustees 账户）
+   //先产生fee
+echo 1234567890 | iriscli bank send --amount=1iris-atto --to=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p --from=v0 --gas=10000 --fee=2260.9575iris --chain-id=shilei-qa --commit
+
+
+【添加新的trustee，只有trustee才能成为接收转账的对象】
+echo 1234567890 | iriscli guardian add-trustee --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=v0
+
+【Burn Distribute Grant】
+   ====
+   // 查税
+   iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+   iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test"  --title="burn tokens 5%" --type="CommunityTaxUsage" --usage="Burn" --amount=1iris
+
+  echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=
+  iriscli gov query-proposal --trust-node --proposal-id=1
+  iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+
+
+
+   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Distribute tokens 99%" --type="CommunityTaxUsage" --usage="" --dest-address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+     echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=2
+     iriscli gov query-proposal --trust-node --proposal-id=2
+     iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+
+
+   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=1iris --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+
+     echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=8
+     iriscli gov query-proposal --trust-node --proposal-id=8
+     iriscli bank account faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+
+
+
+
+   ====
+
+
+   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+
+     echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=11
+     iriscli gov query-proposal --trust-node --proposal-id=11
+     iriscli bank account faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p

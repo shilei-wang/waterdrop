@@ -10,11 +10,42 @@
 
 
 
+issue token例子里缺少--decimal
+
+
+iriscli asset token tokens --owner=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5
+owner 查询不到应该返回具体错误，  而不是返回空
+
+
+
+ mint i.a01 和  --token-id=a01 不统一 iriscli asset token fee a01
+
+iriscli service definition 001 格式缩颈有问题
+
+服务的唯一标识, 在同一条链上不可重复; 由字母、数字、_以及-组成, 以字母开始; 长度小于70
+
+
+
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
+[p2]Sending 0iris in CommunityTaxUsage/Grant causes "signature verification failed"
+**To Reproduce**
+echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=0iris  --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+
+ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
 -------------------------------------------------------------------------------------
+
+[p2] "--amount" should be a `required` field in CommunityTaxUsage/Grant、Burn、Distribute
+**Describe the bug**
+If we delete "--amount" field ， the proposal of "CommunityTaxUsage" still works， it just not right.
+
+
+**To Reproduce**
+   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+
+
 -------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------
 

@@ -352,11 +352,11 @@ echo 1234567890 | iriscli guardian add-trustee --chain-id=shilei-qa --from=v0 --
    // 查税
    iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
 
-   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test"  --title="burn tokens 5%" --type="CommunityTaxUsage" --usage="Burn" --percent=0.05
+   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test"  --title="burn tokens 5%" --type="CommunityTaxUsage" --usage="Burn" --amount=1iris-atto
 
-   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Distribute tokens 99%" --type="CommunityTaxUsage" --usage="Distribute" --percent=0.9999 --dest-address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Distribute tokens 99%" --type="CommunityTaxUsage" --usage="Distribute" --amount=1iris-atto --dest-address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
-   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --percent=0.99 --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=1iris-atto --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
    ====
 
    ==== 检查 ====
@@ -394,24 +394,11 @@ iriscli record download --chain-id=shilei-qa --file-name=record --record-id="rec
                 定义
      ===========================
 1. [交易] 服务定义
-echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/Users/sherlock/my_workspace/auto_test.proto  --service-name=001 --commit
-
-【2个method】
-echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/Users/sherlock/my_workspace/auto_test.proto  --service-name=002 --commit
-
-
-
-iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content="syntax = \"proto3\";\n\npackage helloworld;\n\n// The greeting service definition.\nservice Greeter {\n    //@Attribute description: sayHello\n    //@Attribute output_privacy: NoPrivacy\n    //@Attribute output_cached: NoCached\n    rpc SayHello (HelloRequest) returns (HelloReply) {}\n\n\n}\n\n// The request message containing the user's name.\nmessage HelloRequest {\n    string a = 1;\n    string b = 2;\n}\n\n// The response message containing the greetings\nmessage HelloReply {\n    string c = 3;\n    string d = 4;\n}\n"  --service-name=002
-
-
-===
-iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/root/test.proto --service-name=001
-
-===
-  "idl_content": "syntax =\"proto3\";package helloworld;service Greeter {rpc SayHello (HelloRequest) returns (HelloReply) }    rpc sayGoodbye (GoodbyeRequest) returns (GoodbyeReply) {}}message HelloRequest {}message GoodbyeRequest {}message HelloReply {}message GoodbyeReply {}",
+echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --commit --name=001
 
 2. 服务定义查询 （可以查询 method id）
-iriscli service definition --def-chain-id=shilei-qa --service-name=001
+iriscli service definition 001
+
 
      ===========================
                 绑定

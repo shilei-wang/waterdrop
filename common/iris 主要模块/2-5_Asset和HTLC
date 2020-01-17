@@ -27,56 +27,46 @@ echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.004iris --commit 
 ======================
 发行资产：
 iriscli asset issue-token
-3位资产 30万 40%入tax， 60%burn
-//--canonical-symbol 这个字段native下不起作用
+3位资产 30万 40%入tax， 60%burniriscli asset token edit -h
+iriscli asset token -h
+
 ======================
 
-//这里2次输入不能用echo
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=native --canonical-symbol=alias --decimal=0 --name=token-name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+//这里2次输入不能用echo，好像又可以了
+echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
 
 ======================
 修改资产：
 iriscli asset edit-token
 max-supply 只能往下改不能往上改， 且不能低于当时的total supply
 ======================
-
-echo 1234567890 | iriscli asset edit-token a01 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit --name=nn1 --canonical-symbol=sma1 --mintable=true --max-supply=50001
-
+echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
 ======================
 增发资产：
 iriscli asset mint-token
 ======================
-
-echo 1234567890 | iriscli asset mint-token a01 --amount=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset token mint i.a01 --amount=1 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
 
 ======================
 查询资产：
 iriscli asset query-token <Denom>
 ======================
+//查询目前所有tokens
+iriscli asset token tokens
 
-iriscli asset query-token a01
+//查询单个
+iriscli asset token tokens --token-id=a01
 
-iriscli bank account faa1l46jua9eyrg3uaaf8rwup2snq07ew02t0rwlkn
+//查询指定 owner 的全部资产：(gateway资产不会被查询)
+iriscli asset token tokens --owner=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
+
+
 
 备注：
 lcd 可以通过多条件查询token， 但是需要在toml文件中开启index
-
-======================
-查询全部资产：
-iriscli asset query-tokens
-======================
-iriscli asset query-tokens
-
-查询全部 native 资产：
-iriscli asset query-tokens --source=native
-
-查询名为 "gdex" 的网关的全部资产：
-iriscli asset query-tokens --gateway=gdex
-
-查询指定 owner 的全部资产：(gateway资产不会被查询)
-iriscli asset query-tokens --owner=faa1av0pstz30a55vlfcd64k0z7la5dxkglruavqmg
+iriscli bank account faa1l46jua9eyrg3uaaf8rwup2snq07ew02t0rwlkn
 
 
 ======================
@@ -84,20 +74,18 @@ iriscli asset query-tokens --owner=faa1av0pstz30a55vlfcd64k0z7la5dxkglruavqmg
 iriscli asset transfer-token-owner
 ======================
 
-echo 1234567890 | iriscli asset transfer-token-owner a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset token transfer i.a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
     查询： iriscli asset query-token a01
     seed： "art forest winter fork dream birth craft shift hope direct return glide pass glimpse flush unfold return eye able cactus erode fatal clock stereo"
 
 
-
-
 ======================
 查询fee：
-iriscli asset query-fee
+iriscli asset token fee
 ======================
 
-iriscli asset query-fee --token=a01
+iriscli asset token fee a01
 
 ======================
 查询token-stats： （燃烧了多少啊 等）
@@ -111,94 +99,6 @@ iriscli bank token-stats a01 -o=json --indent
 ======================
 
 echo 1234567890 | iriscli bank send --amount=100a01 --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
-
-
-****************************************************************************************
-                gateway网关资产
-****************************************************************************************
-======================
-创建网关：
-iriscli asset create-gateway
-3位资产 60万 40%入tax， 60%burn
-======================
-
-echo 1234567890 | iriscli asset create-gateway --moniker=gdex  --identity=abc --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
-
-======================
-查询网关：
-iriscli asset query-gateway(s)
-======================
-单个查询：
-iriscli asset query-gateway --moniker=gdex
-
-查询owner下的：
-iriscli asset query-gateways --owner=faa1kzql76ys4ps4xpn45q9l8fl237el04hlpy4hna
-
-查询所有的：
-iriscli asset query-gateways
-
-
-======================
-编辑网关：
-iriscli asset edit-gateway
-======================
-
-echo 1234567890 | iriscli asset edit-gateway --moniker=gdex --identity=a --details=b --website=c --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
-
-======================
-转让网关：
-iriscli asset transfer-gateway-owner
-======================
-
-echo 1234567890 | iriscli asset transfer-gateway-owner --moniker=gdex --to=faa1yg3hltaendpphczma889urzhmd737663fpa5jx --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
-    查询： iriscli asset query-gateway --moniker=gdex
-
-======================
-查询fee：
-iriscli asset query-fee
-======================
-创建网关费用：
-iriscli asset query-fee --gateway=abc
-
-创建网关的资产费用：
-iriscli asset query-fee --token=gde.aah
-
-======================
-发行网关资产：
-是直接发资产费用的 10%
-======================
-
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --decimal=0 --canonical-symbol=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
-
-======================
-查询资产：
-iriscli asset query-token <Denom>
-======================
-
-iriscli asset query-token gdex.g01
-
-
-======================
-转账
-======================
-
-echo 1234567890 | iriscli bank send --amount=100gdex.g01 --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
-
-
-****************************************************************************************
-                通过Gov发行 token （x.***）
-                因为暂时没有币，所以只有定义可以测
-****************************************************************************************
-
-echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=TokenAddition --deposit=2000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --token-min-unit-alias=alias --token-canonical-symbol=source --token-name=token-name --token-decimal=0 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --token-symbol=a01
-
-echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=4
-
-iriscli gov query-proposal --trust-node --proposal-id=1
-
-iriscli asset query-token x.a01
-
-iriscli bank token-stats x.a01 -o=json --indent （这个好像有bug）
 
 
 ********************************************************************************************************************************************************************************
