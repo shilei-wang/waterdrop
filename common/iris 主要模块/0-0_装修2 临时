@@ -1,6 +1,0 @@
-grant 0iris 提示signature fail
-
-
-   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="" --usage="Grant"  --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
-
-
