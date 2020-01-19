@@ -4,21 +4,11 @@
 **Describe the bug**
 **To Reproduce**
 -------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------
 
 
 
 
 
-issue token例子里缺少--decimal
-
-
-iriscli asset token tokens --owner=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5
-owner 查询不到应该返回具体错误，  而不是返回空
-
-
-
- mint i.a01 和  --token-id=a01 不统一 iriscli asset token fee a01
 
 iriscli service definition 001 格式缩颈有问题
 
@@ -47,6 +37,49 @@ If we delete "--amount" field ， the proposal of "CommunityTaxUsage" still work
 
 
 -------------------------------------------------------------------------------------
+[p3]"asset token tokens" returns nothing if querying an non-exist owner
+
+**Describe the bug**
+Querying non-exist owner should return proper error message， not empty feedback.
+
+**To Reproduce**
+iriscli asset token tokens --owner=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5
+
+
+-------------------------------------------------------------------------------------
+
+[p2] "min-unit" could not be used for sending tokens like "iris-atto"
+**To Reproduce**
+echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+
+
+echo 1234567890 | iriscli bank send --amount=1kitty --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+-------------------------------------------------------------------------------------
+
+[p2] The usage of "Token id" is confused
+
+**Describe the bug**
+In some cases， we usd Symbol to specify "Token id" ，for example：
+1）iriscli asset token tokens --token-id=btc
+2）iriscli bank send --amount=100btc
+3）iriscli asset token fee btc
+
+
+In some cases， we usd i.Symbol to specify "Token id" ，for example：
+1）iriscli asset token edit i.a01
+2）iriscli asset token mint i.a01
+
+
+Maybe， we should unify the two expressions！
+
+
+
+
+
+
+
+
 -------------------------------------------------------------------------------------
 
 [p1] Trying to reset the node, which restarted from a snapshot data, will corrupt data file and return panic runtime error.

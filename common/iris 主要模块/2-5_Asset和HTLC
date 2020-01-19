@@ -5,19 +5,16 @@ iriscli keys show v0
 iriscli bank account faa1nw9467w5yc6t35g0duaqrg2v8up60awad84gse
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
-tax：,burn
+tax：
 iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+
+burn：
 iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
 
 
 ****************************************************************************************
                 native原生资产
 ****************************************************************************************
-tax：
-iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
-burn:
-iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
-
 iriscli keys show v0
 iriscli bank account faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5
 
@@ -31,9 +28,11 @@ iriscli asset issue-token
 iriscli asset token -h
 
 ======================
-
 //这里2次输入不能用echo，好像又可以了
 echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+
+
+echo 1234567890 | iriscli bank send --amount=100a01-min --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 ======================
 修改资产：
@@ -41,6 +40,7 @@ iriscli asset edit-token
 max-supply 只能往下改不能往上改， 且不能低于当时的total supply
 ======================
 echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+
 
 ======================
 增发资产：
@@ -66,7 +66,6 @@ iriscli asset token tokens --owner=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
 
 备注：
 lcd 可以通过多条件查询token， 但是需要在toml文件中开启index
-iriscli bank account faa1l46jua9eyrg3uaaf8rwup2snq07ew02t0rwlkn
 
 
 ======================
@@ -76,7 +75,7 @@ iriscli asset transfer-token-owner
 
 echo 1234567890 | iriscli asset token transfer i.a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
 
-    查询： iriscli asset query-token a01
+    查询： iriscli asset token tokens --token-id=a01
     seed： "art forest winter fork dream birth craft shift hope direct return glide pass glimpse flush unfold return eye able cactus erode fatal clock stereo"
 
 
@@ -93,6 +92,7 @@ iriscli bank token-stats
 ======================
 iriscli bank token-stats iris -o=json --indent
 iriscli bank token-stats a01 -o=json --indent
+
 
 ======================
 转账

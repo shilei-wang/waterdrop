@@ -1,0 +1,3575 @@
+
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Family:            fungible
+  Source:            native
+  Name:              token-name
+  Symbol:            a01
+  Decimal:           0
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          false
+  Owner:             faa1aqfqsqk72jfkcyz5504k9w6fn5xaz2n60gwy24 
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --decimal=0 --initial-supply=10000 --max-supply=30000  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+Committed at block 60 (tx hash: 7B95C632F023109EF17DBB4ADFC394869EBDE31F719DBC8AAE91FA44B295AADB, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 7864,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "issue_token"
+     },
+     {
+       "key": "token-id",
+       "value": "a01"
+     },
+     {
+       "key": "token-denom",
+       "value": "a01-min"
+     },
+     {
+       "key": "token-owner",
+       "value": "faa1m56f9mpgkhzg90g2jz7ljzrfjjvdu9m66k0wqn"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Family:            fungible
+  Source:            native
+  Name:              token-name
+  Symbol:            a01
+  Decimal:           0
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          false
+  Owner:             faa1m56f9mpgkhzg90g2jz7ljzrfjjvdu9m66k0wqn 
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --decimal=0 --initial-supply=10000 --max-supply=30000  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+Committed at block 15 (tx hash: DF3CD67D7A1AAEFB594D14497FD6FD0FDC4433EF046DCC2BB8600E6C94E5F574, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 7864,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "issue_token"
+     },
+     {
+       "key": "token-id",
+       "value": "a01"
+     },
+     {
+       "key": "token-denom",
+       "value": "a01-min"
+     },
+     {
+       "key": "token-owner",
+       "value": "faa1ap7lk50jtg5trnp5nqsytejyav8ljaj0nellpt"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Family:            fungible
+  Source:            native
+  Name:              token-name
+  Symbol:            a01
+  Decimal:           0
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          false
+  Owner:             faa1ap7lk50jtg5trnp5nqsytejyav8ljaj0nellpt 
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=10000 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: Msg 0 failed: {"codespace":"asset","code":116,"message":"the token i.a01 is set to be non-mintable"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --decimal=0 --initial-supply=10000 --max-supply=30000  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+ERROR: unknown flag: --decimal
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token issue -h
+Issue a new token
+
+Usage:
+  iriscli asset token issue [flags]
+
+Examples:
+iriscli asset token issue --name="Kitty Token" --symbol="kitty" --min-unit="kitty" --scale=0 --initial-supply=100000000000 --max-supply=1000000000000 --mintable=true --from=<key-name> --chain-id=<chain-id> --fee=0.6iris
+
+Flags:
+      --account-number uint    AccountNumber number to sign the tx
+      --async                  broadcast transactions asynchronously
+      --chain-id string        Chain ID of tendermint node
+      --commit                 wait for transaction commit accomplishment, if true, --async will be ignored
+      --dry-run                ignore the --gas flag and perform a simulation of a transaction, but don't broadcast it
+      --fee string             Fee to pay along with transaction
+      --from string            Name of private key with which to sign
+      --from-addr string       Specify from address in generate-only mode
+      --gas string             gas limit to set per-transaction; set to "simulate" to calculate required gas automatically (default "50000")
+      --gas-adjustment float   adjustment factor to be multiplied against the estimate returned by the tx simulation; if the gas limit is set manually this flag is ignored  (default 1.5)
+      --generate-only          build an unsigned transaction and write it to STDOUT
+  -h, --help                   help for issue
+      --indent                 Add indent to JSON response
+      --initial-supply uint    the initial supply token of token
+      --json                   return output in json format
+      --ledger                 Use a connected Ledger device
+      --max-supply uint        the max supply of the token (default 1000000000000)
+      --memo string            Memo to send along with transaction
+      --min-unit string        the minimum unit name of token, e.g. wei
+      --mintable               whether the token can be minted, default false
+      --name string            the token name, e.g. IRIS Network
+      --node string            <host>:<port> to tendermint rpc interface for this chain (default "tcp://localhost:26657")
+      --print-response         return tx response (only works with async = false)
+      --scale uint8            the token decimal. The maximum value is 18
+      --sequence uint          Sequence number to sign the tx
+      --symbol string          the token symbol. Once created, it cannot be modified
+      --trust-node             Don't verify proofs for responses (default true)
+
+Global Flags:
+  -e, --encoding string   Binary encoding (hex|b64|btc) (default "hex")
+      --home string       directory for config and data (default "/Users/sherlock/.iriscli")
+  -o, --output string     Output format (text|json) (default "text")
+      --trace             print out full stack trace on errors
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+Committed at block 277 (tx hash: 02DD85370836336BB4281729C9803CC3911315934FAC8C7DF3415AA4312E46D4, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 7960,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "issue_token"
+     },
+     {
+       "key": "token-id",
+       "value": "a01"
+     },
+     {
+       "key": "token-denom",
+       "value": "a01-min"
+     },
+     {
+       "key": "token-owner",
+       "value": "faa1c8lzm43f2wm4aspcf2uxkykcp3hpd5n24z0slg"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa1c8lzm43f2wm4aspcf2uxkykcp3hpd5n24z0slg 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa1c8lzm43f2wm4aspcf2uxkykcp3hpd5n24z0slg 
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+ERROR: Msg 0 failed: {"codespace":"asset","code":114,"message":"token already exists: a01"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=10000 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 364 (tx hash: 92B400072DBF0425672A10DB4A33938E0048F2D03837B603813DDA8AE1B2AD06, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 7870,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "mint_token"
+     },
+     {
+       "key": "recipient",
+       "value": "faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint a01 --amount=10000 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: ERROR:
+Codespace: asset
+Code: 108
+Message: "invalid asset symbol: "
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=1 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 378 (tx hash: 8E565D31B967BB54E70BBF0DBB786B3360D8A2E1DAD837674A7CE7A832DC21E7, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 7910,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "mint_token"
+     },
+     {
+       "key": "recipient",
+       "value": "faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa1c8lzm43f2wm4aspcf2uxkykcp3hpd5n24z0slg 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token edit -h
+Edit a existed token
+
+Usage:
+  iriscli asset token edit [flags]
+
+Examples:
+iriscli asset token edit <token-id> --name="Cat Token" --max-supply=100000000000 --mintable=true --from=<your account name> --chain-id=<chain-id> --fee=0.6iris
+
+Flags:
+      --account-number uint    AccountNumber number to sign the tx
+      --async                  broadcast transactions asynchronously
+      --chain-id string        Chain ID of tendermint node
+      --commit                 wait for transaction commit accomplishment, if true, --async will be ignored
+      --dry-run                ignore the --gas flag and perform a simulation of a transaction, but don't broadcast it
+      --fee string             Fee to pay along with transaction
+      --from string            Name of private key with which to sign
+      --from-addr string       Specify from address in generate-only mode
+      --gas string             gas limit to set per-transaction; set to "simulate" to calculate required gas automatically (default "50000")
+      --gas-adjustment float   adjustment factor to be multiplied against the estimate returned by the tx simulation; if the gas limit is set manually this flag is ignored  (default 1.5)
+      --generate-only          build an unsigned transaction and write it to STDOUT
+  -h, --help                   help for edit
+      --indent                 Add indent to JSON response
+      --json                   return output in json format
+      --ledger                 Use a connected Ledger device
+      --max-supply uint        the max supply of token
+      --memo string            Memo to send along with transaction
+      --mintable string        whether the token can be minted, default false
+      --name string            the token name, e.g. IRIS Network (default "[do-not-modify]")
+      --node string            <host>:<port> to tendermint rpc interface for this chain (default "tcp://localhost:26657")
+      --print-response         return tx response (only works with async = false)
+      --sequence uint          Sequence number to sign the tx
+      --trust-node             Don't verify proofs for responses (default true)
+
+Global Flags:
+  -e, --encoding string   Binary encoding (hex|b64|btc) (default "hex")
+      --home string       directory for config and data (default "/Users/sherlock/.iriscli")
+  -o, --output string     Output format (text|json) (default "text")
+      --trace             print out full stack trace on errors
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit 
+Committed at block 562 (tx hash: 0D6480C5973CF91C9D45ED2AEF94EA535B6577EC7D4CF2D57413CF165728D8D1, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3598,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "edit_token"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        99999a01
+  Mintable:          true
+  Owner:             faa1c8lzm43f2wm4aspcf2uxkykcp3hpd5n24z0slg 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        99999a01
+  Mintable:          true
+  Owner:             faa1c8lzm43f2wm4aspcf2uxkykcp3hpd5n24z0slg 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        99999a01
+  Mintable:          true
+  Owner:             faa1c8lzm43f2wm4aspcf2uxkykcp3hpd5n24z0slg 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens -h
+Query details of a group of tokens
+
+Usage:
+  iriscli asset token tokens [flags]
+
+Examples:
+iriscli asset token tokens --token-id=<token-id> --owner=<address>
+
+Flags:
+      --chain-id string   Chain ID of tendermint node
+      --height int        block height to query, omit to get most recent provable block
+  -h, --help              help for tokens
+      --indent            Add indent to JSON response
+      --ledger            Use a connected Ledger device
+      --node string       <host>:<port> to tendermint rpc interface for this chain (default "tcp://localhost:26657")
+      --owner string      the owner address to be queried
+      --token-id string   The unique identifier of the token
+      --trust-node        Don't verify proofs for responses (default true)
+
+Global Flags:
+  -e, --encoding string   Binary encoding (hex|b64|btc) (default "hex")
+      --home string       directory for config and data (default "/Users/sherlock/.iriscli")
+  -o, --output string     Output format (text|json) (default "text")
+      --trace             print out full stack trace on errors
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token transfer i.a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=irishub --fee=0.3iris
+Sync committed (tx hash: F393F6E46E68249CCAA516A313EDE65228D100F86BC56A31CA980B21C9627BC5, response:
+ {
+   "code": 4,
+   "data": "",
+   "log": "{\"codespace\":\"sdk\",\"code\":4,\"message\":\"signature verification failed\"}",
+   "info": "",
+   "gas_wanted": 0,
+   "gas_used": 0,
+   "codespace": ""
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token transfer i.a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 1185 (tx hash: 15E868CF842F0AD5163BF1F195CA433B0A88B5C1C8265DC9D7EAF5E064AA3758, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3724,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "transfer_token_owner"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        99999a01
+  Mintable:          true
+  Owner:             faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token transfer i.a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: Msg 0 failed: {"codespace":"asset","code":101,"message":"the address faa1c8lzm43f2wm4aspcf2uxkykcp3hpd5n24z0slg is not the owner of the token i.a01"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+Committed at block 45 (tx hash: 37798B4CC4D654FF8A4EC78A689CDB4637B4BF167B923ACC17AAD7A690C79DD0, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 7960,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "issue_token"
+     },
+     {
+       "key": "token-id",
+       "value": "a01"
+     },
+     {
+       "key": "token-denom",
+       "value": "a01-min"
+     },
+     {
+       "key": "token-owner",
+       "value": "faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token -h
+token transaction subcommands
+
+Usage:
+  iriscli asset token [command]
+
+Available Commands:
+  issue       Issue a new token
+  edit        Edit a existed token
+  mint        The asset owner and operator can directly mint tokens to a specified address
+  transfer    Transfer the owner of a token to a new owner
+  tokens      Query details of a group of tokens
+  fee         Query the asset related fees
+
+Flags:
+  -h, --help   help for token
+
+Global Flags:
+  -e, --encoding string   Binary encoding (hex|b64|btc) (default "hex")
+      --home string       directory for config and data (default "/Users/sherlock/.iriscli")
+  -o, --output string     Output format (text|json) (default "text")
+      --trace             print out full stack trace on errors
+
+Use "iriscli asset token [command] --help" for more information about a command.
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token fee -h
+Query the asset related fees
+
+Usage:
+  iriscli asset token fee [flags]
+
+Examples:
+iriscli asset token fee [symbol]
+
+Flags:
+      --chain-id string   Chain ID of tendermint node
+      --height int        block height to query, omit to get most recent provable block
+  -h, --help              help for fee
+      --indent            Add indent to JSON response
+      --ledger            Use a connected Ledger device
+      --node string       <host>:<port> to tendermint rpc interface for this chain (default "tcp://localhost:26657")
+      --trust-node        Don't verify proofs for responses (default true)
+
+Global Flags:
+  -e, --encoding string   Binary encoding (hex|b64|btc) (default "hex")
+      --home string       directory for config and data (default "/Users/sherlock/.iriscli")
+  -o, --output string     Output format (text|json) (default "text")
+      --trace             print out full stack trace on errors
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token fee i.a01
+ERROR: ERROR:
+Codespace: asset
+Code: 108
+Message: "invalid asset symbol: i.a01"
+
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token fee a01
+The token id has existed
+Fees:
+  IssueFee: 60000iris
+  MintFee:  6000iris
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank token-stats a01 -o=json --indent
+{
+  "loose_tokens": null,
+  "bonded_tokens": null,
+  "burned_tokens": [
+    {
+      "denom": "a01-min",
+      "amount": "0"
+    }
+  ],
+  "total_supply": [
+    {
+      "denom": "a01-min",
+      "amount": "10000"
+    }
+  ]
+}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=100a01 --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
+Committed at block 127 (tx hash: EC63C233F692E9F67BCCC034133754FB4795BE3CF7FD5D4E2C59275B9CD33F5A, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 4641,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "send"
+     },
+     {
+       "key": "sender",
+       "value": "faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls"
+     },
+     {
+       "key": "recipient",
+       "value": "faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+ERROR: Msg 0 failed: {"codespace":"asset","code":114,"message":"token already exists: a01"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2650 (tx hash: 8D0F9E58C4038DDF70181055BB12958172C697ACB17F1B41EECAA1504997ED09, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3596,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "edit_token"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        99999a01
+  Mintable:          true
+  Owner:             faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat2" --max-supply=40000 --mintable=false --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2675 (tx hash: C9BED177E47A827782DB4B26B33E5FE0FF7BCAB2106B48FD2F2D9CD3E9B8FD48, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3608,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "edit_token"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              Cat2
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        40000a01
+  Mintable:          false
+  Owner:             faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=20000 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: Msg 0 failed: {"codespace":"asset","code":116,"message":"the token i.a01 is set to be non-mintable"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat2" --max-supply=40000 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2846 (tx hash: 2F43F0DCA1812137CB3F52DF53683725102B800FA77B07F7B488098DE42DE37C, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3599,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "edit_token"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=20000 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2849 (tx hash: 69F05AAF7DD06C1C95F200A15A49052A90A3E0EB13E6A813906EB8E36E11E667, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 7868,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "mint_token"
+     },
+     {
+       "key": "recipient",
+       "value": "faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              Cat2
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        40000a01
+  Mintable:          true
+  Owner:             faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat2" --max-supply=20000 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: Msg 0 failed: {"codespace":"asset","code":112,"message":"max supply must not be less than 30000"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=20000 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: Msg 0 failed: {"codespace":"asset","code":112,"message":"The amount of mint tokens plus the total amount of issues has exceeded the maximum issue total,only accepts amount (0, 10000]"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=0 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: ERROR:
+Codespace: asset
+Code: 112
+Message: "invalid token amount 0, only accepts value (0, 1000000000000]"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=-1 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: invalid argument "-1" for "--amount" flag: strconv.ParseUint: parsing "-1": invalid syntax
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Name:              Cat2
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        40000a01
+  Mintable:          true
+  Owner:             faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --owner=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token transfer i.a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 3186 (tx hash: F6300F993E02AFAF84BBE8140715A6C8E029CD0A7A2BE98AB8C93374FCBC2B85, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3724,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "transfer_token_owner"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --owner=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
+FungibleToken a01:
+  Name:              Cat2
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        40000a01
+  Mintable:          true
+  Owner:             faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              Cat2
+  Symbol:            a01
+  Scale:             0
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        40000a01
+  Mintable:          true
+  Owner:             faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token fee a01
+The token id has existed
+Fees:
+  IssueFee: 60000iris
+  MintFee:  6000iris
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token transfer a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: ERROR:
+Codespace: asset
+Code: 108
+Message: "invalid asset symbol: "
+
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token fee a01
+The token id has existed
+Fees:
+  IssueFee: 60000iris
+  MintFee:  6000iris
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank token-stats a01 -o=json --indent
+{
+  "loose_tokens": null,
+  "bonded_tokens": null,
+  "burned_tokens": [
+    {
+      "denom": "a01-min",
+      "amount": "0"
+    }
+  ],
+  "total_supply": [
+    {
+      "denom": "a01-min",
+      "amount": "30000"
+    }
+  ]
+}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=100a01 --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
+Committed at block 3228 (tx hash: A983436D1E1FF5CA2AB4F3AC4B31F703457AD3E64C9CB6F1FB0394803B6A1A68, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 4728,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "send"
+     },
+     {
+       "key": "sender",
+       "value": "faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls"
+     },
+     {
+       "key": "recipient",
+       "value": "faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls
+Account:
+  Address:         faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls
+  Pubkey:          fap1addwnpepqdqqaqlydcsatu33fs37v47nem8j83dwur5xsjarr27qmfcjs95y5ruygyn
+  Coins:           9800a01,1999933899.44449008iris
+  Account Number:  2
+  Sequence:        13 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$ iriscli params --module=asset
+Asset Params:
+  asset/AssetTaxRate:          0.4000000000
+  asset/IssueTokenBaseFee:     60000000000000000000000iris-atto
+  asset/MintTokenFeeRatio:     0.1000000000
+SherlockdeMacBook-Pro:~ sherlock$ iriscli params --module=asset -o=json
+{"type":"irishub/asset/Params","value":{"asset_tax_rate":"0.4000000000","issue_token_base_fee":{"denom":"iris-atto","amount":"60000000000000000000000"},"mint_token_fee_ratio":"0.1000000000"}}
+SherlockdeMacBook-Pro:~ sherlock$     echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type=Parameter --deposit="2000iris"  --param='asset/CreateGatewayBaseFee=500000000000000000000000' --from=v0 --chain-id=shilei-qa --fee=0.004iris  --commit
+ERROR: ERROR:
+Codespace: params
+Code: 111
+Message: "CreateGatewayBaseFee is an invalid key"
+
+SherlockdeMacBook-Pro:~ sherlock$     echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type=Parameter --deposit="2000iris"  --param='asset/GatewayAssetFeeRatio=0.11' --from=v0 --chain-id=shilei-qa --fee=0.004iris  --commit
+ERROR: ERROR:
+Codespace: params
+Code: 111
+Message: "GatewayAssetFeeRatio is an invalid key"
+
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=002 --commit
+schemas content: 
+{"price":"1000iris","promotions":[{"duration":{"start_time":1500000000,"end_time":15200000000},"discount":0.8},{"duration":{"start_time":1530000000,"end_time":15400000000},"discount":0.9}]}
+ERROR: ERROR:
+Codespace: service
+Code: 101
+Message: "invalid input schema: schema is invalid"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=002 --commit
+schemas content: 
+{"input":{"type":"object"},"output":{"type":"object"},"error":{"type":"object"}}
+Committed at block 13128 (tx hash: 7529A831A4693BDBBA265D19444483FE96572B3858B8F025DF9FD56CF7C22B4C, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 5225,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "define_service"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition --def-chain-id=shilei-qa --service-name=001
+ERROR: unknown flag: --def-chain-id
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition -h
+Query service definition
+
+Usage:
+  iriscli service definition [flags]
+
+Examples:
+iriscli service definition <service name>
+
+Flags:
+      --chain-id string   Chain ID of tendermint node
+      --height int        block height to query, omit to get most recent provable block
+  -h, --help              help for definition
+      --indent            Add indent to JSON response
+      --ledger            Use a connected Ledger device
+      --node string       <host>:<port> to tendermint rpc interface for this chain (default "tcp://localhost:26657")
+      --trust-node        Don't verify proofs for responses (default true)
+
+Global Flags:
+  -e, --encoding string   Binary encoding (hex|b64|btc) (default "hex")
+      --home string       directory for config and data (default "/Users/sherlock/.iriscli")
+  -o, --output string     Output format (text|json) (default "text")
+      --trace             print out full stack trace on errors
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 001
+ERROR: {"codespace":"service","code":103,"message":"service name 001 does not exist"}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 002
+ServiceDefinition:
+		Name:                  002
+		Description:           service-description
+		Tags:                  [tag1 tag2]
+		Author:                faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls
+		AuthorDescription:     author-description
+		Schemas:               {
+    "input": {
+        "type": "object"
+    },
+    "output": {
+        "type": "object"
+    },
+    "error": {
+        "type": "object"
+    }
+}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 001
+ERROR: {"codespace":"service","code":103,"message":"service name 001 does not exist"}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition **
+ERROR: accepts 1 arg(s), received 16
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition dfafgag dadaf
+ERROR: accepts 1 arg(s), received 2
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition dfafgag dadaf
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=00**1 --commit
+schemas content: 
+{"input":{"type":"object"},"output":{"type":"object"},"error":{"type":"object"}}
+ERROR: ERROR:
+Codespace: service
+Code: 100
+Message: "invalid service name 00**1; only alphanumeric characters, _ and - accepted, the length ranges in (0,70]"
+
+SherlockdeMacBook-Pro:~ sherlock$ ---------------------------------------------------------------
+SherlockdeMacBook-Pro:~ sherlock$ ---------------------------------------------------------------
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 001
+ERROR: {"codespace":"service","code":103,"message":"service name 001 does not exist"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=001 --commit
+schemas content: 
+{"input":{"type":"object"},"output":{"type":"object"},"error":{"type":"object"}}
+Committed at block 15550 (tx hash: 691485EA1FA9B0D31E83C9DFEFB9D6FDB22ABC6ADEB75839C2D724C30C88974C, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 5225,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "define_service"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 001
+ServiceDefinition:
+		Name:                  001
+		Description:           service-description
+		Tags:                  [tag1 tag2]
+		Author:                faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls
+		AuthorDescription:     author-description
+		Schemas:               {
+    "input": {
+        "type": "object"
+    },
+    "output": {
+        "type": "object"
+    },
+    "error": {
+        "type": "object"
+    }
+}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --def-chain-id=shilei-qa --bind-type=Local --deposit=2000iris --prices=1iris --avg-rsp-time=10000 --usable-time=100 --service-name=001
+Committed at block 15609 (tx hash: 2BB3F25A98524422B94E7FCD3C16EE3EA3EAB93C2959D5D2B54CC8E552BB526B, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 5906,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "bind_service"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=002 --commit
+schemas content: 
+{"input":{"type":"object"},"output":{"type":"object"},"err3or":{"type":"object"}}
+ERROR: ERROR:
+Codespace: service
+Code: 101
+Message: "invalid error schema: schema is invalid"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=002 --commit
+schemas content: 
+{}
+ERROR: ERROR:
+Codespace: service
+Code: 101
+Message: "invalid input schema: schema is invalid"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=002 --commit
+ERROR: .json file content is invalid JSON
+SherlockdeMacBook-Pro:~ sherlock$     }
+-bash: syntax error near unexpected token `}'
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=002 --commit
+schemas content: 
+{"input":{"type":"object"},"output":{"type":"object"},"err3or":{"type":"object"}}
+ERROR: ERROR:
+Codespace: service
+Code: 101
+Message: "invalid error schema: schema is invalid"
+
+SherlockdeMacBook-Pro:~ sherlock$         "type": "object2"
+-bash: type:: command not found
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=002 --commit
+schemas content: 
+{"input":{"type":"object2"},"output":{"type":"object"},"error":{"type":"object"}}
+ERROR: ERROR:
+Codespace: service
+Code: 101
+Message: "invalid input schema: has a primitive type that is NOT VALID -- given: /object2/ Expected valid values are:[array boolean integer number null object string]"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=002 --commit
+schemas content: 
+{"input":{"type":""},"output":{"type":"object"},"error":{"type":"object"}}
+ERROR: ERROR:
+Codespace: service
+Code: 101
+Message: "invalid input schema: has a primitive type that is NOT VALID -- given: // Expected valid values are:[array boolean integer number null object string]"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=002 --commit
+schemas content: 
+{"input":{"type":"//"},"output":{"type":"object"},"error":{"type":"object"}}
+ERROR: ERROR:
+Codespace: service
+Code: 101
+Message: "invalid input schema: has a primitive type that is NOT VALID -- given: //// Expected valid values are:[array boolean integer number null object string]"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=002 --commit
+schemas content: 
+{"$schema":"http://json-schema.org/draft-04/schema#","title":"title","description":"description","type":"type","input":{"type":"object"},"output":{"type":"object"},"error":{"type":"object"}}
+ERROR: Msg 0 failed: {"codespace":"service","code":104,"message":"service name 002 already exists"}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 001
+ServiceDefinition:
+		Name:                  001
+		Description:           service-description
+		Tags:                  [tag1 tag2]
+		Author:                faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls
+		AuthorDescription:     author-description
+		Schemas:               {
+    "input": {
+        "type": "object"
+    },
+    "output": {
+        "type": "object"
+    },
+    "error": {
+        "type": "object"
+    }
+}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 002
+ServiceDefinition:
+		Name:                  002
+		Description:           service-description
+		Tags:                  [tag1 tag2]
+		Author:                faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls
+		AuthorDescription:     author-description
+		Schemas:               {
+    "input": {
+        "type": "object"
+    },
+    "output": {
+        "type": "object"
+    },
+    "error": {
+        "type": "object"
+    }
+}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 004
+ERROR: {"codespace":"service","code":103,"message":"service name 004 does not exist"}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 003
+ERROR: {"codespace":"service","code":103,"message":"service name 003 does not exist"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=003 --commit
+schemas content: 
+{"$schema":"http://json-schema.org/draft-04/schema#","title":"title","description":"description","type":"type","input":{"type":"object"},"output":{"type":"object"},"error":{"type":"object"}}
+Committed at block 16367 (tx hash: D8BA63CE3D6D824E79BA8EEC62F574F197252E1A5B23AEC14D900A00EB80FB63, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 6598,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "define_service"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=004 --commit
+schemas content: 
+{"$schema":"http://json-schema.org/draft-04/schema#","title":"title","description":"description","type":"type","input":{"type":"object","description":"request data","properties":{"id":{"type":"string","description":"id"},"name":{"type":"string","description":"name"},"data":{"type":"string","description":"data"}},"required":["id","data"]},"output":{"type":"object"},"error":{"type":"object"}}
+Committed at block 16704 (tx hash: 49BA02285F5CA82591179F7B06FA399FB34E087BCA94198806D57857700D6550, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 11028,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "define_service"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 004
+ServiceDefinition:
+		Name:                  004
+		Description:           service-description
+		Tags:                  [tag1 tag2]
+		Author:                faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls
+		AuthorDescription:     author-description
+		Schemas:               {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "title",
+    "description": "description",
+    "type": "type",
+
+    "input": {
+        "type": "object",
+        "description": "request data",
+        "properties": {
+            "id": {
+                "type": "string",
+                "description": "id"
+            },
+            "name": {
+                "type": "string",
+                "description": "name"
+            },
+            "data": {
+                "type": "string",
+                "description": "data"
+            }
+        },
+
+        "required": ["id", "data"]
+    },
+
+    "output": {
+        "type": "object"
+    },
+    
+    "error": {
+        "type": "object"
+    }
+}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=005 --commit
+schemas content: 
+{"$schema":"http://json-schema.org/draft-04/schema#","title":"title","description":"description","type":"type","input":{"type":"object","description":"request data","properties":{"id":{"type":"string","description":"id"},"name":{"type":"string","description":"name"},"data":{"type":"string","description":"data"}},"required":["id","data"]},"output":{"type":"object","description":"response result","properties":{"data":{"type":"string","description":"result data"}},"required":["data"]},"error":{"type":"object"}}
+Committed at block 16766 (tx hash: 33CF6FEDB6B9141472C6FC0E092B5DED50EF8A2439B7F9AF28A04528D510C859, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 13250,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "define_service"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 005
+ServiceDefinition:
+		Name:                  005
+		Description:           service-description
+		Tags:                  [tag1 tag2]
+		Author:                faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls
+		AuthorDescription:     author-description
+		Schemas:               {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "title",
+    "description": "description",
+    "type": "type",
+
+    "input": {
+        "type": "object",
+        "description": "request data",
+        "properties": {
+            "id": {
+                "type": "string",
+                "description": "id"
+            },
+            "name": {
+                "type": "string",
+                "description": "name"
+            },
+            "data": {
+                "type": "string",
+                "description": "data"
+            }
+        },
+
+        "required": ["id", "data"]
+    },
+
+    "output": {
+        "type": "object",
+        "description": "response result",
+
+        "properties": {
+            "data": {
+                "type": "string",
+                "description": "result data"
+            }
+        },
+
+        "required": ["data"]
+
+    },
+
+    "error": {
+        "type": "object"
+    }
+}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=006 --commit
+schemas content: 
+{"$schema":"http://json-schema.org/draft-04/schema#","title":"title","description":"description","type":"type","input":{"type":"object","description":"request data","properties":{"id":{"type":"string","description":"id"},"name":{"type":"string","description":"name"},"data":{"type":"string","description":"data"}},"required":["id","data"]},"output":{"type":"object","description":"response result","properties":{"data":{"type":"string","description":"result data"}},"required":["data"]},"error":{"type":"object","description":"error msg","properties":{"code":{"type":"number","description":"error code"},"msg":{"type":"string","description":"detailed error msg"}},"required":["msg"]}}
+Committed at block 18296 (tx hash: 2C424AB4EBB15FB59CF21AAA122AF69F506021504025F943A96596A27E58E2D0, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 16634,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "define_service"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli service definition 006
+ServiceDefinition:
+		Name:                  006
+		Description:           service-description
+		Tags:                  [tag1 tag2]
+		Author:                faa19k8p3evk5kapy35xnuaclmw77sutrw0u5x9gls
+		AuthorDescription:     author-description
+		Schemas:               {
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "title",
+    "description": "description",
+    "type": "type",
+
+    "input": {
+        "type": "object",
+        "description": "request data",
+        "properties": {
+            "id": {
+                "type": "string",
+                "description": "id"
+            },
+            "name": {
+                "type": "string",
+                "description": "name"
+            },
+            "data": {
+                "type": "string",
+                "description": "data"
+            }
+        },
+
+        "required": ["id", "data"]
+    },
+
+    "output": {
+        "type": "object",
+        "description": "response result",
+
+        "properties": {
+            "data": {
+                "type": "string",
+                "description": "result data"
+            }
+        },
+
+        "required": ["data"]
+
+    },
+
+    "error": {
+        "type": "object",
+        "description": "error msg",
+
+        "properties": {
+            "code": {
+                "type": "number",
+                "description": "error code"
+            },
+            "msg": {
+                "type": "string",
+                "description":"detailed error msg"
+            }
+        },
+
+        "required": ["msg"]
+    }
+}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=007 --commit
+schemas content: 
+{"$schema":"http://json-schema.org/draft-04/schema#","title":"title","description":"description","type":"type","input":{"type":"object","description":"request data","properties":{"id":{"type":"string","description":"id"},"name":{"type":"string","description":"name"},"data":{"type":"string","description":"data"}},"required":["wid","data"]},"output":{"type":"object","description":"response result","properties":{"data":{"type":"string","description":"result data"}},"required":["data"]},"error":{"type":"object","description":"error msg","properties":{"code":{"type":"number","description":"error code"},"msg":{"type":"string","description":"detailed error msg"}},"required":["msg"]}}
+Committed at block 18336 (tx hash: C1C2E3CBB9D20D4C8A982ED1C2DBE86BEBFCE6DF2A151231232EC62125809324, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 16644,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "define_service"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=008 --commit
+schemas content: 
+{"$schema":"http://json-schema.org/draft-04/schema#","title":"title","description":"description","type":"type","input":{"type":"object","description":"request data","properties":{"id":{"type":"string","description":"id"},"name":{"type":"string","description":"name"},"data":{"type":"string","description":"data"}},"required":["","data"]},"output":{"type":"object","description":"response result","properties":{"data":{"type":"string","description":"result data"}},"required":["data"]},"error":{"type":"object","description":"error msg","properties":{"code":{"type":"number","description":"error code"},"msg":{"type":"string","description":"detailed error msg"}},"required":["msg"]}}
+Committed at block 18386 (tx hash: 988F83B10C5F7BEC6C6A238D7C96D473B9E7AF1AB9FC4D7D66C6502ED8519FB5, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 16614,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "define_service"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=008 --commit
+schemas content: 
+{"$schema":"http://json-schema.org/draft-04/schema#","title":"title","description":"description","type":"type","input":{"type":"object","description":"request data","properties":{"id":{"type":"string","description":"id"},"name":{"type":"string","description":"name"},"data":{"type":"string","description":"data"}},"required":["id","id","data"]},"output":{"type":"object","description":"response result","properties":{"data":{"type":"string","description":"result data"}},"required":["data"]},"error":{"type":"object","description":"error msg","properties":{"code":{"type":"number","description":"error code"},"msg":{"type":"string","description":"detailed error msg"}},"required":["msg"]}}
+ERROR: ERROR:
+Codespace: service
+Code: 101
+Message: "invalid input schema: required items must be unique"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=008 --commit
+schemas content: 
+{"$schema":"http://json-schema.org/draft-04/schema#","title":"title","description":"description","type":"type","input":{"type":"object","description":"request data","properties":{"id":{"type":"string","description":"id"},"name":{"type":"string","description":"name"},"name":{"type":"string","description":"name"},"data":{"type":"string","description":"data"}},"required":["id","data"]},"output":{"type":"object","description":"response result","properties":{"data":{"type":"string","description":"result data"}},"required":["data"]},"error":{"type":"object","description":"error msg","properties":{"code":{"type":"number","description":"error code"},"msg":{"type":"string","description":"detailed error msg"}},"required":["msg"]}}
+ERROR: Msg 0 failed: {"codespace":"service","code":104,"message":"service name 008 already exists"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/schemas.json --name=009 --commit
+schemas content: 
+{"$schema":"http://json-schema.org/draft-04/schema#","title":"title","description":"description","type":"type","input":{"type":"object","description":"request data","properties":{"id":{"type":"string","description":"id"},"name":{"type":"string","description":"name"},"name":{"type":"string","description":"name"},"data":{"type":"string","description":"data"}},"required":["id","data"]},"output":{"type":"object","description":"response result","properties":{"data":{"type":"string","description":"result data"}},"required":["data"]},"error":{"type":"object","description":"error msg","properties":{"code":{"type":"number","description":"error code"},"msg":{"type":"string","description":"detailed error msg"}},"required":["msg"]}}
+Committed at block 18405 (tx hash: 5384F6C120BF6660C8CFDE866A7DBA8F0A5CE06F0FCF7A5C797CB48508969B50, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 17718,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "define_service"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=1iris-atto --to=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p --from=v0 --gas=10000 --fee=2260.9575iris --chain-id=shilei-qa --commit
+Committed at block 33 (tx hash: 3736FA1D7FF92F4C51DFD00BDDFA2A02F2C9392636943FAAB5B5792082619918, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 10000,
+   "gas_used": 4608,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "send"
+     },
+     {
+       "key": "sender",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "recipient",
+       "value": "faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli guardian add-trustee --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=v0
+Committed at block 37 (tx hash: 52BB1420CDA44A272BB45EFCDA4E9063CE80C5DDCDC74A24484DBADC9D348BA4, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3418,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "guardian add-trustee"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$    iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           20.8369897888iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test"  --title="burn tokens 5%" --type="CommunityTaxUsage" --usage="Burn" --amount=1iris
+Committed at block 63 (tx hash: 95B656A1A285F6C5836B3617F57DF439C1D5CF211E73B3C284C88DF4ACDBFC89, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 10933,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "1"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "1"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa108w3x8"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$   echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=1
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:1,Option:Yes]Committed at block 64 (tx hash: A5EED6194057C95BB1EE3459E77A1704F1F34431621C6729A94E3676BDF6A535, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3477,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "1"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$   iriscli gov query-proposal --trust-node --proposal-id=1
+Proposal 1:
+  Title:              burn tokens 5%
+  Type:               CommunityTaxUsage
+  Status:             VotingPeriod
+  Submit Time:        2020-01-17 07:03:54.607841 +0000 UTC
+  Deposit End Time:   2020-01-17 07:04:14.607841 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 07:03:54.607841 +0000 UTC
+  Voting End Time:    2020-01-17 07:04:14.607841 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$   iriscli gov query-proposal --trust-node --proposal-id=1
+Proposal 1:
+  Title:              burn tokens 5%
+  Type:               CommunityTaxUsage
+  Status:             VotingPeriod
+  Submit Time:        2020-01-17 07:03:54.607841 +0000 UTC
+  Deposit End Time:   2020-01-17 07:04:14.607841 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 07:03:54.607841 +0000 UTC
+  Voting End Time:    2020-01-17 07:04:14.607841 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$   iriscli gov query-proposal --trust-node --proposal-id=1
+Proposal 1:
+  Title:              burn tokens 5%
+  Type:               CommunityTaxUsage
+  Status:             VotingPeriod
+  Submit Time:        2020-01-17 07:03:54.607841 +0000 UTC
+  Deposit End Time:   2020-01-17 07:04:14.607841 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 07:03:54.607841 +0000 UTC
+  Voting End Time:    2020-01-17 07:04:14.607841 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$   iriscli gov query-proposal --trust-node --proposal-id=1
+Proposal 1:
+  Title:              burn tokens 5%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 07:03:54.607841 +0000 UTC
+  Deposit End Time:   2020-01-17 07:04:14.607841 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 07:03:54.607841 +0000 UTC
+  Voting End Time:    2020-01-17 07:04:14.607841 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$   iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           19.837214012iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Distribute tokens 99%" --type="CommunityTaxUsage" --usage="Distribute" --amount=1iris --dest-address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Committed at block 1683 (tx hash: AB3E7C126D01A223DFEADC92A5380B9CDEC3E5F5B9B2D9EDE647BA67D33DED44, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 11330,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "2"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "2"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=2
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:2,Option:Yes]Committed at block 1690 (tx hash: C251D2F34A8256B8DCC0D3EE680C1C40036BDCC0DD0684C37901B3BF69588587, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3502,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "2"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=2
+Proposal 2:
+  Title:              Distribute tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             VotingPeriod
+  Submit Time:        2020-01-17 07:58:44.128514 +0000 UTC
+  Deposit End Time:   2020-01-17 07:59:04.128514 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 07:58:44.128514 +0000 UTC
+  Voting End Time:    2020-01-17 07:59:04.128514 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=2
+Proposal 2:
+  Title:              Distribute tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 07:58:44.128514 +0000 UTC
+  Deposit End Time:   2020-01-17 07:59:04.128514 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 07:58:44.128514 +0000 UTC
+  Voting End Time:    2020-01-17 07:59:04.128514 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$    iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Account:
+  Address:         faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+  Pubkey:          
+  Coins:           1iris
+  Account Number:  5
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Distribute tokens 99%" --type="CommunityTaxUsage" --usage="Distribute" --amount=1iris --dest-address=faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+ERROR: Msg 0 failed: {"codespace":"gov","code":17,"message":"[faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52] is not a trustee address"}
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=1iris --dest-address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Committed at block 1844 (tx hash: 36DCCB9203413750E865D562DF6C8A6AD802A1F9082DF8BA030BE432018DAE85, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 11211,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "3"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "3"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$         echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=3
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:3,Option:Yes]Committed at block 1847 (tx hash: 28BE3329CECB8E5D280DDBE9A7063229468919833F731EC18D60AA7695362ABA, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3501,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "3"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$         iriscli gov query-proposal --trust-node --proposal-id=3
+Proposal 3:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             VotingPeriod
+  Submit Time:        2020-01-17 08:04:10.956962 +0000 UTC
+  Deposit End Time:   2020-01-17 08:04:30.956962 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:04:10.956962 +0000 UTC
+  Voting End Time:    2020-01-17 08:04:30.956962 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Account:
+  Address:         faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+  Pubkey:          
+  Coins:           2iris
+  Account Number:  5
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=1iris --dest-address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Committed at block 2148 (tx hash: 12D5B5BBAB901DA931DDB91815A4BC0877827FE4C15482D0D89A97988241DC91, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 11211,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "4"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "4"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=1iris --dest-address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Committed at block 2219 (tx hash: 78A73B9A02A8465F38AB843CF35868334C652A7040C1E27C894004C1F4132DF2, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 11206,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "5"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "5"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=5
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:5,Option:Yes]Committed at block 2222 (tx hash: 13B58A1DE91F18553F9F32E2896305F407A4134B2B7CB2BD501A66864DDFD138, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3497,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "5"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=5
+Proposal 5:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             VotingPeriod
+  Submit Time:        2020-01-17 08:16:53.16736 +0000 UTC
+  Deposit End Time:   2020-01-17 08:17:13.16736 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:16:53.16736 +0000 UTC
+  Voting End Time:    2020-01-17 08:17:13.16736 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Account:
+  Address:         faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+  Pubkey:          
+  Coins:           2iris
+  Account Number:  5
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Account:
+  Address:         faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+  Pubkey:          
+  Coins:           3iris
+  Account Number:  5
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=5
+Proposal 5:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 08:16:53.16736 +0000 UTC
+  Deposit End Time:   2020-01-17 08:17:13.16736 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:16:53.16736 +0000 UTC
+  Voting End Time:    2020-01-17 08:17:13.16736 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Account:
+  Address:         faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+  Pubkey:          
+  Coins:           3iris
+  Account Number:  5
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=1iris --dest-address=faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Committed at block 2253 (tx hash: 2550269BE23EF2B214D3379156A2B13535A71D7900C81C14321DB4E15BA19D03, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 11206,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "6"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "6"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=6
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:6,Option:Yes]Committed at block 2256 (tx hash: FD0CE36BE256B725D00C1DA3803109E1A51F7F6C6B3D062C47E0265CD22E1237, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3497,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "6"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=6
+Proposal 6:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             VotingPeriod
+  Submit Time:        2020-01-17 08:18:02.228358 +0000 UTC
+  Deposit End Time:   2020-01-17 08:18:22.228358 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:18:02.228358 +0000 UTC
+  Voting End Time:    2020-01-17 08:18:22.228358 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           16.8384710872iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           16.8384710872iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=6
+Proposal 6:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 08:18:02.228358 +0000 UTC
+  Deposit End Time:   2020-01-17 08:18:22.228358 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:18:02.228358 +0000 UTC
+  Voting End Time:    2020-01-17 08:18:22.228358 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           16.8384710872iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=1iris --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Committed at block 2282 (tx hash: AE4D7BC7D398701C8FD03A18F6B96479DF3DD07E1AC380766C7F11A3FC05B989, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 11206,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "7"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "7"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=7
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:7,Option:Yes]Committed at block 2285 (tx hash: 362067C264E48EE42591582D65B2BCCE00F73EF9A27D9A73AAA46A0868CA5C08, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3497,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "7"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=7
+Proposal 7:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             VotingPeriod
+  Submit Time:        2020-01-17 08:19:01.146331 +0000 UTC
+  Deposit End Time:   2020-01-17 08:19:21.146331 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:19:01.146331 +0000 UTC
+  Voting End Time:    2020-01-17 08:19:21.146331 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Account:
+  Address:         faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+  Pubkey:          
+  Coins:           0.000000000000000001iris
+  Account Number:  3
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=7
+Proposal 7:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 08:19:01.146331 +0000 UTC
+  Deposit End Time:   2020-01-17 08:19:21.146331 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:19:01.146331 +0000 UTC
+  Voting End Time:    2020-01-17 08:19:21.146331 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Account:
+  Address:         faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+  Pubkey:          
+  Coins:           1.000000000000000001iris
+  Account Number:  3
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=1000iris --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+ERROR: Msg 0 failed: {"codespace":"gov","code":31,"message":"community tax account [15838700802400000000iris-atto] is not enough to cover usage amount [1000000000000000000000iris-atto]"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+Committed at block 2785 (tx hash: 952CF8A11F5C3B8AFE8CF616AC89D35EAC3EC8356EC3E738FD07745C38325925, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 8104,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "issue_token"
+     },
+     {
+       "key": "token-id",
+       "value": "a01"
+     },
+     {
+       "key": "token-denom",
+       "value": "a01-min"
+     },
+     {
+       "key": "token-owner",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$   iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           24015.8388245688iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=100a01 --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Committed at block 2841 (tx hash: D8A64E3D0DEA2660D16FAFAAAAA3EADAE4599B3CD00CF2DEE90C974D6F547697, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 4805,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "send"
+     },
+     {
+       "key": "sender",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "recipient",
+       "value": "faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$    iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           100a01,24015.8388322568iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=50a01 --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Committed at block 2867 (tx hash: 6DB86F7E283F859335C7CBFB51373A46C3E9FC6A5606081399AA5BB44A8BAA54, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 11073,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "8"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "8"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=8
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:8,Option:Yes]Committed at block 2872 (tx hash: 51F3B0AEA1643A125A6EF8C1A3652DF48A5AE3754DF3F266CD340AAD1780AC07, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3506,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "8"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=8
+Proposal 8:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             VotingPeriod
+  Submit Time:        2020-01-17 08:38:49.780962 +0000 UTC
+  Deposit End Time:   2020-01-17 08:39:09.780962 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:38:49.780962 +0000 UTC
+  Voting End Time:    2020-01-17 08:39:09.780962 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=8
+Proposal 8:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 08:38:49.780962 +0000 UTC
+  Deposit End Time:   2020-01-17 08:39:09.780962 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:38:49.780962 +0000 UTC
+  Voting End Time:    2020-01-17 08:39:09.780962 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Account:
+  Address:         faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+  Pubkey:          
+  Coins:           50a01,1.000000000000000001iris
+  Account Number:  3
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=0a01 --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=1a01,1iris --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Committed at block 3060 (tx hash: 509D4E0F4C555AA8C299D51ECF3ECB96F3A1A3183E37BD3B8FE6A2DDC3970A63, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 11457,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "9"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "9"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=9
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:9,Option:Yes]Committed at block 3063 (tx hash: 80B4B64AF006AC938E5953D1B0790DE0B008AA6AF67500DD2B4396756C033789, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3539,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "9"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=9
+Proposal 9:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             VotingPeriod
+  Submit Time:        2020-01-17 08:45:21.958423 +0000 UTC
+  Deposit End Time:   2020-01-17 08:45:41.958423 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:45:21.958423 +0000 UTC
+  Voting End Time:    2020-01-17 08:45:41.958423 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=9
+Proposal 9:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 08:45:21.958423 +0000 UTC
+  Deposit End Time:   2020-01-17 08:45:41.958423 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:45:21.958423 +0000 UTC
+  Voting End Time:    2020-01-17 08:45:41.958423 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Account:
+  Address:         faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+  Pubkey:          
+  Coins:           51a01,2.000000000000000001iris
+  Account Number:  3
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=221a01 --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+ERROR: Msg 0 failed: {"codespace":"gov","code":31,"message":"community tax account [49a01-min,24014839294128800000000iris-atto] is not enough to cover usage amount [221a01-min]"}
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="grant" --amount=221a01 --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+ERROR: 'grant' is not a valid usage type
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=1.1a01 --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+ERROR: convert error
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=000a01 --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount= --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Committed at block 3392 (tx hash: 20B68FE54A15CEE8B362D9C51338A76582C5B21DEB26BE5226DB4C06A5CE6D38, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 10884,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "10"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "10"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=10
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:10,Option:Yes]Committed at block 3400 (tx hash: 4FDC4C88C5566F08B77975C369494E1E0A5CA4FB4EA6CE6BC8B31FB97638B232, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3491,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "10"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=10
+Proposal 10:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 08:56:36.6314 +0000 UTC
+  Deposit End Time:   2020-01-17 08:56:56.6314 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:56:36.6314 +0000 UTC
+  Voting End Time:    2020-01-17 08:56:56.6314 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Account:
+  Address:         faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+  Pubkey:          
+  Coins:           51a01,2.000000000000000001iris
+  Account Number:  3
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant"  --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Committed at block 3419 (tx hash: 981B30645D48854AAD0F8D480AF5CD192046496A33B42D4F00701236F228E4BE, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 10884,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "11"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "11"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=11
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:11,Option:Yes]Committed at block 3426 (tx hash: 6F64758A9EA2E3D58649879E0470D399C502BE93B36FE3F1FE728BE8FC108141, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3491,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "11"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      iriscli gov query-proposal --trust-node --proposal-id=11
+Proposal 11:
+  Title:              Grant tokens 99%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 08:57:31.582122 +0000 UTC
+  Deposit End Time:   2020-01-17 08:57:51.582122 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 08:57:31.582122 +0000 UTC
+  Voting End Time:    2020-01-17 08:57:51.582122 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Account:
+  Address:         faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+  Pubkey:          
+  Coins:           51a01,2.000000000000000001iris
+  Account Number:  3
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Distribute tokens 99%" --type="CommunityTaxUsage" --usage="Distribute" --dest-address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Committed at block 3651 (tx hash: BCB6C4D7B1CE5FDE2A0FD9BBA06557996BF3FF057449F5320B308E453E0598B5, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 11005,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "12"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "12"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$   echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test"  --title="burn tokens 5%" --type="CommunityTaxUsage" --usage="Burn" 
+Committed at block 3682 (tx hash: 505AC06EE7CD289048533437D0B5CC7A125069057D7DDC985249A5862911247D, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 10595,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "13"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "13"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa108w3x8"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$   echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=13
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:13,Option:Yes]Committed at block 3690 (tx hash: D6F5ADBFC302AA359F5AFAA8C2B2D4FD42630086E2FC9C99CBA6809611545F46, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3463,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "13"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$   iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           49a01,24014.8402856408iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$   iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           49a01,24014.8402856408iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$   iriscli gov query-proposal --trust-node --proposal-id=13
+Proposal 13:
+  Title:              burn tokens 5%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 09:06:26.034965 +0000 UTC
+  Deposit End Time:   2020-01-17 09:06:46.034965 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 09:06:26.034965 +0000 UTC
+  Voting End Time:    2020-01-17 09:06:46.034965 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$   iriscli gov query-proposal --trust-node --proposal-id=13
+Proposal 13:
+  Title:              burn tokens 5%
+  Type:               CommunityTaxUsage
+  Status:             Passed
+  Submit Time:        2020-01-17 09:06:26.034965 +0000 UTC
+  Deposit End Time:   2020-01-17 09:06:46.034965 +0000 UTC
+  Total Deposit:      2000iris
+  Voting Start Time:  2020-01-17 09:06:26.034965 +0000 UTC
+  Voting End Time:    2020-01-17 09:06:46.034965 +0000 UTC
+  Description:        test
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant"  --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+Committed at block 3726 (tx hash: 5246C3A01427D45184A8CCB14217188CB0ED6DA8DB518594A11C29EF28266DB9, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 10884,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "submit_proposal"
+     },
+     {
+       "key": "proposer",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "14"
+     },
+     {
+       "key": "voting-period-start",
+       "value": "14"
+     },
+     {
+       "key": "dest-address",
+       "value": "faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      echo 1234567890 | iriscli gov vote --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa   --option=Yes --proposal-id=14
+Vote[Voter:faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2,ProposalID:14,Option:Yes]Committed at block 3732 (tx hash: CA53E38A6EDCE3631DBEF99A2171EEBD54E6EDC5133CC31BF2B2795D1FF49C06, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3491,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "vote"
+     },
+     {
+       "key": "voter",
+       "value": "faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2"
+     },
+     {
+       "key": "proposal-id",
+       "value": "14"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$      iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Account:
+  Address:         faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+  Pubkey:          
+  Coins:           3iris
+  Account Number:  5
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$   iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           49a01,24014.8405089064iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$   iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           49a01,24014.8405089064iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$   iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           49a01,24014.8405089064iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$    echo 1234567890 | iriscli gov submit-proposal --chain-id=shilei-qa --from=v0 --fee=0.05iris --commit --deposit="2000iris" --description="test" --title="Grant tokens 99%" --type="CommunityTaxUsage" --usage="Grant" --amount=0iris  --dest-address=faa125ecgnn2lgznpg208t7cgs9trddcucmgp3mu6p
+ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli keys show v0
+NAME:	TYPE:	ADDRESS:						PUBKEY:
+v0	local	faa138jfxnwcqelvd39k9fnsjs59g2nvlskveuw6k2	fap1addwnpepq0aewmmws6t8t9vskh508xq6fge204erk5jae5ch6pakftk042l9kfqgrhz
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa1nw9467w5yc6t35g0duaqrg2v8up60awad84gse
+ERROR: {"codespace":"sdk","code":9,"message":"account faa1nw9467w5yc6t35g0duaqrg2v8up60awad84gse does not exist"}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           49a01,24014.8405089064iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
+Account:
+  Address:         faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
+  Pubkey:          
+  Coins:           
+  Account Number:  0
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5
+ERROR: {"codespace":"sdk","code":9,"message":"account faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 does not exist"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Committed at block 634 (tx hash: 535BE3FB74EC1A7C0529F989957225A86FD6453421FA8DFE882AC45A25F05A08, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 5020,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "send"
+     },
+     {
+       "key": "sender",
+       "value": "faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd"
+     },
+     {
+       "key": "recipient",
+       "value": "faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+Account:
+  Address:         faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52
+  Pubkey:          
+  Coins:           0.000008032iris
+  Account Number:  1
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+Committed at block 838 (tx hash: C30DBF44094CC4F84F6C1FCF92056BDE511F6B87FA6A03BDA035CF3E9BB4A34C, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 8188,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "issue_token"
+     },
+     {
+       "key": "token-id",
+       "value": "a01"
+     },
+     {
+       "key": "token-denom",
+       "value": "a01-min"
+     },
+     {
+       "key": "token-owner",
+       "value": "faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --owner=""
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --owner=""iriscli asset token tokens --owner=a
+ERROR: {"codespace":"sdk","code":1,"message":"could not marshal result to JSON; ERROR:\nCodespace: sdk\nCode: 6\nMessage: \"incorrectly formatted request data; decoding bech32 failed: invalid bech32 string length 1\"\n"}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --owner=a
+ERROR: {"codespace":"sdk","code":1,"message":"could not marshal result to JSON; ERROR:\nCodespace: sdk\nCode: 6\nMessage: \"incorrectly formatted request data; decoding bech32 failed: invalid bech32 string length 1\"\n"}
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --owner=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=1a01.kitty --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+invalid coin set: 1a01.kitty
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=1kitty --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+invalid coin set: 1kitty
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=1i.kitty --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+ERROR: invalid coin string: 1i.kitty
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a033
+ERROR: {"codespace":"sdk","code":1,"message":"could not marshal result to JSON; ERROR:\nCodespace: asset\nCode: 115\nMessage: \"token a033 does not exist\"\n"}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=iris
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=iris3
+ERROR: {"codespace":"sdk","code":1,"message":"could not marshal result to JSON; ERROR:\nCodespace: asset\nCode: 115\nMessage: \"token iris3 does not exist\"\n"}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=iris3
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=irisw
+ERROR: ERROR:
+Codespace: asset
+Code: 108
+Message: "symbol can not contains : iris"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=3irisw
+ERROR: ERROR:
+Codespace: asset
+Code: 108
+Message: "symbol can not contains : iris"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=333
+ERROR: ERROR:
+Codespace: asset
+Code: 108
+Message: "invalid asset symbol: 333"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint iris --amount=1 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: ERROR:
+Codespace: asset
+Code: 108
+Message: "invalid asset symbol: "
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.iris --amount=1 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: ERROR:
+Codespace: asset
+Code: 108
+Message: "symbol can not contains : iris"
+
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Name:              token-name
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        30000a01
+  Mintable:          true
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01ss
+ERROR: {"codespace":"sdk","code":1,"message":"could not marshal result to JSON; ERROR:\nCodespace: asset\nCode: 115\nMessage: \"token a01ss does not exist\"\n"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=1a01 --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Committed at block 2203 (tx hash: A47330710E19DCB3A83EE3220BF95CD3DB3AC766A96B258A2B3CE41EE7D06E26, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 5200,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "send"
+     },
+     {
+       "key": "sender",
+       "value": "faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd"
+     },
+     {
+       "key": "recipient",
+       "value": "faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Account:
+  Address:         faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+  Pubkey:          
+  Coins:           1a01,10000iris
+  Account Number:  3
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=false --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2281 (tx hash: D3B82B6EE63A78D2A5965B35591C86EC8ECF822B5B359FD41BD28513BF46779F, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3726,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "edit_token"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        99999a01
+  Mintable:          false
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=0.1a01 --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Committed at block 2345 (tx hash: FEE3A515A2D272FEEC147AF013EC102D2ADA00F2E713854E7618F873C192FBB9, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 5273,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "send"
+     },
+     {
+       "key": "sender",
+       "value": "faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd"
+     },
+     {
+       "key": "recipient",
+       "value": "faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+Account:
+  Address:         faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+  Pubkey:          
+  Coins:           1.1a01,10000iris
+  Account Number:  3
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2411 (tx hash: 71EEF9F2E0AB94025C64A59CE3F75FBA9DB7ACF8A526A0308160171E6ED7B5AB, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3708,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "edit_token"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        99999a01
+  Mintable:          true
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=1 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2446 (tx hash: 1B0381CC173938FBAF464DFEBFB71DE62582186ADE9C3CDEC5480F68E98C1F9D, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 8186,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "mint_token"
+     },
+     {
+       "key": "recipient",
+       "value": "faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5
+Account:
+  Address:         faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5
+  Pubkey:          
+  Coins:           1a01
+  Account Number:  4
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=0 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: ERROR:
+Codespace: asset
+Code: 112
+Message: "invalid token amount 0, only accepts value (0, 1000000000000]"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=-0 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: invalid argument "-0" for "--amount" flag: strconv.ParseUint: parsing "-0": invalid syntax
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=-1 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: invalid argument "-1" for "--amount" flag: strconv.ParseUint: parsing "-1": invalid syntax
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=3 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2499 (tx hash: 008D5383409E99C35890BDD925C2DCF35794F33CB267EE2A9DAB666A26A75E4F, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 8264,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "mint_token"
+     },
+     {
+       "key": "recipient",
+       "value": "faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=3 --to=faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2510 (tx hash: 59325D43547DB281C6E206B9E50446FD796AD35008B14BFB444E024E2C186081, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 8645,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "mint_token"
+     },
+     {
+       "key": "recipient",
+       "value": "faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
+Account:
+  Address:         faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
+  Pubkey:          
+  Coins:           3a01,46800iris
+  Account Number:  0
+  Sequence:        0 
+  Memo Regexp:     
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=false --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2551 (tx hash: DE352BEBD3C90D7A2BE8FE62BB7D4BBC84D7E71B97C758455886506C33512048, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3719,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "edit_token"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        99999a01
+  Mintable:          false
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=1 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: Msg 0 failed: {"codespace":"asset","code":116,"message":"the token i.a01 is set to be non-mintable"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=999999999999999999999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: invalid argument "999999999999999999999" for "--max-supply" flag: strconv.ParseUint: parsing "999999999999999999999": value out of range
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999999999999999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: ERROR:
+Codespace: asset
+Code: 112
+Message: "invalid token max supply 99999999999999999, must be less than 1000000000000"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=9999999999999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: ERROR:
+Codespace: asset
+Code: 112
+Message: "invalid token max supply 9999999999999, must be less than 1000000000000"
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=9999999999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2641 (tx hash: EF874D863BFEC39BCDA4FA5C62435C70A09B434789DF9AEE53D0D0D22055AC89, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3730,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "edit_token"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        9999999999a01
+  Mintable:          true
+  Owner:             faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd 
+FungibleToken iris:
+  Name:              IRIS Network
+  Symbol:            iris
+  Scale:             18
+  MinUnit:           iris-atto
+  Initial Supply:    2000000000iris
+  Max Supply:        1000000000000iris
+  Mintable:          true
+  Owner:              
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+ERROR: Msg 0 failed: {"codespace":"asset","code":114,"message":"token already exists: a01"}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank account faa1l46jua9eyrg3uaaf8rwup2snq07ew02t0rwlkn
+ERROR: {"codespace":"sdk","code":9,"message":"account faa1l46jua9eyrg3uaaf8rwup2snq07ew02t0rwlkn does not exist"}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli keys add
+ERROR: you must provide a name for the key
+SherlockdeMacBook-Pro:~ sherlock$ iriscli keys add v1
+Enter a passphrase for your key:
+Repeat the passphrase:
+NAME:	TYPE:	ADDRESS:						PUBKEY:
+v1	local	faa1jv7clk5jgvtumu768jx230mfzcmy53y4rwtqrp	fap1addwnpepqd6vsm0rcd0mx8hmfdjxdqmfwf8due88zt5crca6w9a2rg0yggew76dq7h8
+**Important** write this seed phrase in a safe place.
+It is the only way to recover your account if you ever forget your password.
+
+remind sign trial cinnamon surge swallow cake address cause dove rhythm reopen hotel civil frog spider song stairs letter because task claim artist alien
+SherlockdeMacBook-Pro:~ sherlock$ iriscli keys add v1 --recover
+override the existing name v1 [y/n]:y
+Enter a passphrase for your key:
+Repeat the passphrase:
+Enter your recovery seed phrase:
+art forest winter fork dream birth craft shift hope direct return glide pass glimpse flush unfold return eye able cactus erode fatal clock stereo
+NAME:	TYPE:	ADDRESS:						PUBKEY:
+v1	local	faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4	fap1addwnpepqvu7rzdtwyq9zq9ak4qtlrk33wvk9jlu6wgr4vqr6c6cypyh5tezjphsq42
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token transfer i.a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2731 (tx hash: E9351BA69C957E0A4C1373E00C256F38E44042C580A0019BEDA0C48F04EE99BD, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3832,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "transfer_token_owner"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        9999999999a01
+  Mintable:          true
+  Owner:             faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: Msg 0 failed: {"codespace":"asset","code":101,"message":"the address B2A1B9FEA42A60AF4DD90FBB3A3E1F8A414B39D9 is not the owner of the token i.a01"}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=true --from=v1 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: No account with address faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 was found in the state.
+Are you sure there has been a transaction involving it?
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token transfer 1000iris --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: ERROR:
+Codespace: asset
+Code: 108
+Message: "invalid asset symbol: "
+
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
+Committed at block 2773 (tx hash: 0172072F691C7B59B40BC6B0F06EDE100BAADBE7D357D5595680D690FD4826EB, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 5151,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "send"
+     },
+     {
+       "key": "sender",
+       "value": "faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd"
+     },
+     {
+       "key": "recipient",
+       "value": "faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=true --from=v1 --chain-id=shilei-qa --fee=0.6iris --commit
+Committed at block 2801 (tx hash: C1CFC2CAB78766617DC51B75FC608F90AD8EBAC6B6A381696D6E1367E34E1429, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 3556,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "edit_token"
+     },
+     {
+       "key": "token-id",
+       "value": "i.a01"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token tokens --token-id=a01
+FungibleToken a01:
+  Name:              Cat
+  Symbol:            a01
+  Scale:             18
+  MinUnit:           kitty
+  Initial Supply:    10000a01
+  Max Supply:        99999a01
+  Mintable:          true
+  Owner:             faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ 
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token mint i.a01 --amount=0 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v1 --chain-id=shilei-qa --fee=0.6iris --commit
+ERROR: ERROR:
+Codespace: asset
+Code: 112
+Message: "invalid token amount 0, only accepts value (0, 1000000000000]"
+
+SherlockdeMacBook-Pro:~ sherlock$ iriscli asset token fee a01
+The token id has existed
+Fees:
+  IssueFee: 60000iris
+  MintFee:  6000iris
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank token-stats iris -o=json --indent
+{
+  "loose_tokens": [
+    {
+      "denom": "iris-atto",
+      "amount": "1999953100000000000000000000"
+    }
+  ],
+  "bonded_tokens": [
+    {
+      "denom": "iris-atto",
+      "amount": "100000000000000000000"
+    }
+  ],
+  "burned_tokens": [
+    {
+      "denom": "iris-atto",
+      "amount": "46800000000000000000000"
+    }
+  ],
+  "total_supply": [
+    {
+      "denom": "iris-atto",
+      "amount": "1999953200000000000000000000"
+    }
+  ]
+}
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank token-stats a01 -o=json --indent
+{
+  "loose_tokens": null,
+  "bonded_tokens": null,
+  "burned_tokens": [
+    {
+      "denom": "a01-min",
+      "amount": "3000000000000000000"
+    }
+  ],
+  "total_supply": [
+    {
+      "denom": "a01-min",
+      "amount": "10004000000000000000000"
+    }
+  ]
+}
+SherlockdeMacBook-Pro:~ sherlock$ echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a02
+Committed at block 3043 (tx hash: 3A16CA9BA425FA4878F2165726009868685BCF35A7BE28E43A89FCB800755662, response:
+ {
+   "code": 0,
+   "data": null,
+   "log": "Msg 0: ",
+   "info": "",
+   "gas_wanted": 50000,
+   "gas_used": 8527,
+   "codespace": "",
+   "tags": [
+     {
+       "key": "action",
+       "value": "issue_token"
+     },
+     {
+       "key": "token-id",
+       "value": "a02"
+     },
+     {
+       "key": "token-denom",
+       "value": "a02-min"
+     },
+     {
+       "key": "token-owner",
+       "value": "faa1k2smnl4y9fs27nwep7an50sl3fq5kwwe3tnkrd"
+     }
+   ]
+ })
+SherlockdeMacBook-Pro:~ sherlock$ iriscli bank token-stats a02 -o=json --indent
+{
+  "loose_tokens": null,
+  "bonded_tokens": null,
+  "burned_tokens": [
+    {
+      "denom": "a02-min",
+      "amount": "0"
+    }
+  ],
+  "total_supply": [
+    {
+      "denom": "a02-min",
+      "amount": "10000"
+    }
+  ]
+}
+SherlockdeMacBook-Pro:~ sherlock$ 
