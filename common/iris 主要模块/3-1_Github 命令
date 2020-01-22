@@ -2,6 +2,28 @@ curl www.google.com ， curl https://www.google.com
 cd /Users/sherlock/go/src/github.com/irisnet/irishub
 密码 (shilei-wang  wangshilei****08)
 
+
+=========================================================
+Tag 打tag
+=========================================================
+git tag v1  //53ba4f52edd7fd1f075e6e8ab16cf692f0c9e93c
+git push origin --tags
+
+git checkout .
+//第一次 git checkout -b v1 v1
+git checkout v1
+
+git checkout master
+git branch && git rev-parse HEAD
+
+===
+katalon tag
+===
+git tag 0.16.0-rc1
+// katalon tag : 81e31c19cced004a43acbfb9f5fad14848e4b1d1
+// iris verison 0.16.0. develop : ef30c8db194f589465d54cfcad7011fa7a308b26
+
+
 ==================================================================
                      更新本地仓库
 ==================================================================

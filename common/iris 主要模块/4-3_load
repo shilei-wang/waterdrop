@@ -7,7 +7,8 @@ irishub-load 压力测试
     2. clone  https://github.com/irisnet/irishub-load.git  （clone 到 /Users/sherlock/go/src/github.com/irisnet/）
     3. cd /Users/sherlock/go/src/github.com/irisnet/irishub-load
     4. dep ensure -v (下载依赖 打印过程)
-    5. go install  (编译irishub-load.exe==>bin)
+    GO111MODULE=on
+    5. go install  //go install  (编译irishub-load.exe==>bin)
     6. 运行 irishub-load -h
     7. 打开lcd
        irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.iriscli/ --trust-node
@@ -36,7 +37,7 @@ irishub-load 压力测试
     ====
     {
         "ChainId": "shilei-qa",
-        "Node":    "http://10.1.2.168:1317",
+        "Node":    "http://localhost:1317",
         "Output":  "$HOME/output",
         "FaucetSeed":  "caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save",
         "MinBalance": "500000iris",

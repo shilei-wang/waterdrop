@@ -16,6 +16,3 @@ spec: https://gitlab.bianjie.ai/irishub/internal-spec/tree/v0.17.0
 
 
 --------------------------------
-
-
-echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=btc

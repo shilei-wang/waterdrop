@@ -1,0 +1,104 @@
+*******************************************
+          用testnet 直接手动起
+*******************************************
+
+rm -rf .iritacli .irita testnet
+echo 12345678 | irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v
+sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+mv /Users/sherlock/testnet/v0/iritacli /Users/sherlock/.iritacli
+irita start --home=/Users/sherlock/testnet/v0/irita
+
+*******************************************
+
+iritacli keys show v0
+iritacli query account faa1mr0lenymp5r54vtelpu264hyrllvtsvyrnaprv --chain-id=shilei-qa
+echo 12345678 | iritacli tx send v0 faa1pm432kqz62mutq439ynqs87u30r36062czga7r 1stake --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli query account faa1mr0lenymp5r54vtelpu264hyrllvtsvyrnaprv --chain-id=shilei-qa
+
+
+*******************************************
+
+
+iritalcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.iritacli/ --trust-node
+iritacli rest-server --trust-node  --home=$HOME/.iritacli/
+
+signtx --config-dir=$HOME --tps=1 --duration=1 --account=v0
+例子
+http://localhost:1317/bank/balances/faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+*******************************************
+
+iritacli keys add user0
+caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 100000stake --chain-id=shilei-qa --fees=4stake -b block -y
+
+
+iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa
+
+
+/bank/accounts/faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+*******************************************
+
+生成签名的例子: 注意不能用v0 要改成地址
+echo 12345678 | iritacli tx send faa1mr0lenymp5r54vtelpu264hyrllvtsvyrnaprv faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 100000stake --chain-id=shilei-qa --fees=4stake -b block -y --generate-only >~/my_workspace/Tx-generate
+
+返回:
+{"type":"cosmos-sdk/StdTx","value":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"from_address":"faa1mr0lenymp5r54vtelpu264hyrllvtsvyrnaprv","to_address":"faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju","amount":[{"denom":"stake","amount":"100000"}]}}],"fee":{"amount":[{"denom":"stake","amount":"4"}],"gas":"200000"},"signatures":null,"memo":""}}
+
+
+echo 12345678 | iritacli tx sign ~/my_workspace/Tx-generate --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+
+
+{
+  "tx":  {
+    "msg": [
+      {
+        "type": "cosmos-sdk/MsgSend",
+        "value": {
+          "from_address": "faa1mr0lenymp5r54vtelpu264hyrllvtsvyrnaprv",
+          "to_address": "faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju",
+          "amount": [
+            {
+              "denom": "stake",
+              "amount": "100000"
+            }
+          ]
+        }
+      }
+    ],
+    "fee": {
+      "amount": [
+        {
+          "denom": "stake",
+          "amount": "4"
+        }
+      ],
+      "gas": "200000"
+    },
+    "signatures": [
+      {
+        "pub_key": {
+          "type": "tendermint/PubKeySecp256k1",
+          "value": "A3W8gLsaGA66qwyXnrxAG0pHR1SLXjVMM/6u80hLxsGQ"
+        },
+        "signature": "wvWTjr8Bd4ult8i3PU+NCNY2Vahy5H17xhaZOgYew1gjYu/vzBfdARsZ9MmFIiYpDW6zx1ue5/Fd39c48UwgMA=="
+      }
+    ],
+    "memo": ""
+  },
+     "mode": "block"
+}
+
+可用postman  http://localhost:1317/txs  验证
+
+*******************************************
+
+{"tx":{"msg":[{"type":"cosmos-sdk/StdTx","value":{"inputs":[{"address":"faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju","coins":[{"denom":"stake","amount":"1"}]}],"outputs":[{"address":"faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju","coins":[{"denom":"stake","amount":"1"}]}]}}],"fee":{"amount":[{"denom":"stake","amount":"4"}],"gas":"20000"},"signatures":[{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"AkQeeR40fJhMFkBmh8e/+jcOGYvMOO50YE4trqzaSJ5v"},"signature":"eI92wvJi7+NGu7Ko/e0R7FgJiWooCmPoIZNKsGPxJjBE447k0MLocgLlVA/8D1NYACu6VOPMFlpvSQFCaSR9zQ==","account_number":"6","sequence":"0"}],"memo":""},
+  "mode": "block"}
+
+{"tx":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"inputs":null,"outputs":null}}],"fee":{"amount":[{"denom":"stake","amount":"4"}],"gas":"20000"},"signatures":[{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"AkQeeR40fJhMFkBmh8e/+jcOGYvMOO50YE4trqzaSJ5v"},"signature":"d/wPfQ8j0ozLvUem3i+ssFqSgrEh61a5OEyebV6wSdRIDJ7ks97SntsRv3l5f2NBpSI+3huZNoSGYuF3k+QZug==","account_number":"","sequence":""}],"memo":""}, "mode": "block"}
+

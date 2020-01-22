@@ -201,5 +201,3 @@ cd /Users/sherlock/go/src/github.com/irishub_auto
 git fetch --all
 git checkout .
 git branch
-
-
