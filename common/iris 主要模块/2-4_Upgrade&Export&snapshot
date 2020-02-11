@@ -25,7 +25,7 @@ iriscli upgrade query-signals
 ======================================================================================================
 最新测试升级的步骤
 ======================================================================================================
-
+注意：如果参数有冲突，这个方法就不可用。 必须用早一个版本的iris先运行，发起提议后在替换新的iris。
 
 1. 初始化链，并不启动。 用 t 1  (注意autolanch 里注释掉unbonding time)
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go t 1
@@ -38,7 +38,7 @@ iriscli upgrade info --trust-node //version: 1
 3. 起链
 4. 提交议题 到version 2
 
-echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=2 --switch-height=150 --threshold=0.9 --commit
+echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=3 --switch-height=150 --threshold=0.9 --commit
 
 echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=shilei-qa  --proposal-id=1 --commit
 

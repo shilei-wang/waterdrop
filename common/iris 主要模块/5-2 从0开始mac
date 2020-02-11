@@ -143,3 +143,9 @@ source /etc/profile
 
 //查询
 ulimit -n
+
+==========================
+Mac 修改host
+==========================
+subl /etc/hosts
+0.0.0.0 ***.***.com

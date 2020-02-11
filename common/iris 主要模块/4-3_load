@@ -8,7 +8,7 @@ irishub-load 压力测试
     3. cd /Users/sherlock/go/src/github.com/irisnet/irishub-load
     4. dep ensure -v (下载依赖 打印过程)
     GO111MODULE=on
-    5. go install  //go install  (编译irishub-load.exe==>bin)
+    5. make install  //go install  (编译irishub-load.exe==>bin)
     6. 运行 irishub-load -h
     7. 打开lcd
        irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.iriscli/ --trust-node

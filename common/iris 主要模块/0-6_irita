@@ -13,21 +13,25 @@ irita start --home=/Users/sherlock/testnet/v0/irita
 *******************************************
 
 iritacli keys show v0
-iritacli query account faa1mr0lenymp5r54vtelpu264hyrllvtsvyrnaprv --chain-id=shilei-qa
+iritacli query account faa10d4vzpjy98wj7py7rsvjj8pvvp07tvdu2fc7my --chain-id=shilei-qa
 echo 12345678 | iritacli tx send v0 faa1pm432kqz62mutq439ynqs87u30r36062czga7r 1stake --chain-id=shilei-qa --fees=4stake -b block -y
-iritacli query account faa1mr0lenymp5r54vtelpu264hyrllvtsvyrnaprv --chain-id=shilei-qa
+iritacli query account faa1pm432kqz62mutq439ynqs87u30r36062czga7r --chain-id=shilei-qa
 
 
 *******************************************
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 1000000stake --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa
 
 
-iritalcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.iritacli/ --trust-node
 iritacli rest-server --trust-node  --home=$HOME/.iritacli/
 
-signtx --config-dir=$HOME --tps=1 --duration=1 --account=v0
+调试的Ingles
+signtx --config-dir=$HOME/my_workspace --tps=1 --duration=1 --account=user0
+broadcast --config-dir=$HOME/my_workspace --tps=1
 例子
 http://localhost:1317/bank/balances/faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
+iritacli query tx 1A0E32F10FBCA36671901DA478D2A5453AE8714D75BBE7AEDB33652C4B639AFD
 
 *******************************************
 
