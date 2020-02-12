@@ -1,4 +1,34 @@
 *******************************************
+          下载
+*******************************************
+https://github.com/bianjieai/irita
+cd /Users/sherlock/go/src/github.com/
+
+这个后还没有做：
+git clone https://github.com/bianjieai/irita.git
+cd irishub
+git remote add upstream https://github.com/irisnet/irishub.git
+git fetch --all //此时应该Fetching origin；  Fetching upstream
+git checkout -b develop upstream/develop   //git branch 建立本地develop代码分支， 不能同时拥有origin和upstream
+git branch
+
+
+编译：
+cd /Users/sherlock/go/src/github.com/irita
+git fetch --all
+git checkout .
+git branch && git rev-parse HEAD
+
+---
+git reset --hard 8272845851f4953da43cd0582a56cbe9d024383a
+git branch && git rev-parse HEAD
+
+
+chmod 777 /Users/sherlock/go/bin/irita
+chmod 777 /Users/sherlock/go/bin/iritacli
+
+
+*******************************************
           用testnet 直接手动起
 *******************************************
 
