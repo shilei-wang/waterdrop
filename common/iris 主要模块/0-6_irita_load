@@ -1,0 +1,588 @@
+*******************************************
+测试要求
+*******************************************
+Google Cloud VM: 8 CPUs and 16 GB RAM, 位于同一个Zone
+Block size: 21 MB (21M bytes)
+Transaction size: roughly 186 bytes
+Mempool size (交易数): 10000, 50000 (测两种Mempool配置)
+Propose: 3 seconds
+Pre-Vote: 1 second
+Pre-Commit: 1 second
+Commit: 1 second
+
+genesis :
+"max_bytes": "22020096" //默认是21m
+
+Transaction size: 大约 529 bytes //json tx的大小
+
+config.toml:
+mempool size = 10000
+timeout_commit = "1s"
+
+*******************************************
+临时服务器
+*******************************************
+四台 8核16G内存，25G SSD磁盘挂载 /mnt 目录下，云主机都在台湾b区，IP登陆账号如下：
+35.201.162.181
+35.236.168.104
+34.80.94.66
+35.194.199.188
+shilei
+36M%X8km77
+
+ssh shilei@34.80.94.66
+
+*******************************************
+编译 load文件linux版本 ，并上传
+*******************************************
+--- 1 ：编译 ---
+
+cd /Users/sherlock/go/src/github.com/irita
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go [整条复制]
+生成main 文件在main.go 文件夹下 ，改名字irishub-load(大约30m)
+mv main irishub-load
+mv irishub-load ~
+
+--- 2 ：连接服务器 ---
+
+先关闭服务器上原有iris：
+ps -ef|grep irita
+sudo kill -9 [PID]
+
+ssh shilei@35.201.162.181 （yes ， 密码：？？， 退出 exit）
+36M%X8km77
+
+pwd看下目录, 创建 /home/shilei ：
+
+cd home
+sudo mkdir shilei //这步不确定 36M%X8km77
+sudo chown shilei -R /home/shilei  //赋予这个（/home/shilei ）文件夹shilei这个用户的权限， 不然后续会出现 Permission denied
+
+cd /home/shilei
+mkdir my_workspace
+
+--- 3 ：复制irishub-load ---
+切换到主机
+cd ~
+scp /Users/sherlock/config.json shilei@35.201.162.181:/home/shilei/my_workspace
+scp /Users/sherlock/irishub-load shilei@35.201.162.181:/home/shilei
+密码： 36M%X8km77
+
+cd /home/shilei
+修改权限： chmod 777 irishub-load
+测试： ./irishub-load  -h
+
+sudo mv irishub-load /usr/local/bin/
+密码： 36M%X8km77
+测试：ls /usr/local/bin/
+
+
+*******************************************
+编译 irita文件linux版本 ，并上传
+*******************************************
+--- 1 ：编译 irita ---
+1. irita版本在我本机linux编译有问题，最终是吻戏电脑编译的 irita iritacli，具体要问他一下怎么编出linux版本。
+
+--- 2 ：复制irishub-load ---
+scp ~/irita shilei@35.201.162.181:/home/shilei
+scp ~/iritacli shilei@35.201.162.181:/home/shilei
+密码： 36M%X8km77
+
+cd /home/shilei
+修改权限：
+chmod 777 irita
+chmod 777 iritacli
+
+测试：
+./irita  -h
+./iritacli  -h
+
+sudo mv irita /usr/local/bin/
+sudo mv iritacli /usr/local/bin/
+密码： 36M%X8km77
+测试：ls /usr/local/bin/
+
+
+
+******************************************************************************************************************************
+******************************************************************************************************************************
+【单节点】在云服务器启动irita
+******************************************************************************************************************************
+******************************************************************************************************************************
+
+
+--- 1 ：先用testnet先起1个节点 ---
+cd /home/shilei
+rm -rf .iritacli .irita testnet
+
+echo 12345678 | irita testnet --v=1 --chain-id=shilei-qa --output-dir=/home/shilei/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+
+验证：
+iritacli keys list --home=/home/shilei/testnet/v0/iritacli
+
+[注意有要求的话 在这里修改genesis 和 config的参数]
+scp shilei@35.201.162.181:/home/shilei/testnet/v0/irita/config/config.toml ~/config.toml
+密码： 36M%X8km77
+修改后
+scp ~/config.toml shilei@35.201.162.181:/home/shilei/testnet/v0/irita/config/config.toml
+
+验证：
+vim /home/shilei/testnet/v0/irita/config/config.toml
+
+--- 2 ：在google上 启动irita ---
+irita start --home=/home/shilei/testnet/v0/irita > /home/shilei/iris.log &
+tail -f /home/shilei/iris.log
+
+
+--- 3 ：运行 load ---
+
+*******
+3.1 把第一个账户的钱转到faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+*******
+iritacli keys show v0 --home=/home/shilei/testnet/v0/iritacli
+
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v0/iritacli
+
+iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa --home=/home/shilei/testnet/v0/iritacli
+
+*******
+3.2 启动lcd
+*******
+iritacli rest-server --trust-node  --home=/home/shilei/testnet/v0/iritacli > /home/shilei/lcd.log &
+tail -f /home/shilei/lcd.log
+
+
+*******
+3.3 启动签名 先签60个测试
+*******
+测试：irishub-load -h
+irishub-load signtx --config-dir=/home/shilei/my_workspace --tps=1 --duration=1 --account=user0
+ls -l /home/shilei/output //看下signtx大小
+
+
+*******
+3.4 广播签名
+*******
+新建tab
+ssh shilei@35.201.162.181 （yes ， 密码：？？， 退出 exit）
+36M%X8km77
+
+原页面打开log 看valid交易数量
+tail -f /home/shilei/iris.log
+
+//一秒一个发
+irishub-load broadcast --config-dir=/home/shilei/my_workspace --tps=1
+
+
+
+
+--- 4 ：关闭删除 irita iritacli ---
+ps -ef|grep irita
+sudo kill -9 26485
+36M%X8km77
+
+ps -ef|grep iritacli
+sudo kill -9 22840
+
+
+
+******************************************************************************************************************************
+******************************************************************************************************************************
+【2节点】在云服务器启动irita
+******************************************************************************************************************************
+******************************************************************************************************************************
+
+--- 1. 先连接第一个服务器：---
+
+先关闭服务器上原有irita：
+ps -ef|grep irita
+sudo kill -9 [PID]
+
+ssh shilei@35.201.162.181 （yes ， 密码：？？， 退出 exit）
+36M%X8km77
+
+cd /home/shilei
+rm -rf .iritacli .irita testnet
+
+echo 12345678 | irita testnet --v=2 --chain-id=shilei-qa --output-dir=/home/shilei/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+
+验证：
+iritacli keys list --home=/home/shilei/testnet/v0/iritacli
+iritacli keys list --home=/home/shilei/testnet/v1/iritacli
+
+
+//把整个testnet取下来
+scp -r shilei@35.201.162.181:/home/shilei/testnet ~/
+密码： 36M%X8km77
+
+//修改后ip等
+subl /Users/sherlock/testnet/v1/irita/config/config.toml
+persistent_peers = "17bae70c7acd07a086559e0fd510e87bc52b26b6@<这里连接到v0的ip(ifconfig)，大家都连我>:26656"
+例子：
+17bae70c7acd07a086559e0fd510e87bc52b26b6@35.201.162.181:26656
+
+//删除v0上的原有的文件夹
+cd /home/shilei
+rm -rf .iritacli .irita testnet
+
+//copy回去v0
+scp -r ~/testnet shilei@35.201.162.181:/home/shilei/
+36M%X8km77
+
+
+--- 2. 上传文件到第2个服务器：---
+ssh shilei@35.236.168.104
+36M%X8km77
+
+cd home
+sudo mkdir shilei
+sudo chown shilei -R /home/shilei
+cd /home/shilei
+mkdir my_workspace
+
+//复制irishub-load，irita
+切换到主机
+cd ~
+scp ~/config.json shilei@35.236.168.104:/home/shilei/my_workspace
+scp ~/irishub-load shilei@35.236.168.104:/home/shilei
+scp ~/irita shilei@35.236.168.104:/home/shilei
+scp ~/iritacli shilei@35.236.168.104:/home/shilei
+密码： 36M%X8km77
+
+cd /home/shilei
+chmod 777 irishub-load
+chmod 777 irita
+chmod 777 iritacli
+
+sudo mv irishub-load /usr/local/bin/
+sudo mv irita /usr/local/bin/
+sudo mv iritacli /usr/local/bin/
+密码： 36M%X8km77
+
+测试：
+ls /usr/local/bin/
+irishub-load  -h
+
+//copy回去v1
+cd /home/shilei
+rm -rf .iritacli .irita testnet
+回到主机：
+scp -r ~/testnet shilei@35.236.168.104:/home/shilei
+36M%X8km77
+验证
+ls /home/shilei
+
+
+--- 3. 分别启动2个节点的irita：---
+//注意不要连续复制 ，容易出错，这里面慢一点
+v0：
+irita start --home=/home/shilei/testnet/v0/irita > /home/shilei/iris.log &
+tail -f /home/shilei/iris.log
+
+v1：
+irita start --home=/home/shilei/testnet/v1/irita > /home/shilei/iris.log &
+tail -f /home/shilei/iris.log
+
+
+
+--- 4. 启动lcd---
+分别新开一个页面
+ps -ef|grep iritacli
+sudo kill -9 23816
+
+ssh shilei@35.201.162.181
+36M%X8km77
+v0：
+iritacli rest-server --trust-node  --home=/home/shilei/testnet/v0/iritacli > /home/shilei/lcd.log &
+tail -f /home/shilei/lcd.log
+
+ssh shilei@35.236.168.104
+36M%X8km77
+v1：
+iritacli rest-server --trust-node  --home=/home/shilei/testnet/v1/iritacli > /home/shilei/lcd.log &
+tail -f /home/shilei/lcd.log
+
+--- 5. 准备 数据---
+v0：
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v0/iritacli
+iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa --home=/home/shilei/testnet/v0/iritacli
+
+v1：
+echo 12345678 | iritacli tx send v1 faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v1/iritacli
+iritacli query account faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --chain-id=shilei-qa --home=/home/shilei/testnet/v1/iritacli
+
+
+
+--- 6. 签名 广播---
+*******
+签名 先签60个测试
+*******
+v0：
+irishub-load signtx --config-dir=/home/shilei/my_workspace --tps=250 --duration=1 --account=user0
+
+v1：
+irishub-load signtx --config-dir=/home/shilei/my_workspace --tps=250 --duration=1 --account=user1
+
+*******
+广播签名
+*******
+v0：
+irishub-load broadcast --config-dir=/home/shilei/my_workspace --tps=300
+
+v1：
+irishub-load broadcast --config-dir=/home/shilei/my_workspace --tps=300
+
+
+*******
+修改mempool
+*******
+36M%X8km77
+
+v0:
+scp shilei@35.201.162.181:/home/shilei/testnet/v0/irita/config/config.toml ~/config.toml
+scp ~/config.toml shilei@35.201.162.181:/home/shilei/testnet/v0/irita/config/config.toml
+
+
+v1:
+scp shilei@35.236.168.104:/home/shilei/testnet/v1/irita/config/config.toml ~/config.toml
+scp ~/config.toml shilei@35.236.168.104:/home/shilei/testnet/v1/irita/config/config.toml
+
+
+
+******************************************************************************************************************************
+******************************************************************************************************************************
+【4节点】在云服务器启动irita
+******************************************************************************************************************************
+******************************************************************************************************************************
+
+--- 1. 先连接第一个服务器：---
+
+先关闭服务器上原有irita：
+ps -ef|grep irita
+sudo kill -9 18148
+
+ssh shilei@35.201.162.181 （yes ， 密码：？？， 退出 exit）
+36M%X8km77
+
+cd /home/shilei
+rm -rf .iritacli .irita testnet
+
+echo 12345678 | irita testnet --v=4 --chain-id=shilei-qa --output-dir=/home/shilei/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+
+验证：
+iritacli keys list --home=/home/shilei/testnet/v0/iritacli
+iritacli keys list --home=/home/shilei/testnet/v1/iritacli
+iritacli keys list --home=/home/shilei/testnet/v2/iritacli
+iritacli keys list --home=/home/shilei/testnet/v3/iritacli
+
+//把整个testnet取下来
+scp -r shilei@35.201.162.181:/home/shilei/testnet ~/
+密码： 36M%X8km77
+
+//修改后ip等,通过v0节点判断出v0 id
+persistent_peers ：  bea9ad3b9656528f545ff931436ca1aa7091b1c1@35.201.162.181:26656
+subl /Users/sherlock/testnet/v0/irita/config/config.toml （只修改 mempool）
+subl /Users/sherlock/testnet/v1/irita/config/config.toml
+subl /Users/sherlock/testnet/v2/irita/config/config.toml
+subl /Users/sherlock/testnet/v3/irita/config/config.toml
+
+
+//删除v0上的原有的文件夹
+cd /home/shilei
+rm -rf .iritacli .irita testnet
+
+//copy回去v0， 后3个最后弄。。
+scp -r ~/testnet shilei@35.201.162.181:/home/shilei/
+scp -r ~/testnet shilei@35.236.168.104:/home/shilei/
+scp -r ~/testnet shilei@34.80.94.66:/home/shilei/
+scp -r ~/testnet shilei@35.194.199.188:/home/shilei/
+
+36M%X8km77
+
+
+--- 2. 上传文件到后面几个服务器：---
+ssh shilei@35.194.199.188
+36M%X8km77
+
+cd home
+sudo mkdir shilei
+sudo chown shilei -R /home/shilei
+cd /home/shilei
+mkdir my_workspace
+
+//复制irishub-load，irita
+切换到主机
+cd ~
+scp ~/config.json shilei@35.194.199.188:/home/shilei/my_workspace
+scp ~/irishub-load shilei@35.194.199.188:/home/shilei
+scp ~/irita shilei@35.194.199.188:/home/shilei
+scp ~/iritacli shilei@35.194.199.188:/home/shilei
+密码： 36M%X8km77
+
+cd /home/shilei
+chmod 777 irishub-load
+chmod 777 irita
+chmod 777 iritacli
+
+sudo mv irishub-load /usr/local/bin/
+sudo mv irita /usr/local/bin/
+sudo mv iritacli /usr/local/bin/
+密码： 36M%X8km77
+
+测试：
+ls /usr/local/bin/
+irishub-load  -h
+
+//copy回去v1
+cd /home/shilei
+rm -rf .iritacli .irita testnet
+回到主机：
+scp -r ~/testnet shilei@35.194.199.188:/home/shilei
+36M%X8km77
+验证
+ls /home/shilei
+
+
+--- 3. 分别启动2个节点的irita：---
+//注意不要连续复制 ，容易出错，这里面慢一点
+
+irita start --home=/home/shilei/testnet/v0/irita
+irita start --home=/home/shilei/testnet/v1/irita
+irita start --home=/home/shilei/testnet/v2/irita
+irita start --home=/home/shilei/testnet/v3/irita
+
+
+--- 4. 启动lcd---
+分别新开一个页面
+ps -ef|grep irita
+sudo kill -9 25503
+
+ssh shilei@35.194.199.188
+36M%X8km77
+
+iritacli rest-server --trust-node  --home=/home/shilei/testnet/v0/iritacli > /home/shilei/lcd.log &
+tail -f /home/shilei/lcd.log
+iritacli rest-server --trust-node  --home=/home/shilei/testnet/v1/iritacli > /home/shilei/lcd.log &
+tail -f /home/shilei/lcd.log
+iritacli rest-server --trust-node  --home=/home/shilei/testnet/v2/iritacli > /home/shilei/lcd.log &
+tail -f /home/shilei/lcd.log
+iritacli rest-server --trust-node  --home=/home/shilei/testnet/v3/iritacli > /home/shilei/lcd.log &
+tail -f /home/shilei/lcd.log
+
+--- 5. 准备 数据---
+v0：
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v0/iritacli
+iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa --home=/home/shilei/testnet/v0/iritacli
+
+v1：
+echo 12345678 | iritacli tx send v1 faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v1/iritacli
+iritacli query account faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --chain-id=shilei-qa --home=/home/shilei/testnet/v1/iritacli
+
+v2：
+echo 12345678 | iritacli tx send v2 faa1g2leswktj49r7krq5mzn6lp888zlr4xeltgz6h 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v2/iritacli
+iritacli query account faa1g2leswktj49r7krq5mzn6lp888zlr4xeltgz6h --chain-id=shilei-qa --home=/home/shilei/testnet/v2/iritacli
+
+
+v3：
+echo 12345678 | iritacli tx send v3 faa172w4exasa959gymaa3yc2ly574zjpgqakd6a3s 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v3/iritacli
+iritacli query account faa172w4exasa959gymaa3yc2ly574zjpgqakd6a3s --chain-id=shilei-qa --home=/home/shilei/testnet/v3/iritacli
+
+
+
+
+--- 6. 签名 广播---
+每个要单独先试一下 确保没问题
+
+*******
+签名 先签60个测试
+*******
+
+irishub-load signtx --config-dir=/home/shilei/my_workspace --tps=150 --duration=1 --account=user0
+irishub-load signtx --config-dir=/home/shilei/my_workspace --tps=150 --duration=1 --account=user1
+irishub-load signtx --config-dir=/home/shilei/my_workspace --tps=150 --duration=1 --account=user2
+irishub-load signtx --config-dir=/home/shilei/my_workspace --tps=150 --duration=1 --account=user3
+
+*******
+广播签名
+*******
+每个都一样
+irishub-load broadcast --config-dir=/home/shilei/my_workspace --tps=5
+
+
+*******
+修改mempool
+*******
+36M%X8km77
+
+v0:
+scp shilei@35.201.162.181:/home/shilei/testnet/v0/irita/config/config.toml ~/config.toml
+scp ~/config.toml shilei@35.201.162.181:/home/shilei/testnet/v0/irita/config/config.toml
+
+
+v1:
+scp shilei@35.236.168.104:/home/shilei/testnet/v1/irita/config/config.toml ~/config.toml
+scp ~/config.toml shilei@35.236.168.104:/home/shilei/testnet/v1/irita/config/config.toml
+
+
+v2:
+scp shilei@34.80.94.66:/home/shilei/testnet/v2/irita/config/config.toml ~/config.toml
+scp ~/config.toml shilei@34.80.94.66:/home/shilei/testnet/v2/irita/config/config.toml
+
+
+v3:
+scp shilei@35.194.199.188:/home/shilei/testnet/v3/irita/config/config.toml ~/config.toml
+scp ~/config.toml shilei@35.194.199.188:/home/shilei/testnet/v3/irita/config/config.toml
+
+
+ps -ef|grep irita
+sudo kill -9 7274
+
+ssh shilei@35.201.162.181
+ssh shilei@35.236.168.104
+ssh shilei@34.80.94.66
+ssh shilei@35.194.199.188
+
+******************************************************************************************************************************
+******************************************************************************************************************************
+irita Google Cloud VM 测试完成。
+******************************************************************************************************************************
+******************************************************************************************************************************
+1. recheck 改成false后 只能正常广播几个， 后续就全部失败。  （true 效果好）
+2. sync并没有比async好多少
+
+
+详见测试issue：
+https://github.com/bianjieai/irita-load/issues/1
+
+测试结论：
+1. 测试过程中遇到的问题
+1）压力不可持续，连续大量的广播，会导致后续的交易失败，测试终止。
+   可能的原因：irita的lcd在"async"模式下，广播后永远返回200. 而iris会在无法广播出去的时候返回500，从而导致所有的广播交易都能执行成功。
+2）tps压力上去后，出块速度明显变慢。（4节点，从原本的5秒，会慢至24秒）
+3）多节点同时压测并没有像预料中一样比单节点提高tps，仍然是500-600左右。
+
+2. 测试结果
+1）4节点，mempool 10000， 默认出块时间5s
+实际最高TPS = 625
+最长出块时间=16秒，该块有效交易=10000
+
+2）4节点，mempool 20000， 默认出块时间5s
+实际最高TPS = 585
+最长出块时间=24秒，该块有效交易=14036
+
+3）2节点，mempool 10000， 默认出块时间5s
+实际最高TPS = 600
+
+3）单节点，mempool 5000， 默认出块时间5s
+实际最高TPS = 650
+
+3.测试参数
+Test parameters
+Google Cloud VM: 8 CPUs and 16 GB RAM, 25G SSD
+Block size: 21 MB
+Transaction size: 529 bytes
+Mempool size : 10000
+Propose: 3 seconds
+Pre-Vote: 1 second
+Pre-Commit: 1 second
+Commit： 5 seconds

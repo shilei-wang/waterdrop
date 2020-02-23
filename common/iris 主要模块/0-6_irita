@@ -23,6 +23,7 @@ git branch && git rev-parse HEAD
 git reset --hard 8272845851f4953da43cd0582a56cbe9d024383a
 git branch && git rev-parse HEAD
 
+make install
 
 chmod 777 /Users/sherlock/go/bin/irita
 chmod 777 /Users/sherlock/go/bin/iritacli
@@ -31,37 +32,49 @@ chmod 777 /Users/sherlock/go/bin/iritacli
 *******************************************
           用testnet 直接手动起
 *******************************************
-
+cd ~
 rm -rf .iritacli .irita testnet
-echo 12345678 | irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v
-sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
-sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
-sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+echo 12345678 | irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+//sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+//sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+//sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 mv /Users/sherlock/testnet/v0/iritacli /Users/sherlock/.iritacli
 irita start --home=/Users/sherlock/testnet/v0/irita
+
+---
+2个validators
+---
+cd ~
+rm -rf .iritacli .irita testnet
+echo 12345678 | irita testnet --v=2 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+修改v1里面3个ip
+mv /Users/sherlock/testnet/v0/iritacli /Users/sherlock/.iritacli
+irita start --home=/Users/sherlock/testnet/v0/irita
+irita start --home=/Users/sherlock/testnet/v1/irita
 
 *******************************************
 
 iritacli keys show v0
-iritacli query account faa10d4vzpjy98wj7py7rsvjj8pvvp07tvdu2fc7my --chain-id=shilei-qa
-echo 12345678 | iritacli tx send v0 faa1pm432kqz62mutq439ynqs87u30r36062czga7r 1stake --chain-id=shilei-qa --fees=4stake -b block -y
-iritacli query account faa1pm432kqz62mutq439ynqs87u30r36062czga7r --chain-id=shilei-qa
-
-
-*******************************************
+iritacli query account faa183q4vdzk59c7q7w0epwtzdxfn27u256jnf5vzd --chain-id=shilei-qa
 echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 1000000stake --chain-id=shilei-qa --fees=4stake -b block -y
 iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa
 
 
+*******************************************
+压力测试
+
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa
+
 iritacli rest-server --trust-node  --home=$HOME/.iritacli/
 
-调试的Ingles
-signtx --config-dir=$HOME/my_workspace --tps=1 --duration=1 --account=user0
-broadcast --config-dir=$HOME/my_workspace --tps=1
+调试
+irishub-load signtx --config-dir=$HOME/my_workspace --tps=1 --duration=1 --account=user0
+irishub-load broadcast --config-dir=$HOME/my_workspace --tps=1
+
 例子
 http://localhost:1317/bank/balances/faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
-
-iritacli query tx 1A0E32F10FBCA36671901DA478D2A5453AE8714D75BBE7AEDB33652C4B639AFD
+iritacli query tx E00AC7B52D9BABF878641F6314BCCD576346A6A23101312C485283BDB00D2F0D
 
 *******************************************
 
@@ -135,4 +148,6 @@ echo 12345678 | iritacli tx sign ~/my_workspace/Tx-generate --from=v0 --chain-id
   "mode": "block"}
 
 {"tx":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"inputs":null,"outputs":null}}],"fee":{"amount":[{"denom":"stake","amount":"4"}],"gas":"20000"},"signatures":[{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"AkQeeR40fJhMFkBmh8e/+jcOGYvMOO50YE4trqzaSJ5v"},"signature":"d/wPfQ8j0ozLvUem3i+ssFqSgrEh61a5OEyebV6wSdRIDJ7ks97SntsRv3l5f2NBpSI+3huZNoSGYuF3k+QZug==","account_number":"","sequence":""}],"memo":""}, "mode": "block"}
+
+
 

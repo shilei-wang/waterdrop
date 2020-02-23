@@ -1,39 +1,74 @@
-*******这两个最后要测的*******
-gov测一下参数修改
-query
-**************
-slashing     Slashing transactions subcommands (jail有问题 没测)
-crisis       Crisis transactions subcommands （没测 不知道怎么使用）
-签名的整体测试一下 （没测）
+*******************************************
+          下载
+*******************************************
+https://github.com/bianjieai/irita
+cd /Users/sherlock/go/src/github.com/
 
-**************
-
-iriscli -h
-iriscli rest-server -h
-iriscli tx -h
-iriscli tx slashing -h
-
-iriscli query slashing signing-info --chain-id=shilei-qa fcp1zcjduepqpzudzh5k84h5zpnsp9l96pql7n0yaqd9pfcvcw603ngyvrcz6fdqf09vng
-iriscli tx slashing unjail --from=v1  --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli tx crisis --from=v0  --chain-id=shilei-qa --fees=4stake
+这个后还没有做：
+git clone https://github.com/bianjieai/irita.git
+cd irishub
+git remote add upstream https://github.com/irisnet/irishub.git
+git fetch --all //此时应该Fetching origin；  Fetching upstream
+git checkout -b develop upstream/develop   //git branch 建立本地develop代码分支， 不能同时拥有origin和upstream
+git branch
 
 
-iriscli rest-server -h
+编译：
+cd /Users/sherlock/go/src/github.com/irita
+git fetch --all
+git checkout .
+git branch && git rev-parse HEAD
 
---------------
-iriscli rest-server --node=tcp://localhost:26667 --laddr=tcp://0.0.0.0:1318 --chain-id=shilei-qa --home=$HOME/.irislcd/ --trust-node
---------------
+---
+git reset --hard 883ac90e39a20f5cf74d680a6de33c4042adcbe0
+git branch && git rev-parse HEAD
 
 
-  rand         Rand transaction subcommands
-  service      Service transaction subcommands
-  staking      Staking transaction subcommands
-  guardian     guardian transaction subcommands
-  htlc         HTLC subcommands
-  distribution Distribution transactions subcommands
-  crisis       Crisis transactions subcommands
-  asset        Asset transaction subcommands
-  gov          Governance transactions subcommands
-  slashing     Slashing transactions subcommands
+chmod 777 /Users/sherlock/go/bin/irita
+chmod 777 /Users/sherlock/go/bin/iritacli
 
---------------
+
+功能模块: guadian,nft,service,wasm。
+
+
+
+*******************************************
+          用testnet 直接手动起
+*******************************************
+cd ~
+rm -rf .iritacli .irita testnet
+echo 12345678 | irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+//sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+//sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+//sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+mv /Users/sherlock/testnet/v0/iritacli /Users/sherlock/.iritacli
+irita start --home=/Users/sherlock/testnet/v0/irita
+
+
+
+source: github.com/bianjieai/irita
+commit id: 883ac90e39a20f5cf74d680a6de33c4042adcbe0
+功能模块: guadian(没有加到genesis),nft 正向测试通过 ,service(很多example还是沿用的iris),wasm（正向测试通过，但wasm崩溃情况较多）。
+
+
+
+Usage:
+  iritacli tx service [flags]
+  iritacli tx service [command]
+
+Available Commands:
+  define         Create a new service definition
+  bind           Create a new service binding
+  update-binding Update a service binding
+  disable        Disable an available service binding
+  enable         Enable an unavailable service binding
+  ???? refund-deposit Refund all deposit from a service binding
+  call           Call a service method
+  respond        Respond a service method invocation
+  refund-fees    Refund all fees from service call timeout
+  withdraw-fees  withdraw all fees from service call reward
+  withdraw-tax   withdraw service fee tax to an account
+
+
+
+iritacli query service definition -h

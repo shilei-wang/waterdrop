@@ -1,0 +1,57 @@
+
+做一下sync
+上传代码
+
+
+
+
+
+
+
+
+
+
+I[2020-02-16|14:00:30.519] Executed block                               module=state height=1898 validTxs=2792 invalidTxs=0
+I[2020-02-16|14:00:30.591] Committed state                              module=state height=1898 txs=2792 appHash=A6B93D9BE7A5B0C179661707492605F6B9F86282F24AD2297B0E77D7B4B319EA
+I[2020-02-16|14:00:45.998] Executed block                               module=state height=1899 validTxs=4394 invalidTxs=0
+I[2020-02-16|14:00:46.099] Committed state                              module=state height=1899 txs=4394 appHash=E
+
+
+
+
+
+250*4
+
+I[2020-02-16|16:40:23.766] Executed block                               module=state height=261 validTxs=2571 invalidTxs=0
+I[2020-02-16|16:40:23.833] Committed state                              module=state height=261 txs=2571 appHash=2191E8B8CFC6806E0F3C7294BCEDDBCE5D6D293F6CBF769FABFC0982BAD7F42F
+I[2020-02-16|16:40:34.848] Executed block                               module=state height=262 validTxs=2751 invalidTxs=0
+I[2020-02-16|16:40:34.913] Committed state                              module=state height=262 txs=2751 appHash=7B2408A5C372F9F377A397C9317DEFF009AD7BCB9F09D2FB00F863737CBF8FB2
+I[2020-02-16|16:40:51.789] Executed block                               module=state height=263 validTxs=10000 invalidTxs=0
+I[2020-02-16|16:40:52.030] Committed state                              module=state height=263 txs=10000 appHash=4DD836AEB81193C57BFA201BAB3CF66EB0FCCD3EE16418B01538D560BBD2AF7D
+I[2020-02-16|16:41:13.243] Executed block                               module=state height=264 validTxs=968 invalidTxs=0
+I[2020-02-16|16:41:13.274] Committed state                              module=state height=264 txs=968 appHash=C1B11DCF139C3D027ABE7B7C48EE138A31246C6042E66D6B05BCD4DDA2BE668D
+I[2020-02-16|16:41:19.708] Executed block                               module=state height=265 validTxs=938 invalidTxs=0
+I[2020-02-16|16:41:19.733] Committed state                              module=state height=265 txs=938 appHash=45A846FD7C3B4DB1BCF66C9BE218EDCFF18422E55C057034E992838459872B01
+
+
+300 20000 * 4
+
+309354B01E08CBA98FB895CC53ECA8C29BB17B
+I[2020-02-16|17:01:10.792] Executed block                               module=state height=479 validTxs=0 invalidTxs=0
+I[2020-02-16|17:01:10.799] Committed state                              module=state height=479 txs=0 appHash=AD2A841DF60B22E09188875DDCBF864B0483C9139FA82DD744BDB1C7AC364B08
+I[2020-02-16|17:01:20.174] Executed block                               module=state height=480 validTxs=1235 invalidTxs=0
+I[2020-02-16|17:01:20.224] Committed state                              module=state height=480 txs=1235 appHash=A484B4D2532BBF88995531AF8B00BB88C205E00569C3AC76CD00DB845EBFFCBA
+I[2020-02-16|17:01:34.812] Executed block                               module=state height=481 validTxs=5855 invalidTxs=0
+I[2020-02-16|17:01:34.961] Committed state                              module=state height=481 txs=5855 appHash=223E657EBF02877358E02FBB5BDFE2DA74656F719D684358693CDAB43D7BBF98
+I[2020-02-16|17:01:59.183] Executed block                               module=state height=482 validTxs=5964 invalidTxs=0
+I[2020-02-16|17:01:59.336] Committed state                              module=state height=482 txs=5964 appHash=6307F54DBA541EEDB5CFD64803FBEA57F1E034A495C0D17B3DD635D3BDD1F30C
+I[2020-02-16|17:02:24.906] Executed block                               module=state height=483 validTxs=14036 invalidTxs=0
+I[2020-02-16|17:02:25.228] Committed state                              module=state height=483 txs=14036 appHash=373E6103404B660979313486860F3A39D82C2EE83069EAF7EAF137677C1A0C75
+I[2020-02-16|17:02:59.957] Executed block                               module=state height=484 validTxs=7584 invalidTxs=0
+I[2020-02-16|17:03:00.165] Committed state                              module=state height=484 txs=7584 appHash=1F4E381FF8635A0E39226B1866A7F7E1625BEC16E057145A3CA6E12297F0AD43
+I[2020-02-16|17:03:00.433] Executed block                               module=state height=485 validTxs=0 invalidTxs=0
+I[2020-02-16|17:03:00.439] Committed state                              module=state height=485 txs=0 appHash=42D082C27E4B0F706342B57F525FBD96D20F71DC0B7FC80B3898650D254AE245
+I[2020-02-16|17:03:01.639] Executed block                               module=state height=486 validTxs=0 invalidTxs=0
+I[2020-02-16|17:03:01.645] Committed state                              module=state height=486 txs=0 appHash=A3B9558C3C5A16C5033EB227A518C83E0168F79EC6702FA6A0C71364431E57E2
+I[2020-02-16|17:03:07.063] Executed block                               module=state height=487 validTxs=0 invalidTxs=0
+I[2020-02-16|17:03:07.068] Committed state                              module=state height=487 txs=0 appHash=C3CA70C344FFEBB76CD734AB56B75A4CF5D5F59A22945A17C6905EB35A2AFAE9

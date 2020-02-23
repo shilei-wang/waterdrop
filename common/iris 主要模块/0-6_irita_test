@@ -1,0 +1,207 @@
+
+=====================================================================================================================
+=====================================================================================================================
+======    wasm (WebAssembly)====================================================================================================
+=====================================================================================================================
+=====================================================================================================================
+https://github.com/bianjieai/irita/tree/vincent-sequence/modules/wasm
+
+
+---
+1. Compile smart contract
+---
+# install wasm-pack  //需要翻墙 curl www.google.com
+curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+# clone example
+cd /Users/sherlock/go/src/github.com/
+mkdir confio
+cd confio
+git clone https://github.com/confio/cosmwasm-examples
+cd cosmwasm-examples/escrow
+git checkout escrow-0.2.1
+
+# 需要安装更新 node ， rust
+brew install node 或者 brew upgrade node
+
+brew install rustup-init
+rustup update
+rustc --version
+rustc 1.41.0 (5e1a79984 2020-01-27)
+
+# complie  //需要翻墙 curl www.google.com
+wasm-pack build
+du -h ./pkg/cw_escrow_bg.wasm
+
+# cp wasm to work dir
+mkdir ~/wasm-test
+cp ./pkg/cw_escrow_bg.wasm ~/wasm-test/contract.wasm
+
+---
+2. Init testnet
+---
+cd ~/wasm-test
+irita testnet --v 1 --chain-id test
+irita start --home mytestnet/node0/irita
+
+
+---
+3. deploy the contract
+---
+# add key node1
+iritacli keys add node1
+
+# both should be empty
+iritacli query wasm list-code
+iritacli query wasm list-contracts
+
+# upload and see we create code 1
+# gas is huge due to wasm size... but auto-zipping reduced this from 800k to around 260k
+iritacli tx wasm store contract.wasm --gas 3000000 --from node0  -y -b block --chain-id test
+iritacli query wasm list-code
+
+---
+4. Instantiating the contract
+---
+# instantiate contract and verify
+INIT="{\"arbiter\":\"$(iritacli keys show node0 -a)\", \"recipient\":\"$(iritacli keys show node1 -a)\", \"end_time\":0, \"end_height\":0}"
+
+//实例化
+iritacli tx wasm instantiate 1 "$INIT" --from node0 --amount=50000stake -y -b block --chain-id test
+
+# check the contract state (and account balance)
+iritacli query wasm list-contracts
+iritacli query wasm contract <contract-id>
+iritacli query account <contract-id>
+
+
+iritacli query wasm list-contracts
+iritacli query wasm contract faa18vd8fpwxzck93qlwghaj6arh4p7c5n89307smc
+iritacli query account faa18vd8fpwxzck93qlwghaj6arh4p7c5n89307smc
+
+
+=====================================================================================================================
+=====================================================================================================================
+======      NFT  ====================================================================================================
+=====================================================================================================================
+=====================================================================================================================
+https://gitlab.bianjie.ai/irita/spec/blob/v1.0/nft/README.md
+
+iritacli keys show v0
+
+//tx mint
+iritacli tx nft mint test 001 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --tokenURI="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+
+**** 查询 ****
+//demon:test 下的nft supply总数
+iritacli query nft supply test
+
+//iritacli query nft owner [accountAddress] [denom](optional)
+iritacli query nft owner faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+//collection
+iritacli query nft collection test
+
+//query denoms
+iritacli query nft denoms
+
+//query nft
+iritacli query nft token test 001
+
+**** **** ****
+
+//edit-metadata ， 必须要用owner
+iritacli keys add v1 --recover
+caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000stake --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli tx nft edit-metadata test 001 --tokenURI="tokenURI2" --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query nft token test 001
+
+//tx transfer
+//iritacli tx nft transfer [sender] [recipient] [denom] [tokenID] --tokenURI=<tokenURI>
+iritacli tx nft transfer faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj test 001 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query nft token test 001
+
+//tx burn
+iritacli tx nft burn test 001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+
+========================================================================================================================
+========================================================================================================================
+==================guardian======================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+iritacli keys show v0
+在genesis里面搜索profiler手动添加
+
+iritacli tx guardian add-profiler --from=v0 --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=aa --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli tx guardian add-trustee --from=v0 --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=aa --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query guardian profilers
+iritacli query guardian trustees
+
+iritacli tx guardian delete-profiler --from=v0 --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli tx guardian delete-trustee --from=v0 --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query guardian profilers
+iritacli query guardian trustees
+
+
+
+
+========================================================================================================================
+========================================================================================================================
+==================service======================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+//define
+echo 1234567890 | iritacli tx service define --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/Users/sherlock/my_workspace/auto_test.proto  --service-name=001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query service definition shilei-qa 001
+
+//bind
+echo 1234567890 | iritacli tx service bind --def-chain-id=shilei-qa --bind-type=Local --deposit=2000stake --prices=1stake --avg-rsp-time=10000 --usable-time=100 --service-name=001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query service binding shilei-qa 001 shilei-qa faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj
+iritacli query service bindings shilei-qa 001
+
+//update-binding
+echo 1234567890 | iritacli tx service update-binding --def-chain-id=shilei-qa --bind-type=Local  --deposit=100stake --prices=2stake --avg-rsp-time=9999 --usable-time=99 --service-name=001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+//disable
+echo 1234567890 | iritacli tx service disable --def-chain-id=shilei-qa --service-name=001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+//refund-deposit 这个好像不能马上试，有时间。未测成功
+echo 1234567890 | iritacli tx service refund-deposit --service-name=001 --def-chain-id=shilei-qa  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+//enable
+echo 1234567890 | iritacli tx service enable --def-chain-id=shilei-qa --deposit=1000stake --service-name=001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+//call
+iritacli keys show v0
+
+echo 1234567890 | iritacli tx service call --bind-chain-id=shilei-qa --def-chain-id=shilei-qa --service-name=001  --method-id=1 --provider=faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj --service-fee=2000stake --request-data="Abcd" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query service requests shilei-qa 001 shilei-qa faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj
+
+//respond
+echo 1234567890 | iritacli tx service respond --request-chain-id=shilei-qa --response-data="Abcd" --request-id=5107-5007-0 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query service response shilei-qa 5107-5007-0
+
+//refund-fees
+echo 1234567890 | iritacli tx service refund-fees --chain-id=shilei-qa --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query service fees faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj
+
+//withdraw-fees
+echo 1234567890 | iritacli tx service withdraw-fees --chain-id=shilei-qa --from=v0  --chain-id=shilei-qa --fees=4stake -b block -y
+
+//withdraw-tax  这stake不可分 未测成功
+echo 1234567890 | iritacli tx service withdraw-tax --dest-address=faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj --withdraw-amount=1stake --chain-id=shilei-qa --from=v0  --chain-id=shilei-qa --fees=4stake -b block -y

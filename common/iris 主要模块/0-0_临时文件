@@ -1,3 +1,40 @@
+oricle ??是啥
+  wasm 什么用 就是上传一段编译好的代码 用户在下载是吗
+
+
+  source: github.com/bianjieai/irita
+  commit id: 883ac90e39a20f5cf74d680a6de33c4042adcbe0
+  功能模块: guadian,nft,service,wasm。
+
+
+
+  SherlockdeMacBook-Pro:wasm-test sherlock$ iritacli query wasm contract faa18vd8fpwxzck93qlwghaj6arh4p7c5n89307smc
+  {
+    "code_id": 1,
+    "creator": "faa1k2nk9xueswrwsgah3s0mh65zll3gketv89sq4a",
+    "init_msg": {
+      "arbiter": "faa1k2nk9xueswrwsgah3s0mh65zll3gketv89sq4a",
+      "recipient": "faa182n2zq4gmdn0mxlue6dm5swfuu5afy0mdwee80",
+      "end_time": 0,
+      "end_height": 0
+    }
+  }
+  SherlockdeMacBook-Pro:wasm-test sherlock$ iritacli query account faa18vd8fpwxzck93qlwghaj6arh4p7c5n89307smc
+  |
+    address: faa18vd8fpwxzck93qlwghaj6arh4p7c5n89307smc
+    coins:
+    - denom: stake
+      amount: "50000"
+    public_key: ""
+    account_number: 4
+    sequence: 0
+
+
+
+
+
+上传代码！！
+
 
 补钾：
 香蕉，苹果，卷心菜，海带，西瓜
@@ -10,7 +47,7 @@ coinswap 也要测一下
 要测2个升级流程 v0到v3
 iriscli asset 要重新测试了
 
-
+@王石磊  在完善irishub rest api自动化测试框架的基础上，要把irisnet-crypto，irishub-sdk-*的自动化测试框架也建立起来；还有rainbow后端接口的自动化测试
 
 
 
