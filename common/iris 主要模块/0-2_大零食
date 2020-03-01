@@ -1,74 +1,81 @@
-*******************************************
-          下载
-*******************************************
-https://github.com/bianjieai/irita
-cd /Users/sherlock/go/src/github.com/
+autoStart c 1
 
-这个后还没有做：
-git clone https://github.com/bianjieai/irita.git
-cd irishub
-git remote add upstream https://github.com/irisnet/irishub.git
-git fetch --all //此时应该Fetching origin；  Fetching upstream
-git checkout -b develop upstream/develop   //git branch 建立本地develop代码分支， 不能同时拥有origin和upstream
-git branch
+iriscli keys add  v1 --recover
+caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
 
-
-编译：
-cd /Users/sherlock/go/src/github.com/irita
-git fetch --all
-git checkout .
-git branch && git rev-parse HEAD
-
----
-git reset --hard 883ac90e39a20f5cf74d680a6de33c4042adcbe0
-git branch && git rev-parse HEAD
-
-
-chmod 777 /Users/sherlock/go/bin/irita
-chmod 777 /Users/sherlock/go/bin/iritacli
-
-
-功能模块: guadian,nft,service,wasm。
+echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 
 
-*******************************************
-          用testnet 直接手动起
-*******************************************
-cd ~
-rm -rf .iritacli .irita testnet
-echo 12345678 | irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
-//sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
-//sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
-//sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
-mv /Users/sherlock/testnet/v0/iritacli /Users/sherlock/.iritacli
-irita start --home=/Users/sherlock/testnet/v0/irita
+echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=a001
+
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
+
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
+
+
+echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address),$(iriscli keys show v1 --address) --service-fee-cap=1iris --timeout=60 --frequency=60 --total=-1 --threshold=1 --aggregate-func="max" --value-json-path="data" --feed-name=f001
+
+echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address),$(iriscli keys show v1 --address) --service-fee-cap=1iris --timeout=60 --frequency=60 --total=-1 --threshold=1 --aggregate-func="min" --value-json-path="data" --feed-name=f002
 
 
 
-source: github.com/bianjieai/irita
-commit id: 883ac90e39a20f5cf74d680a6de33c4042adcbe0
-功能模块: guadian(没有加到genesis),nft 正向测试通过 ,service(很多example还是沿用的iris),wasm（正向测试通过，但wasm崩溃情况较多）。
+
+echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
 
 
 
-Usage:
-  iritacli tx service [flags]
-  iritacli tx service [command]
+echo 1234567890 | iriscli oracle start f002 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
 
-Available Commands:
-  define         Create a new service definition
-  bind           Create a new service binding
-  update-binding Update a service binding
-  disable        Disable an available service binding
-  enable         Enable an unavailable service binding
-  ???? refund-deposit Refund all deposit from a service binding
-  call           Call a service method
-  respond        Respond a service method invocation
-  refund-fees    Refund all fees from service call timeout
-  withdraw-fees  withdraw all fees from service call reward
-  withdraw-tax   withdraw service fee tax to an account
+    **************
+    多人响应
+    **************
 
 
+iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[9].value
 
-iritacli query service definition -h
+iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v1 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[16].value
+
+//v0 ， v1 ：分别response 1次，共2次
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[9].value) --data="{\"data\": \"300\"}"
+
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v1 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[16].value) --data="{\"data\": \"500\"}"
+
+//查询结果，如果出现 400就说明成功了，取了2个的均值。
+iriscli oracle query-value f001
+iriscli oracle query-value f002
+
+
+====
+
+iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value
+
+iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value
+
+
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[9].value) --data="{\"data\": \"300\"}"
+
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v1 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[16].value) --data="{\"data\": \"500\"}"
+
+
+iriscli oracle query-value f001
+max
+
+
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[1].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[9].value) --data="{\"data\": \"300\"}"
+
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v1 --address) -o=json | jq -r .[1].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[16].value) --data="{\"data\": \"500\"}"
+
+
+iriscli oracle query-value f002
+min
+
+
+
+
+
+
+
+iriscli oracle query-feeds --state=running
+
+iriscli service requests a001 $(iriscli keys show v1 --address) -o=json --indent

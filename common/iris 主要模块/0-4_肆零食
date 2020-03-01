@@ -97,6 +97,14 @@ https://github.com/irisnet/irishub/issues/1960
 
 ============== raw bug ================
 ============== raw bug ================
+sherlock$ iritacli tx wasm instantiate 1 "$INIT" --from node0 --amount=50000stake  -y -b block --chain-id test
+panic: invalid character ',' looking for beginning of value
+
+goroutine 1 [running]:
+github.com/cosmos/cosmos-sdk/types.MustSortJSON(...)
+	/Users/sherlock/go/pkg/mod/github.com/bianjieai/cosmos-sdk@v0.38.2-0.20200220072449-d2be7ab1931e/types/utils.go:40
+github.com/bianjieai/irita/modules/wasm/internal/types.MsgInstantiateContract.GetSignBytes(0xc000ec85c0, 0x14, 0x20, 0x1, 0x5896478, 0x0, 0x0, 0xc000edc700, 0x1, 0x1, ...)
+
 
 ===================
 ===================

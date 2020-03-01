@@ -1,28 +1,50 @@
-commit id: 20a91f892c1540addd29e0930c7cd0adc8032405
-spec: https://gitlab.bianjie.ai/irishub/internal-spec/tree/v0.17.0
+周去问下 强哥sdk自动返回怎么弄
+先测cli 在测lcd？
 
-1. gov模块升级（https://github.com/irisnet/irishub/issues/2161）
-【价格对不上啊 1iris】
-2. asset模块重构，仅保留native token相关操作（https://github.com/irisnet/irishub/issues/2169）
-3. service definition重构，使用json schema替换protobuf https://gitlab.bianjie.ai/irishub/internal-spec/blob/v0.17.0/service/new_service_spec.md
-
-保留Token发行、编辑、转让、增发功能。
-资产分类只有Fungible Tokens。
-资产来源只有原生Token。
-删除Gateway的创建/编辑/转让功能。
-删除链上已存在的Gateway、Gateway资产、External资产。
-治理参数删除字段CreateGatewayBaseFee、GatewayAssetFeeRatio。
-删除链上已存在的Gateway、Gateway资产、External资产。
-
-source: github.com/bianjieai/irita
-commit id: 883ac90e39a20f5cf74d680a6de33c4042adcbe0
-功能模块: guadian,nft,service,wasm。
+1000
+=======================================
 
 
+=======================================
+echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=a001
 
-----------
-service
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
 
-echo 1234567890 | iriscli service define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=002
 
-echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  --deposit=2000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=002 --withdraw-addr=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --service-fee-cap=1iris --timeout=20 --frequency=20 --total=-1 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f001
+
+echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+
+iriscli oracle query-feed f001 -o=json
+
+iriscli service requests a001 $(iriscli keys show v0 --address)
+
+
+iriscli tendermint block-result 301 --chain-id=shilei-qa | jq -r .results.end_block.tags[1].value
+
+
+iriscli service request $(iriscli tendermint block-result 301 --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value)
+
+
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --data="{\"data\": \"100\"}" --request-id=$(iriscli tendermint block-result 681 --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value)
+
+iriscli oracle query-value f001
+
+
+
+iriscli service request $(iriscli tendermint block-result 5793 --chain-id=shilei-qa | jq -r .results.end_block.tags[1].value)
+
+iriscli tendermint block-result 301 --chain-id=shilei-qa
+
+
+
+============================最后看下
+==========================================
+--withdraw-addr//
+
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a004 --withdraw-addr=faa1czvr4zpcza6p472wqx385tcdnkxfdg9et8s2aq
+
+
+//x修改genesis
+echo 1234567890 | iriscli service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit

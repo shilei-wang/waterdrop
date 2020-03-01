@@ -125,6 +125,7 @@ go mod download (如果依赖变了，则要执行这个操作)
 
 方便测试，自动化测试，改genesis：
 go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go mg
+autoStart mg
 
 source scripts/setTestEnv.sh
 
@@ -138,7 +139,8 @@ make install
 iris version
 git branch && git rev-parse HEAD
 
-
+//需要修改的话 直接在autostart 里面go install 就好了
+autoStart c 1
 
 *******************************************
    启动 irishub

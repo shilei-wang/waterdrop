@@ -1,9 +1,61 @@
-sherlock$ iritacli tx wasm instantiate 1 "$INIT" --from node0 --amount=50000stake  -y -b block --chain-id test
-panic: invalid character ',' looking for beginning of value
+1.
+service define
+1）tag没有查重，目前可以用重复的tag（spec未对此说明）
+2）目前允许空tag（并不是没有tag，而是tag本身为空格，spec未对此说明）
 
-goroutine 1 [running]:
-github.com/cosmos/cosmos-sdk/types.MustSortJSON(...)
-	/Users/sherlock/go/pkg/mod/github.com/bianjieai/cosmos-sdk@v0.38.2-0.20200220072449-d2be7ab1931e/types/utils.go:40
-github.com/bianjieai/irita/modules/wasm/internal/types.MsgInstantiateContract.GetSignBytes(0xc000ec85c0, 0x14, 0x20, 0x1, 0x5896478, 0x0, 0x0, 0xc000edc700, 0x1, 0x1, ...)
+service call
+1）data input不支持json文件， 只能用字符串形式，使用及其不便
 
 
+======
+查询不到
+
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=faa1p88hcs9l6cakv89gsauscn59v3u77wuzpzcgxe,faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --repeated --frequency=20 --total=100
+
+iriscli service requests a001 faa1p88hcs9l6cakv89gsauscn59v3u77wuzpzcgxe
+
+=====
+
+提取的时候 WithdrawAddress 无效
+，
+
+===
+service和oracle call的时候没有对相同的provider做拦截和过滤
+Providers
+
+=====
+
+更新请求上下文
+
+iriscli service update-request-context <request-context-id> --chain-id=<chain-id> --from=<key name> --fee=0.3iris --frequency=20 --tota
+
+
+=====
+//目前amount支持iris-atto 不支持iris 下面是10iris
+echo 1234567890 | iriscli service withdraw-tax $(iriscli keys show v0 --address) 10000000000000000000iris-atto --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+=====
+
+client/service/cli/query
+GetCmdQueryRequestContext
+把这个fees改成 request-context
+
+===========
+$ echo 1234567890 | iriscli service enable a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=0iris
+ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
+============
+因为每个请求可以是批量的，多个provider，需要过滤出符合你最大服务费的provider，然后依次发请求
+
+如果过滤不出来，就不行
+
+在oracle里面，还有一个条件，如果过滤出来的provider数量少于制定的阈值，也不行
+
+这就是service-fee-cap的意义，指的是最大服务费，provider超出这个价格，就不会发请求
+
+
+====
+
+每轮的消费者是一样的(同一个call)
+因为call的时候只有一个消费者
+这个call引起的每轮请求都是相同的消费者
+至于provider的话就看每轮符不符合最大费用要求了 符合就会发出请求

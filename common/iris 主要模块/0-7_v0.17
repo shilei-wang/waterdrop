@@ -1,0 +1,335 @@
+service提测
+commit id: ccbf399bf4d9bcfec011d53aacfe4886e6894e27
+spec:
+https://gitlab.bianjie.ai/irishub/internal-spec/tree/v0.17.0/service
+
+oracle的测试，
+sepc:
+https://gitlab.bianjie.ai/irishub/internal-spec/tree/v0.17.0/oracle
+
+================
+
+cd /Users/sherlock/go/src/github.com/irishub
+git fetch --all
+git checkout .
+git reset --hard fea26bb3a19689fe99b14c11878650a62e643cff
+git branch && git rev-parse HEAD
+
+source scripts/setTestEnv.sh
+autoStart mg
+make install
+//go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go c 1
+autoStart c 1
+//iris start --home=/Users/sherlock/testnet/v0/iris
+
+
+iriscli keys list
+iriscli keys show v0 --address
+iriscli bank account $(iriscli keys show v0 --address)
+
+iriscli keys add v1 --recover
+caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
+
+echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+================================================================================
+================================================================================
+service
+================================================================================
+================================================================================
+ 、、 definition        Query service definition
+ 、、 binding           Query service binding
+ 、、 bindings          Query service bindings
+  requests          Query service requests by the service binding or request context ID
+  response          Query a response by the request ID
+  fees              Query a request context
+  response          Query responses by the request context ID and batch counter
+  fees              Query the earned fees
+
+
+ 、、 define            Define a new service
+ 、、 bind              Bind a service
+  、、update-binding    Update a service binding
+ 、、 set-withdraw-addr Set a new withdrawal address for a service binding
+  、、disable           Disable an available service binding
+ 、、 enable            Enable an unavailable service binding
+ 、、 refund-deposit    Refund the deposit from a service binding
+  call              Call a service
+  respond           Respond a service request
+  pause             Pause a request context
+  start             Resume a paused request context
+  kill              Terminate a request context
+  update            Update a request context
+  withdraw-fees     Withdraw the earned fees
+  withdraw-tax      Withdraw service tax
+
+invocation里面新增的主要是 批量和重复
+还有链上聚合
+测oracle的时候就是通过oracle调用service的，对结果数据进行聚合的
+
+     ===========================
+                定义
+     ===========================
+1. [交易] 服务定义， 首位要是字母
+
+echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=a001
+
+2. 服务定义查询 （可以查询 method id）
+iriscli service definition a001
+
+     ===========================
+                绑定
+     ===========================
+3. [交易] 服务绑定
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
+
+--- v1
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
+
+
+4. 查询服务绑定
+iriscli service binding a001 $(iriscli keys show v0 --address)
+iriscli service bindings a001
+
+5. [交易] 更新绑定 ,只增加抵押
+echo 1234567890 | iriscli service update-binding a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=2iris --pricing=/Users/sherlock/my_workspace/service/pricing.json
+
+6. [交易] 设置提取地址
+echo 1234567890 | iriscli service set-withdraw-addr a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris  --commit --withdraw-addr=faa1czvr4zpcza6p472wqx385tcdnkxfdg9et8s2aq
+
+7.服务失效
+echo 1234567890 | iriscli service disable a001 --chain-id=shilei-qa --from=v0 --fee=0.3iris --commit
+
+8.服务恢复 ，可以增加抵押
+echo 1234567890 | iriscli service enable a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=1iris
+
+9. [交易] 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov))
+echo 1234567890 | iriscli service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+【通过命令可以看当前时间】 date -u "+%Y-%m-%dT%H:%M:%SZ"
+
+     ===========================
+                调用 （支持批量和重复）
+     ===========================
+10. [交易] 服务调用 (要改provider ，返回request id)
+1）批量请求 //需要一个服务有2个以上绑定着，data必须是json而且目前不能用文件
+//iriscli service bindings a001
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address)
+
+//多个providers用逗号隔开
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address),faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+11.查询请求列表
+//根据id查询
+iriscli service request <request-id>
+
+//超时后就查不到了
+iriscli service requests a001 $(iriscli keys show v0 --address)
+iriscli service requests a001 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+//用<request-context-id>超时后可以查到
+iriscli service requests bc8a7c6a6d10f264b2ad39abb97f5f04101f882d02ae8c2c1487129b2e8ee68a 1
+
+12.相应请求
+//因为速度比较快，要连续操作， 20块*2秒就超时了
+1）调用 ：这里只用单人的，
+// 记录块高度！！
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address)
+
+//2）查request-id ： 只有出块后才可以在block-result里查到对应的块"高度"时的request-id （注意和request-context-id不是一个东西 ）
+//这条只供看看 ，可以不执行
+//iriscli tendermint block-result 1063 --chain-id=shilei-qa
+
+3）调用response ： 用jq的方式快速读出json值
+//注意替换"高度值"
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --data="{\"data\": \"userdata\"}" --request-id=$(iriscli tendermint block-result 2674 --chain-id=shilei-qa | jq -r .results.end_block.tags[1].value)
+
+13.查询相应请求
+//沿用上面的高度，并替换
+iriscli service response $(iriscli tendermint block-result 2674 --chain-id=shilei-qa | jq -r .results.end_block.tags[1].value)
+
+
+     ===========================
+       取回服务调用产生的服务费（卖家），未响应超时的服务费会自动退还给（买家）
+     ===========================
+14.查询服务费
+iriscli service fees $(iriscli keys show v0 --address)
+
+
+15.提取服务调用产生的服务费
+echo 1234567890 | iriscli service withdraw-fees --chain-id=shilei-qa --from=v0 --fee=0.004iris --fee=0.004iris --commit
+// iriscli service binding a001 $(iriscli keys show v0 --address)
+// iriscli bank account faa1czvr4zpcza6p472wqx385tcdnkxfdg9et8s2aq
+
+16. trustee提取服务费税
+//先查询下 fee税多少钱
+iriscli bank account faa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9keyu4d
+//看下前后差价
+iriscli bank account $(iriscli keys show v0 --address)
+
+//目前amount支持iris-atto 不支持iris 下面是10iris
+echo 1234567890 | iriscli service withdraw-tax $(iriscli keys show v0 --address) 10000000000000000000iris-atto --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+
+     ===========================
+      请求上下文相关
+     ===========================
+// call之后会返回 <request-context-id>
+// --repeated --frequency=20 --total=100 , 防止他complete
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --repeated --frequency=20 --total=100
+
+17. 查询请求上下文 <request-context-id>， 返回这个call的很多字段信息
+iriscli service request-context bf4fdc67fc93b99481d987c93f3b76a7a34947443133be355fed540d4160fc74
+
+18. 暂停请求上下文
+// state变成pause
+echo 1234567890 | iriscli service pause --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit bf4fdc67fc93b99481d987c93f3b76a7a34947443133be355fed540d4160fc74
+
+19. 启动请求上下文
+//state变成running , BatchState在complete状态也会变running
+echo 1234567890 | iriscli service start --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit bf4fdc67fc93b99481d987c93f3b76a7a34947443133be355fed540d4160fc74
+
+20. 更新请求上下文
+echo 1234567890 | iriscli service update --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  --frequency=20 --total=400 bf4fdc67fc93b99481d987c93f3b76a7a34947443133be355fed540d4160fc74
+
+21. 终止请求上下文
+// state变成complete
+echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  bf4fdc67fc93b99481d987c93f3b76a7a34947443133be355fed540d4160fc74
+
+
+22. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
+//先要call
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address)
+
+//查询列表 （列表只有有效的才会被查出， 但是iriscli service request-context 永远能查出）
+iriscli service requests 5d7dbc49de2174b1ed9398a2760caa12c1863f2779111e3b9257704beb123cac 1
+
+
+21. 查询请求上下文的响应列表 （还没测完）
+// 先要call
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address)
+
+// 再response
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --data="{\"data\": \"userdata\"}" --request-id=$(iriscli tendermint block-result 10379 --chain-id=shilei-qa | jq -r .results.end_block.tags[1].value)
+
+iriscli service responses <request-context-id> <batch-counter>
+iriscli service responses 51070416dc0ce782bfaf31f586cec0ed6834d271817e530e7e515daa98213b57 1
+
+
+================================================================================
+================================================================================
+oracle
+================================================================================
+================================================================================
+
+1. Create Feed
+//创建feed的同时相当于创建了一个service call
+//threshold 不能大约provider的个数
+//State初始=pause
+//--value-json-path="data.user.name"
+echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --service-fee-cap=1iris --timeout=60 --frequency=60 --total=-1 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f001
+
+2. Query Feed
+iriscli oracle query-feed f001
+
+3. Start Feed
+//State=running
+echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+4. Pause Feed
+//State=pause
+echo 1234567890 | iriscli oracle pause f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+5. Update Feed
+echo 1234567890 | iriscli oracle edit --feed-name=f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=11
+// --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=1
+
+6. Query Feeds
+iriscli oracle query-feeds --state=running
+
+7. Query Value
+//这个很麻烦，需要分本地手动respond和调用sdk自动respond
+//这里重启一个新链，单独的一个service，容易操作。
+
+    **************
+    准备工作
+    **************
+//注意 一定要起新链， 同一块有同service的响应读数据将相当困难。 至少要不用的service。
+autoStart c 1
+
+echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=a001
+
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
+
+echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --service-fee-cap=1iris --timeout=60 --frequency=60 --total=-1 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f001
+
+echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+    **************
+    本地手动respond
+    **************
+
+    === 以下3条只是查询， 不需要每次查询
+//查询request的状态：每间隔20个块发一次请求
+iriscli service requests a001 $(iriscli keys show v0 --address)
+
+//得到第一块的HEIGHT， 注意=左右边不要用空格
+HEIGHT=$(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) && echo $HEIGHT
+
+//查询request id的方法：（不是每次都要调用）
+//每轮(除第一轮)第一个块中有上一轮的request id（slash），也有本轮的request id
+iriscli tendermint block-result $HEIGHT --chain-id=shilei-qa | jq -r .results.end_block.tags[1].value
+iriscli tendermint block-result $HEIGHT --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value
+
+echo $(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value)
+
+    ===
+
+//已经嵌套好了，一次执行
+//在一轮中request一但被响应，则会从查询列表$(iriscli service requests a001 $(iriscli keys show v0 --address))里面被删除
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value) --data="{\"data\": \"100\"}"
+
+    **************
+    query-value
+    **************
+iriscli oracle query-value f001
+
+
+
+    **************
+    多人响应
+    **************
+
+//先要创建v1 recover，转账
+//同一个call， RequestContextID是的同一个。 但是针对于不同的provider的RequestID都是不一样的， 而且同一个provider每轮的RequestID也是不一样的
+
+//增加一个provider v1
+echo 1234567890 | iriscli oracle edit --feed-name=f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --providers=$(iriscli keys show v0 --address),$(iriscli keys show v1 --address)
+
+iriscli oracle query-feed f001
+
+//v1也要绑定， 不绑定就不能respond
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
+
+  两个都可以查到了，此条不用执行
+iriscli service requests a001 $(iriscli keys show v0 --address)
+iriscli service requests a001 $(iriscli keys show v1 --address)
+
+  两个RequestID分别位于block-result的第9，第16个数组中（最前面2个是slash），此条不用执行
+  如果用一个service 同一个人有多个call，则改-r .[0].request --> -r .[1].request,注意在oracle start 的时候首块高度要隔开不要在同一块。尽量用60个块的间隔，20块太快了。
+iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[9].value
+
+iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v1 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[16].value
+
+//v0 ， v1 ：分别response 1次，共2次
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[9].value) --data="{\"data\": \"300\"}"
+
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v1 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[16].value) --data="{\"data\": \"500\"}"
+
+//查询结果，等到一轮timeout以后出结果， 如果出现 400就说明成功了，取了2个的均值。 20块测单个feed可以， 60块测2个feed。
+iriscli oracle query-value f001
+
+----
+
