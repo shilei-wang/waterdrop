@@ -49,7 +49,7 @@ git branch
 cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .  //放弃当前目录下的修改
-//git checkout develop
+//git checkout develop ， git pull
 git merge upstream/develop
 git branch && git rev-parse HEAD
 

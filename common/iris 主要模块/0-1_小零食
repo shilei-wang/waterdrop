@@ -1,50 +1,96 @@
-周去问下 强哥sdk自动返回怎么弄
-先测cli 在测lcd？
 
-1000
+autoStart c 1
+
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd/ --trust-node
+
+iriscli keys show v0
+faa1wp2vs7kws7fyznae8ycyv94dts8ue5tx4t9u6s
+
+
+iriscli service binding a001 $(iriscli keys show v0 --address)
+
 =======================================
 
+。。service/MaxRequestTimeout=50
+。。service/MinDepositMultiple=500
+。。service/MinDeposit=5000000000000000000000iris-atto
+service/ServiceFeeTax=0.0200000000
+。。service/SlashFraction=0.0020000000
+service/ComplaintRetrospect=365h0m0s
+service/ArbitrationTimeLimit=122h0m0s
+service/TxSizeLimit=5000
+
+
+
+=======================================
+
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --timeout=49 --repeated --frequency=49 --total=1
+
+
+dbfae004f11b00b92ba675e4bf2106d22ddf6a60c59e95f4fcbbab2cefb5daf8
+
+echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  dbfae004f11b00b92ba675e4bf2106d22ddf6a60c59e95f4fcbbab2cefb5daf8
+
+
+iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa
+
+
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --data="{\"data\": \"userdata\"}" --request-id=cc4285003e1ed11df5f20194a97bbf929ff7aed57f246e9ce3032980e2a8943200000000000000040000
 
 =======================================
 echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=a001
 
-echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=5000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
 
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --timeout=49 --repeated --frequency=49 --total=1
 
-echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --service-fee-cap=1iris --timeout=20 --frequency=20 --total=-1 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f001
+iriscli service binding a001 $(iriscli keys show v0 --address)
 
-echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
-
-
-iriscli oracle query-feed f001 -o=json
-
-iriscli service requests a001 $(iriscli keys show v0 --address)
-
-
-iriscli tendermint block-result 301 --chain-id=shilei-qa | jq -r .results.end_block.tags[1].value
-
-
-iriscli service request $(iriscli tendermint block-result 301 --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value)
-
-
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --data="{\"data\": \"100\"}" --request-id=$(iriscli tendermint block-result 681 --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value)
-
-iriscli oracle query-value f001
+---
 
 
 
-iriscli service request $(iriscli tendermint block-result 5793 --chain-id=shilei-qa | jq -r .results.end_block.tags[1].value)
 
-iriscli tendermint block-result 301 --chain-id=shilei-qa
+
+=======================================
+【昨天提的一些问题 海伟都改了 明天再复测一下】
+
+//service lcd
+
+service的参数治理
+service genesis的export测试
+
+orcale 重测
+oracle sdk自动响应的
+orcale lcd
+
+oracle ， genesis的export测试
+
+bug 验证
+
+=======================================
+一旦扣款小于10000iris 绑定会自动下线是吗？
+
+call 设定 fee ， fee变成context里面的cap fee， 修改context cap fee， 查询 context 更新了cap fee， 查询request 确没有改fee（iriscli service requests 5d7dbc49de2174b1ed9398a2760caa12c1863f2779111e3b9257704beb123cac 1
+）
+
+不一样 和cli and json ，"disabled_time": "0001-01-01T00:00:00Z"
+
+1）internal-spec /params/params.md 未及时更新service参数取值范围，和添加新参数。
+=======================================
+
 
 
 
 ============================最后看下
 ==========================================
---withdraw-addr//
+--withdraw-addr// reponse后测一下是否到账
 
 echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a004 --withdraw-addr=faa1czvr4zpcza6p472wqx385tcdnkxfdg9et8s2aq
 
 
 //x修改genesis
 echo 1234567890 | iriscli service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+refund-deposit cli lcd都要测一下 改genensis
+

@@ -1,81 +1,36 @@
+------------
+
+
+------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------
+
+// 广播
+echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign && iriscli tx broadcast ~/my_workspace/Tx-sign --commit
+
+
+//
 autoStart c 1
+
+echo 1234567890 | iriscli keys add  v2
 
 iriscli keys add  v1 --recover
 caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
 
-echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1kx9l0jtwwjz0cly2el0v63dp8s9pkfgvanj8a9
 
 
-
-echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=a001
-
-echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
-
-echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
-
-
-echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address),$(iriscli keys show v1 --address) --service-fee-cap=1iris --timeout=60 --frequency=60 --total=-1 --threshold=1 --aggregate-func="max" --value-json-path="data" --feed-name=f001
-
-echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address),$(iriscli keys show v1 --address) --service-fee-cap=1iris --timeout=60 --frequency=60 --total=-1 --threshold=1 --aggregate-func="min" --value-json-path="data" --feed-name=f002
-
-
-
-
-echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
-
-
-
-echo 1234567890 | iriscli oracle start f002 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
-
-    **************
-    多人响应
-    **************
-
-
-iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[9].value
-
-iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v1 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[16].value
-
-//v0 ， v1 ：分别response 1次，共2次
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[9].value) --data="{\"data\": \"300\"}"
-
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v1 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[16].value) --data="{\"data\": \"500\"}"
-
-//查询结果，如果出现 400就说明成功了，取了2个的均值。
-iriscli oracle query-value f001
-iriscli oracle query-value f002
-
-
-====
-
-iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value
-
-iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value
-
-
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[9].value) --data="{\"data\": \"300\"}"
-
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v1 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[16].value) --data="{\"data\": \"500\"}"
-
-
-iriscli oracle query-value f001
-max
-
-
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[1].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[9].value) --data="{\"data\": \"300\"}"
-
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v1 --address) -o=json | jq -r .[1].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[16].value) --data="{\"data\": \"500\"}"
-
-
-iriscli oracle query-value f002
-min
-
-
-
-
-
-
-
-iriscli oracle query-feeds --state=running
-
-iriscli service requests a001 $(iriscli keys show v1 --address) -o=json --indent

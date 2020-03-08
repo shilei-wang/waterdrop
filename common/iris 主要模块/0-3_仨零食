@@ -1,10 +1,39 @@
 1.
+
+@
+-----
+缺陷：
+-----
+service call
+1） --timeout=0 的情况没有拦截和处理。
+2) service和oracle call的时候没有对相同的provider做拦截和过滤, 这种情况下，会发生完全一模一样的request会被创建多次。
+
+service kill
+1）用户A call的服务，可以被用户B kill掉， kill的时候没有检查是否是提交request的用户。
+
+-----
+改进：
+-----
 service define
 1）tag没有查重，目前可以用重复的tag（spec未对此说明）
 2）目前允许空tag（并不是没有tag，而是tag本身为空格，spec未对此说明）
 
 service call
 1）data input不支持json文件， 只能用字符串形式，使用及其不便
+
+
+今天延续昨天sevice 测试，主要是负向测试。 和每一个参数的各项边界条件。
+
+海伟 讨论一下  上下文id
+命令行 返回的 是明文
+api json 模式 返回的 原始吧编码 ， 如果别人用的脚本的话 可能就读不出这个 上下文id了 。
+
+还有slash的1000分支1的问题 目前没有测到。deposit被slash的情况，不知道是不是哪里搞错了。--super-mode不扣钱
+
+缺陷：
+1）slash逻辑有瑕疵，已经和海伟定位了具体问题的位置，修复后再验证。
+2）Update一个已经被Kill掉的request-context的行为应该被禁止或者报错，因为毫无意义。（作为参考：start一个已经被kill掉的context，程序会报错。）
+
 
 
 ======
@@ -20,7 +49,7 @@ iriscli service requests a001 faa1p88hcs9l6cakv89gsauscn59v3u77wuzpzcgxe
 ，
 
 ===
-service和oracle call的时候没有对相同的provider做拦截和过滤
+
 Providers
 
 =====
@@ -59,3 +88,11 @@ ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
 因为call的时候只有一个消费者
 这个call引起的每轮请求都是相同的消费者
 至于provider的话就看每轮符不符合最大费用要求了 符合就会发出请求
+
+
+不要给我留后顾之忧，不要让我心里有负担 有心事。
+现在这个时间段找人来装修是一件很困难的事了，不要太在乎钱。
+插头我来装，周六来看布局
+工作不用心 开除
+床是为你的腰好，
+工作到12点

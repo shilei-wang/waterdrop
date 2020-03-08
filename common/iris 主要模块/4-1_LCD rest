@@ -42,12 +42,12 @@ iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=shilei-qa --from=v0
 
 第二步： 用cli 签名交易
 
-echo 1234567890 | iriscli tx sign ~/Tx-generate --name=v0 --chain-id=shilei-qa >~/Tx-sign
+echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
 
-
+注意：注意：注意：注意：注意：注意：！！！
 //注意： 最新的版本已经不需要替换 {"tx": {
 
-
+//下面这个操作最新代码已经不需要了，直接粘贴就好了。
 复制签名后的内容，注意只要复制后面一段：
 {"type":"irishub/bank/StdTx","value":{
 
