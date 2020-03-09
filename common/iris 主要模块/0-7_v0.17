@@ -70,7 +70,10 @@ iriscli service bindings a001
 echo 1234567890 | iriscli service update-binding a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=2iris --pricing=/Users/sherlock/my_workspace/service/pricing.json
 
 6. [交易] 设置提取地址
-echo 1234567890 | iriscli service set-withdraw-addr a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris  --commit --withdraw-addr=faa1czvr4zpcza6p472wqx385tcdnkxfdg9et8s2aq
+echo 1234567890 | iriscli service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit faa1czvr4zpcza6p472wqx385tcdnkxfdg9et8s2aq
+
+//查询提取地址
+iriscli service withdraw-addr $(iriscli keys show v0 --address)
 
 7.服务失效
 echo 1234567890 | iriscli service disable a001 --chain-id=shilei-qa --from=v0 --fee=0.3iris --commit
@@ -88,16 +91,17 @@ echo 1234567890 | iriscli service refund-deposit a001 --chain-id=shilei-qa --fro
      ===========================
 10. [交易] 服务调用 (要改provider ，返回request id)
 1）批量请求 //需要一个服务有2个以上绑定着，data必须是json而且目前不能用文件
-//iriscli service bindings a001
+// iriscli service bindings a001
 // --timeout=20
 // --super-mode 确认是不是profiler调用， 如果是的话 超时不收slash费用。查询时用tag[1] fee=0 supermode=true
-//多个providers用逗号隔开
+// 多个providers用逗号隔开
 // 注意 data里面的数据和当时定义的时候要对应上， 如果是required则一定要
+// 跟新绑定的price后 ，request ， service-fee也会跟着跟新，只要不大于service-fee-cap。
 
+//单个
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --timeout=20
 
-echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address)
-
-
+//单个
 echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --timeout=20 --repeated --frequency=20 --total=-1
 
 
@@ -182,7 +186,7 @@ iriscli bank account faa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9keyu4d
 iriscli bank account $(iriscli keys show v0 --address)
 
 //目前amount支持iris-atto 不支持iris 下面是10iris
-echo 1234567890 | iriscli service withdraw-tax $(iriscli keys show v0 --address) 10000000000000000000iris-atto --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+echo 1234567890 | iriscli service withdraw-tax $(iriscli keys show v0 --address) 0.005iris --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
 
 
      ===========================

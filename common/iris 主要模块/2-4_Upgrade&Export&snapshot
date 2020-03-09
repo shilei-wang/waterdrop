@@ -86,7 +86,7 @@ iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris --output-fi
 必须配合 unsafe-reset-all  使用
 iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris
 
-cd ~ && cp genesis.json /Users/sherlock/testnet/v0/iris/config
+cp ~/genesis.json /Users/sherlock/testnet/v0/iris/config
 iris start --home=/Users/sherlock/testnet/v0/iris
 
 

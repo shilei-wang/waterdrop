@@ -1,98 +1,21 @@
-1.
-
-@
------
-缺陷：
------
-service call
-1） --timeout=0 的情况没有拦截和处理。
-2) service和oracle call的时候没有对相同的provider做拦截和过滤, 这种情况下，会发生完全一模一样的request会被创建多次。
-
-service kill
-1）用户A call的服务，可以被用户B kill掉， kill的时候没有检查是否是提交request的用户。
-
------
-改进：
------
-service define
-1）tag没有查重，目前可以用重复的tag（spec未对此说明）
-2）目前允许空tag（并不是没有tag，而是tag本身为空格，spec未对此说明）
-
-service call
-1）data input不支持json文件， 只能用字符串形式，使用及其不便
+// 广播
+echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign && iriscli tx broadcast ~/my_workspace/Tx-sign --commit
 
 
-今天延续昨天sevice 测试，主要是负向测试。 和每一个参数的各项边界条件。
+//
+autoStart c 1
 
-海伟 讨论一下  上下文id
-命令行 返回的 是明文
-api json 模式 返回的 原始吧编码 ， 如果别人用的脚本的话 可能就读不出这个 上下文id了 。
+echo 1234567890 | iriscli keys add  v2
 
-还有slash的1000分支1的问题 目前没有测到。deposit被slash的情况，不知道是不是哪里搞错了。--super-mode不扣钱
+iriscli keys add  v1 --recover
+caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
 
-缺陷：
-1）slash逻辑有瑕疵，已经和海伟定位了具体问题的位置，修复后再验证。
-2）Update一个已经被Kill掉的request-context的行为应该被禁止或者报错，因为毫无意义。（作为参考：start一个已经被kill掉的context，程序会报错。）
+echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1ma785u8pxjjggeq5j8uqxuhve0swrmcf62saxh
 
 
-
-======
-查询不到
-
-echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=faa1p88hcs9l6cakv89gsauscn59v3u77wuzpzcgxe,faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --repeated --frequency=20 --total=100
-
-iriscli service requests a001 faa1p88hcs9l6cakv89gsauscn59v3u77wuzpzcgxe
-
-=====
-
-提取的时候 WithdrawAddress 无效
-，
-
-===
-
-Providers
-
-=====
-
-更新请求上下文
-
-iriscli service update-request-context <request-context-id> --chain-id=<chain-id> --from=<key name> --fee=0.3iris --frequency=20 --tota
+echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=a001
 
 
-=====
-//目前amount支持iris-atto 不支持iris 下面是10iris
-echo 1234567890 | iriscli service withdraw-tax $(iriscli keys show v0 --address) 10000000000000000000iris-atto --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
 
-=====
-
-client/service/cli/query
-GetCmdQueryRequestContext
-把这个fees改成 request-context
-
-===========
-$ echo 1234567890 | iriscli service enable a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=0iris
-ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
-============
-因为每个请求可以是批量的，多个provider，需要过滤出符合你最大服务费的provider，然后依次发请求
-
-如果过滤不出来，就不行
-
-在oracle里面，还有一个条件，如果过滤出来的provider数量少于制定的阈值，也不行
-
-这就是service-fee-cap的意义，指的是最大服务费，provider超出这个价格，就不会发请求
-
-
-====
-
-每轮的消费者是一样的(同一个call)
-因为call的时候只有一个消费者
-这个call引起的每轮请求都是相同的消费者
-至于provider的话就看每轮符不符合最大费用要求了 符合就会发出请求
-
-
-不要给我留后顾之忧，不要让我心里有负担 有心事。
-现在这个时间段找人来装修是一件很困难的事了，不要太在乎钱。
-插头我来装，周六来看布局
-工作不用心 开除
-床是为你的腰好，
-工作到12点
+iriscli service response 532999dee1daa7e706ca323f964045cd78bd698ed868de028524ce11b25a5f3a00000000000000040000
