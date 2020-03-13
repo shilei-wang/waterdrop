@@ -12,17 +12,11 @@ iriscli service binding a001 $(iriscli keys show v0 --address)
 =======================================
 
 
-￼￼
-
-
-
-=======================================
 
 
 =======================================
-0iris的问题没有解决？
-echo 1234567890 | iriscli service enable a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=0iris
-ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
+昨天发现的那个，重启后request invliad的bug，已经修复了。  动态的测试，突然之间状态就错了，就是重现比较困难 ，其他还好。
+多feed， 修改 iservice模拟各种错误返回， lcd
 
 
 
@@ -33,30 +27,22 @@ ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
 //service lcd
 //service的参数治理
 //service genesis的export测试
+//bug 验证
 
-bug 验证
-
-orcale 重测
-oracle sdk自动响应的
+//orcale 重测
+//oracle sdk自动响应的
 orcale lcd
 
 oracle 的export测试 ？？？
 
+最后测一下refund
 
 
 =======================================
-
-
 =======================================
-
-
-
 
 ============================最后看下
 ==========================================
---withdraw-addr// reponse后测一下是否到账
-
-echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --deposit=10000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a004 --withdraw-addr=faa1czvr4zpcza6p472wqx385tcdnkxfdg9et8s2aq
 
 
 //x修改genesis

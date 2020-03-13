@@ -1,34 +1,28 @@
 
+更新的服务提供者列表; 不提供表示不更新
+
+多feed，文档
+多acg min max 对比
+多feed， 修改 iservice模拟各种错误返回， lcd
+
+
+
+运行过程中unbinding
 
 
 
 
+    echo 1234567890 | iriscli gov submit-proposal --title="t" --description="t" --type=Parameter --deposit="2000iris"  --param='service/MinDeposit=30000000000000000000000iris-atto' --from=v0 --chain-id=shilei-qa --fee=0.004iris  --commit
+
+    echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=1
+
+    iriscli gov query-proposal --trust-node --proposal-id=1
+
+iriscli service bindings s001
 
 
+echo 1234567890 | iriscli service enable s001 --chain-id=shilei-qa --from=p1 --fee=0.004iris --commit --deposit=100000iris
 
-==========================================================================================
-==========================================================================================
-
-
+echo 1234567890 | iriscli service enable s001 --chain-id=shilei-qa --from=p2 --fee=0.004iris --commit --deposit=100000iris
 
 
-==========================================================================================
-==========================================================================================
-
-echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=a001
-
-
-echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=12000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
-
-
-echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data=/Users/sherlock/my_workspace/service/input.json --providers=$(iriscli keys show v0 --address) --timeout=20 --repeated --frequency=20 --total=-1
-
-iriscli service requests a001 $(iriscli keys show v0 --address)
-
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --data="{\"data\": \"userdata\"}" --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value)
-
-iriscli service request-context 532999dee1daa7e706ca323f964045cd78bd698ed868de028524ce11b25a5f3a
-
-echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  532999dee1daa7e706ca323f964045cd78bd698ed868de028524ce11b25a5f3a
-
-echo 1234567890 | iriscli service update --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  --frequency=20 532999dee1daa7e706ca323f964045cd78bd698ed868de028524ce11b25a5f3a

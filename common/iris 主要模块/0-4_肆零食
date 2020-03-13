@@ -20,6 +20,8 @@
 2）目前genesis会export出所有request-context， 很多已经完成（completed）也导出了。 特别注意到export把某一个context所有的批次request根据BatchCounter都导出了，会造成genesis异常庞大，这个应该也是不合理的，特别是repeated的针对request。
 3） slash过多下线的问题
 
+
+
 ===========================================================================================================================================================================
 
 做了一些极限测试，发现service在slash这块设计上可能有点的漏洞。
@@ -34,7 +36,60 @@
 
 
 ===========================================================================================================================================================================
+
+缺陷：
+1）程序实际参数和spec文档不一致。
+feed name
+--creator            实际不使用
+--repeated-frequency 实际frequency
+--repeated-total     实际total
+--response-threshold   实际threshold
+
+2) oracle create
+a. 检测到feed-name非法后error message不正确， 无论何种非法都提示："长度不能超过70." 具体做法修改可参考，service define
+b. description参数超过上限后，返回的error message有乱码。 "%!d(MISSING)"
+
+3）oracle edit
+--feed-name 改成<feed-name> 后， -help中flag : "--feed-name string         The unique identifier of the feed"未同步修改
+
+另外，service 仍然存在 0iris，签名失败的bug。@程文席
+4）echo 1234567890 | iriscli service enable a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=0iris
+  ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
+
+
+@张志强
+oracle issue补充
+
+缺陷：
+1）LatestHistory 无法通过 oracle edit 修改回 1 。 （除首次create的时候可以定义为1 以外。）
+
+2) oracle edit 没有拦截 time-out=0的情况， 实际交易会成功，但是参数不会被修改。 (作为参考：oracle create 遇到timeout=0会报错。)
+
+3）订阅过程中，中断huobi订阅服务，再重启，会导致response的交易invalid。目前尚不知是iservice-demo的问题,还是oracle/service这里的问题导致的，请开发排查。@程文席
+查询block-result提示:
+ {\"codespace\":\"service\",\"code\":120,\"message\":\"invalid response: request is not active\"}"
+
+4）目前看来，oracle在承受压力测试方面还有些问题， 多个feed外加中断等操作就会导致oracle不工作，具体原因还在测。
 ===========================================================================================================================================================================
+oracle issue补充
+
+缺陷：
+1）在一个timeout区块时段中，连续执行 pause feed 和 start feed 操作 ，会导致request/response逻辑错误， 凭空会多出request和response请求。应该是pause的时候逻辑处理有瑕疵。
+
+2）消费者错误的降低最高服务价格后（<绑定价格，服务终止）， 此后消费者重新修改并提高服务价格后(>绑定价格)，仍然无法重新获得服务!此处需要修复。
+
+3) oracle edit 修改Response Threshold > provider数量时，不拦截不报错。 (作为参考：create时会拦截。) 实际上这个threshold 完全不能被修改。
+
+4）ServiceFeeCap 在"oracle"和"service"查询的结果返回格式不一致。
+service request-context 返回 ServiceFeeCap: 1iris
+oracle query-feed 返回 ServiceFeeCap: 1000000000000000000iris-atto
+
+
+改进
+1）希望iservice能有log输出， 把监听情况，response的情况都输出来，便于测试。
+
+
+
 ===========================================================================================================================================================================
 ===========================================================================================================================================================================
 ===========================================================================================================================================================================

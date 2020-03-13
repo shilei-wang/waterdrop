@@ -34,10 +34,12 @@ iriscli params --module=service
     service/ArbitrationTimeLimit=120h0m0s    [5days,) (已测25)
     service/ComplaintRetrospect=360h0m0s     [15days,) (已测25)
     service/MaxRequestTimeout=20     [20,) (已测25)
-    service/MinDepositMultiple=10  [500,5000] (已测500)
+    service/MinDepositMultiple=1000  [10,5000] (已测500)
     service/ServiceFeeTax=0.0100000000  (0,0.2] (已测0.2)
     service/SlashFraction=0.0010000000  (0,0.01] (已测0.005)
     service/TxSizeLimit=4000         [2000,4000]   (已测2444)
+    service/MinDeposit=30000000000000000000000iris-atto
+
 
 ====
 slashing:

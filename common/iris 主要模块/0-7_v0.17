@@ -263,7 +263,7 @@ oracle
 //threshold 不能大约provider的个数
 //State初始=pause
 //--value-json-path="data.user.name"
-echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --service-fee-cap=1iris --timeout=60 --frequency=60 --total=-1 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f001
+echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --description=description --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --service-fee-cap=1iris --timeout=60 --frequency=60 --total=-1 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f002
 
 2. Query Feed
 iriscli oracle query-feed f001
@@ -277,11 +277,16 @@ echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee
 echo 1234567890 | iriscli oracle pause f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
 
 5. Update Feed
-echo 1234567890 | iriscli oracle edit --feed-name=f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=11
-// --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=1
+echo 1234567890 | iriscli oracle edit f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=1
+// --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=1 --description  --latest-history --service-fee-cap --timeout --frequency --total --threshold
 
 6. Query Feeds
 iriscli oracle query-feeds --state=running
+iriscli oracle query-feeds --state=paused
+
+//直接搜出所有的
+iriscli oracle query-feeds
+
 
 7. Query Value
 //这个很麻烦，需要分本地手动respond和调用sdk自动respond
@@ -365,5 +370,68 @@ echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v1 --fee=0
 //查询结果，等到一轮timeout以后出结果， 如果出现 400就说明成功了，取了2个的均值。 20块测单个feed可以， 60块测2个feed。
 iriscli oracle query-value f001
 
-----
+
+
+================================================================================
+================================================================================
+使用iservice 自动调用
+================================================================================
+================================================================================
+
+
+//下载编译
+cd /Users/sherlock/go/src/github.com/
+git clone https://github.com/chengwenxi/iservice-demo.git
+cd iservice-demo
+//2个参数要在代码里修改一下： PriceServiceName = "s001" ， ChainID = "shilei-qa"
+make install
+iservice -h
+
+//启动iris
+autoStart c 1
+
+//用iservice创建 2个provider 用户，因为后面iservice要用
+iservice keys add p1
+iriscli keys add p1 --recover  (use the above mnemonic)
+
+iservice keys add p2
+iriscli keys add p2 --recover
+
+echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=$(iriscli keys show p1 --address)
+echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=$(iriscli keys show p2 --address)
+
+
+//define && bind service
+echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/go/src/github.com/iservice-demo/iservice/service/service_definition.json --commit --name=s001
+
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=p1 --fee=0.004iris --commit --deposit=20000iris --pricing=/Users/sherlock/go/src/github.com/iservice-demo/iservice/service/service_pricing.json --service-name=s001
+
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=p2 --fee=0.004iris --commit --deposit=20000iris --pricing=/Users/sherlock/go/src/github.com/iservice-demo/iservice/service/service_pricing.json --service-name=s001
+
+
+
+//新开2个页面开始， 也可以用 & 后台运行
+iservice start p1 huobi   //这个api 需要翻墙 curl https://www.google.com
+iservice start p2 binance
+
+
+//create & start oracle feed  (link_usdt)
+echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=s001 --input="{\"base\":\"link\",\"quote\":\"usdt\"}" --providers=$(iriscli keys show p1 --address),$(iriscli keys show p2 --address) --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=2 --aggregate-func="avg" --value-json-path="price" --feed-name=f001
+
+//start feed
+echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+//check running:
+iriscli oracle query-feed f001
+//response 那里每5秒钟产生2个response
+//request只发一次交易产生一个context，后续的req都不再发交易了。 response确实每次返回都会产生一次交易。
+//看iris log每5个块会产生2个交易
+iriscli service request-context a8c8743540ccc77b32e95e21697430fec3aee53d74b759a3aa9a2b4c3dfef8f7
+
+//query feed value
+iriscli oracle query-value f001
+
+//删除context
+echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  60d6b49975a1caa072a22673f91326b993f79daa52f045a220db009ceecd177b
+
 

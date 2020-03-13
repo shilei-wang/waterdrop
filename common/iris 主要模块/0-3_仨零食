@@ -1,3 +1,115 @@
+
+*************************
+使用iservice 自动调用
+*************************
+
+//下载编译
+cd /Users/sherlock/go/src/github.com/
+git clone https://github.com/chengwenxi/iservice-demo.git
+cd iservice-demo
+//2个参数要在代码里修改一下： PriceServiceName = "s001" ， ChainID = "shilei-qa"
+make install
+iservice -h
+
+//启动iris
+autoStart c 1
+
+//用iservice创建 2个provider 用户，因为后面iservice要用
+iservice keys add p1
+ (use the above mnemonic)
+iriscli keys add p1 --recover
+
+iservice keys add p2
+iriscli keys add p2 --recover
+
+echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=$(iriscli keys show p1 --address)
+echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=$(iriscli keys show p2 --address)
+
+
+//define && bind service
+echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/go/src/github.com/iservice-demo/iservice/service/service_definition.json --commit --name=s001
+
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=p1 --fee=0.004iris --commit --deposit=20000iris --pricing=/Users/sherlock/go/src/github.com/iservice-demo/iservice/service/service_pricing.json --service-name=s001
+
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=p2 --fee=0.004iris --commit --deposit=20000iris --pricing=/Users/sherlock/go/src/github.com/iservice-demo/iservice/service/service_pricing.json --service-name=s001
+
+
+
+//新开2个页面开始， 也可以用 & 后台运行
+iservice start p1 huobi   //这个api 需要翻墙 curl https://www.google.com
+iservice start p2 binance
+
+
+//create & start oracle feed  (link_usdt)
+echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=s001 --input="{\"base\":\"link\",\"quote\":\"usdt\"}" --providers=$(iriscli keys show p1 --address),$(iriscli keys show p2 --address) --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=2 --aggregate-func="avg" --value-json-path="price" --feed-name=f001
+
+//start feed
+echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+//check running:
+iriscli oracle query-feed f001
+//response 那里每5秒钟产生2个response
+//request只发一次交易产生一个context，后续的req都不再发交易了。 response确实每次返回都会产生一次交易。
+//看iris log每5个块会产生2个交易
+iriscli service request-context DAA39F459C41ADB237EC7A1E94432E797ECAA916C4035D7EB449369D373E2250
+
+//query feed value
+iriscli oracle query-value f001
+
+//删除context
+echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  877a21aaef58dcffbd673b27104b09184c6316e8c247636f451b348c0cf5946d
+
+===========================================================================================================================================================================
+
+//create & start oracle feed  (link_usdt)
+echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=s001 --input="{\"base\":\"link\",\"quote\":\"usdt\"}" --providers=$(iriscli keys show p1 --address),$(iriscli keys show p2 --address) --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=2 --aggregate-func="avg" --value-json-path="price" --feed-name=f003
+
+//start feed
+echo 1234567890 | iriscli oracle start f003 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+//check running:
+iriscli oracle query-feed f003
+//response 那里每5秒钟产生2个response
+//request只发一次交易产生一个context，后续的req都不再发交易了。 response确实每次返回都会产生一次交易。
+//看iris log每5个块会产生2个交易
+iriscli service request-context 877a21aaef58dcffbd673b27104b09184c6316e8c247636f451b348c0cf5946d
+
+//query feed value
+iriscli oracle query-value f001
+
+echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  877a21aaef58dcffbd673b27104b09184c6316e8c247636f451b348c0cf5946d
+
+
+
+测一下停止~~~
+
+===========================================================================================================================================================================
+echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=a002
+
+
+echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --description=description --latest-history=10 --service-name=a002 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address) --service-fee-cap=1iris --timeout=60 --frequency=60 --total=-1 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f002
+
+// --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=1 --description  --latest-history --service-fee-cap --timeout --frequency --total --threshold
+
+
+
+echo 1234567890 | iriscli oracle edit f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --description=19 --timeout= --frequency=4
+
+iriscli oracle query-feed f001
+
+iriscli oracle query-value f001
+
+echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
+----
+
+
+===========================================================================================================================================================================
+===========================================================================================================================================================================
+===========================================================================================================================================================================
+===========================================================================================================================================================================
+
+
 // 广播
 echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign && iriscli tx broadcast ~/my_workspace/Tx-sign --commit
 
@@ -5,17 +117,17 @@ echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-i
 //
 autoStart c 1
 
-echo 1234567890 | iriscli keys add  v2
+echo 1234567890 | iriscli keys add v1
 
-iriscli keys add  v1 --recover
-caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
-
-echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1ma785u8pxjjggeq5j8uqxuhve0swrmcf62saxh
-
+echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=$(iriscli keys show v1 --address)
 
 echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --commit --name=a001
 
 
 echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
 
-iriscli service response 532999dee1daa7e706ca323f964045cd78bd698ed868de028524ce11b25a5f3a00000000000000040000
+echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
+
+
+
+echo
