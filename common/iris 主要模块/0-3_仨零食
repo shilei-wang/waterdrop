@@ -43,8 +43,10 @@ iservice start p2 binance
 //create & start oracle feed  (link_usdt)
 echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=s001 --input="{\"base\":\"link\",\"quote\":\"usdt\"}" --providers=$(iriscli keys show p1 --address),$(iriscli keys show p2 --address) --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=2 --aggregate-func="avg" --value-json-path="price" --feed-name=f001
 
+
 //start feed
 echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
+
 
 //check running:
 iriscli oracle query-feed f001
@@ -54,7 +56,10 @@ iriscli oracle query-feed f001
 iriscli service request-context DAA39F459C41ADB237EC7A1E94432E797ECAA916C4035D7EB449369D373E2250
 
 //query feed value
+iriscli oracle query-value f002
 iriscli oracle query-value f001
+iriscli oracle query-value f003
+
 
 //删除context
 echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  877a21aaef58dcffbd673b27104b09184c6316e8c247636f451b348c0cf5946d

@@ -14,10 +14,6 @@ iriscli service binding a001 $(iriscli keys show v0 --address)
 
 
 
-=======================================
-昨天发现的那个，重启后request invliad的bug，已经修复了。  动态的测试，突然之间状态就错了，就是重现比较困难 ，其他还好。
-多feed， 修改 iservice模拟各种错误返回， lcd
-
 
 
 
@@ -31,9 +27,9 @@ iriscli service binding a001 $(iriscli keys show v0 --address)
 
 //orcale 重测
 //oracle sdk自动响应的
-orcale lcd
+//orcale lcd
 
-oracle 的export测试 ？？？
+//oracle 的export测试 ？？？
 
 最后测一下refund
 
