@@ -86,6 +86,8 @@ echo 1234567890 | iriscli service refund-deposit a001 --chain-id=shilei-qa --fro
 
 【通过命令可以看当前时间】 date -u "+%Y-%m-%dT%H:%M:%SZ"
 
+iriscli bank account $(iriscli keys show v0 --address)
+
      ===========================
                 调用 （支持批量和重复）
      ===========================
@@ -464,7 +466,9 @@ iriscli service bindings rand
 
 3.request
 // 在(0,block-interval)之内可以通过 rand模块的rand-height查到该次请求
-    iriscli rand query-queue 1990
+    iriscli rand query-queue --queue-height=1344
+    iriscli rand query-queue
+
 // 在(block-interval, block-interval+timeout[service默认超时时间100块])只能可以通过 service模块的request-id查到该次请求
 // 现在request的第一条查询已经可以现实 request-id
     iriscli service request $(iriscli service requests rand $(iriscli keys show v0 --address) -o=json | jq -r .[0].id)
@@ -477,11 +481,13 @@ echo 1234567890 | iriscli rand request-rand --chain-id=shilei-qa --from=v0 --fee
 2）注意，10块以后查询service的request-id：
     --request-id = iriscli service requests rand $(iriscli keys show v0 --address) -o=json | jq -r .[0].id
 
+3）注意， rand的request是单次的， repeated=false
+
 4.respond
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --request-id=88916BA1ECFEC4EC45E64760268740E8C11E0D72B515466303356393D6EEEFB900000000000000010000 --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --commit
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --request-id=$(iriscli service requests rand $(iriscli keys show v0 --address) -o=json | jq -r .[0].id) --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --commit
 
 5.查询结果， 注意这里用的是rand模块的request-id ，小写的
-iriscli rand query-rand --request-id=ff4d166564e46543c536566962df0fe00f6adaedab7411fa346233231196feb6
+iriscli rand query-rand --request-id=ed60808a1907e7c240b5ce1b821420ba131ebee54f17c65cd01fe49df1a10cab
 
 
 

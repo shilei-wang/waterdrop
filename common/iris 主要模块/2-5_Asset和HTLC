@@ -3,7 +3,7 @@ Asset
 ****************************************************************************************
 iriscli keys show v0
 iriscli bank account faa1nw9467w5yc6t35g0duaqrg2v8up60awad84gse
-iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+iriscli bank account
 
 tax：
 iriscli bank account faa18rtw90hxz4jsgydcusakz6q245jh59kfrjhp52

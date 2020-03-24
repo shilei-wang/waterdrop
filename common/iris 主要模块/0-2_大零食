@@ -1,115 +1,84 @@
-
-测试 和random
-
-asset 和 random
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 
-----
-运行过程中unbinding 错误。
-多feed，3个以上的feed同时运行的情况， 等这轮bug都修复了再测。
-多feed， 修改 iservice模拟各种错误返回
-lcd
-----
-改进
-1、需要在gitlab的spec补充关于block-interval的说明
-
-================================================================================
+iriscli bank account $(iriscli keys show v0 --address)
 
 
-================================================================================
-random 随机数
-================================================================================
-================================================================================
+ iriscli asset issue-token -h
 
-1.定义
-echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --name=rand --description=description --author-description=author --tags=tag --schemas=/Users/sherlock/my_workspace/service/schemas_rand.json --commit
+******************************************
+15:
+******************************************
 
-//查询
-iriscli service definition rand
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native  --decimal=0 --symbol=a15 --name=a15 --initial-supply=100 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
 
-2.绑定
-echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --service-name=rand --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --commit
+iriscli asset query-token a15
 
-//查询
-iriscli service bindings rand
+------------
 
-3.request
-// 在(0,block-interval)之内可以通过 rand模块的rand-height查到该次请求
-    iriscli rand query-queue 1990
-// 在(block-interval, block-interval+timeout[service默认超时时间100块])只能可以通过 service模块的request-id查到该次请求
-// 现在request的第一条查询已经可以现实 request-id
-    iriscli service request $(iriscli service requests rand $(iriscli keys show v0 --address) -o=json | jq -r .[0].id)
+iriscli asset create-gateway --moniker=gatem --identity=gate --details=details --website=website --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
+
+iriscli asset issue-token --family=fungible --source=gateway --gateway=gatem --decimal=0 --symbol=g15 --name=g15 --initial-supply=100 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
+
+iriscli asset query-token gatem.g15
+
+------------
 
 
-echo 1234567890 | iriscli rand request-rand --chain-id=shilei-qa --from=v0 --fee=0.004iris --block-interval=10 --oracle=true --service-fee-cap=1iris --commit
+echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=2 --switch-height=1200 --threshold=0.9 --commit
 
-1）注意记录一下：rand模块的request-id，小写的：ff4d166564e46543c536566962df0fe00f6adaedab7411fa346233231196feb6
-
-2）注意，10块以后查询service的request-id：
-    --request-id = iriscli service requests rand $(iriscli keys show v0 --address) -o=json | jq -r .[0].id
-
-4.respond
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --request-id=88916BA1ECFEC4EC45E64760268740E8C11E0D72B515466303356393D6EEEFB900000000000000010000 --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --commit
-
-5.查询结果， 注意这里用的是rand模块的request-id ，小写的
-iriscli rand query-rand --request-id=ff4d166564e46543c536566962df0fe00f6adaedab7411fa346233231196feb6
-
-================================================================================
-================================================================================
-
-================================================================================
-================================================================================
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=shilei-qa  --proposal-id=2 --commit
 
 
-echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=s001 --input="{\"base\":\"link\",\"quote\":\"usdt\"}" --providers=$(iriscli keys show p1 --address),$(iriscli keys show p2 --address) --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=2 --aggregate-func="avg" --value-json-path="price" --feed-name=f001
+iriscli gov query-proposal --trust-node --proposal-id=2
+
+停链，换16
+
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+1200看
+iriscli upgrade info --trust-node
+iriscli asset query-token a15
+iriscli asset query-token gatem.g15
+iriscli bank account $(iriscli keys show v0 --address)
 
 
+******************************************
+16:
+******************************************
 
-{
-  "base_tx": {
-    "chain_id": "shilei-qa",
-    "gas": "20000",
-    "fee": "0.004iris",
-    "memo": "memo"
-  },
-  "feed_name": "f002",
-  "aggregate_func": "min",
-  "value_json_path": "price",
-  "latest_history": "2",
-  "description": "description",
-  "creator": "faa1xccwgmzlljvrxsdg48dr9gs9x0p22a62h4mpgm",
-  "service_name": "s001",
-  "providers": [
-    "faa1ysm5gqg86j0rg2dyvya7ktkehtcxze8p3cg94u",
-    "faa19w32xp4kmc9faulsxjtw292v4qfs6mg6x4hcgd"
-  ],
-  "input": "{\"base\":\"link\",\"quote\":\"usdt\"}",
-  "timeout": "5",
-  "service_fee_cap": "1iris",
-  "repeated_frequency": "5",
-  "repeated_total": "-1",
-  "response_threshold": 2
-}
-----------------
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native  --decimal=0 --symbol=a16 --name=a16 --initial-supply=100 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
 
-{
-  "base_tx": {
-    "chain_id": "irishub-test",
-    "gas": "20000",
-    "fee": "0.4iris",
-    "memo": "memo"
-  },
-  "creator": "faa1r93p0tpdlxgpac744rghvj9kqntvd54lc3msk2"
-}
+iriscli asset query-token a16
 
-----------------
+------------
 
-echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
-iriscli tx broadcast ~/my_workspace/Tx-sign --commit
+iriscli asset create-gateway --moniker=gatem16 --identity=gate --details=details --website=website --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
+
+iriscli asset issue-token --family=fungible --source=gateway --gateway=gatem16 --decimal=0 --symbol=g16 --name=g16 --initial-supply=100 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
+
+iriscli asset query-token gatem16.g16
+
+------------
 
 
+echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=3 --switch-height=100 --threshold=0.9 --commit
 
-----------------
-----------------
-----------------
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=shilei-qa  --proposal-id=1 --commit
+
+
+iriscli gov query-proposal --trust-node --proposal-id=1
+
+停链，换17
+
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+1500看
+iriscli upgrade info --trust-node
+iriscli asset query-token a15
+iriscli asset query-token gatem.g15
+iriscli asset query-token a16
+iriscli asset query-token gatem16.g16
+iriscli bank account $(iriscli keys show v0 --address)
+
 

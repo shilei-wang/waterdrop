@@ -1,48 +1,16 @@
 
-autoStart c 1
-
-irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd/ --trust-node
-
-iriscli keys show v0
-faa1wp2vs7kws7fyznae8ycyv94dts8ue5tx4t9u6s
+asset 测完了（包括负向 lcd， 有些的bug 明天一起发）  只剩一个多版本兼容性测试 明天测一下就结束了。
 
 
-iriscli service binding a001 $(iriscli keys show v0 --address)
+asset完毕 ，bug ， 多版本测试。
 
-=======================================
-
-
-
-
+周六
+空调（下水的问题，装在哪里噪音最小）
+插头的事情 搞定
 
 
-
-=======================================
-
-
-//service lcd
-//service的参数治理
-//service genesis的export测试
-//bug 验证
-
-//orcale 重测
-//oracle sdk自动响应的
-//orcale lcd
-
-//oracle 的export测试 ？？？
-
-最后测一下refund
-
-
-=======================================
 =======================================
 
 ============================最后看下
 ==========================================
-
-
-//x修改genesis
-echo 1234567890 | iriscli service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
-
-refund-deposit cli lcd都要测一下 改genensis
 
