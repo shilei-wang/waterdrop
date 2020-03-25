@@ -289,3 +289,45 @@ iriscli asset query-token x.a01
 
 iriscli bank token-stats x.a01 -o=json --indent （这个好像有bug）
 
+
+
+****************************************************************************************
+                老版本asset，用于测试升级
+****************************************************************************************
+******************************************
+v16
+******************************************
+
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native  --decimal=0 --symbol=a16 --name=a16 --initial-supply=100 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
+
+iriscli asset query-token a16
+
+------------
+
+iriscli asset create-gateway --moniker=gatem16 --identity=gate --details=details --website=website --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
+
+iriscli asset issue-token --family=fungible --source=gateway --gateway=gatem16 --decimal=0 --symbol=g16 --name=g16 --initial-supply=100 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
+
+iriscli asset query-token gatem16.g16
+
+------------
+
+
+echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=3 --switch-height=4100 --threshold=0.9 --commit
+
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=shilei-qa  --proposal-id=1 --commit
+
+
+iriscli gov query-proposal --trust-node --proposal-id=1
+
+停链，换17
+
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+1500看
+iriscli upgrade info --trust-node
+iriscli asset query-token a15
+iriscli asset query-token gatem.g15
+iriscli asset query-token a16
+iriscli asset query-token gatem16.g16
+iriscli bank account $(iriscli keys show v0 --address)
