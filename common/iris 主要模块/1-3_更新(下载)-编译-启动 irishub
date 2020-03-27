@@ -124,11 +124,8 @@ gedit scripts/setTestEnv.sh
 go mod download (如果依赖变了，则要执行这个操作)
 
 方便测试，自动化测试，改genesis：
-go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go mg
-autoStart mg
-
 source scripts/setTestEnv.sh
-
+autoStart mg
 
 ******************************************
    编译 irishub // curl www.google.com

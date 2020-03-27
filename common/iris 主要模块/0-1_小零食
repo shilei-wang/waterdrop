@@ -1,40 +1,44 @@
 =======================================
-
-asset invarint 多版本
-count增加 这个要吻戏
 service 重新测
+
+
+genesis导出 多种情况测试覆盖
+
+CoinSwap 还是要多测
+CoinSwap module APIs
+
+
+--min-resp-time=5
+
+
 自己的bug
-issue在检查一遍
-
-=======================================
-周六
-1.空调
-    1）下水的问题
-    2）装在哪里噪音最小
-
-2.插头
-    周六出图。
-
-3.看柜子
-    问下有没有质量好点的纯木，差的不要。
-
-4.看瓷砖
-    阳台小砖不好看
-
-5.窗
-    确定9600，还有纱窗款式
-    瓷砖什么时候贴
-    内部的窗什么时候拆
-
-6.其他
-    大门要换什么时候换
-    墙固的事问下
-
-
-
-
 =======================================
 
-============================最后看下
+
+=============================
+
+
+多feed，3个以上的feed同时运行的情况， 等这轮bug都修复了再测。
+多feed， 修改 iservice模拟各种错误返回
+
+=============================
+
+genesis coinswap 都有点问题 bug周一统一提交吧
+
+============================最后看下=======================================
 ==========================================
+
+iriscli service call -h  bug--
+
+iriscli service call --chain-id=<chain-id> --from=<key-name> --fee=0.3iris --service-name=<service-name> --providers=<provider list> --service-fee-cap=1iris --data=<input content or path> -timeout=100 --repeated --frequency=150 --total=100
+
+
+===
+
+GET /coinswap/liquidities/{voucher-coin-name} 查询流动性 不行
+
+===
+
+
+genesis 有点问题
 

@@ -1,18 +1,11 @@
+service/asset 复测后，发现的新issue 。￼￼￼@程文席  @张志强  @苏海伟
 
-asset refactor 测试完毕。
+严重缺陷:
+1) oracle服务 'pause'后重新'start' feed ，服务无法正常恢复。
 
-重要缺陷：
-1）The latest asset refactor causes "CONSENSUS FAILURE" after software-upgrade
-https://github.com/irisnet/irishub/issues/2310
-
-缺陷：
-1）POST /asset/tokens ： lcd 不支持参数min_unit_alias，  该参数无效。  （min_unit cli端支持）
-2）GET /asset/tokens/{symbol}/fee ：未对输入的symbol参数进行格式检查，导致输入一个symbol="a1"，也可以查出错误issue费用。（另外，其他的post等对没有对symbol的格式做出检查）
-
-改进：
-1）编辑Token， 名称并非必填项， spec写的是必填项， 需要更新一下。
-2）issue token , mint token 中 amount都不支持小数。
-
+缺陷:
+1) iriscli oracle query-feed 仍然存在 RepeatedTotal 字段，  该字段已经在创建oracle的时候被删除。
+2）POST /asset/tokens 无论 "decimal" 设置任何数字，  构造交易的时候都会变成0.
 
 ====
 random 测试issue
