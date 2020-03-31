@@ -1,19 +1,31 @@
+
 =======================================
+result 结果 和 price折扣（各种逻辑）
+
 service 重新测
 
-
-genesis导出 多种情况测试覆盖
-
-CoinSwap 还是要多测
-CoinSwap module APIs
-
-
 --min-resp-time=5
-
-
 自己的bug
+
+genesis导出 多种情况测试覆盖(后续bug修了再测。)
+
 =======================================
 
+苏海伟:增加了result schema ，respond的时候用result表示处理结果，code=200表示处理成功，需提供output。非200表示处理有问题(400是consumer的参数问题，500是provider的问题)。当code为200时，如果给定的output不符合定义时的output schema，会slash provider 和refund consumer。
+王石磊:好的
+苏海伟:pricing schema里面增加了 promotion 字段，可选，可以按时间，也可以按交易量。都按递增顺序。
+苏海伟:每一种最多5个
+
+https://gitlab.bianjie.ai/irishub/internal-spec/blob/v0.17.0/service/new_service_spec.md
+
+
+
+
+
+=======================================
+测网络
+激光电视
+看下原来记录的注意事项
 
 =============================
 
@@ -23,22 +35,5 @@ CoinSwap module APIs
 
 =============================
 
-genesis coinswap 都有点问题 bug周一统一提交吧
 
-============================最后看下=======================================
-==========================================
-
-iriscli service call -h  bug--
-
-iriscli service call --chain-id=<chain-id> --from=<key-name> --fee=0.3iris --service-name=<service-name> --providers=<provider list> --service-fee-cap=1iris --data=<input content or path> -timeout=100 --repeated --frequency=150 --total=100
-
-
-===
-
-GET /coinswap/liquidities/{voucher-coin-name} 查询流动性 不行
-
-===
-
-
-genesis 有点问题
 

@@ -1,2 +1,0 @@
-
-echo 1234567890 | iriscli oracle create --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --latest-history=10 --service-name=s001 --input="{\"base\":\"link\",\"quote\":\"usdt\"}" --providers=$(iriscli keys show p1 --address) --service-fee-cap=1iris --timeout=5 --frequency=5 --threshold=1 --aggregate-func="avg" --value-json-path="price" --feed-name=f001

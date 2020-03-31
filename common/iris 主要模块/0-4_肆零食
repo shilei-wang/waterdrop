@@ -1,3 +1,23 @@
+
+
+service、coinswap issue 补充：
+
+缺陷：
+1）genesis export 有问题，oracle无法恢复 （等修复后再测）
+2）GET /coinswap/liquidities/{voucher-coin-name} 查询流动性 不可用错误 （最新版本，已修复）
+3）iriscli service call -h 中 "-timeout=100" 缺少了一个横杠
+
+改进：
+1）service bind spec 中 json例子有错误，多了一个逗号，导致bind时报错
+{
+    "volume": 10000,
+    "discount": "0.5"
+},
+
+
+
+        
+
 service/asset 复测后，发现的新issue 。￼￼￼@程文席  @张志强  @苏海伟
 
 严重缺陷:
