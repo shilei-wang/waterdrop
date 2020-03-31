@@ -1,0 +1,40 @@
+
+
+
+
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --service-name=a001  --timeout=100 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address)
+
+iriscli service requests a001 $(iriscli keys show v0 --address)
+
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --result='{"code":200,"message":"it500"}' --request-id=$(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].id)
+
+
+
+iriscli service response EED580BC5ACC2FCCBEB5AA28409B6103415E52E0AA851369AF96E9147BC231AC0000000000000000000000000000000100000000000020240000
+
+
+iriscli service fees $(iriscli keys show v0 --address)
+
+iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+
+
+5.049iris
+15.89637744iris
+
+
+====
+
+echo 1234567890 | iriscli service update-binding a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --pricing=/Users/sherlock/my_workspace/service/pricing.json
+
+
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].id)
+
+
+
+
+iriscli service binding a001 $(iriscli keys show v0 --address)
+
+ 19940.05998iris
+
+9.8931048iris
+9.89269584iris

@@ -15,7 +15,7 @@ iriscli bank account $(iriscli keys show v0 --address)
 iriscli keys add v1 --recover
 caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
 
-echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 1234567890 | iriscli bank send --amount=21iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 
@@ -135,44 +135,21 @@ iriscli service requests bc8a7c6a6d10f264b2ad39abb97f5f04101f882d02ae8c2c1487129
 
 12.相应请求
 //因为速度比较快，要连续操作， 20块*2秒就超时了
-1）调用 ：这里只用单人的，
-// 记录块高度！！
-echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --service-name=a001 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address)
-
-//2）查request-id ： 只有出块后才可以在block-result里查到对应的块"高度"时的request-id （注意和request-context-id不是一个东西 ）
-//这条只供看看 ，可以不执行
-//iriscli tendermint block-result 1063 --chain-id=shilei-qa
-//--request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value)
-
-iriscli service request 0f9a00ce98d1233c8ca7f077880e791c6e0b4857d941a75a62b00fe26de3f1f400000000000000190000
-
-3）调用response ： 用jq的方式快速读出json值
-//注意 "高度值"
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --data="{\"data\": \"userdata\"}" --request-id=$(iriscli tendermint block-result 2674 --chain-id=shilei-qa | jq -r .results.end_block.tags[1].value)
-
-//重复的请求， id在tags[5]。  tags[1]是上次slash的 request id。
 //上下文context-id 管整个循环，request-id 管单次请求。
 
+1）调用
+echo 1234567890 | iriscli service call --chain-id=shilei-qa --from=v1 --fee=0.004iris --commit --service-name=a001  --timeout=100 --service-fee-cap=1iris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iriscli keys show v0 --address)
 
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --data="{\"data\": \"userdata\"}" --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value)
+2）查request-id，后面查response要用
+iriscli service requests a001 $(iriscli keys show v0 --address)
 
+3）调用response
+//code=200成功，需提供output。非200表示处理有问题(400是consumer的参数问题，500是provider的问题)。
+//当code为200时，如果给定的output不符合定义时的output schema，会slash provider 和refund consumer。
+echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].id)
 
-13.查询相应请求
-//上条也会返回request id
+4）查询相应请求 ，用"2）"返回request id
 iriscli service response <request id>
-
-//沿用上面的高度，并替换
-iriscli service response $(iriscli tendermint block-result 2674 --chain-id=shilei-qa | jq -r .results.end_block.tags[1].value)
-
-
----
-查询error的respond
----
-//data 换成error 即可 , error和data不能共存
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --error="{\"msg\": \"userdata\"}" --request-id=$(iriscli tendermint block-result $(iriscli service requests a001 $(iriscli keys show v0 --address) -o=json | jq -r .[0].request_height) --chain-id=shilei-qa | jq -r .results.end_block.tags[5].value)
-
-//记得保存上条会返回的request id
-iriscli service response 69914805ee50573828580f941e92a852dfd0ee62d4f0f5e77deff111e414d1cb00000000000000420000
 
 
      ===========================
