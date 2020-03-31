@@ -1,1 +1,0 @@
-iriscli service binding a001 $(iriscli keys show v0 --address)
