@@ -1,3 +1,7 @@
+重复的service：
+iriscli service requests 查询的时候：没有把已经kill掉context过滤掉。 查询的数组前几个都是空的数据组合（faa108w3x8）
+
+
 
 
 service、coinswap issue 补充：
