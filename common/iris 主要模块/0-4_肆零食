@@ -1,23 +1,3 @@
-重复的service：
-iriscli service requests 查询的时候：没有把已经kill掉context过滤掉。 查询的数组前几个都是空的数据组合（faa108w3x8）
-
-
-
-
-service、coinswap issue 补充：
-
-缺陷：
-1）genesis export 有问题，oracle无法恢复 （等修复后再测）
-2）GET /coinswap/liquidities/{voucher-coin-name} 查询流动性 不可用错误 （最新版本，已修复）
-3）iriscli service call -h 中 "-timeout=100" 缺少了一个横杠
-
-改进：
-1）service bind spec 中 json例子有错误，多了一个逗号，导致bind时报错
-{
-    "volume": 10000,
-    "discount": "0.5"
-},
-
 
 
         
@@ -92,9 +72,7 @@ b. description参数超过上限后，返回的error message有乱码。 "%!d(MI
 3）oracle edit
 --feed-name 改成<feed-name> 后， -help中flag : "--feed-name string         The unique identifier of the feed"未同步修改
 
-另外，service 仍然存在 0iris，签名失败的bug。@程文席
-4）echo 1234567890 | iriscli service enable a001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit --deposit=0iris
-  ERROR: {"codespace":"sdk","code":4,"message":"signature verification failed"}
+
 
 
 @张志强

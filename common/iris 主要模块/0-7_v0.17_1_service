@@ -182,7 +182,7 @@ echo 1234567890 | iriscli service update --chain-id=shilei-qa --from=v0 --fee=0.
 5. 终止请求上下文
 // state变成complete
 // 非repeated 不能kill
-echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  50CC27B9CCC9C3D9817307C46A9DF3617E5C1C745EB1CC7CF4E431C4A9D214A50000000000000000
+echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  D1CA04D63DB06F373606ECD4AEBDB4287455358D0117806C2BF886669BCD47B60000000000000000
 
 6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
 //列表只有有效的才会被查出， 但是iriscli service request-context 永远能查出）
