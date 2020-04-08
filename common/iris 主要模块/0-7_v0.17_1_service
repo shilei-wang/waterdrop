@@ -379,7 +379,7 @@ echo 1234567890 | iriscli rand request-rand --chain-id=shilei-qa --from=v0 --fee
 echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --request-id=$(iriscli service requests random $(iriscli keys show v0 --address) -o=json | jq -r .[0].id) --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --result='{"code":200,"message":"ok"}' --commit
 
 5.查询结果， 注意这里用的是rand模块的request-id
-iriscli rand query-rand D46E79DEC8790DB0369344DBE722BE036057EA6354A2AEA9339A87740C28A47C
+iriscli rand query-rand E9157B07F94E731FE3383937AB236AF677C924FEB43F31151ABB7B4559193354
 
 
 

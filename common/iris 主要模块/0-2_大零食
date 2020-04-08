@@ -1,0 +1,19 @@
+
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.4iris --from=v0 --chain-id=test  --proposal-id=4 --commit
+
+iriscli gov query-proposal --trust-node --proposal-id=
+
+iriscli upgrade info --trust-node
+
+
+echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=test >~/my_workspace/Tx-sign
+
+
+iriscli tx broadcast ~/my_workspace/Tx-sign --commit
+
+
+
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd/ --trust-node
+
+
+http://localhost:1317/coinswap/liquidities/uni:a01

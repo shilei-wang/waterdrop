@@ -1,10 +1,43 @@
 
+//只修改duration 其他不动
+autoStart gd 1
+
+******************************************
+v16
+******************************************
+
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native  --decimal=0 --symbol=a01 --name=a01 --initial-supply=100 --from=v0 --chain-id=test --fee=0.4iris --commit
+
+iriscli asset query-token a01
+
+------------
+
+iriscli asset create-gateway --moniker=gate01 --identity=gate --details=details --website=website --from=v0 --chain-id=test --fee=0.4iris --commit
+
+iriscli asset issue-token --family=fungible --source=gateway --gateway=gate01 --decimal=0 --symbol=g01 --name=g01 --initial-supply=100 --from=v0 --chain-id=test --fee=0.4iris --commit
+
+iriscli asset query-token gate01.g01
+
+------------
 
 
-1）genesis export 有问题，oracle无法恢复 （等修复后再测）
+echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=3 --switch-height=4100 --threshold=0.9 --commit
+
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=test  --proposal-id=3 --commit
 
 
-===========
-service：
+iriscli gov query-proposal --trust-node --proposal-id=1
 
-iriscli service requests 查询的时候：没有把已经kill掉context过滤掉。 查询的数组前几个都是空的数据组合（faa108w3x8）
+停链，换17
+
+iris start --home=/Users/sherlock/v0
+
+1500看
+iriscli upgrade info --trust-node
+iriscli asset query-token a15
+iriscli asset query-token gatem.g15
+iriscli asset query-token a16
+iriscli asset query-token gatem16.g16
+iriscli bank account $(iriscli keys show v0 --address)
+
+

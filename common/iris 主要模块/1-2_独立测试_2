@@ -248,3 +248,44 @@ iriscli monitor -n=tcp://10.1.2.168:46657 （iris哪里log应该正常 没有红
 打开rest端口
 irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=shilei-qa --trust-node
 http://120.79.226.163:1317/keys
+
+*****************************
+    api兼容性测试
+*****************************
+【看一下这些接口 在最新iris17下， 分别用lcd16 和 17同时使用， 看调用和返回的数值是否一致】
+/node-info
+
+/tx/broadcast
+/tx/broadcast?commit=false&async=false&simulate=false
+/tx/broadcast?simulate=true
+/txs
+/txs/{hash}
+
+/block-results
+/blocks/{height}
+/blocks/latest
+
+/bank/accounts/{address}
+/bank/accounts/[$delegatorAddr]
+
+/stake/delegators/[$delegatorAddr]/delegations
+/stake/delegators/${addr}/redelegations
+/stake/delegators/[$delegatorAddr]/validators
+/stake/delegators/[$delegatorAddr]/delegations/[$validatorAddr]
+/stake/delegators/{delegatorAddr}/validators/{validatorAddr}
+/stake/delegators/[$delegator]/unbonding-delegations
+/stake/delegators/[$deelegator]/unbonding_delegations/[$validatorAddr]
+/stake/delegators/{delegatorAddr}/unbonding-delegations
+
+/stake/validators/[$validatorAddr]
+/stake/validators
+/stake/validators?page=${page}&size=${perPage}
+/stake/pool
+/stake/parameters
+
+/gov/proposals
+/distribution/${addr}/withdraw-address
+/distribution/{address}/rewards
+/slashing/validators/${validatorPubKey}/signing-info
+/slashing/validators/{validatorPubKey}/signing_info
+
