@@ -2,16 +2,38 @@
 
 =======================================
 
-
-自己的bug
 genesis导出 多种情况测试覆盖(后续bug修了再测。)
 多feed， 修改 iservice模拟各种错误返回
 
 =======================================
 
 看下原来记录的注意事项
+========================================
+
+
+
+1）genesis export 有问题，oracle无法恢复 （等修复后再测）
+   service的genesis导出还存在逻辑改进的空间， 现在导出genesis会造成所有definition，binding丢失， oracle那边逻辑就无意义了， 开发可以就此问题商讨一个合理解决方案。
+
+
+===========
+service：
+
+iriscli service requests 查询的时候：没有把已经kill掉context过滤掉。 查询的数组前几个都是空的数据组合（faa108w3x8）
+
 
 
 =============================
 
+
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd/ --trust-node
 iris start --home=/Users/sherlock/testnet/v0/iris
+
+=============================
+
+还没测 有时间测一下是否一致。
+
+/stake/delegators/[$deelegator]/unbonding_delegations/[$validatorAddr]
+/stake/delegators/${addr}/redelegations
+/slashing/validators/${validatorPubKey}/signing-info
+/slashing/validators/{validatorPubKey}/signing_info
