@@ -21,13 +21,7 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 
 
 echo 1234567890 | iriscli oracle pause f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
-
-
-
 echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
-
-
-
 
 
 ================================================================================
