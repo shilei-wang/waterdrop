@@ -283,7 +283,7 @@ iriscli oracle query-value f001
 cd /Users/sherlock/go/src/github.com/
 git clone https://github.com/chengwenxi/iservice-demo.git
 cd iservice-demo
-//2个参数要在代码里修改一下： PriceServiceName = "s001" ， ChainID = "shilei-qa"
+//2个参数要在代码里修改一下： PriceServiceName = "s001" ， ChainID = "shilei-qa" ，types.Commit改成 types.Sync
 make install
 iservice -h
 
@@ -292,7 +292,7 @@ cd /Users/sherlock/go/src/github.com/iservice-demo
 git fetch --all
 git checkout .  //放弃当前目录下的修改
 git pull
-//2个参数要在代码里修改一下： PriceServiceName = "s001" ， ChainID = "shilei-qa"
+//2个参数要在代码里修改一下： PriceServiceName = "s001" ， ChainID = "shilei-qa"， types.Commit改成 types.Sync
 make install
 
     **************
@@ -315,6 +315,7 @@ echo 1234567890 | iriscli bank send --amount=15000000iris --fee=0.004iris --comm
 
 
 //define && bind service
+//min-resp-time=5 注意 后续小于5块的请求会被过滤掉
 echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.004iris --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/go/src/github.com/iservice-demo/iservice/service/service_definition.json --commit --name=s001
 
 echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=p1 --fee=0.004iris --commit --deposit=20000iris --min-resp-time=5 --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=s001
@@ -326,6 +327,10 @@ echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=p2 --fee=0.00
 //新开2个页面开始， 也可以用 & 后台运行
 iservice start p1 huobi   //这个api 需要翻墙 curl https://www.google.com
 iservice start p2 binance
+
+也可以不联网 ，自己产生假数据
+iservice start p1
+iservice start p2
 
 
 //create & start oracle feed  (link_usdt)
@@ -343,6 +348,19 @@ iriscli service request-context 643FC9D539F43F22938D0B8A15A292C6E4076FCBC11CA929
 
 //query feed value
 iriscli oracle query-value f001
+
+================================================================================
+================================================================================
+iservice 压力测试 iservice start p2之后，不要create oracle
+================================================================================
+================================================================================
+//第一个参数 一共发出几个请求。
+//第二个参数 每个请求重复几次
+
+/Users/sherlock/my_workspace/service/test.sh 2 2
+
+
+
 
 ================================================================================
 ================================================================================
@@ -381,5 +399,33 @@ echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0
 5.查询结果， 注意这里用的是rand模块的request-id
 iriscli rand query-rand E9157B07F94E731FE3383937AB236AF677C924FEB43F31151ABB7B4559193354
 
+================================================================================
+================================================================================
+iservice 没改代码版本
+================================================================================
+================================================================================
 
+iservice keys add provider1
+iriscli keys add provider1 --recover
+
+iservice keys add provider2
+iriscli keys add provider2 --recover
+
+service_name=price_service
+echo 1234567890 | iriscli service define --chain-id=test --from=v0 --fee=0.3iris --name=$service_name --description="provide token price" --tags=price --schemas=/Users/sherlock/go/src/github.com/iservice-demo/iservice/service/service_definition.json --commit
+
+
+echo 1234567890 | iriscli bank send --from=v0 --to=$(iriscli keys show provider1 -o json | jq -r '.address') --amount=1000000iris --chain-id=test --fee=0.3iris --commit
+echo 1234567890 | iriscli bank send --from=v0 --to=$(iriscli keys show provider2 -o json | jq -r '.address') --amount=1000000iris --chain-id=test --fee=0.3iris --commit
+
+echo 1234567890 | iriscli service bind --chain-id=test --from=provider1 --fee=0.3iris --service-name=$service_name --deposit=100000iris --min-resp-time=2 --pricing=/Users/sherlock/my_workspace/service/pricing.json --commit
+echo 1234567890 | iriscli service bind --chain-id=test --from=provider2 --fee=0.3iris --service-name=$service_name --deposit=100000iris --min-resp-time=2 --pricing=/Users/sherlock/my_workspace/service/pricing.json --commit
+
+iriscli service bindings $service_name
+
+iservice start provider1
+iservice start provider2
+
+
+/Users/sherlock/my_workspace/service/test.sh 1000 200
 
