@@ -1,80 +1,45 @@
 
-
-irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd/ --trust-node
-iris start --home=/Users/sherlock/testnet/v0/iris
-
-=============================
+iriscli query account cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27
 
 
 
-//bank
-iriscli keys show v0
-iriscli query account $(iriscli keys show v0 --address)
-iriscli tx send v0 $(iriscli keys show v0 --address) 1stake --chain-id=shilei-qa --fees=4stake -b block -y
+
+iriscli tx sign -h
 
 
-//发行资产
-iriscli tx token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --symbol=a01
+cosmos1355dcxjtnyfzaqucu3pw6t2kl78s8vklzgy4sh
 
-//目前转账只能用最小单位 不能用大单位
-iriscli tx send v0 cosmos14s4zu4md9u26xfpezvcvv7j905698gsgd7fnw8 1kitty --chain-id=shilei-qa --fees=4stake -b block -y
+iriscli query account cosmos1355dcxjtnyfzaqucu3pw6t2kl78s8vklzgy4sh
 
-
-//查询目前所有tokens
-iriscli query token tokens
-
-//查询单个
-iriscli query token token a01
-
-//查询指定 owner 的全部资产：(gateway资产不会被查询)
-iriscli query token tokens $(iriscli keys show v0 --address)
-
-======================
-修改资产：
-======================
-iriscli tx token edit a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-
-
-======================
-增发资产：
-======================
-iriscli tx token mint a01 --amount=1 --to=cosmos14s4zu4md9u26xfpezvcvv7j905698gsgd7fnw8 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query account $(iriscli keys show v1 --address)
-
-
-
-======================
-转让asset：
-======================
-
-iriscli tx token transfer a01 --to=cosmos14s4zu4md9u26xfpezvcvv7j905698gsgd7fnw8 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-
-iriscli query token token a01
-
-
-======================
-查询fee
-======================
-iriscli query token fee a01
-
-
-*******************************************
-record
-*******************************************
-1. [交易] 提交存证
-// --description="hahaha" --onchain-data="shelwin flighting"
-iriscli tx record create --chain-id=shilei-qa "hahaha" "flighting" --from=v0 --fees=4stake -b block -y
-
-2. 查询存证
-iriscli query record record c53158f4832db704f1a5dbe703b624376028c781bde8b83fc3f9f8e79ef8395b
-
-
-*******************************************
-LCD
-*******************************************
-
-iriscli rest-server --trust-node  --home=/home/shilei/testnet/v0/iritacli
-
-
-
+{
+  "height": "0",
+  "result": [
+    {
+      "type": "irismod/token/Token",
+      "value": {
+        "symbol": "stake",
+        "name": "Network staking token ",
+        "scale": 0,
+        "min_unit": "stake",
+        "initial_supply": "2000000000",
+        "max_supply": "10000000000",
+        "mintable": true,
+        "owner": "cosmos183rfa8tvtp6ax7jr7dfaf7ywv870sykxnxkgss"
+      }
+    },
+    {
+      "type": "irismod/token/Token",
+      "value": {
+        "symbol": "a01",
+        "name": "token-name",
+        "scale": 0,
+        "min_unit": "kitty",
+        "initial_supply": "10000",
+        "max_supply": "30000",
+        "mintable": true,
+        "owner": "cosmos1355dcxjtnyfzaqucu3pw6t2kl78s8vklzgy4sh"
+      }
+    }
+  ]
+}
 

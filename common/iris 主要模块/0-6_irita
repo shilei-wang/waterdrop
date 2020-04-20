@@ -13,10 +13,11 @@ git checkout -b develop upstream/develop   //git branch 建立本地develop代�
 git branch
 
 
-编译：
+更新：
 cd /Users/sherlock/go/src/github.com/irita
 git fetch --all
 git checkout .
+git merge origin/master
 git branch && git rev-parse HEAD
 
 ---
