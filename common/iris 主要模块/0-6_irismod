@@ -1,0 +1,38 @@
+
+=====================================================================================================================
+=====================================================================================================================
+======    irismod ====================================================================================================
+=====================================================================================================================
+=====================================================================================================================
+//https://github.com/chengwenxi/irismod-test.git
+
+//编译
+cd /Users/sherlock/go/src/github.com/
+mkdir irismod
+cd irismod
+git clone https://github.com/chengwenxi/irismod-test.git
+cd irismod-test
+go mod tidy
+make install
+
+//更新
+cd /Users/sherlock/go/src/github.com/irismod/irismod-test
+git fetch --all
+git checkout .
+git merge origin/master
+make install
+
+
+
+他会覆盖原有的iris 和 iriscli
+
+》》注意目前这种方式是用的系统秘钥《《
+用钥匙串的方式 （如果锁定失效了  可以钥匙串》文件》解锁钥匙串登录里点一下开启）
+
+//自己起来
+cd ~ && rm -rf .iriscli .iris testnet
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
+iris start --home=/Users/sherlock/testnet/v0/iris
+mv /Users/sherlock/testnet/v0/iriscli /Users/sherlock/.iriscli
+iriscli keys list
+

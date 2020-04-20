@@ -1,0 +1,9 @@
+//查询目前所有tokens
+iriscli query token tokens 有问题
+
+iriscli query token tokens $(iriscli keys show v0 --address)
+
+
+
+转账时，新的token不用用最大单位， 客户端客户端么有转换
+

@@ -1,86 +1,80 @@
 
 
-genesis导出 多种情况测试覆盖(后续bug修了再测。)
-多feed， 修改 iservice模拟各种错误返回
-
-=======================================
-
-service：
-
-iriscli service requests 查询的时候：没有把已经kill掉context过滤掉。 查询的数组前几个都是空的数据组合（faa108w3x8）
-
-
-=============================
-
-
 irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd/ --trust-node
 iris start --home=/Users/sherlock/testnet/v0/iris
 
 =============================
 
-还没测 有时间测一下是否一致。
-
-/stake/delegators/[$deelegator]/unbonding_delegations/[$validatorAddr]
-/stake/delegators/${addr}/redelegations
-/slashing/validators/${validatorPubKey}/signing-info
-/slashing/validators/{validatorPubKey}/signing_info
 
 
-=============================
-联合测试升级
-=============================
-
-iriscli keys add v0 --recover
-caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
-x1 = faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
-
-iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
-
-===  创建验证人 ===
+//bank
+iriscli keys show v0
+iriscli query account $(iriscli keys show v0 --address)
+iriscli tx send v0 $(iriscli keys show v0 --address) 1stake --chain-id=shilei-qa --fees=4stake -b block -y
 
 
-iris tendermint show-validator --home=/Users/sherlock/v0
-echo 1234567890 | iriscli stake create-validator --pubkey=fcp1zcjduepq33d8pq85ad5975rhsm44qt64n8l92w3vhv9jyde3f7wky320qecs4a3sgc --moniker=v0 --amount=100iris --fee=0.4iris --from=v0 --chain-id=test --commission-rate=0.21 --commit
-iriscli stake validators
+//发行资产
+iriscli tx token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --symbol=a01
 
-===  asset ===
-
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=native  --decimal=0 --symbol=a01 --name=a01 --initial-supply=100 --from=v0 --chain-id=test --fee=0.4iris --commit
+//目前转账只能用最小单位 不能用大单位
+iriscli tx send v0 cosmos14s4zu4md9u26xfpezvcvv7j905698gsgd7fnw8 1kitty --chain-id=shilei-qa --fees=4stake -b block -y
 
 
-iriscli asset create-gateway --moniker=gateway --identity=gate --details=details --website=website --from=v0 --chain-id=test --fee=0.4iris --commit
+//查询目前所有tokens
+iriscli query token tokens
 
-iriscli asset issue-token --family=fungible --source=gateway --gateway=gateway --decimal=0 --symbol=g01 --name=g01 --initial-supply=100 --from=v0 --chain-id=test --fee=0.4iris --commit
+//查询单个
+iriscli query token token a01
 
-iriscli asset query-token a01
-iriscli asset query-token gateway.g01
+//查询指定 owner 的全部资产：(gateway资产不会被查询)
+iriscli query token tokens $(iriscli keys show v0 --address)
 
-echo 1234567890 | iriscli bank send --amount=10a01,20gateway.g01 --fee=0.4iris --commit --chain-id=test --from=v0 --to=faa1npqrm0mhc3du8d48cn8ht9ughszjfnj0czks7r
+======================
+修改资产：
+======================
+iriscli tx token edit a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
 
-===  vote 升级 ===
 
-echo 1234567890 | iriscli gov vote --option=Yes --fee=0.4iris --from=v0 --chain-id=test  --proposal-id=5 --commit
-
-iriscli gov query-proposal --trust-node --proposal-id=1
-iriscli upgrade info --trust-node
+======================
+增发资产：
+======================
+iriscli tx token mint a01 --amount=1 --to=cosmos14s4zu4md9u26xfpezvcvv7j905698gsgd7fnw8 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iriscli query account $(iriscli keys show v1 --address)
 
 
 
-===  coinswap ===
+======================
+转让asset：
+======================
 
-uni:a01
+iriscli tx token transfer a01 --to=cosmos14s4zu4md9u26xfpezvcvv7j905698gsgd7fnw8 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
 
-{"type":"irishub/bank/StdTx","value":{"msg":[{"type":"irishub/coinswap/MsgAddLiquidity","value":{"max_token":{"denom":"a01-min","amount":"10"},"exact_iris_amt":"10000000000000000000","min_liquidity":"10000000000000000000","deadline":"1586318451","sender":"faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju"}}],"fee":{"amount":[{"denom":"iris-atto","amount":"400000000000000000"}],"gas":"20000"},"signatures":null,"memo":"memo"}}
-
-
-echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=test >~/my_workspace/Tx-sign
-iriscli tx broadcast ~/my_workspace/Tx-sign --commit
+iriscli query token token a01
 
 
-echo 1234567890 | iriscli bank send --amount=5uni:a01 --fee=0.4iris --commit --chain-id=test --from=v0 --to=faa1npqrm0mhc3du8d48cn8ht9ughszjfnj0czks7r
+======================
+查询fee
+======================
+iriscli query token fee a01
+
+
+*******************************************
+record
+*******************************************
+1. [交易] 提交存证
+// --description="hahaha" --onchain-data="shelwin flighting"
+iriscli tx record create --chain-id=shilei-qa "hahaha" "flighting" --from=v0 --fees=4stake -b block -y
+
+2. 查询存证
+iriscli query record record c53158f4832db704f1a5dbe703b624376028c781bde8b83fc3f9f8e79ef8395b
+
+
+*******************************************
+LCD
+*******************************************
+
+iriscli rest-server --trust-node  --home=/home/shilei/testnet/v0/iritacli
 
 
 
-===  vote 升级 ===
 
-echo 1234567890 | iriscli gov vote --option=Yes --fee=0.4iris --from=v0 --chain-id=test  --proposal-id=6 --commit

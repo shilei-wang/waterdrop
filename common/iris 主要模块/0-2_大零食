@@ -1,63 +1,29 @@
-echo 1234567890 | iriscli rand request-rand --chain-id=shilei-qa --from=v0 --fee=0.004iris --block-interval=1000 --oracle=true --service-fee-cap=1iris --commit
-
-
-iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris --output-file=/Users/sherlock/genesis.json
-
-
-导出当前区块链状态：只能看看， 没什么具体用处。 在当前目录导出genesis.json,里面有所有账户的信息
-iris export --home=/Users/sherlock/testnet/v0/iris --output-file=/Users/sherlock/genesis.json
-
-导出当前高度的区块链状态，并且以这个状态启动一条新链 （每次都要导出2个不同节点的genesis， 用goland看下是不是一致）
-iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris --output-file=/Users/sherlock/genesis.json
-
-必须配合 unsafe-reset-all  使用
-iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris
-
-cp ~/genesis.json /Users/sherlock/testnet/v0/iris/config
-iris start --home=/Users/sherlock/testnet/v0/iris
-
-
-
-
-
-echo 1234567890 | iriscli oracle pause f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
-echo 1234567890 | iriscli oracle start f001 --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit
-
-
-================================================================================
-
-1.定义 自带一个service：random
-iriscli service definition random
-
-2.绑定
-echo 1234567890 | iriscli service bind --chain-id=shilei-qa --from=v0 --fee=0.004iris --service-name=random --min-resp-time=5 --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing.json --commit
-
-//查询
-iriscli service bindings random
-
-3.request
-echo 1234567890 | iriscli rand request-rand --chain-id=shilei-qa --from=v0 --fee=0.004iris --block-interval=50 --oracle=true --service-fee-cap=1iris --commit
-
-// 在(0,block-interval)之内可以通过 rand模块的rand-height查到该次请求， 0是指提交请求的那一刻
-    iriscli rand query-queue --queue-height=1344
-    iriscli rand query-queue
-
-// 在(block-interval, block-interval+timeout[service默认超时时间100块])只能可以通过 service模块的request-id查到该次请求
-// 现在request的第一条查询已经可以现实 request-id
-    iriscli service requests random $(iriscli keys show v0 --address)
-
-1）注意记录一下：rand模块的request-id，小写的：ff4d166564e46543c536566962df0fe00f6adaedab7411fa346233231196feb6
-2）注意，10块以后查询service的request-id：
-    iriscli service requests random $(iriscli keys show v0 --address)
-3）注意， rand的request是单次的， repeated=false
-
-4.respond 这里会返回request-id
-echo 1234567890 | iriscli service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --request-id=$(iriscli service requests random $(iriscli keys show v0 --address) -o=json | jq -r .[0].id) --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --result='{"code":200,"message":"ok"}' --commit
-
-5.查询结果， 注意这里用的是rand模块的request-id
-iriscli rand query-rand F530C441C9AAD404E78C052C13F7255175644F592B47DFADAA51AA1CBF36569B
+{
+  "base_tx": {
+    "from": "cosmos1pdq0t4mle525ffcsykyay9hsv9mn50pdl63v42",
+    "memo": "Sent via Cosmos Voyager 🚀",
+    "chain_id": "shilei-qa",
+    "account_number": "3",
+    "sequence": "1",
+    "gas": "200000",
+    "gas_adjustment": "1.2",
+    "fees": [
+      {
+        "denom": "stake",
+        "amount": "50"
+      }
+    ],
+    "simulate": false
+  },
+  "owner": "cosmos1pdq0t4mle525ffcsykyay9hsv9mn50pdl63v42",
+  "name": "Hello Kitty",
+  "symbol": "cat",
+  "min_unit": "min",
+  "initial_supply": "1000000000",
+  "max_supply": "2000000000",
+  "scale": "18",
+  "mintable": "true"
+}
 
 
 
-iriscli service request A5481003AB10F81B78A5826AD2AB8FAA8927FD4FDDC8F1D151559CA40AB569AE0000000000000000000000000000016000000000000006D00000
-iriscli service request-context A5481003AB10F81B78A5826AD2AB8FAA8927FD4FDDC8F1D151559CA40AB569AE0000000000000000

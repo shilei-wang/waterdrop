@@ -46,6 +46,10 @@ echo 1234567890 | iriscli service define --chain-id=shilei-qa --from=v0 --fee=0.
 2. 服务定义查询 （可以查询 method id）
 iriscli service definition a001
 
+3. 查询 schema
+iriscli service schema pricing
+iriscli service schema result
+
      ===========================
                 绑定
      ===========================
