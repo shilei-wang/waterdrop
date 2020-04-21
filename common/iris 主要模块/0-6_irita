@@ -17,11 +17,14 @@ git branch
 cd /Users/sherlock/go/src/github.com/irita
 git fetch --all
 git checkout .
+// git checkout -b irismod origin/vincent/irismod
+// git checkout irismod
+// git pull
 git merge origin/master
 git branch && git rev-parse HEAD
 
 ---
-git reset --hard 8272845851f4953da43cd0582a56cbe9d024383a
+
 git branch && git rev-parse HEAD
 
 make install
@@ -33,20 +36,20 @@ chmod 777 /Users/sherlock/go/bin/iritacli
 *******************************************
           用testnet 直接手动起
 *******************************************
-cd ~
-rm -rf .iritacli .irita testnet
-echo 12345678 | irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+cd ~ && rm -rf .iritacli .irita testnet
+irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 //sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 //sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 //sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 mv /Users/sherlock/testnet/v0/iritacli /Users/sherlock/.iritacli
 irita start --home=/Users/sherlock/testnet/v0/irita
 
+iritacli rest-server --trust-node
+
 ---
 2个validators
 ---
-cd ~
-rm -rf .iritacli .irita testnet
+cd ~ && rm -rf .iritacli .irita testnet
 echo 12345678 | irita testnet --v=2 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 修改v1里面3个ip
 mv /Users/sherlock/testnet/v0/iritacli /Users/sherlock/.iritacli
@@ -55,10 +58,13 @@ irita start --home=/Users/sherlock/testnet/v1/irita
 
 *******************************************
 
+caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
+address: iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
+
 iritacli keys show v0
-iritacli query account faa183q4vdzk59c7q7w0epwtzdxfn27u256jnf5vzd --chain-id=shilei-qa
-echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 1000000stake --chain-id=shilei-qa --fees=4stake -b block -y
-iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa
+iritacli query account iaa13l2sgxymaq3emnpftks2e8xz5df9q7c0vsz04v --chain-id=shilei-qa
+iritacli tx send v0 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp 1000000stake --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --chain-id=shilei-qa
 
 
 *******************************************

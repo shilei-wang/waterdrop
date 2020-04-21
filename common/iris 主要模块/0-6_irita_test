@@ -89,45 +89,62 @@ https://gitlab.bianjie.ai/irita/spec/blob/v1.0/nft/README.md
 
 iritacli keys show v0
 
+
+iritacli tx nft mint -h
+
+
 //tx mint
-iritacli tx nft mint test 001 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --tokenURI="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli tx nft mint d01 a01 --recipient=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli tx nft mint d01 a02 --recipient=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli tx nft mint d02 a01 --recipient=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
 
 
 **** 查询 ****
-//demon:test 下的nft supply总数
-iritacli query nft supply test
+//demon:d02 下的nft supply总数
+iritacli query nft supply d01
 
 //iritacli query nft owner [accountAddress] [denom](optional)
-iritacli query nft owner faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+iritacli query nft owner iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
 
 //collection
-iritacli query nft collection test
+iritacli query nft collection d01
 
 //query denoms
 iritacli query nft denoms
 
 //query nft
-iritacli query nft token test 001
+iritacli query nft token d01 a01
 
 **** **** ****
 
-//edit-metadata ， 必须要用owner
+iritacli query nft token d01 a01
+//edit ， 必须要用owner
 iritacli keys add v1 --recover
 caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
-echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000stake --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli tx send v0 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp 10000stake --chain-id=shilei-qa --fees=4stake -b block -y
 
-iritacli tx nft edit-metadata test 001 --tokenURI="tokenURI2" --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli tx nft edit d01 a01 --token-uri="tokenURI2" --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y
 
-iritacli query nft token test 001
+iritacli query nft token d01 a01
+
 
 //tx transfer
-//iritacli tx nft transfer [sender] [recipient] [denom] [tokenID] --tokenURI=<tokenURI>
-iritacli tx nft transfer faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj test 001 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli tx nft transfer -h
 
-iritacli query nft token test 001
+iritacli keys show v0
+// iaa13l2sgxymaq3emnpftks2e8xz5df9q7c0vsz04v
+
+iritacli tx nft transfer iaa13l2sgxymaq3emnpftks2e8xz5df9q7c0vsz04v d01 a01 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query nft token d01 a01
 
 //tx burn
-iritacli tx nft burn test 001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli tx nft burn d01 a01 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iritacli query nft collection d01
+
 
 
 ========================================================================================================================
