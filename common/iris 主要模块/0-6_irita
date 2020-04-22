@@ -1,4 +1,11 @@
 *******************************************
+           lcd 签名
+*******************************************
+
+iritacli tx sign ~/my_workspace/Tx-generate --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+iritacli tx broadcast ~/my_workspace/Tx-sign -b block -y
+
+*******************************************
           下载
 *******************************************
 https://github.com/bianjieai/irita
@@ -17,8 +24,9 @@ git branch
 cd /Users/sherlock/go/src/github.com/irita
 git fetch --all
 git checkout .
-// git checkout -b irismod origin/vincent/irismod
-// git checkout irismod
+// git checkout master
+// git checkout -b vincent-clean origin/vincent-clean
+// git checkout vincent-clean
 // git pull
 git merge origin/master
 git branch && git rev-parse HEAD
@@ -38,10 +46,12 @@ chmod 777 /Users/sherlock/go/bin/iritacli
 *******************************************
 cd ~ && rm -rf .iritacli .irita testnet
 irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
-//sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
-//sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
-//sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+/*
+sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 mv /Users/sherlock/testnet/v0/iritacli /Users/sherlock/.iritacli
+*/
 irita start --home=/Users/sherlock/testnet/v0/irita
 
 iritacli rest-server --trust-node

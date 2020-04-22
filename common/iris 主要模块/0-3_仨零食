@@ -1,9 +1,24 @@
-//查询目前所有tokens
-iriscli query token tokens 有问题
 
-iriscli query token tokens $(iriscli keys show v0 --address)
+irita LCD nft  目前存在的问题：
+1. GET   /nft/nfts/collections/{denom}
+  get方法连续性查询会出现  "error": "invalid request: failed to load state at height 249; version does not exist (latest height: 250)"
+  必须重启 rest客户端 才能恢复。
+
+2. Get 方法如果输入留空， 执行后， swagger会假死。
 
 
+irita service 目前存在的问题：
+1. iriscli service schema pricing ，iritacli query service schema result
+返回未格式化， 存在大量 \n\t\t
 
-转账时，新的token不用用最大单位， 客户端客户端么有转换
+2. bind时 deposit 最少 10000000000stake ，这个后续需要改
+
+3. --generate-only 不可用
+
+4. service call  不可用
+
+================================================================================================================
+================================================================================================================
+================================================================================================================
+================================================================================================================
 
