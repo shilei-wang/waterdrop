@@ -21,4 +21,4 @@ irita service 目前存在的问题：
 ================================================================================================================
 ================================================================================================================
 ================================================================================================================
-
+iritacli tx service define --chain-id=shilei-qa --from=iaa1aa62686e4f6jy0f4z63usahdk4ggudxhgyxevm --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake -b block -y --generate-only

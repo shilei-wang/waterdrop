@@ -90,7 +90,7 @@ iritacli tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4stake -
 3.注意 irita 没有 withdraw-tax
 
      ===========================
-      请求上下文相关 ====》》》
+      请求上下文相关 ====》》》  测下 nftlcd 的bug 下载一个新的
      ===========================
 1. 查询请求上下文 <request-context-id>， 返回这个call的很多字段信息
 iriscli service request-context 21568201D4A92D52C1A6352103D21470331AE79556294C6DA3BF16FA2E4B70B60000000000000000
