@@ -31,6 +31,17 @@ git checkout .
 git merge origin/master
 git branch && git rev-parse HEAD
 
+https://github.com/bianjieai/irita-ent 的基础功能，没问题将发布 v1.0.0-rc0 版本。
+
+
+///
+git clone https://github.com/bianjieai/irita-ent
+cd irita-ent
+git remote add upstream https://github.com/bianjieai/irita-ent.git
+git fetch --all
+
+
+
 ---
 
 git branch && git rev-parse HEAD
@@ -72,7 +83,7 @@ caught below output final blast sun elevator labor regular palm dizzy stand arct
 address: iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
 
 iritacli keys show v0
-iritacli query account iaa13l2sgxymaq3emnpftks2e8xz5df9q7c0vsz04v --chain-id=shilei-qa
+iritacli query account iaa12gh8elt248k0s2k0h73nrzm8hxekh4lzka8j73 --chain-id=shilei-qa
 iritacli tx send v0 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp 1000000stake --chain-id=shilei-qa --fees=4stake -b block -y
 iritacli query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --chain-id=shilei-qa
 

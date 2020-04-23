@@ -21,4 +21,11 @@ irita service 目前存在的问题：
 ================================================================================================================
 ================================================================================================================
 ================================================================================================================
-iritacli tx service define --chain-id=shilei-qa --from=iaa1aa62686e4f6jy0f4z63usahdk4ggudxhgyxevm --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake -b block -y --generate-only
+1. query 一个不存在的 request-context 会返回panic
+iritacli query service request-context C2FFBF8A2018050B49FFC607688942442127A9BF78BEA91B0B40A5D90596D5A30000000000000000
+
+2. iritacli query service requests a001 $(iritacli keys show v0 --address)
+返回的id，编码不正确。
+
+
+
