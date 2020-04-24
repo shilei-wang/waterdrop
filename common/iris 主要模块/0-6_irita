@@ -1,9 +1,22 @@
 *******************************************
            lcd 签名
 *******************************************
+iritacli rest-server --trust-node
 
-iritacli tx sign ~/my_workspace/Tx-generate --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+iritacli tx sign "/Users/sherlock/my_workspace/waterdrop/common/iris 主要模块/0-7_tx-generate" --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
 iritacli tx broadcast ~/my_workspace/Tx-sign -b block -y
+
+
+
+=====
+  "schemas": "{\"$schema\": \"http://json-schema.org/draft-04/schema#\",\"title\": \"title\",\"description\": \"description\",\"type\": \"type\",\"input\": {    \"type\": \"object\",    \"description\": \"request data\",    \"properties\": {        \"id\": {            \"type\": \"string\",            \"description\": \"id\"        },        \"name\": {            \"type\": \"string\",            \"description\": \"name\"        },        \"data\": {            \"type\": \"string\",            \"description\": \"data\"        }    },    \"required\": [\"id\", \"data\"]},\"output\": {    \"type\": \"object\",    \"description\": \"response result\",    \"properties\": {        \"data\": {            \"type\": \"string\",            \"description\": \"result data\"        }    },    \"required\": [\"data\"]},\"error\": {    \"type\": \"object\",    \"description\": \"error msg\",    \"properties\": {        \"code\": {            \"type\": \"number\",            \"description\": \"error code\"        },        \"msg\": {            \"type\": \"string\",            \"description\":\"detailed error msg\"        }    },    \"required\": [\"msg\"]}              }"
+
+=====
+   "pricing": "{    \"price\": \"1point\",\"promotions_by_time\": [{\"start_time\": \"2120-03-31T08:11:31Z\",\"end_time\": \"2120-04-10T08:11:31Z\",\"discount\": \"0.6\"},{\"start_time\": \"2219-01-10T13:30:30Z\",\"end_time\": \"2219-03-10T13:30:30Z\",\"discount\": \"0.9\"}],\"promotions_by_volume\": [{\"volume\": 2211,\"discount\": \"0.1\"},{\"volume\": 4000,\"discount\": \"0.5\"}]}",
+
+=====
+--data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}"
+
 
 *******************************************
           下载

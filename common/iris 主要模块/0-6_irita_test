@@ -177,48 +177,122 @@ iritacli query guardian trustees
 ========================================================================================================================
 ========================================================================================================================
 
-//define
-echo 1234567890 | iritacli tx service define --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/Users/sherlock/my_workspace/auto_test.proto  --service-name=001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+     ===========================
+                定义
+     ===========================
+1. 服务定义
+iritacli tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
 
-iritacli query service definition shilei-qa 001
+2. 服务定义查询 （可以查询 method id）
+iritacli query service definition a001
 
-//bind
-echo 1234567890 | iritacli tx service bind --def-chain-id=shilei-qa --bind-type=Local --deposit=2000stake --prices=1stake --avg-rsp-time=10000 --usable-time=100 --service-name=001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+3. 查询 schema
+iritacli query service schema pricing
+iritacli query service schema result
 
-iritacli query service binding shilei-qa 001 shilei-qa faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj
-iritacli query service bindings shilei-qa 001
+     ===========================
+                绑定
+     ===========================
+3. 服务绑定
+iritacli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --min-resp-time=5 --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
 
-//update-binding
-echo 1234567890 | iritacli tx service update-binding --def-chain-id=shilei-qa --bind-type=Local  --deposit=100stake --prices=2stake --avg-rsp-time=9999 --usable-time=99 --service-name=001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+4. 查询服务绑定
+iritacli query service binding a001 $(iritacli keys show v0 --address)
+iritacli query service bindings a001
 
-//disable
-echo 1234567890 | iritacli tx service disable --def-chain-id=shilei-qa --service-name=001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
 
-//refund-deposit 这个好像不能马上试，有时间。未测成功
-echo 1234567890 | iritacli tx service refund-deposit --service-name=001 --def-chain-id=shilei-qa  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+5. 更新绑定 --min-resp-time也可以改
+iritacli tx service update-binding a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=2point --pricing=/Users/sherlock/my_workspace/service/pricing.json --min-resp-time=5
 
-//enable
-echo 1234567890 | iritacli tx service enable --def-chain-id=shilei-qa --deposit=1000stake --service-name=001 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+6. 设置提取地址
+iritacli tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4point -b block -y iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
 
-//call
-iritacli keys show v0
+//查询提取地址
+iritacli query service withdraw-addr $(iritacli keys show v0 --address)
 
-echo 1234567890 | iritacli tx service call --bind-chain-id=shilei-qa --def-chain-id=shilei-qa --service-name=001  --method-id=1 --provider=faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj --service-fee=2000stake --request-data="Abcd" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+7.服务失效
+iritacli tx service disable a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
 
-iritacli query service requests shilei-qa 001 shilei-qa faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj
+8.服务恢复 ，可以增加抵押
+iritacli tx service enable a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=1point
 
-//respond
-echo 1234567890 | iritacli tx service respond --request-chain-id=shilei-qa --response-data="Abcd" --request-id=5107-5007-0 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+9. 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov)) 、、这个还没有测
+iritacli tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
 
-iritacli query service response shilei-qa 5107-5007-0
+     ===========================
+      service 调用
+     ===========================
 
-//refund-fees
-echo 1234567890 | iritacli tx service refund-fees --chain-id=shilei-qa --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+1. 服务调用
+1）批量请求
+//单个
+iritacli tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iritacli keys show v0 --address)
 
-iritacli query service fees faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj
+//重复
+iritacli tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iritacli keys show v0 --address) --timeout=20 --repeated --frequency=20 --total=-1
 
-//withdraw-fees
-echo 1234567890 | iritacli tx service withdraw-fees --chain-id=shilei-qa --from=v0  --chain-id=shilei-qa --fees=4stake -b block -y
 
-//withdraw-tax  这stake不可分 未测成功
-echo 1234567890 | iritacli tx service withdraw-tax --dest-address=faa15zaxkth9rsz8dxvyg8vln7ufyn9wtn0wc0rerj --withdraw-amount=1stake --chain-id=shilei-qa --from=v0  --chain-id=shilei-qa --fees=4stake -b block -y
+查询请求列表
+//如果查不到 可能是price低了，可能是min-resp-time没满足bind
+iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json
+
+
+根据上一条返回的id
+iritacli query service request 60C9694FA039371704024228DD21696BDED38241FF7CA5F8B2418F5484B120CA0000000000000000000000000000000100000000000000280000
+
+//用<request-context-id>超时后可以查到
+iritacli query service requests 49AABDEA5C87845479947FD7C0CCD5B6F210AC3A885D21E092AD20115997ECA10000000000000000 1 -o=json
+iritacli query service request-context 49AABDEA5C87845479947FD7C0CCD5B6F210AC3A885D21E092AD20115997ECA10000000000000000
+
+
+3.相应请求
+iritacli tx service respond --chain-id=shilei-qa --from=v0  --fees=4point -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json | jq -r .[0].id)
+
+4.查询相应请求 ，用"3）"返回request id
+iritacli query service response -o=json C2FFBF8A2018050B49FFC607688942442127A9BF78BEA91B0B40A5D90596D5A30000000000000000000000000000000100000000000000900000
+
+     ===========================
+       取回服务调用产生的服务费（卖家），未响应超时的服务费会自动退还给（买家）
+     ===========================
+1.查询服务费
+iritacli query service fees $(iritacli keys show v0 --address)
+
+
+2.提取服务调用产生的服务费
+iritacli tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+// iritacli query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
+
+3.注意 irita 没有 withdraw-tax
+
+     ===========================
+      请求上下文相关 ====》》》  测下 nftlcd 的bug 下载一个新的
+     ===========================
+1. 查询请求上下文 <request-context-id>， 返回这个call的很多字段信息
+iritacli query service request-context E59652EEB5E6B8C5FECDF87F2D7EB1852E357410D999D99B1B99EF45A73865120000000000000000
+//查询request id
+iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json
+
+2. 暂停请求上下文
+iritacli tx service pause --chain-id=shilei-qa --from=v0  --fees=4point -b block -y E59652EEB5E6B8C5FECDF87F2D7EB1852E357410D999D99B1B99EF45A73865120000000000000000
+
+3. 启动请求上下文
+//state变成running , BatchState在complete状态也会变running
+iritacli tx service start --chain-id=shilei-qa --from=v0 --fees=4point -b block -y E59652EEB5E6B8C5FECDF87F2D7EB1852E357410D999D99B1B99EF45A73865120000000000000000
+
+4. 更新请求上下文
+iritacli tx service update --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  --frequency=22 --total=3000 E59652EEB5E6B8C5FECDF87F2D7EB1852E357410D999D99B1B99EF45A73865120000000000000000
+
+5. 终止请求上下文
+// state变成complete
+// 非repeated 不能kill
+echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  D1CA04D63DB06F373606ECD4AEBDB4287455358D0117806C2BF886669BCD47B60000000000000000
+
+6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
+//列表只有有效的才会被查出， 但是iriscli service request-context 永远能查出）
+iritacli query service request-context E59652EEB5E6B8C5FECDF87F2D7EB1852E357410D999D99B1B99EF45A73865120000000000000000
+
+7. 查询请求上下文的响应列表（后面是request id）
+//注意这个只能查活跃的 ， 过期的查不到。
+iritacli query service response 69914805ee50573828580f941e92a852dfd0ee62d4f0f5e77deff111e414d1cb00000000000000420000
+iritacli query service responses <request-context-id> <batch-counter>
+

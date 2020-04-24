@@ -1,4 +1,13 @@
 
+1. irita testnet 不指定默认--output-dir 会导致genesis生成出错， 启动链后会报panic
+irita testnet --v=1 --chain-id=shilei-qa  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+
+
+
+================================================================================================================
+================================================================================================================
+================================================================================================================
+================================================================================================================
 irita LCD nft  目前存在的问题：
 1. GET   /nft/nfts/collections/{denom}
   get方法连续性查询会出现  "error": "invalid request: failed to load state at height 249; version does not exist (latest height: 250)"
@@ -21,11 +30,23 @@ irita service 目前存在的问题：
 ================================================================================================================
 ================================================================================================================
 ================================================================================================================
-1. query 一个不存在的 request-context 会返回panic
+
+irita service 最新 issue的补充：
+
+1） query 一个不存在的 request-context 会返回panic
 iritacli query service request-context C2FFBF8A2018050B49FFC607688942442127A9BF78BEA91B0B40A5D90596D5A30000000000000000
 
-2. iritacli query service requests a001 $(iritacli keys show v0 --address)
-返回的id，编码不正确。
+2） iritacli query service requests a001 $(iritacli keys show v0 --address)
+    返回的id，编码不正确。 （目前看来 只有-o=json，才返回正确的面板）
 
+3） LCD中， 很多的example 还是沿用stake和iris， 不是 point。
 
+4） cli 查询context 返回的state没有转换为可读字段。
+    目前cli端显示 0，1  。
+    lcd端显示 running ， paused
 
+5） update context 的时候， service_fee_cap 的demon 设置一个不存在的token （比如iris），会出现如下bug：
+   1。交易可以发送成功，
+   2。后续request状态会异常， 查询context的时候出现无法解析的空数据。
+
+6） LCD POST /service/fees/{provider}/withdraw  这个接口未正确迁移irita， 返回404

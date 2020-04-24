@@ -1,0 +1,25 @@
+{
+  "type": "cosmos-sdk/StdTx",
+  "value": {
+    "msg": [
+      {
+        "type": "irismod/service/MsgKillRequestContext",
+        "value": {
+          "request_context_id": "0B63AD2B8D2DA9ADD1A0B9EBEEA52F0A9A82545C42E3AF3C289AF611B9642F1B0000000000000000",
+          "consumer": "iaa1xvk0suwvgu2xgcaw8degkrk0c3g9cq695fenls"
+        }
+      }
+    ],
+    "fee": {
+      "amount": [
+        {
+          "denom": "point",
+          "amount": "50"
+        }
+      ],
+      "gas": "200000"
+    },
+    "signatures": null,
+    "memo": "Sent via Irita Voyager 🚀"
+  }
+}
