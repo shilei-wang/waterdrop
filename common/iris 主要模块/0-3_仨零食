@@ -1,6 +1,9 @@
+1. service requests 查询（在一定的步骤下）会产生冗余的空数据。
 
 1. irita testnet 不指定默认--output-dir 会导致genesis生成出错， 启动链后会报panic
 irita testnet --v=1 --chain-id=shilei-qa  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+
+2. irita 目前还不支持issue 带scale的token，然后用小数转账。 目前也不支持burn。
 
 
 
@@ -50,3 +53,37 @@ iritacli query service request-context C2FFBF8A2018050B49FFC607688942442127A9BF7
    2。后续request状态会异常， 查询context的时候出现无法解析的空数据。
 
 6） LCD POST /service/fees/{provider}/withdraw  这个接口未正确迁移irita， 返回404
+
+================================================================================================================
+================================================================================================================
+================================================================================================================
+================================================================================================================
+
+
+iritacli tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
+
+iritacli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --min-resp-time=5 --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001
+
+iritacli tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iritacli keys show v0 --address) --timeout=20 --repeated --frequency=20 --total=-1
+
+---
+
+iritacli query service request-context 894085D5E3F11ADA936BDBEB391EE114872F21415A39A452098B5A9F8D60C13E0000000000000000
+
+
+iritacli tx service update --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  --timeout=22 --frequency=22 --total=3000 981931430F58119FE18A1E755873FC264112CC7160A4E0403D6F6DC7E9140D610000000000000000
+
+
+iritacli tx service respond --chain-id=shilei-qa --from=v0  --fees=4point -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json | jq -r .[0].id)
+
+iritacli tx service pause --chain-id=shilei-qa --from=v0  --fees=4point -b block -y 981931430F58119FE18A1E755873FC264112CC7160A4E0403D6F6DC7E9140D610000000000000000
+
+ iritacli tx service start --chain-id=shilei-qa --from=v0 --fees=4point -b block -y 981931430F58119FE18A1E755873FC264112CC7160A4E0403D6F6DC7E9140D610000000000000000
+
+iritacli tx service respond --chain-id=shilei-qa --from=v0  --fees=4point -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json | jq -r .[0].id)
+
+
+iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json --indent
+
+
+iritacli query service requests a001 iaa1gq99yxv5sfw4gepzys3hc899lte4gzywpctza5
