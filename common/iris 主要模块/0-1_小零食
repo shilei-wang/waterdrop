@@ -1,159 +1,44 @@
-========================================================================================================================
-========================================================================================================================
-==================service======================================================================================================
-========================================================================================================================
-========================================================================================================================
+
+
+*******************************************
+           gaia
+*******************************************
+
+//下载
+cd /Users/sherlock/go/src/github.com
+git clone https://github.com/cosmos/gaia.git
+cd gaia
+git remote add upstream https://github.com/cosmos/gaia.git
+git fetch --all
+git branch && git rev-parse HEAD
+git checkout -b ibc-alpha upstream/ibc-alpha
+
+//更新
+
+make install
 
 
 
-iritacli keys show v0
-iritacli query account $(iritacli keys show v0 --address)
-iaa1n2xpfnwhymv9w8x3qzgr3jvlrman3zyf5ce45a
-
-iritacli tx send v0 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp 100000point --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
-
-
-
-     ===========================
-                定义
-     ===========================
-1. 服务定义
-iritacli tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
-
-2. 服务定义查询 （可以查询 method id）
-iritacli query service definition a001
-
-3. 查询 schema
-iritacli query service schema pricing -o=json --indent
-iritacli query service schema result
-
-     ===========================
-                绑定
-     ===========================
-
-     iritacli query account $(iritacli keys show v0 --address)
+*******************************************
+          relayer
+*******************************************
+cd /Users/sherlock/go/src/github.com
+git clone https://github.com/irisnet/relayer.git
+cd relayer
+git remote add upstream https://github.com/irisnet/relayer.git
+git fetch --all
+git branch && git rev-parse HEAD
+git checkout -b goz upstream/goz
 
 
-
-3. 服务绑定
-iritacli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=200000point --min-resp-time=5 --pricing=/Users/sherlock/my_workspace/service/pricing_100.json --service-name=a001
-
-4. 查询服务绑定
-iritacli query service binding a001 $(iritacli keys show v0 --address)
-iritacli query service bindings a001
+make install
 
 
-5. 更新绑定 --min-resp-time也可以改
-iritacli tx service update-binding a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=2point  --min-resp-time=6
+*******************************************
 
-6. 设置提取地址
-iritacli tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4point -b block -y iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
+*******************************************
 
-//查询提取地址
-iritacli query service withdraw-addr $(iritacli keys show v0 --address)
+cd ~ && rm -rf data
+/Users/sherlock/go/src/github.com/relayer/chainz
 
-7.服务失效
-iritacli tx service disable a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
-
-8.服务恢复 ，可以增加抵押
-iritacli tx service enable a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=1point
-
-9. 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov)) 、、这个还没有测
-iritacli tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
-
-     ===========================
-      service 调用
-     ===========================
-
-1. 服务调用
-1）批量请求
-//单个
-iritacli tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iritacli keys show v0 --address)
-
-//重复
-iritacli tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iritacli keys show v0 --address) --timeout=20 --repeated --frequency=20 --total=-1
-
-
-查询请求列表
-//如果查不到 可能是price低了，可能是min-resp-time没满足bind
-
-iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json --indent
-
-
-根据上一条返回的id
-iritacli query service request -o=json --indent EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000000000000000000700000000000002BD0000
-
-//用<request-context-id>超时后可以查到
-iritacli query service requests EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000 12 -o=json --indent
-iritacli query service request-context EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000
-
-
-3.相应请求
-iritacli tx service respond --chain-id=shilei-qa --from=v0  --fees=4point -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json | jq -r .[0].id)
-
-4.查询相应请求 ，用"3）"返回request id
-iritacli query service response -o=json EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000000000000000001100000000000003950000
-
-
-
-     ===========================
-       取回服务调用产生的服务费（卖家），未响应超时的服务费会自动退还给（买家）
-     ===========================
-1.查询服务费
-iritacli query service fees $(iritacli keys show v0 --address)
-
-
-2.提取服务调用产生的服务费
-iritacli tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
-// iritacli query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
-
-3.注意 irita 没有 withdraw-tax
-
-     ===========================
-      请求上下文相关 ====》》》  测下 nftlcd 的bug 下载一个新的
-     ===========================
-
-           value: EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000
-         - key: request-id
-           value: EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000000000000000000D00000000000003350000
-
-
-1. 查询请求上下文 <request-context-id>， 返回这个call的很多字段信息
-iritacli query service request-context E594486F95F5B41198ECB1888B00F0C8D5BCD130668D3A2A2507523F0A6E00EB0000000000000000
-//查询request id
-iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json --indent
-
-2. 暂停请求上下文
-iritacli tx service pause --chain-id=shilei-qa --from=v0  --fees=4point -b block -y E594486F95F5B41198ECB1888B00F0C8D5BCD130668D3A2A2507523F0A6E00EB0000000000000000
-
-3. 启动请求上下文
-//state变成running , BatchState在complete状态也会变running
-iritacli tx service start --chain-id=shilei-qa --from=v0 --fees=4point -b block -y E594486F95F5B41198ECB1888B00F0C8D5BCD130668D3A2A2507523F0A6E00EB0000000000000000
-
-4. 更新请求上下文
-iritacli tx service update --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  --timeout=22 --frequency=22 --total=3000 E594486F95F5B41198ECB1888B00F0C8D5BCD130668D3A2A2507523F0A6E00EB0000000000000000
-
-
-5. 终止请求上下文
-// state变成complete
-// 非repeated 不能kill
-echo 1234567890 | iriscli service kill --chain-id=shilei-qa --from=v0 --fee=0.004iris --commit  D1CA04D63DB06F373606ECD4AEBDB4287455358D0117806C2BF886669BCD47B60000000000000000
-
-6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
-//列表只有有效的才会被查出， 但是iriscli service request-context 永远能查出）
-
-iritacli query service request-context EA1F2C0FDA9074D469D654A1F808FE7BFA1EFCA3AB0D3EBAC94539E2127AAD8A0000000000000000
-
-7. 查询请求上下文的响应列表（后面是request id）
-//注意这个只能查活跃的 ， 过期的查不到。
-iritacli query service response 69914805ee50573828580f941e92a852dfd0ee62d4f0f5e77deff111e414d1cb00000000000000420000
-iritacli query service responses <request-context-id> <batch-counter>
-
-
-iritacli tx service respond --chain-id=shilei-qa --from=v0  --fees=4point -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json | jq -r .[0].id)
-
-iritacli query service requests a001 $(iritacli keys show v0 --address) iritacli query service request-context E594486F95F5B41198ECB1888B00F0C8D5BCD130668D3A2A2507523F0A6E00EB0000000000000000
--o=json --indent
-iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json --indent
 
