@@ -38,7 +38,63 @@ make install
 
 *******************************************
 
-cd ~ && rm -rf data
+cd ~ && rm -rf data .relayer
 /Users/sherlock/go/src/github.com/relayer/chainz
 
 
+gaiad --home ~/data/ibc0/n0/gaiad start --pruning=nothing
+gaiad --home ~/data/ibc1/n0/gaiad start --pruning=nothing
+
+rly config init
+// nodes文件夹下的内容加到 ~/.relayer/config/config.yaml
+rly cfg add-dir ~/go/src/github.com/relayer/configs/nodes/
+rly cfg add-dir ~/go/src/github.com/relayer/configs/path-ordered/
+
+
+// 从文件还原，恢复keys
+rly keys restore ibc0 testkey "$(jq -r '.secret' ~/data/ibc0/n0/gaiacli/key_seed.json)"
+rly keys restore ibc1 testkey "$(jq -r '.secret' ~/data/ibc1/n0/gaiacli/key_seed.json)"
+
+=====
+
+//
+rly lite init ibc0 -f
+rly lite init ibc1 -f
+
+//
+rly tx link path0  ？？
+
+//
+rly q balance ibc0
+rly q balance ibc1
+
+//
+rly keys show ibc0 testkey
+rly keys show ibc1 testkey
+
+//
+rly start all
+
+
+rly start path path0 ？？
+
+
+rly start server  ？？
+
+
+rly tx raw xfer-send ibc0 ibc1 10000n0token true $(rly keys show ibc1 testkey)
+
+
+
+rly q balance ibc0 testkey
+rly q balance ibc1 testkey
+
+rly tx raw xfer-send ibc0 ibc1 10000n0token true $(rly keys show ibc1 testkey)
+
+
+
+================================================================================================================
+================================================================================================================
+    4个节点
+================================================================================================================
+================================================================================================================
