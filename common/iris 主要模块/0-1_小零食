@@ -45,6 +45,7 @@ cd ~ && rm -rf data .relayer
 gaiad --home ~/data/ibc0/n0/gaiad start --pruning=nothing
 gaiad --home ~/data/ibc1/n0/gaiad start --pruning=nothing
 
+1）？
 rly config init
 // nodes文件夹下的内容加到 ~/.relayer/config/config.yaml
 rly cfg add-dir ~/go/src/github.com/relayer/configs/nodes/
@@ -57,12 +58,15 @@ rly keys restore ibc1 testkey "$(jq -r '.secret' ~/data/ibc1/n0/gaiacli/key_seed
 
 =====
 
+2）？
 //
 rly lite init ibc0 -f
 rly lite init ibc1 -f
 
+3)?
 //
-rly tx link path0  ？？
+rly tx link path0
+rly tx link path1
 
 //
 rly q balance ibc0
@@ -72,14 +76,16 @@ rly q balance ibc1
 rly keys show ibc0 testkey
 rly keys show ibc1 testkey
 
+4）？
 //
 rly start all
 
+5）？
+rly start path path0
+rly start path path1
 
-rly start path path0 ？？
-
-
-rly start server  ？？
+5）？
+rly start server
 
 
 rly tx raw xfer-send ibc0 ibc1 10000n0token true $(rly keys show ibc1 testkey)
