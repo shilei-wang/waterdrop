@@ -60,6 +60,9 @@ git checkout .
 git pull
 git branch && git rev-parse HEAD
 
+跟新依赖（开代理）
+go mod tidy
+
 
 
 ---

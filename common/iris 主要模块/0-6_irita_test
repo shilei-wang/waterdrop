@@ -94,7 +94,7 @@ iritacli tx nft mint -h
 
 
 //tx mint
-iritacli tx nft mint d01 a01 --recipient=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli tx nft mint d01 a01 --recipient=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 iritacli tx nft mint d01 a02 --recipient=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
 
