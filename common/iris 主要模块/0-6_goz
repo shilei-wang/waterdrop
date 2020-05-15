@@ -96,7 +96,7 @@ rly q balance ibc1 testkey
 
 7）
 rly start server
-
+0-6_goz
 # [GET]  localhost:3001/connections
 # [GET]  localhost:3001/network
 # [GET]  localhost:3001/relayer

@@ -152,7 +152,7 @@ iritacli query service request-context C9F4EA3442E1CB86980CD9FA46A2AFAA7805821FF
 iritacli tx service respond --chain-id=shilei-qa --from=v0  --fees=4point -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json | jq -r .[0].id)
 
 4.查询相应请求 ，用"3）"返回request id
-iritacli query service response -o=json 8F7E5801E57CF83F97DFD356AAEF8056F438799C8E07FB1963946235F081A10D0000000000000000000000000000000100000000000000510000
+iritacli query service response -o=json 9D094F37A84E57594527846F92C80BDBA87311C3B1B3593F9E43ACD4FB6F25050000000000000000000000000000001100000000000001460000
 
      ===========================
        取回服务调用产生的服务费（卖家），未响应超时的服务费会自动退还给（买家）

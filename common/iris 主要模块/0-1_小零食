@@ -1,100 +1,72 @@
-测bug 测另外17的 service 和 其他修复的bug。
 
-cd ~ && rm -rf .iritacli .irita testnet
-irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
-irita start --home=/Users/sherlock/testnet/v0/irita
+测bug 测另外17的 service。
 
 
-
-iritacli keys add v1 --recover
-caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
-iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
-
-
-iritacli tx send v0 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp 100000point --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
-
-==
-
-iaa1gg5ypu9rvewmrakkd6kk53l0j0czxxtsht9jlq
-iaa1zrqq68fq4qaxlpvmq9z24a4szgymrt3t5wkgtv
-
-iritacli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v1 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5  --provider=iaa1zrqq68fq4qaxlpvmq9z24a4szgymrt3t5wkgtv
-
-
-============
-
-
-iritacli tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
-
-iritacli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5
-
-iritacli query service binding a001 $(iritacli keys show v0 --address)
-
-iritacli query service bindings a001
-
-iritacli tx service bind -h
-
-
-iritacli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5  --provider=iaa1yavyuxsmmevej6zfgznmdzrhqzgcfjh44mh97g
-
-iritacli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5  --provider=iaa1nv8muhs4ykqhn5vet7ravvl7k7ghydy0ymg0df
-
-iritacli query service bindings a001
-
-iritacli query service binding a001 $(iritacli keys show v0 --address)
-
-iritacli query service binding a001  iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
-iritacli query service binding a001  iaa1nv8muhs4ykqhn5vet7ravvl7k7ghydy0ymg0df
-
-iritacli query service bindings a001 --owner=$(iritacli keys show v0 --address)
-
-=======
-iritacli tx service call --chain-id=shilei-qa --from=v1 --fees=4point -b block -y --service-name=a001 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iritacli keys show v0 --address) --timeout=20 --repeated --frequency=20 --total=-1
+========================
 
 
 
-=======
-iritacli tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iritacli keys show v0 --address) --timeout=20 --repeated --frequency=20 --total=-1
+
+admin
 
 
-iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json --indent
-
-
+nft  其他
+bank 模块MultiSend（需要使用csrb-go-sdk）, 转账后无法查询account的问题。
+csrbcli tx service withdraw-fees  [provider-address]
 ===
-
-iritacli tx service disable a001 $(iritacli keys show v0 --address) --chain-id=shilei-qa --from=v1 --fees=4point -b block -y
-iritacli tx service enable a001 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --chain-id=shilei-qa --from=v1 --fees=4point -b block -y --deposit=1point
+3. service withdraw-fees 指定不存在的owner与provider关联关系，交易无错误返回。
 
 
-iritacli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v1 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5  --provider=$(iritacli keys show v0 --address)
-
-
-
-iritacli tx service define --chain-id=shilei-qa --from=v1 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
-
-
-iritacli query service bindings a001
-
-iritacli query service binding a001 $(iritacli keys show v0 --address)
-iritacli query service binding a001 $(iritacli keys show v1 --address)
-
-
-iritacli query service binding a001  iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
-iritacli query service binding a001  iaa1nv8muhs4ykqhn5vet7ravvl7k7ghydy0ymg0df
-
-
-iritacli query service binding a001 iaa1gg5ypu9rvewmrakkd6kk53l0j0czxxtsht9jlq
-iritacli query service binding a001 iaa1zrqq68fq4qaxlpvmq9z24a4szgymrt3t5wkgtv
-
-
-iritacli query service bindings a001 --owner=$(iritacli keys show v0 --address)
-iritacli query service bindings a001 --owner=$(iritacli keys show v1 --address)
-
-
-iritacli tx service disable a001 iaa1gg5ypu9rvewmrakkd6kk53l0j0czxxtsht9jlq --chain-id=shilei-qa --from=v1 --fees=4point -b block -y
-
-iritacli tx service disable a001 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+========================================================================================================================
+========================================================================================================================
+==================admin======================================================================================================
+========================================================================================================================
+========================================================================================================================
 
 
 
+cd ~ && rm -rf .csrbcli .csrb testnet
+csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+csrb start --home=/Users/sherlock/testnet/v0/csrb
+
+====== 起一个全节点 ======
+csrb init --home=/Users/sherlock/testnet/v1/csrb --chain-id=shilei-qa x1
+copy genesis toml
+csrb tendermint show-node-id --home=/Users/sherlock/testnet/v0/csrb  //node id 下面用
+toml 26657=》26687 3个，seeds = "6d0e211e5922649ea302f2deb5bcf3d62e643202@localhost:26656"
+csrb start --home=/Users/sherlock/testnet/v1/csrb （此时正常追赶）
+
+
+csrb tendermint show-validator --home=/Users/sherlock/testnet/v1/csrb
+
+csrbcli keys show v1
+
+
+  address: csrb1jk7d0fk0tnf9zsmmu0ag4q48xu4e2htx005u5s
+  pubkey: csrbpub1addwnpepqvjzh7q6kfzwucycyujfz4vwcszcuqa2ypjrl2k2w962tj06q2wzv6fk000
+
+
+
+
+create validator
+csrbcli tx validator create --name=x1 --pubkey=csrbvalconspub1ulx45dfpqzqpq5d37d8jd954986e2up4haetthnqacywlu2pu6ecsfn75yq667fa3er --power=100 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+update validator
+csrbcli tx validator update [name] --pubkey <fcp...> --power 100
+
+
+remove validator
+csrbcli tx validator remove [name]
+
+
+unjail validator
+csrbcli tx validator unjail [name]
+
+
+query validator
+csrbcli q validator query [name]
+
+
+query validators
+csrbcli q validator list --trust-node
