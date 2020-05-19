@@ -1,13 +1,42 @@
+csrbcli tx nft issue [denom] --matedata=<matedata>
+--matedata="tokenURI" 和spec不一致 没有这项
 
-distribution 崩溃
+csrbcli tx nft burn d01 a01 --from=v1 --chain-id=shilei-qa --fees=4point -b block -y
+
+csrbcli query nft collection --trust-node d01
+
+ csrbcli query nft collection --trust-node d01
+ ERROR: collection Name:				d01
+ Schema:			[do-not-modify]
+ Creator:		csrb1pl43apkxexct4jgwv29mrlkqdj4me59sd0xn99 not existed : unknown NFT collection
+
+ ？？？？
+
+ csrbcli tx nft edit d01 a01 --token-uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+csrbcli query nft token --trust-node d01 a01
+id: a01
+owner: csrb16l40svawl744slaczaqx4ndwx62ytpp2ylsuwt
+token_uri: tokenURI2
+token_data: '[do-not-modify]'
 
 
-E[2020-05-14|18:08:00.886] CONSENSUS FAILURE!!!                         module=consensus err="Validator consensus-address csrbvalcons1uxkfanjqrrv5djxcsyjgg3yzrzh47z7lv7qrnd not found" stack="goroutine 163 [running]:\nruntime/debug.Stack(0xc0027f6188, 0x50871c0, 0xc000be6690)\n\t/usr/local/Cellar/go/1.13.6/libexec/src/runtime/debug/stack.go:24 +0x9d\ngithub.com/tendermint/tendermint/consensus.(*State).receiveRoutine.func2(0xc0000ad880, 0x548dd18)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/consensus/state.go:617 +0x57\npanic(0x50871c0, 0xc000be6690)\n\t/usr/local/Cellar/go/1.13.6/libexec/src/runtime/panic.go:679 +0x1b2\ngithub.com/cosmos/cosmos-sdk/x/slashing/keeper.Keeper.HandleValidatorSignature(0x5731840, 0xc000dcb210, 0x5768120, 0xc000d85350, 0x575dcc0, 0xc000d908f0, 0x574db80, 0xc000d15c70, 0x5747540, 0xc000042078, ...)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/cosmos-sdk@v0.38.2-0.20200508085623-d062defaa1d6/x/slashing/keeper/infractions.go:20 +0x1dd3\ngithub.com/cosmos/cosmos-sdk/x/slashing.BeginBlocker(0x5747540, 0xc000042078, 0x5763f20, 0xc002aedac0, 0xa, 0x0, 0x0, 0x0, 0x0, 0x0, ...)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/cosmos-sdk@v0.38.2-0.20200508085623-d062defaa1d6/x/slashing/abci.go:16 +0x17d\ngithub.com/cosmos/cosmos-sdk/x/slashing.AppModule.BeginBlock(...)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/cosmos-sdk@v0.38.2-0.20200508085623-d062defaa1d6/x/slashing/module.go:148\ngithub.com/cosmos/cosmos-sdk/types/module.(*Manager).BeginBlock(0xc0000fd5e0, 0x5747540, 0xc000042078, 0x5763f20, 0xc002aedac0, 0xa, 0x0, 0x0, 0x0, 0x0, ...)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/cosmos-sdk@v0.38.2-0.20200508085623-d062defaa1d6/types/module/module.go:301 +0x1ca\ncsrb/app.(*CsrbApp).BeginBlocker(...)\n\t/Users/sherlock/go/src/gitlab.bianjie.ai/csrb/app/app.go:408\ngithub.com/cosmos/cosmos-sdk/baseapp.(*BaseApp).BeginBlock(0xc000c98500, 0xc002c1c780, 0x20, 0x20, 0xa, 0x0, 0x0, 0x0, 0x0, 0x0, ...)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/cosmos-sdk@v0.38.2-0.20200508085623-d062defaa1d6/baseapp/abci.go:139 +0x4b4\ngithub.com/tendermint/tendermint/abci/client.(*localClient).BeginBlockSync(0xc00018cea0, 0xc002c1c780, 0x20, 0x20, 0xa, 0x0, 0x0, 0x0, 0x0, 0x0, ...)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/abci/client/local_client.go:231 +0x101\ngithub.com/tendermint/tendermint/proxy.(*appConnConsensus).BeginBlockSync(0xc00013b950, 0xc002c1c780, 0x20, 0x20, 0xa, 0x0, 0x0, 0x0, 0x0, 0x0, ...)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/proxy/app_conn.go:69 +0x6b\ngithub.com/tendermint/tendermint/state.execBlockOnProxyApp(0x5748140, 0xc000d1a760, 0x575a420, 0xc00013b950, 0xc000455500, 0x57673a0, 0xc0004a9858, 0x6, 0xc0000438c0, 0x9)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/state/execution.go:284 +0x3e1\ngithub.com/tendermint/tendermint/state.(*BlockExecutor).ApplyBlock(0xc000100230, 0xa, 0x0, 0xc0000438b0, 0x6, 0xc0000438c0, 0x9, 0x5, 0xc002a57c40, 0x20, ...)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/state/execution.go:135 +0x17a\ngithub.com/tendermint/tendermint/consensus.(*State).finalizeCommit(0xc0000ad880, 0x6)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/consensus/state.go:1459 +0x8f5\ngithub.com/tendermint/tendermint/consensus.(*State).tryFinalizeCommit(0xc0000ad880, 0x6)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/consensus/state.go:1377 +0x383\ngithub.com/tendermint/tendermint/consensus.(*State).enterCommit.func1(0xc0000ad880, 0x0, 0x6)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/consensus/state.go:1312 +0x90\ngithub.com/tendermint/tendermint/consensus.(*State).enterCommit(0xc0000ad880, 0x6, 0x0)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/consensus/state.go:1349 +0x61a\ngithub.com/tendermint/tendermint/consensus.(*State).addVote(0xc0000ad880, 0xc002ae6e60, 0xc000d658f0, 0x28, 0x0, 0x8, 0xc0027fda38)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/consensus/state.go:1891 +0xa39\ngithub.com/tendermint/tendermint/consensus.(*State).tryAddVote(0xc0000ad880, 0xc002ae6e60, 0xc000d658f0, 0x28, 0x90409c9ad64f0f80, 0x107, 0xff)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/consensus/state.go:1707 +0x67\ngithub.com/tendermint/tendermint/consensus.(*State).handleMsg(0xc0000ad880, 0x571b340, 0xc00018a800, 0xc000d658f0, 0x28)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/consensus/state.go:713 +0x252\ngithub.com/tendermint/tendermint/consensus.(*State).receiveRoutine(0xc0000ad880, 0x0)\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/consensus/state.go:648 +0x6eb\ncreated by github.com/tendermint/tendermint/consensus.(*State).OnStart\n\t/Users/sherlock/go/pkg/mod/github.com/bianjieai/tendermint@v0.33.1-dev0.0.20200507075422-43fc9d850504/consensus/state.go:335 +0x13a\n"
-E[2020-05-14|18:09:19.091] Stopping peer for error                      module=p2p peer="Peer{MConn{[::1]:59878} ee8f917f0dc78cf28a7b54d395a279902cc73b1b in}" err=EOF
-^CE[2020-05-14|18:09:21.884] Not stopping BlockPool service -- has not been started yet module=blockchain impl=BlockPool
-I[2020-05-14|18:09:21.884] exiting...
-scsrb
 
+
+
+ =====
+ 崩溃
+
+csrb 测试新的的issue。
+
+1） 创建新的验证人会崩溃（distribution，slash等原因引起的） 最新代码已修复
+https://gitlab.bianjie.ai/csrb/csrb/issues/1
+
+2）【bug】params update参数修改，错误提示不正确，用户无法定位错误原因
+https://gitlab.bianjie.ai/csrb/csrb/issues/2
+
+3）【bug】staking中params.go， 代码参数的构造有问题，导致更新参数提示错误。（cosmos sdk的代码）
+https://gitlab.bianjie.ai/csrb/csrb/issues/3
 
 ================================================================================================================
 ================================================================================================================

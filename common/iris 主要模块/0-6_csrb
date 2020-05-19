@@ -16,7 +16,7 @@ cd /Users/sherlock/go/src/gitlab.bianjie.ai/csrb
 git fetch --all
 git checkout .
 // git checkout master
-// git checkout -b vincent-clean origin/vincent-clean
+                                          // git checkout -b vincent-clean origin/vincent-clean
 // git checkout vincent-clean
 // git pull
 git merge origin/master
@@ -262,5 +262,74 @@ csrbcli query service request-context --trust-node 423992EA3EA10E4F168A2832C40CF
 //注意这个只能查活跃的 ， 过期的查不到。
 csrbcli query service response C9F4EA3442E1CB86980CD9FA46A2AFAA7805821FF74F68903D8E28D8707FFFA70000000000000000000000000000001E00000000000002FE0000 -o=json
 csrbcli query service responses <request-context-id> <batch-counter>
+
+
+========================================================================================================================
+========================================================================================================================
+==================admin======================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+
+=====
+create validator
+=====
+csrbcli tx validator create --name=x1 --pubkey=csrbvalconspub1ulx45dfpqzqpq5d37d8jd954986e2up4haetthnqacywlu2pu6ecsfn75yq667fa3er --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+update validator
+=====
+csrbcli tx validator update x1 --pubkey=csrbvalconspub1ulx45dfpqzqpq5d37d8jd954986e2up4haetthnqacywlu2pu6ecsfn75yq667fa3er --power=20 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+remove validator
+=====
+csrbcli tx validator remove x1 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+=====
+unjail validator 没测
+=====
+csrbcli tx validator unjail [name]
+
+=====
+query validator
+=====
+csrbcli query validator query --trust-node x1
+
+=====
+query validators
+=====
+csrbcli q validator list --trust-node
+
+
+====== 起一个全节点 ======
+csrb init --home=/Users/sherlock/testnet/v1/csrb --chain-id=shilei-qa x1
+copy genesis toml
+csrb tendermint show-node-id --home=/Users/sherlock/testnet/v0/csrb  //node id 下面用
+toml 26657=》26687 3个，seeds = "6d0e211e5922649ea302f2deb5bcf3d62e643202@localhost:26656"
+csrb start --home=/Users/sherlock/testnet/v1/csrb （此时正常追赶）
+
+
+csrb tendermint show-validator --home=/Users/sherlock/testnet/v1/csrb
+
+csrbcli keys show v1
+
+
+  address: csrb1jk7d0fk0tnf9zsmmu0ag4q48xu4e2htx005u5s
+  pubkey: csrbpub1addwnpepqvjzh7q6kfzwucycyujfz4vwcszcuqa2ypjrl2k2w962tj06q2wzv6fk000
+
+
+================================
+
+========================================================================================================================
+========================================================================================================================
+==================修改参数======================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+
+
+csrbcli tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 
