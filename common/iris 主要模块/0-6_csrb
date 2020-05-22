@@ -277,6 +277,12 @@ create validator
 csrbcli tx validator create --name=x1 --pubkey=csrbvalconspub1ulx45dfpqzqpq5d37d8jd954986e2up4haetthnqacywlu2pu6ecsfn75yq667fa3er --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
+query validator
+=====
+csrbcli query validator validator --trust-node x1
+
+
+=====
 update validator
 =====
 csrbcli tx validator update x1 --pubkey=csrbvalconspub1ulx45dfpqzqpq5d37d8jd954986e2up4haetthnqacywlu2pu6ecsfn75yq667fa3er --power=20 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
@@ -307,18 +313,26 @@ csrbcli q validator list --trust-node
 csrb init --home=/Users/sherlock/testnet/v1/csrb --chain-id=shilei-qa x1
 copy genesis toml
 csrb tendermint show-node-id --home=/Users/sherlock/testnet/v0/csrb  //node id 下面用
-toml 26657=》26687 3个，seeds = "6d0e211e5922649ea302f2deb5bcf3d62e643202@localhost:26656"
+toml 26657=》26687 3个，seeds = "2e5f8be5d148edf18e3f1b06c2fbeb9378e374f0@localhost:26656"
 csrb start --home=/Users/sherlock/testnet/v1/csrb （此时正常追赶）
 
 
 csrb tendermint show-validator --home=/Users/sherlock/testnet/v1/csrb
+csrbvalconspub1ulx45dfpqyg884aalur42pg0z568qxwj690s6qlh0tj0trl7kjrpz70nukr3v9ma89l
+
+csrbcli tx validator create --name=x1 --pubkey=csrbvalconspub1ulx45dfpqyg884aalur42pg0z568qxwj690s6qlh0tj0trl7kjrpz70nukr3v9ma89l --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+csrbcli query validator validator --trust-node x1
+
+
+
+
+
+  address: csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+  pubkey:
+
 
 csrbcli keys show v1
-
-
-  address: csrb1jk7d0fk0tnf9zsmmu0ag4q48xu4e2htx005u5s
-  pubkey: csrbpub1addwnpepqvjzh7q6kfzwucycyujfz4vwcszcuqa2ypjrl2k2w962tj06q2wzv6fk000
-
 
 ================================
 
@@ -331,5 +345,123 @@ csrbcli keys show v1
 
 
 csrbcli tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+
+========================================================================================================================
+========================================================================================================================
+==================nft======================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+
+
+cd ~ && rm -rf .csrbcli .csrb testnet
+csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+csrb start --home=/Users/sherlock/testnet/v0/csrb
+
+
+
+=====
+
+https://gitlab.bianjie.ai/irita/spec/blob/v1.0/nft/README.md
+
+csrbcli keys show v0
+csrb1pl43apkxexct4jgwv29mrlkqdj4me59sd0xn99
+
+csrbcli keys add v1 --recover
+caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
+csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+
+
+=====
+issue denom
+=====
+csrbcli tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx nft issue d02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+mint
+=====
+csrbcli tx nft mint d01 a01 --recipient=$(csrbcli keys show v0 --address) --token-uri="tokenURI" --token-data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+csrbcli tx nft mint d01 a02 --recipient=$(csrbcli keys show v0 --address) --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+csrbcli tx nft mint d02 a01 --recipient=csrb1pl43apkxexct4jgwv29mrlkqdj4me59sd0xn99 --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+查询
+=====
+//demon:d01 下的nft supply总数
+csrbcli query nft supply --trust-node d01
+
+//csrbcli query nft owner
+csrbcli query nft owner --trust-node $(csrbcli keys show v0 --address)
+
+//collection
+csrbcli query nft collection --trust-node d01
+
+//query denoms
+csrbcli query nft denoms --trust-node
+
+//query nft
+csrbcli query nft token --trust-node d01 a01
+
+
+=====
+edit ， 必须要用owner
+=====
+//转给v1 一点point 50000point --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli query bank balances --trust-node $(csrbcli keys show v0 --address)
+csrbcli tx send v0 $(csrbcli keys show v1 --address) 10000point --chain-id=shilei-qa --fees=4point -b block -y
+
+csrbcli tx nft edit d01 a01 --token-uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli query nft token --trust-node d01 a01
+
+
+=====
+transfer
+=====
+csrbcli tx nft transfer $(csrbcli keys show v1 --address) d01 a01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli query nft token --trust-node d01 a01
+
+=====
+burn
+=====
+csrbcli tx nft burn d01 a01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+csrbcli query nft collection --trust-node d01
+
+
+
+========================================================================================================================
+========================================================================================================================
+================== init gentx  起链 ======================================================================================================
+========================================================================================================================
+========================================================================================================================
+cd ~ && rm -rf .csrbcli .csrb testnet
+csrb init --home=/Users/sherlock/testnet/v0/csrb --chain-id=shilei-qa v0
+csrb init --home=/Users/sherlock/testnet/v1/csrb --chain-id=shilei-qa v1
+csrb gentx --home=/Users/sherlock/testnet/v0/csrb --name=v0
+csrb gentx --home=/Users/sherlock/testnet/v1/csrb --name=v1
+copy v1的gentx里的文件 -》 v0
+
+
+csrb add-genesis-account $(csrbcli keys show v0 --address) 100000000point --home=/Users/sherlock/testnet/v0/csrb
+csrb add-genesis-account $(csrbcli keys show v1 --address) 100000000point --home=/Users/sherlock/testnet/v0/csrb
+csrb collect-gentxs --home=/Users/sherlock/testnet/v0/csrb
+copy v0的gennesis toml文件 -》 v1
+
+csrb tendermint show-node-id --home=/Users/sherlock/testnet/v0/csrb
+修改v1的toml 26657=》26687 3个，replace 2665 =》 2666
+seeds = "375b8c804ae1dafea68124dc0d2ee90ae35daccf@localhost:26656"
+
+csrb start --home=/Users/sherlock/testnet/v0/csrb
+csrb start --home=/Users/sherlock/testnet/v1/csrb
+
+验证：
+csrbcli query bank balances --trust-node $(csrbcli keys show v0 --address)
+csrbcli query bank balances --trust-node $(csrbcli keys show v1 --address)
 
 

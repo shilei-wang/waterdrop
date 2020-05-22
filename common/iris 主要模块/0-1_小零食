@@ -1,25 +1,25 @@
 
-测bug 测另外17的 service。
+测另外17的 service。
 
-@王石磊 csrb 测试
-1. 节点初始化（csrb init, gentx等命令）
-2. 验证 https://gitlab.bianjie.ai/csrb/csrb/issues/1
-3. NFT 新增功能测试（issue denom, 增加token_data字段等）
+
 
 ========================
-nft
 
 
-参数修改
+程文席(程文席)
+@王石磊 csrbwallet 提测
+spec: https://gitlab.bianjie.ai/csrb/spec/tree/v1.0/wallet
 
-nft  其他
-bank 模块MultiSend（需要使用csrb-go-sdk）, 转账后无法查询account的问题。
-csrbcli tx service withdraw-fees  [provider-address]
+algo 怎么用
+额外测试: sm2签名验证。 ？？？
 
-admin 新起节点
-===
-3. service withdraw-fees 指定不存在的owner与provider关联关系，交易无错误返回。
+@王石磊  从wallet导出的私钥可以直接使用csrbcli keys import导入 。也需要测试一下能否正常交易
 
+
+=========================
+
+测试
+csrb wallet
 
 
 权限管理测试 8小时
@@ -27,89 +27,23 @@ validator module测试 8小时
 param测试 8小时
 service测试 8小时
 nft测试 8小时
-
-========================================================================================================================
-========================================================================================================================
-==================nft======================================================================================================
-========================================================================================================================
-========================================================================================================================
-
+admin测试
 
 
 cd ~ && rm -rf .csrbcli .csrb testnet
 csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 csrb start --home=/Users/sherlock/testnet/v0/csrb
 
+=========================
 
-
-=====
-
-https://gitlab.bianjie.ai/irita/spec/blob/v1.0/nft/README.md
-
-csrbcli keys show v0
-csrb1pl43apkxexct4jgwv29mrlkqdj4me59sd0xn99
-
-csrbcli keys add v1 --recover
-caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
-csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
-
-
-=====
-issue denom
-=====
-csrbcli tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli tx nft issue d02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-=====
-mint
-=====
-csrbcli tx nft mint d01 a01 --recipient=$(csrbcli keys show v0 --address) --token-uri="tokenURI" --token-data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-csrbcli tx nft mint d01 a02 --recipient=$(csrbcli keys show v0 --address) --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-csrbcli tx nft mint d02 a01 --recipient=csrb1pl43apkxexct4jgwv29mrlkqdj4me59sd0xn99 --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-=====
-查询
-=====
-//demon:d01 下的nft supply总数
-csrbcli query nft supply --trust-node d01
-
-//csrbcli query nft owner
-csrbcli query nft owner --trust-node $(csrbcli keys show v0 --address)
-
-//collection
-csrbcli query nft collection --trust-node d01
-
-//query denoms
-csrbcli query nft denoms --trust-node
-
-//query nft
-csrbcli query nft token --trust-node d01 a01
-
-
-=====
-edit ， 必须要用owner
-=====
-//转给v1 一点point 50000point --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli query bank balances --trust-node $(csrbcli keys show v0 --address)
-csrbcli tx send v0 $(csrbcli keys show v1 --address) 10000point --chain-id=shilei-qa --fees=4point -b block -y
-
-csrbcli tx nft edit d01 a01 --token-uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli query nft token --trust-node d01 a01
-
-
-=====
-transfer
-=====
-csrbcli tx nft transfer $(csrbcli keys show v1 --address) d01 a01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli query nft token --trust-node d01 a01
-
-=====
-burn
-=====
-csrbcli tx nft burn d01 a01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-csrbcli query nft collection --trust-node d01
-
+cd /Users/sherlock/testnet && rm -rf /Users/sherlock/testnet/keyring-file
+//8位密码 ，记得要复制助记词
+csrbwallet init --home=/Users/sherlock/testnet
+csrbwallet update --home=/Users/sherlock/testnet
+csrbwallet keys create v0 --home=/Users/sherlock/testnet
+csrbwallet keys show v0 --home=/Users/sherlock/testnet
+csrbwallet keys list --home=/Users/sherlock/testnet
+//注意：保存随机密码，import用
+csrbwallet keys export v0 --home=/Users/sherlock/testnet
+csrbcli keys import x0 /Users/sherlock/testnet/v0.key
+csrbcli keys show x0
