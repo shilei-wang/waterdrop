@@ -310,29 +310,28 @@ csrbcli q validator list --trust-node
 
 
 ====== 起一个全节点 ======
+
+rm -rf /Users/sherlock/testnet/v1
 csrb init --home=/Users/sherlock/testnet/v1/csrb --chain-id=shilei-qa x1
-copy genesis toml
-csrb tendermint show-node-id --home=/Users/sherlock/testnet/v0/csrb  //node id 下面用
-toml 26657=》26687 3个，seeds = "2e5f8be5d148edf18e3f1b06c2fbeb9378e374f0@localhost:26656"
-csrb start --home=/Users/sherlock/testnet/v1/csrb （此时正常追赶）
 
+cp /Users/sherlock/testnet/v0/csrb/config/config.toml /Users/sherlock/testnet/v1/csrb/config/config.toml
+cp /Users/sherlock/testnet/v0/csrb/config/genesis.json /Users/sherlock/testnet/v1/csrb/config/genesis.json
 
-csrb tendermint show-validator --home=/Users/sherlock/testnet/v1/csrb
-csrbvalconspub1ulx45dfpqyg884aalur42pg0z568qxwj690s6qlh0tj0trl7kjrpz70nukr3v9ma89l
+csrb tendermint show-node-id --home=/Users/sherlock/testnet/v0/csrb
+复制id 到下面的seed， 下面2条顺序不能变
+sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/v1/csrb/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "05288983543877612541cf4a92e351a0fdd97eac@localhost:26656"/g' /Users/sherlock/testnet/v1/csrb/config/config.toml
 
-csrbcli tx validator create --name=x1 --pubkey=csrbvalconspub1ulx45dfpqyg884aalur42pg0z568qxwj690s6qlh0tj0trl7kjrpz70nukr3v9ma89l --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+此时正常追赶
+csrb start --home=/Users/sherlock/testnet/v1/csrb
 
+新建一个页面,创建validator
+csrbcli tx validator create --name=x1 --pubkey=$(csrb tendermint show-validator --home=/Users/sherlock/testnet/v1/csrb) --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+查询
 csrbcli query validator validator --trust-node x1
 
 
-
-
-
-  address: csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
-  pubkey:
-
-
-csrbcli keys show v1
 
 ================================
 

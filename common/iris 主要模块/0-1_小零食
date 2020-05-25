@@ -1,6 +1,11 @@
 
 测另外17的 service。
 
+@王石磊 csrb 提测：
+1. admin module 测试
+2. csrbwallet bug验证
+3. nft bug验证
+4. validator slashing bug验证（需增加测试unjail功能）
 
 
 ========================
@@ -47,3 +52,9 @@ csrbwallet keys list --home=/Users/sherlock/testnet
 csrbwallet keys export v0 --home=/Users/sherlock/testnet
 csrbcli keys import x0 /Users/sherlock/testnet/v0.key
 csrbcli keys show x0
+
+
+
+
+
+
