@@ -3,9 +3,10 @@
 
 @王石磊 csrb 提测：
 1. admin module 测试
-2. csrbwallet bug验证
-3. nft bug验证
-4. validator slashing bug验证（需增加测试unjail功能）
+
+
+
+
 
 
 ========================
@@ -38,21 +39,6 @@ admin测试
 cd ~ && rm -rf .csrbcli .csrb testnet
 csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 csrb start --home=/Users/sherlock/testnet/v0/csrb
-
-=========================
-
-cd /Users/sherlock/testnet && rm -rf /Users/sherlock/testnet/keyring-file
-//8位密码 ，记得要复制助记词
-csrbwallet init --home=/Users/sherlock/testnet
-csrbwallet update --home=/Users/sherlock/testnet
-csrbwallet keys create v0 --home=/Users/sherlock/testnet
-csrbwallet keys show v0 --home=/Users/sherlock/testnet
-csrbwallet keys list --home=/Users/sherlock/testnet
-//注意：保存随机密码，import用
-csrbwallet keys export v0 --home=/Users/sherlock/testnet
-csrbcli keys import x0 /Users/sherlock/testnet/v0.key
-csrbcli keys show x0
-
 
 
 

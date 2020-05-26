@@ -464,3 +464,20 @@ csrbcli query bank balances --trust-node $(csrbcli keys show v0 --address)
 csrbcli query bank balances --trust-node $(csrbcli keys show v1 --address)
 
 
+========================================================================================================================
+========================================================================================================================
+================== csrbwallet ======================================================================================================
+========================================================================================================================
+========================================================================================================================
+cd /Users/sherlock/testnet && rm -rf /Users/sherlock/testnet/keyring-file
+//8位密码 ，记得要复制助记词
+csrbwallet init --home=/Users/sherlock/testnet
+csrbwallet update --home=/Users/sherlock/testnet
+csrbwallet keys create v0 --home=/Users/sherlock/testnet
+csrbwallet keys show v0 --home=/Users/sherlock/testnet
+csrbwallet keys list --home=/Users/sherlock/testnet
+//注意：保存随机密码，import用
+csrbwallet keys export v0 --home=/Users/sherlock/testnet
+csrbcli keys import x0 /Users/sherlock/testnet/v0.key
+csrbcli keys show x0
+

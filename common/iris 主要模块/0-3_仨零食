@@ -2,34 +2,7 @@
 
 ================================================================================
 
-
-====
-
-
-
-csrb 最新issue ，包含csrbwallet
-
-csrbwallet panic 先更新（update）再创建账户 wallet会崩溃。
-https://gitlab.bianjie.ai/csrb/csrb/issues/4
-
-csrbwallet 指定错误的home地址 wallet会崩溃
-https://gitlab.bianjie.ai/csrb/csrb/issues/5
-
-
-cannot jail already jailed validator ， 删除一个没有在运行的validator 会导致链panic。
-https://gitlab.bianjie.ai/csrb/csrb/issues/6
-
-[nft] nft edit（不指定token_data）之后 ， 会出现 token_data: '[do-not-modify]'的问题。
-https://gitlab.bianjie.ai/csrb/csrb/issues/7
-
- =====
- 崩溃
-
-csrb 测试新的的issue。
-
-1） 创建新的验证人会崩溃（distribution，slash等原因引起的） 最新代码已修复
-https://gitlab.bianjie.ai/csrb/csrb/issues/1
-
+???? 怎么用啊 测试不通过
 2）【bug】params update参数修改，错误提示不正确，用户无法定位错误原因
 https://gitlab.bianjie.ai/csrb/csrb/issues/2
 
