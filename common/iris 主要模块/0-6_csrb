@@ -38,7 +38,8 @@ caught below output final blast sun elevator labor regular palm dizzy stand arct
 address: csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
 
 
-csrbcli tx send v0 csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 50000point --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx send v0 csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 50000000point --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli query bank balances --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
 
 
 =====================================================================================================================
@@ -266,7 +267,90 @@ csrbcli query service responses <request-context-id> <batch-counter>
 
 ========================================================================================================================
 ========================================================================================================================
-==================admin======================================================================================================
+================== admin ======================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+| msg                 | 角色                      |
+| ------------------- | ------------------------- |
+| add/remove roles    | RootAdmin、PermAdmin      |
+| block/unblock       | RootAdmin、BlacklistAdmin |
+| all validator msg   | RootAdmin、NodeAdmin      |
+| param update        | RootAdmin、ParamAdmin     |
+| token issue         | RootAdmin、PowerUser      |
+| nft issue denom     | RootAdmin、PowerUser      |
+| service define/bind | RootAdmin、PowerUser      |
+
+$(csrbcli keys show v1 --address)
+
+=====
+add-roles
+=====
+// PermAdmin(控制权限， 不能互相删除，只能有root删除), BlacklistAdmin（黑名单，带admin的不能被加入黑名单）, NodeAdmin（节点，验证人）, ParamAdmin （参数修改）, PowerUser （issue mint）
+csrbcli tx admin add-roles csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 NodeAdmin --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx admin add-roles csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+query roles
+=====
+csrbcli query admin roles csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 --trust-node
+csrbcli query admin roles $(csrbcli keys show v0 --address) --trust-node
+
+
+=====
+remove-roles
+=====
+csrbcli tx admin remove-roles $(csrbcli keys show v2 --address)  NodeAdmin --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx admin remove-roles csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+block-account
+=====
+//限制该用户所有交易
+csrbcli tx admin block-account csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+==
+csrbcli keys add v1 --recover
+caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
+address: csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+
+csrbcli tx send v0 csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 50000point --chain-id=shilei-qa --fees=4point -b block -y
+
+==
+
+=====
+query blacklist
+=====
+csrbcli query admin blacklist --trust-node
+
+
+=====
+unblock block-account
+=====
+csrbcli tx admin unblock-account csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+=====
+常用操作
+=====
+csrbcli query admin roles $(csrbcli keys show v1 --address) --trust-node
+csrbcli query admin roles $(csrbcli keys show v2 --address) --trust-node
+
+
+//刷新
+csrbcli tx admin add-roles $(csrbcli keys show v1 --address) PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx admin remove-roles $(csrbcli keys show v1 --address) PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+csrbcli tx admin add-roles $(csrbcli keys show v1 --address)  ParamAdmin    --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx admin remove-roles $(csrbcli keys show v1 --address)   ParamAdmin   --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+
+
+========================================================================================================================
+========================================================================================================================
+================== validator ======================================================================================================
 ========================================================================================================================
 ========================================================================================================================
 
@@ -294,9 +378,11 @@ csrbcli tx validator remove x1 --from=v0 --chain-id=shilei-qa --fees=4point -b b
 
 
 =====
-unjail validator 没测
+unjail validator
 =====
 csrbcli tx validator unjail [name]
+
+csrbcli tx slashing unjail x1 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
 query validator
@@ -345,7 +431,7 @@ csrbcli query validator validator --trust-node x1
 
 csrbcli tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
-
+csrbcli query slashing params --trust-node
 
 ========================================================================================================================
 ========================================================================================================================
@@ -357,6 +443,7 @@ csrbcli tx params update /Users/sherlock/my_workspace/service/param.json --from=
 
 cd ~ && rm -rf .csrbcli .csrb testnet
 csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+
 csrb start --home=/Users/sherlock/testnet/v0/csrb
 
 
@@ -473,6 +560,7 @@ cd /Users/sherlock/testnet && rm -rf /Users/sherlock/testnet/keyring-file
 //8位密码 ，记得要复制助记词
 csrbwallet init --home=/Users/sherlock/testnet
 csrbwallet update --home=/Users/sherlock/testnet
+//csrbwallet update --home=/Users/sherlock/testnet --type=2 助记词恢复
 csrbwallet keys create v0 --home=/Users/sherlock/testnet
 csrbwallet keys show v0 --home=/Users/sherlock/testnet
 csrbwallet keys list --home=/Users/sherlock/testnet
@@ -480,4 +568,22 @@ csrbwallet keys list --home=/Users/sherlock/testnet
 csrbwallet keys export v0 --home=/Users/sherlock/testnet
 csrbcli keys import x0 /Users/sherlock/testnet/v0.key
 csrbcli keys show x0
+
+
+========================================================================================================================
+========================================================================================================================
+================== export ======================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+//csrb export --home=/Users/sherlock/testnet/v0/csrb >/Users/sherlock/genesis.json
+csrb export --for-zero-height --home=/Users/sherlock/testnet/v0/csrb >/Users/sherlock/genesis.json
+csrb unsafe-reset-all --home=/Users/sherlock/testnet/v0/csrb
+
+"time_iota_ms":"0" 》 "time_iota_ms":"10"
+cp ~/genesis.json /Users/sherlock/testnet/v0/csrb/config
+csrb start --home=/Users/sherlock/testnet/v0/csrb
+
+
+
 

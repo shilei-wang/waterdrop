@@ -1,39 +1,29 @@
 
 测另外17的 service。
 
-@王石磊 csrb 提测：
-1. admin module 测试
 
-
-
-
+压力测试
 
 
 ========================
 
-
-程文席(程文席)
-@王石磊 csrbwallet 提测
-spec: https://gitlab.bianjie.ai/csrb/spec/tree/v1.0/wallet
-
-algo 怎么用
-额外测试: sm2签名验证。 ？？？
-
-@王石磊  从wallet导出的私钥可以直接使用csrbcli keys import导入 。也需要测试一下能否正常交易
+1. 复测 csrbwallet ， 着重负向测试， 助记词相关 8小时
+2. validator module 复测 着重负向测试，  8小时
+3. csrb export 16小时
+4. csrb admin 权限逻辑复测
 
 
 =========================
 
-测试
-csrb wallet
 
+CSRB 底层链：
 
-权限管理测试 8小时
-validator module测试 8小时
-param测试 8小时
-service测试 8小时
-nft测试 8小时
-admin测试
+1. 权限管理测试
+2. validator module测试
+3. param测试
+4. service测试
+5. nft测试
+6. Bug复测以及验证
 
 
 cd ~ && rm -rf .csrbcli .csrb testnet
