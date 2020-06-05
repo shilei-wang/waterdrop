@@ -406,7 +406,7 @@ cp /Users/sherlock/testnet/v0/csrb/config/genesis.json /Users/sherlock/testnet/v
 csrb tendermint show-node-id --home=/Users/sherlock/testnet/v0/csrb
 复制id 到下面的seed， 下面2条顺序不能变
 sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/v1/csrb/config/config.toml
-sed -i '' 's/seeds = ""/seeds = "05288983543877612541cf4a92e351a0fdd97eac@localhost:26656"/g' /Users/sherlock/testnet/v1/csrb/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "ab46f635b6eca7a497a2086ee36eca056139a6b2@localhost:26656"/g' /Users/sherlock/testnet/v1/csrb/config/config.toml
 
 此时正常追赶
 csrb start --home=/Users/sherlock/testnet/v1/csrb

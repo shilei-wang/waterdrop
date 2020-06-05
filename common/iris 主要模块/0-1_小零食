@@ -4,13 +4,8 @@
 
 压力测试
 
-
 ========================
 
-1. 复测 csrbwallet ， 着重负向测试， 助记词相关 8小时
-2. validator module 复测 着重负向测试，  8小时
-3. csrb export 16小时
-4. csrb admin 权限逻辑复测
 
 
 =========================
@@ -24,6 +19,12 @@ CSRB 底层链：
 4. service测试
 5. nft测试
 6. Bug复测以及验证
+
+
+1. 复测 csrbwallet ， 着重负向测试， 助记词相关 8小时
+2. validator module 复测 着重负向测试，  8小时
+3. 测试 csrb export 16小时
+4. csrb admin 权限逻辑复测 8小时
 
 
 cd ~ && rm -rf .csrbcli .csrb testnet
