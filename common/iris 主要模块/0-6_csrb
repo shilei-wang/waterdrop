@@ -63,6 +63,7 @@ echo y | csrbcli tx token issue --name=token-name --min-unit="mu02" --scale=18 -
 
 
 
+
 ======================
 查询资产：
 ======================
@@ -354,7 +355,11 @@ csrbcli tx admin remove-roles $(csrbcli keys show v1 --address)   ParamAdmin   -
 ========================================================================================================================
 ========================================================================================================================
 
-
+csrbvalconspub1ulx45dfpqxs096x9amjdng0tamcuxa57kh7ndmsp56esure45mn0djjtva44zs7y3sp
+csrbvalconspub1ulx45dfpqrzhta8p8zdkvpc330ff3gt9874j2n32uceaxpc5z2guhvk0xa4qv4m4q4t
+csrbvalconspub1ulx45dfpqzvyhh3j7mdw8zjcdpvhk8fa5ju83naxus206erzejeq70p2vhpnqvqmhnc
+csrbvalconspub1ulx45dfpqzkdf0sgthlcddrfudy2ld27vlmxsgltc4ymxu9jssm7d40n9g9g6w8xaqr
+csrbvalconspub1ulx45dfpqpgdfz0m2aen0tj0a3qvu598k6pv875h3qgt6qzhx0mswk3mu2wechukhfj
 =====
 create validator
 =====
@@ -406,7 +411,7 @@ cp /Users/sherlock/testnet/v0/csrb/config/genesis.json /Users/sherlock/testnet/v
 csrb tendermint show-node-id --home=/Users/sherlock/testnet/v0/csrb
 复制id 到下面的seed， 下面2条顺序不能变
 sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/v1/csrb/config/config.toml
-sed -i '' 's/seeds = ""/seeds = "ab46f635b6eca7a497a2086ee36eca056139a6b2@localhost:26656"/g' /Users/sherlock/testnet/v1/csrb/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "939b34d01cf92ff76f0fa96969ed2d516ec198bf@localhost:26656"/g' /Users/sherlock/testnet/v1/csrb/config/config.toml
 
 此时正常追赶
 csrb start --home=/Users/sherlock/testnet/v1/csrb
@@ -431,7 +436,10 @@ csrbcli query validator validator --trust-node x1
 
 csrbcli tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
-csrbcli query slashing params --trust-node
+csrbcli query validator params --trust-node
+
+========================================================================================================================
+
 
 ========================================================================================================================
 ========================================================================================================================
@@ -560,7 +568,7 @@ cd /Users/sherlock/testnet && rm -rf /Users/sherlock/testnet/keyring-file
 //8位密码 ，记得要复制助记词
 csrbwallet init --home=/Users/sherlock/testnet
 csrbwallet update --home=/Users/sherlock/testnet
-//csrbwallet update --home=/Users/sherlock/testnet --type=2 助记词恢复
+//csrbwallet update --home=/Users/sherlock/testnet --type=mnemonic 助记词恢复， 密码恢复  passphrase
 csrbwallet keys create v0 --home=/Users/sherlock/testnet
 csrbwallet keys show v0 --home=/Users/sherlock/testnet
 csrbwallet keys list --home=/Users/sherlock/testnet
@@ -576,6 +584,13 @@ csrbcli keys show x0
 ========================================================================================================================
 ========================================================================================================================
 
+cd ~ && rm -rf .csrbcli .csrb testnet
+csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+csrb start --home=/Users/sherlock/testnet/v0/csrb --pruning=nothing
+
+注意：使用export功能的话，一定要加上--pruning=nothing ， 这个参数的含义是每个新块都会把数据写入数据库。
+如果没有这个参数， 会导致新链100块之内不能export，因为数据没有写入数据库。 nft也不能导出
+
 //csrb export --home=/Users/sherlock/testnet/v0/csrb >/Users/sherlock/genesis.json
 csrb export --for-zero-height --home=/Users/sherlock/testnet/v0/csrb >/Users/sherlock/genesis.json
 csrb unsafe-reset-all --home=/Users/sherlock/testnet/v0/csrb
@@ -585,5 +600,44 @@ cp ~/genesis.json /Users/sherlock/testnet/v0/csrb/config
 csrb start --home=/Users/sherlock/testnet/v0/csrb
 
 
+========================================================================================================================
+========================================================================================================================
+================== 离线交易 ======================================================================================================
+========================================================================================================================
+========================================================================================================================
 
+csrbcli tx send $(csrbcli keys show v0 --address) csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 50000000point --chain-id=shilei-qa --fees=4point -b block -y --generate-only >~/my_workspace/Tx-generate
+csrbcli tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+csrbcli tx broadcast ~/my_workspace/Tx-sign -b block -y
+
+csrbcli query bank balances --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+
+
+====
+以不同sequence
+====
+
+csrbcli tx send $(csrbcli keys show v0 --address) csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 1point --chain-id=shilei-qa --fees=4point -b block -y --generate-only  >~/my_workspace/Tx-generate
+
+//注意 ：这里sequence一定要正确。
+//如果sequence大了， 则broadcast时会报错。
+//如果sequence小了， 则broadcast时会显示当时这个sequence交易时的hash，也就是老的hash，同一个sequence的hash一样。
+csrbcli tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa --offline --sequence=1 --account-number=0 >~/my_workspace/Tx-sign
+csrbcli tx broadcast ~/my_workspace/Tx-sign -b block -y
+
+csrbcli query tx --trust-node 2A6411BCAF75AF49A4AD34CDB839CF0F6E16AB4C59EF2FFD20513BB4CD31C8B7
+csrbcli query account --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+
+
+========================================================================================================================
+========================================================================================================================
+================== 启动lcd ======================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+csrbcli rest-server --trust-node
+csrbcli rest-server --trust-node >/Users/sherlock/lcd.log & tail -f /home/shilei/lcd.log
+
+swagger：
+http://localhost:1317/
 
