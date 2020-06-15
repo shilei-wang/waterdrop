@@ -37,7 +37,7 @@ ssh shilei@34.80.94.66
 *******************************************
 --- 1 ：编译 ---
 
-cd /Users/sherlock/go/src/github.com/irita
+cd  /Users/sherlock/go/src/github.com/irisnet/irishub-load/
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build main.go [整条复制]
 生成main 文件在main.go 文件夹下 ，改名字irishub-load(大约30m)
 mv main irishub-load

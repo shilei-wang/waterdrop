@@ -1,0 +1,39 @@
+
+
+
+--- 1 ：编译 ---
+cd  /Users/sherlock/go/src/github.com/irisnet/irishub-load/
+go build main.go [整条复制]
+生成main 文件在main.go 文件夹下 ，改名字irishub-load(大约30m)
+mv main irishub-load
+mv irishub-load ~
+
+
+
+测试：irishub-load -h
+irishub-load signtx --config-dir=/home/shilei/my_workspace --tps=1 --duration=1 --account=user0
+ls -l /home/shilei/output //看下signtx大小
+
+====
+csrbcli rest-server --trust-node
+===
+
+
+
+http://localhost:1317/auth/accounts/csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+
+http://localhost:1317/auth/accounts/csrb1wdyuk6xe5jr66cjvsg5qtfthm3sm8mcutjld2p
+
+
+
+{
+  "height": "756",
+  "result": {
+    "type": "cosmos-sdk/Account",
+    "value": {
+      "address": "csrb1wdyuk6xe5jr66cjvsg5qtfthm3sm8mcutjld2p",
+      "public_key": "61rphyEDLzE59ruroeaP7n5qs/WbzfXiWfmGkQaCShkP7fKzVSw=",
+      "sequence": "1"
+    }
+  }
+}
