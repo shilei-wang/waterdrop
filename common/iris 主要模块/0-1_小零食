@@ -1,25 +1,13 @@
 
 测另外17的 service。
 
-
-压力测试
-
- cd  /Users/sherlock/go/src/github.com/irisnet/irishub-load/
- go mod tidy
+1，2 压力测试
 
 
 
-{"tx":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"from_address":"csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5","to_address":"csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5","amount":[{"denom":"point","amount":"1"}]}}],"fee":{"amount":[{"denom":"point","amount":"4"}],"gas":"100000"},"signatures":[{"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"AkQeeR40fJhMFkBmh8e/+jcOGYvMOO50YE4trqzaSJ5v"},"signature":"CbHCaB4Dw0G94TVD7raDs2uvMckBWlaOrXf7CrQTZxEoruHqk+NUIcR1FBeeIYZoUeAAZ9PUE4SFQE136K+/JQ=="}],"memo":""},"mode":"async"}
-
-
-========================
+=========================
 
 嵌入式微波炉（烤箱）
-电饭煲
-末端净水器
-电动晾衣架
-电视
-投影仪
 花洒套装
 小厨宝
 马桶
@@ -50,12 +38,5 @@ CSRB 底层链：
 3. 测试 csrb export 16小时
 4. csrb admin 权限逻辑复测 8小时
 
-
-cd ~ && rm -rf .csrbcli .csrb testnet
-csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
-csrb start --home=/Users/sherlock/testnet/v0/csrb
-
-
-
-
+==========
 

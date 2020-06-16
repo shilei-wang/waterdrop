@@ -642,3 +642,34 @@ swagger：
 http://localhost:1317/
 
 csrb1wdyuk6xe5jr66cjvsg5qtfthm3sm8mcutjld2p
+
+
+========================================================================================================================
+========================================================================================================================
+================== 压力测试 ======================================================================================================
+========================================================================================================================
+========================================================================================================================
+// irishub-load 也是csrb分支
+cd  /Users/sherlock/go/src/github.com/irisnet/irishub-load/
+//go mod tidy
+go build main.go
+mv main irishub-load
+mv irishub-load ~/go/bin/irishub-load
+
+//打开lcd
+csrbcli rest-server --trust-node
+
+//初始转账
+csrbcli tx send v0 csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 50000000point --chain-id=shilei-qa --fees=4point -b block -y
+
+//注意:用的 config_csrb.json 配置文件
+irishub-load signtx --config-dir=$HOME/my_workspace --tps=1 --duration=1 --account=user0
+irishub-load broadcast --config-dir=$HOME/my_workspace --tps=1
+
+结果:
+60000txs 1300txs/秒
+实际 : 71秒  tps： 845
+
+
+
+

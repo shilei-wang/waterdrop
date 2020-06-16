@@ -61,6 +61,7 @@ git pull
 git branch && git rev-parse HEAD
 
 跟新依赖（开代理）
+//注意：如果代理不稳定 可以用这条命令 export GOPROXY=https://goproxy.cn
 go mod tidy
 
 
