@@ -1,4 +1,17 @@
 *******************************************
+           启动lcd
+*******************************************
+
+csrbcli rest-server --trust-node
+csrbcli rest-server --trust-node >/Users/sherlock/lcd.log & tail -f /home/shilei/lcd.log
+
+swagger：
+http://localhost:1317/
+
+csrb1wdyuk6xe5jr66cjvsg5qtfthm3sm8mcutjld2p
+
+
+*******************************************
            csrb
 *******************************************
 cd /Users/sherlock/go/src/gitlab.bianjie.ai
@@ -355,14 +368,16 @@ csrbcli tx admin remove-roles $(csrbcli keys show v1 --address)   ParamAdmin   -
 ========================================================================================================================
 ========================================================================================================================
 
-csrbvalconspub1ulx45dfpqxs096x9amjdng0tamcuxa57kh7ndmsp56esure45mn0djjtva44zs7y3sp
-csrbvalconspub1ulx45dfpqrzhta8p8zdkvpc330ff3gt9874j2n32uceaxpc5z2guhvk0xa4qv4m4q4t
-csrbvalconspub1ulx45dfpqzvyhh3j7mdw8zjcdpvhk8fa5ju83naxus206erzejeq70p2vhpnqvqmhnc
-csrbvalconspub1ulx45dfpqzkdf0sgthlcddrfudy2ld27vlmxsgltc4ymxu9jssm7d40n9g9g6w8xaqr
-csrbvalconspub1ulx45dfpqpgdfz0m2aen0tj0a3qvu598k6pv875h3qgt6qzhx0mswk3mu2wechukhfj
 =====
 create validator
 =====
+//自带的root_key.pem 签发证书
+openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/cert.crt -days 365
+
+//通过cert.crt创建验证人
+csrbcli tx validator create --name=x1 --cert=/Users/sherlock/testnet/cert.crt --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+//以前的方法
 csrbcli tx validator create --name=x1 --pubkey=csrbvalconspub1ulx45dfpqzqpq5d37d8jd954986e2up4haetthnqacywlu2pu6ecsfn75yq667fa3er --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
@@ -627,21 +642,6 @@ csrbcli tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 csrbcli query tx --trust-node 2A6411BCAF75AF49A4AD34CDB839CF0F6E16AB4C59EF2FFD20513BB4CD31C8B7
 csrbcli query account --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
-
-
-========================================================================================================================
-========================================================================================================================
-================== 启动lcd ======================================================================================================
-========================================================================================================================
-========================================================================================================================
-
-csrbcli rest-server --trust-node
-csrbcli rest-server --trust-node >/Users/sherlock/lcd.log & tail -f /home/shilei/lcd.log
-
-swagger：
-http://localhost:1317/
-
-csrb1wdyuk6xe5jr66cjvsg5qtfthm3sm8mcutjld2p
 
 
 ========================================================================================================================

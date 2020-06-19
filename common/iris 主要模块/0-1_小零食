@@ -3,6 +3,9 @@
 
 1，2 压力测试
 
+【rest】 GET /validator/validators 切片错误 slice bounds out of range [5:4]
+http://localhost:1317/validator/validators?jailed=true&page=1&limit=6
+
 
 
 =========================
