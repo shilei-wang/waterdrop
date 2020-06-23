@@ -3,6 +3,8 @@
 
 
 
+
+
 ===
 【压力测试】
 csrb 测试代码更新后，做了重新测试：
@@ -10,6 +12,9 @@ csrb 测试代码更新后，做了重新测试：
 
 【issue的补充】
 有的暂时不修 暂时做记录，有的已经在修了。
+
+【validator】在特殊的步骤下， Remove validators会是csrb链崩溃！
+https://gitlab.bianjie.ai/csrb/csrb/issues/18
 
 【export】csrb export --for-zero-height 如果home字段填写不正确的地址， 返回panic
 https://gitlab.bianjie.ai/csrb/csrb/issues/14

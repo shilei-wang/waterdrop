@@ -1,19 +1,14 @@
 
 测另外17的 service。
 
-1，2 压力测试
+validator 负向测试
+回归测试 ， bug验证
 
-【rest】 GET /validator/validators 切片错误 slice bounds out of range [5:4]
-http://localhost:1317/validator/validators?jailed=true&page=1&limit=6
-
+idi
+wallet
 
 
 =========================
-
-嵌入式微波炉（烤箱）
-花洒套装
-小厨宝
-马桶
 
 
 =========================
