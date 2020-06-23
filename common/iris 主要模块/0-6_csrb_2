@@ -122,3 +122,46 @@ openssl x509 -req -in /Users/sherlock/testnet/key_x3.csr -out /Users/sherlock/te
 csrbcli tx validator create --name=x3 --cert=/Users/sherlock/testnet/key_x3.crt --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 csrbcli q validator list --trust-node
 
+
+
+
+
+=====================================================================================================================
+=====================================================================================================================
+======    csrb wallet ====================================================================================================
+=====================================================================================================================
+=====================================================================================================================
+
+
+======================
+安装
+======================
+
+---
+安装 bundler
+---
+install the bundler
+go get -u github.com/asticode/go-astilectron-bundler/...
+go install github.com/asticode/go-astilectron-bundler/astilectron-bundler
+
+---
+下载
+---
+cd /Users/sherlock/go/src/gitlab.bianjie.ai
+git clone https://gitlab.bianjie.ai/csrb/csrbwallet.git
+cd csrbwallet
+git fetch --all
+
+git remote add upstream  https://gitlab.bianjie.ai/csrb/csrbwallet.git
+git checkout -b wallet-ue upstream/wallet-ue
+git checkout wallet-ue
+git branch && git rev-parse HEAD
+//注意：需要翻墙，失败的情况下先git checkout .
+make build
+
+---
+打开
+---
+open ./output/darwin-amd64/csrbwallet.app
+
+
