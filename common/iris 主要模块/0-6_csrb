@@ -53,11 +53,11 @@ csrb start --home=/Users/sherlock/testnet/v0/csrb
 
 csrbcli keys add v1 --recover
 caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
-address: csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+address: csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 
-csrbcli tx send v0 csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 50000000point --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli query bank balances --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+csrbcli tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000000point --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 
 =====================================================================================================================
@@ -72,9 +72,9 @@ csrbcli query bank balances --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7r
 **********************
 echo y | csrbcli tx token issue --name=token-name --min-unit="mu01" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
 
-csrbcli tx send v0 csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 1mu01 --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli query account --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
-csrbcli query bank balances --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+csrbcli tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 1mu01 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli query account --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
+csrbcli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 csrbcli query bank total --trust-node
 
 echo y | csrbcli tx token issue --name=token-name --min-unit="mu02" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a02
@@ -106,14 +106,14 @@ csrbcli query token token a01
 ======================
 增发资产：
 ======================
-echo y | csrbcli tx token mint a01 --amount=1 --to=csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli query bank balances --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+echo y | csrbcli tx token mint a01 --amount=1 --to=csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 
 ======================
 转让asset：
 ======================
-csrbcli tx token transfer a01 --to=csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx token transfer a01 --to=csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 csrbcli query token tokens  --trust-node $(csrbcli keys show v1 --address)
 
 
@@ -166,11 +166,11 @@ csrbcli query service schema result --trust-node
 3. 服务绑定
 csrbcli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5
 
-csrbcli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=6  --provider=csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+csrbcli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=6  --provider=csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 
 
-csrbcli tx send v0 csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 50000point --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000point --chain-id=shilei-qa --fees=4point -b block -y
 csrbcli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v1 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=6 --provider=csrb185d9dvu6sdc6yvxxf9cx5jl4g9yvpmn5pmq48g
 
 
@@ -183,10 +183,10 @@ csrbcli query service bindings --trust-node a001 --owner=$(csrbcli keys show v0 
 5. 更新绑定 --min-resp-time（qos）也可以改
 csrbcli tx service update-binding a001 $(csrbcli keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=2point --pricing=/Users/sherlock/my_workspace/service/pricing.json --qos=8
 
-csrbcli tx service update-binding a001 csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=2point --pricing=/Users/sherlock/my_workspace/service/pricing.json --qos=9
+csrbcli tx service update-binding a001 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=2point --pricing=/Users/sherlock/my_workspace/service/pricing.json --qos=9
 
 6. 设置提取地址
-csrbcli tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4point -b block -y csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+csrbcli tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4point -b block -y csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 //查询提取地址
 csrbcli query service withdraw-addr $(csrbcli keys show v0 --address) --trust-node
@@ -246,7 +246,7 @@ csrbcli tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4point -b
 
 csrbcli tx service withdraw-fees $(csrbcli keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
 
-csrbcli query bank balances --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+csrbcli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 3.注意 irita 没有 withdraw-tax
 
@@ -305,14 +305,14 @@ $(csrbcli keys show v1 --address)
 =====
 add-roles
 =====
-// PermAdmin(控制权限， 不能互相删除，只能有root删除), BlacklistAdmin（黑名单，带admin的不能被加入黑名单）, NodeAdmin（节点，验证人）, ParamAdmin （参数修改）, PowerUser （issue mint）
-csrbcli tx admin add-roles csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 NodeAdmin --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli tx admin add-roles csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+// PermAdmin(控制权限， 只能有root添加和删除此权限， PermAdmin不能操作同样有PermAdmin权限的用户), BlacklistAdmin（黑名单，带admin的不能被加入黑名单）, NodeAdmin（节点，验证人）, ParamAdmin （参数修改）, PowerUser （issue mint）
+csrbcli tx admin add-roles csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf NodeAdmin --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx admin add-roles csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
 query roles
 =====
-csrbcli query admin roles csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 --trust-node
+csrbcli query admin roles csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf --trust-node
 csrbcli query admin roles $(csrbcli keys show v0 --address) --trust-node
 
 
@@ -320,20 +320,20 @@ csrbcli query admin roles $(csrbcli keys show v0 --address) --trust-node
 remove-roles
 =====
 csrbcli tx admin remove-roles $(csrbcli keys show v2 --address)  NodeAdmin --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli tx admin remove-roles csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx admin remove-roles csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
 block-account
 =====
 //限制该用户所有交易
-csrbcli tx admin block-account csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx admin block-account csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 ==
 csrbcli keys add v1 --recover
 caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
-address: csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+address: csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
-csrbcli tx send v0 csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 50000point --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000point --chain-id=shilei-qa --fees=4point -b block -y
 
 ==
 
@@ -346,7 +346,7 @@ csrbcli query admin blacklist --trust-node
 =====
 unblock block-account
 =====
-csrbcli tx admin unblock-account csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx admin unblock-account csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 
 =====
@@ -474,7 +474,7 @@ csrb1pl43apkxexct4jgwv29mrlkqdj4me59sd0xn99
 
 csrbcli keys add v1 --recover
 caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
-csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 
 =====
@@ -615,18 +615,18 @@ csrb start --home=/Users/sherlock/testnet/v0/csrb
 ========================================================================================================================
 ========================================================================================================================
 
-csrbcli tx send $(csrbcli keys show v0 --address) csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 50000000point --chain-id=shilei-qa --fees=4point -b block -y --generate-only >~/my_workspace/Tx-generate
+csrbcli tx send $(csrbcli keys show v0 --address) csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000000point --chain-id=shilei-qa --fees=4point -b block -y --generate-only >~/my_workspace/Tx-generate
 csrbcli tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
 csrbcli tx broadcast ~/my_workspace/Tx-sign -b block -y
 
-csrbcli query bank balances --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+csrbcli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 
 ====
 以不同sequence
 ====
 
-csrbcli tx send $(csrbcli keys show v0 --address) csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 1point --chain-id=shilei-qa --fees=4point -b block -y --generate-only  >~/my_workspace/Tx-generate
+csrbcli tx send $(csrbcli keys show v0 --address) csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 1point --chain-id=shilei-qa --fees=4point -b block -y --generate-only  >~/my_workspace/Tx-generate
 
 //注意 ：这里sequence一定要正确。
 //如果sequence大了， 则broadcast时会报错。
@@ -635,7 +635,7 @@ csrbcli tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa --off
 csrbcli tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 csrbcli query tx --trust-node 2A6411BCAF75AF49A4AD34CDB839CF0F6E16AB4C59EF2FFD20513BB4CD31C8B7
-csrbcli query account --trust-node csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5
+csrbcli query account --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 
 ========================================================================================================================
@@ -654,7 +654,7 @@ mv irishub-load ~/go/bin/irishub-load
 csrbcli rest-server --trust-node
 
 //初始转账
-csrbcli tx send v0 csrb1lcuw6ewd2gfxap37sejewmta205sgssm7rvda5 50000000point --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000000point --chain-id=shilei-qa --fees=4point -b block -y
 
 //注意:用的 config_csrb.json 配置文件
 irishub-load signtx --config-dir=$HOME/my_workspace --tps=1 --duration=1 --account=user0
