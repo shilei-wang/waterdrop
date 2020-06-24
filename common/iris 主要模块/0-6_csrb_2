@@ -132,9 +132,30 @@ csrbcli q validator list --trust-node
 =====================================================================================================================
 =====================================================================================================================
 
+钱包的特性：
+同一个助记词恢复钱包以后：安装顺序创建的地址都是一样的。
+
 
 ======================
-安装
+cli端 （注意和下面的图形界面端不通用，各自独立的钱包）
+======================
+cd /Users/sherlock/testnet && rm -rf /Users/sherlock/testnet/keyring-file
+//8位密码 ，记得要复制助记词
+csrbwallet init --home=/Users/sherlock/testnet
+csrbwallet update --home=/Users/sherlock/testnet
+//csrbwallet update --home=/Users/sherlock/testnet --type=mnemonic 助记词恢复， 密码恢复  passphrase
+csrbwallet keys create v0 --home=/Users/sherlock/testnet
+csrbwallet keys show v0 --home=/Users/sherlock/testnet
+csrbwallet keys list --home=/Users/sherlock/testnet
+//注意：保存随机密码，import用
+csrbwallet keys export v0 --home=/Users/sherlock/testnet
+csrbcli keys import x0 /Users/sherlock/testnet/v0.key
+csrbcli keys show x0
+
+
+
+======================
+图形界面端
 ======================
 
 ---
@@ -159,9 +180,16 @@ git branch && git rev-parse HEAD
 //注意：需要翻墙，失败的情况下先git checkout .
 make build
 
+更新
+cd /Users/sherlock/go/src/gitlab.bianjie.ai/csrbwallet
+git pull
+make build
+
+
 ---
 打开
 ---
-open ./output/darwin-amd64/csrbwallet.app
+rm -rf /Users/sherlock/.csrbwallet
+open /Users/sherlock/go/src/gitlab.bianjie.ai/csrbwallet/output/darwin-amd64/csrbwallet.app
 
-
+另外，导出后的使用方法和cli端一样
