@@ -56,7 +56,7 @@ caught below output final blast sun elevator labor regular palm dizzy stand arct
 address: csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 
-csrbcli tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000000point --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx send v0 caa1kd4pljywse4u07pwpjgdxqwv23gq70uxm2n56v 50000000point --chain-id=shilei-qa --fees=4point -b block -y
 csrbcli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 

@@ -1,0 +1,127 @@
+=====================================================================================================================
+=====================================================================================================================
+======    DID ====================================================================================================
+=====================================================================================================================
+=====================================================================================================================
+
+cd ~ && rm -rf .csrbcli .csrb testnet
+csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+csrb start --home=/Users/sherlock/testnet/v0/csrb
+
+
+============
+新创建"空的"identity
+============
+//所有参数都不带， 直接生成新UUID
+//记录返回id 后续使用
+csrbcli tx identity create --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+
+====================================
+【ecdsa加密】新创建带id，带参数的dentity【ecdsa加密】
+====================================
+// --id --pubkey --pubkey-algo(加密类型) --credentials(uri) --cert-file
+
+openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/cert.crt -days 365
+
+csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+
+
+*****
+获取id
+*****
+//16字节的 16进制字符即可。即32个字符。
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA （量尺）
+67eb663eccc148adb6878743e3156c01
+--id=67eb663eccc148adb6878743e3156c01
+
+*****
+获取pubkey
+*****
+加密类型:ecdsa
+http://dbis.rwth-aachen.de/~renzel/mobsos/lib/js/jsrsasign/sample-ecdsa.html （需要翻墙）
+直接点生成，复制pubkey
+0483d453336102a7429c9b4735031fc1a4bd74818e3d0ecc407198f5fb107a45b5bedffc88c4495059d2f014d3a82d22cd8c5e4889b660b4fb599fdf60fda1741d
+去掉开头的04， 截取前32字节（1个字节8位=2个4位（一个16进制字符表示）， 也就是64个16进制的字符。）
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA （量尺）
+83d453336102a7429c9b4735031fc1a4bd74818e3d0ecc407198f5fb107a45b5be
+--pubkey=83d453336102a7429c9b4735031fc1a4bd74818e3d0ecc407198f5fb107a45b5be
+--pubkey-algo=ecdsa
+
+*****
+获取cert-file
+*****
+//自签证书
+openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/cert.crt -days 365
+
+--cert-file=/Users/sherlock/testnet/cert.crt
+
+*****
+credentials
+*****
+就是一个字符串
+
+
+
+====================================
+修改identity
+====================================
+csrbcli tx identity update 67eb663eccc148adb6878743e3156c35 --credentials="credentials-uri2" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+
+//可修改参数:
+--pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c
+--pubkey-algo=ecdsa
+--credentials="credentials-uri"
+--cert-file=/Users/sherlock/testnet/cert.crt
+
+
+====================================
+查询identity
+====================================
+csrbcli query identity identity --trust-node 67eb663eccc148adb6878743e3156c01
+
+
+============
+其他加密方法
+============
+
+//ECDSA 33  02+32 （例子已经写了）
+csrbcli tx identity create --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --id=67eb663eccc148adb6878743e3156c01 --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+
+//ED25519 32  （实际链上不校验pubkey有效性，都是线下自己校验，长度对就行）
+csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c36 --pubkey=b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=ed25519 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+
+//SM2 03+32
+csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c37 --pubkey=03b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=SM2 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+
+//rsa和dsa
+1)需要先在网站生成秘钥对 ，选择对应的ras和dsa
+http://web.chacuo.net/netrsakeypair
+
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEJ2Y1+3Nb0nY88J9cEUszkZ3Z
+MUEmkfuKLJFI/C/w77oRbgeN49L0oUywkc4AOI18cz42yhw7izBh7EdrZnbt9mQC
+MrYDzoUbn3sKPYYQKoXiJzASE4zof1XrQBESp7uKdYnSlSewDh8BZ16ThUcIiUsA
+bbPZbke3p+Tr8+eguwIDAQAB
+-----END PUBLIC KEY-----
+
+2）复制到 （打开方式文本）
+/Users/sherlock/my_workspace/did/rsa.pem
+或者
+/Users/sherlock/my_workspace/did/dsa.pem
+
+3）使用程序转格式
+执行 demo rsa 或者 demo dsa
+
+源代码：
+func main() {
+	args := os.Args
+	pubKey,_ := ioutil.ReadFile("/Users/sherlock/my_workspace/did/"+args[1]+".pem") // RSA 或 DSA 公钥文件路径
+	derBlock, _ := pem.Decode(pubKey)
+
+	fmt.Printf("%s\n", hex.EncodeToString(derBlock.Bytes))
+}
+
+4）复制返回的数据
+--pubkey=30(rsa较短)08 --pubkey-algo=rsa
+--pubkey=30(dsa较长)08 --pubkey-algo=dsa
+
