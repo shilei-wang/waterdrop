@@ -1,20 +1,22 @@
 
+10000 
+
 
 文档上 示例中的 csrb 该改为 csrbcli
 
+
+====
+
+
+
+3. swagger DID部分 是否与实际参数/结果一致
+1. 地址，公钥前缀，格式与irishub一致，前缀i -> c caa 有6个地方
 关闭wallet issue 和 gentx
 
-私钥有什么用啊
-
-
-程文席:下载最新的代码验证：
-1. 地址，公钥前缀，格式与irishub一致，前缀i -> c caa 有6个地方
-2. 昨天发现的证书重复添加的问题  （还是有问题）
-3. swagger DID部分 是否与实际参数/结果一致
 
 
 第二遍看文档侧
-
+私钥有什么用啊
 
 =======
 //ECDSA 33  02+32 （例子已经写了）
@@ -28,5 +30,3 @@ csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8
 
 
 
-
-----
