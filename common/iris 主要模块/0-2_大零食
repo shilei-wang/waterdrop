@@ -1,13 +1,3 @@
-1. 地址，公钥前缀，格式与irishub一致，前缀i -> c caa 有6个地方
-
-gentx
-
-
-did 多种测试
-
-====
-
-
 
 
 第二遍看文档侧
@@ -24,6 +14,6 @@ csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c36 --pubkey=b7a8c8
 csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=SM2 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
 
 
-
 -=-=-=-=-=-=-=-=-=-=-=v
 
+ git checkout -b vincent-release origin/vincent-release

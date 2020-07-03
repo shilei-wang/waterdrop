@@ -8,9 +8,6 @@ csrbcli rest-server --trust-node >/Users/sherlock/lcd.log & tail -f /home/shilei
 swagger：
 http://localhost:1317/
 
-csrb1wdyuk6xe5jr66cjvsg5qtfthm3sm8mcutjld2p
-
-
 *******************************************
            csrb
 *******************************************
@@ -29,7 +26,7 @@ cd /Users/sherlock/go/src/gitlab.bianjie.ai/csrb
 git fetch --all
 git checkout .
 // git checkout master
-                                          // git checkout -b vincent-clean origin/vincent-clean
+// git checkout -b vincent-clean origin/vincent-clean
 // git checkout vincent-clean
 // git pull
 git merge origin/master
@@ -38,6 +35,7 @@ git branch && git rev-parse HEAD
 ===
 make install
 
+csrb version
 ===
 如果提示ERROR: failed to overwrite key
 在钥匙串 里面删除所有的csrb
@@ -72,7 +70,7 @@ csrbcli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufz
 **********************
 echo y | csrbcli tx token issue --name=token-name --min-unit="mu01" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
 
-csrbcli tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 1mu01 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx send v0 caa1kd4pljywse4u07pwpjgdxqwv23gq70uxm2n56v 1mu01 --chain-id=shilei-qa --fees=4point -b block -y
 csrbcli query account --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 csrbcli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 csrbcli query bank total --trust-node
