@@ -646,5 +646,36 @@ irishub-load broadcast --config-dir=$HOME/my_workspace --tps=1
 实际 : 71秒  tps： 845
 
 
+========================================================================================================================
+========================================================================================================================
+=========多种格式地址查询======================================================================================================
+========================================================================================================================
+========================================================================================================================
+// 一共4种
+
+======
+caa ,cap
+======
+csrbcli keys show v0 --address
+
+==>
+  address: caa1wk9jf5qxvda0y4syvrtvumu2gcwsy8m9fzdg45
+  pubkey: cap1addwnpepqf85f4hv3jvm3n5y9j2t7fxf0ewx0nsrjlk93fetcrqy38h73h8lvfjwehw
 
 
+======
+ccp
+======
+csrbcli query validator validator --trust-node v0
+
+==>
+    pubkey: ccp1ulx45dfpqtay0e9cneea97axs52fr98mdvj4jksuxu9w0vxpz0g2n4k2zhkhcz0yyy8
+
+
+======
+cca
+======
+csrbcli query slashing signing-info --trust-node ccp1ulx45dfpqtay0e9cneea97axs52fr98mdvj4jksuxu9w0vxpz0g2n4k2zhkhcz0yyy8
+
+==>
+    address: cca1a0frdhy8gpv3fnjg20336jn7f3g448cc7sm5en

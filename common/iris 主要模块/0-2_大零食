@@ -1,17 +1,12 @@
+1. 地址，公钥前缀，格式与irishub一致，前缀i -> c caa 有6个地方
 
-10000 
+gentx
 
 
-文档上 示例中的 csrb 该改为 csrbcli
-
+did 多种测试
 
 ====
 
-
-
-3. swagger DID部分 是否与实际参数/结果一致
-1. 地址，公钥前缀，格式与irishub一致，前缀i -> c caa 有6个地方
-关闭wallet issue 和 gentx
 
 
 
@@ -29,4 +24,6 @@ csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c36 --pubkey=b7a8c8
 csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=SM2 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
 
 
+
+-=-=-=-=-=-=-=-=-=-=-=v
 
