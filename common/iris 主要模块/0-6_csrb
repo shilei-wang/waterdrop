@@ -27,7 +27,7 @@ git fetch --all
 git checkout .
 // git checkout master
 // git checkout -b vincent-clean origin/vincent-clean
-// git checkout vincent-clean
+// git checkout vincent-clean  , git branch -D vincent-release
 // git pull
 git merge origin/master
 git branch && git rev-parse HEAD
@@ -538,19 +538,19 @@ csrbcli query nft collection --trust-node d01
 
 ========================================================================================================================
 ========================================================================================================================
-================== init gentx  起链 ======================================================================================================
+================== init gentx  起链 (这个方式已经不能用了 要用后面的openssl 方式) ======================================================================================================
 ========================================================================================================================
 ========================================================================================================================
 cd ~ && rm -rf .csrbcli .csrb testnet
 csrb init --home=/Users/sherlock/testnet/v0/csrb --chain-id=shilei-qa v0
 csrb init --home=/Users/sherlock/testnet/v1/csrb --chain-id=shilei-qa v1
-csrb gentx --home=/Users/sherlock/testnet/v0/csrb --name=v0
-csrb gentx --home=/Users/sherlock/testnet/v1/csrb --name=v1
+//csrb gentx --home=/Users/sherlock/testnet/v0/csrb --name=v0
+//csrb gentx --home=/Users/sherlock/testnet/v1/csrb --name=v1
 copy v1的gentx里的文件 -》 v0
 
 
-csrb add-genesis-account $(csrbcli keys show v0 --address) 100000000point --home=/Users/sherlock/testnet/v0/csrb
-csrb add-genesis-account $(csrbcli keys show v1 --address) 100000000point --home=/Users/sherlock/testnet/v0/csrb
+csrb add-genesis-account $(csrbcli keys show v0 --address) 100000000point --home=/Users/sherlock/testnet/v0/csrb --root-admin
+csrb add-genesis-account $(csrbcli keys show v1 --address) 100000000point --home=/Users/sherlock/testnet/v0/csrb --root-admin
 csrb collect-gentxs --home=/Users/sherlock/testnet/v0/csrb
 copy v0的gennesis toml文件 -》 v1
 
@@ -654,7 +654,7 @@ irishub-load broadcast --config-dir=$HOME/my_workspace --tps=1
 ======
 caa ,cap
 ======
-csrbcli keys show v0 --address
+csrbcli keys show v0
 
 ==>
   address: caa1wk9jf5qxvda0y4syvrtvumu2gcwsy8m9fzdg45

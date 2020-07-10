@@ -65,6 +65,29 @@ git branch && git rev-parse HEAD
 go mod tidy
 
 
+*******************************************
+         最新用的是gitlab上的irita
+*******************************************
+cd /Users/sherlock/go/src/gitlab.bianjie.ai
+
+
+这个后还没有做：
+git clone https://gitlab.bianjie.ai/irita/irita.git
+cd irita
+git remote add upstream  https://gitlab.bianjie.ai/irita/irita.git
+git fetch --all //此时应该Fetching origin；  Fetching upstream
+
+
+更新：
+cd /Users/sherlock/go/src/gitlab.bianjie.ai/irita
+git fetch --all
+git checkout .
+// git checkout master
+// git checkout -b vincent-clean origin/vincent-clean
+// git checkout vincent-clean
+// git pull
+git merge origin/master
+git branch && git rev-parse HEAD
 
 ---
 
@@ -106,12 +129,44 @@ irita start --home=/Users/sherlock/testnet/v1/irita
 
 *******************************************
 
+iritacli keys add v1 --recover
+
 caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
-address: iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
+address: iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 
 iritacli keys show v0
-iritacli query account $(iritacli keys show v0 --address)
-iritacli tx send v0 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp 100000point --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
+iritacli query account $(iritacli keys show v0 --address) --trust-node
+iritacli query bank balances --trust-node $(iritacli keys show v0 --address)
+
+iritacli tx send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100000point --chain-id=shilei-qa --fees=4point -b block -y
+iritacli query account iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau --trust-node
+iritacli query bank balances --trust-node iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 
 
+**************************************************************************************
+**************************************************************************************
+**************************************************************************************
+
+
+*******************************************
+           启动lcd
+*******************************************
+
+iritacli rest-server --trust-node
+iritacli rest-server --trust-node >/Users/sherlock/lcd.log & tail -f /home/shilei/lcd.log
+
+swagger：
+http://localhost:1317/
+
+
+*******************************************
+           离线交易
+*******************************************
+
+iritacli tx send $(csrbcli keys show v0 --address) csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000000point --chain-id=shilei-qa --fees=4point -b block -y --generate-only >~/my_workspace/Tx-generate
+iritacli tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+iritacli tx broadcast ~/my_workspace/Tx-sign -b block -y
+
+iritacli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
+
+注意利用lcd broadcast的时候要 改tx格式， 加mode

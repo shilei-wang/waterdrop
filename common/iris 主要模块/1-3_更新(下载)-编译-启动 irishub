@@ -162,7 +162,7 @@ iris start --home=/Users/sherlock/testnet/v1/iris
 rm -rf .iriscli .iris testnet
 iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1  --chain-id=shilei-qa
 iris start --home=/Users/sherlock/testnet/v0/iris
-f
+
 
 *******************************************
           不用testnet ， 用别人的genesis手动起全节点

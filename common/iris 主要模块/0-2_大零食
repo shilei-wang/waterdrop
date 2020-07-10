@@ -1,19 +1,109 @@
+2) iris init --home=/Users/sherlock/nyancat --chain-id=nyancat-6  --moniker=shilei-qa
+3） copy genesis和toml 到 nyancat/config文件夹
+4) iris start --home=/Users/sherlock/nyancat （此时正常追赶，记得打开"Mac 最大连接数限制"，已记录）
+   iriscli status --node=http://35.234.10.84:26657  (看下最新到多少块了，大概心理知道要多久追上)
+   iriscli upgrade info --trust-node --node=http://35.234.10.84:26657 （如果升级了，可以看下）
 
 
-第二遍看文档侧
-私钥有什么用啊
+# 初始化节点
+iris init --moniker=<your-custom-name> --chain-id=irishub
 
-=======
-//ECDSA 33  02+32 （例子已经写了）
-csrbcli tx identity create --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --id=67eb663eccc148adb6878743e3156c01 --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+# 下载主网公开的 config.toml 和 genesis.json
+curl -o ~/.iris/config/config.toml https://raw.githubusercontent.com/irisnet/mainnet/master/config/config.toml
+curl -o ~/.iris/config/genesis.json https://raw.githubusercontent.com/irisnet/mainnet/master/config/genesis.json
 
-//ED25519 32  （实际链上不校验pubkey有效性，都是线下自己校验，长度对就行）
-csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c36 --pubkey=b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=ed25519 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+# 启动节点（也可使用 nohup 或 systemd 等方式后台运行）
+iris start
 
-//SM2 03+32
-csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=SM2 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+******************************************************************************************************************
+******************************************************************************************************************
+********* 自己跑一个 主网节点（快照） *********************************************************************************
+******************************************************************************************************************
+
+*******************************************
+   更新master
+*******************************************
+cd /Users/sherlock/go/src/github.com/irishub
+git fetch --all
+git checkout .  //放弃当前目录下的修改
+git checkout master
+git pull
+git branch && git rev-parse HEAD
 
 
--=-=-=-=-=-=-=-=-=-=-=v
+*******************************************
+   安装，运行docker
+*******************************************
+cd /Users/sherlock/go/src/github.com/irishub
 
- git checkout -b vincent-release origin/vincent-release
+//把当前文件夹导入docker中的irishub编译，当前文件夹里有dockerfile文件，执行文件里的内容，第一次时间较长，需要下载依赖等
+//注意要把原先就有irishub镜像删除， docker images ， docker rmi imagesID
+//需要翻墙
+docker build -t irishub .
+
+//运行，进入docker ， 退出是exit
+docker run -it irishub
+
+//所有创建的目录都在docker内部， 退出docker后自动删除复原。
+iris version
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+成功出块后退出， 再进去, 需要翻墙。
+exit
+docker run -it irishub
+iris init --home=/Users/sherlock/irishub --chain-id=irishub  --moniker=test_export
+cd /Users/sherlock/irishub/config
+rm -rf  config.toml  genesis.json
+wget https://raw.githubusercontent.com/irisnet/mainnet/master/config/config.toml
+wget https://raw.githubusercontent.com/irisnet/mainnet/master/config/genesis.json
+ls
+
+*******************************************
+下载快照 （没成功）
+*******************************************
+
+cd /Users/sherlock/irishub/data/config
+
+打开 https://www.bitcat365.com/resource/irisnet-block-data
+wget https://data.bitcat365.com/irisnet/data_snapshot.tar.lz4
+wget https://data.bitcat365.com/irisnet/data_snapshot.tar.lz4.md5
+
+lz4 -d  data_snapshot.tar.lz4  | tar xzf -
+
+//太大了 最后服务器下载.
+//断开代理， brew install wget
+
+先下载到一个临时位置：
+cd  /Users/sherlock/my_workspace/master
+wget http://download.bianjie.ai/data/data_snapshot.tar.lz4
+下载下来了 ， 内存太小 还是不行。
+
+
+*******************************************
+直接用了现成的服务器
+*******************************************
+
+------
+连接
+------
+新建tab
+ssh root@192.168.150.38
+12345678
+
+
+
+
+
+
+
+
+
+
+
+*******************************************
+*******************************************
+*******************************************
+*******************************************
+*******************************************
+

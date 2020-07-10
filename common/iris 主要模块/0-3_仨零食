@@ -1,0 +1,59 @@
+
+
+---------------------------------------------------------------
+---------------------------------------------------------------
+---------------------------------------------------------------
+
+ssh root@192.168.150.38
+12345678
+
+
+
+docker exec -it iris sh
+
+ls /mnt/
+
+
+wget https://raw.githubusercontent.com/irisnet/mainnet/master/config/config.toml
+wget https://raw.githubusercontent.com/irisnet/mainnet/master/config/genesis.json
+
+
+---------------------------------------------------------------
+---------------------------------------------------------------
+---------------------------------------------------------------
+3)
+4) copy http://35.201.147.145:26657/genesis  [注意只copy genesis后{}内用, 用goland括号高亮配合shift剪切]
+5） 修改 config.toml persistent_peers = "de67bc92d7f93716dceac599fc91ba81abaaf77a@35.201.147.145:30656"
+6) iris start --home=/Users/sherlock/fuxi_node (此时正常追赶fuxi ， 如上述操作有误可使用iris unsafe-reset-all --home=/Users/sherlock/fuxi_node)
+
+
+---------------------------------------------------------------
+---------------------------------------------------------------
+---------------------------------------------------------------
+cd /mnt/
+
+iris init --home=/mnt/master --chain-id=irishub  --moniker=export
+ls /mnt/master
+
+mv /mnt/application.db  /mnt/master/data
+mv /mnt/evidence.db  /mnt/master/data
+mv /mnt/cs.wal /mnt/master/data
+mv /mnt/state.db  /mnt/master/data
+mv /mnt/blockstore.db  /mnt/master/data
+ls /mnt/master/data
+
+rm /mnt/master/config/config.toml  /mnt/master/config/genesis.json
+ls /mnt/master/config
+cp /mnt/config.toml  /mnt/master/config
+cp /mnt/genesis.json  /mnt/master/config
+ls /mnt/master/config
+
+iris start --home=/mnt/master > /mnt/iris.log &
+
+tail -f /mnt/iris.log
+
+
+
+
+
+

@@ -1,7 +1,7 @@
 
 =====================================================================================================================
 =====================================================================================================================
-======    wasm (WebAssembly)====================================================================================================
+======    wasm (WebAssembly) 已经取消 =====================================================================
 =====================================================================================================================
 =====================================================================================================================
 https://github.com/bianjieai/irita/tree/vincent-sequence/modules/wasm
@@ -80,83 +80,18 @@ iritacli query wasm contract faa18vd8fpwxzck93qlwghaj6arh4p7c5n89307smc
 iritacli query account faa18vd8fpwxzck93qlwghaj6arh4p7c5n89307smc
 
 
-=====================================================================================================================
-=====================================================================================================================
-======      NFT  ====================================================================================================
-=====================================================================================================================
-=====================================================================================================================
-https://gitlab.bianjie.ai/irita/spec/blob/v1.0/nft/README.md
-
-iritacli keys show v0
-
-
-iritacli tx nft mint -h
-
-
-//tx mint
-iritacli tx nft mint d01 a01 --recipient=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-iritacli tx nft mint d01 a02 --recipient=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-
-iritacli tx nft mint d02 a01 --recipient=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-
-
-**** 查询 ****
-//demon:d02 下的nft supply总数
-iritacli query nft supply d01
-
-//iritacli query nft owner [accountAddress] [denom](optional)
-iritacli query nft owner iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
-
-//collection
-iritacli query nft collection d01
-
-//query denoms
-iritacli query nft denoms
-
-//query nft
-iritacli query nft token d01 a01
-
-**** **** ****
-
-iritacli query nft token d01 a01
-//edit ， 必须要用owner
-iritacli keys add v1 --recover
-caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
-iritacli tx send v0 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp 10000stake --chain-id=shilei-qa --fees=4stake -b block -y
-
-iritacli tx nft edit d01 a01 --token-uri="tokenURI2" --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y
-
-iritacli query nft token d01 a01
-
-
-//tx transfer
-iritacli tx nft transfer -h
-
-iritacli keys show v0
-// iaa13l2sgxymaq3emnpftks2e8xz5df9q7c0vsz04v
-
-iritacli tx nft transfer iaa13l2sgxymaq3emnpftks2e8xz5df9q7c0vsz04v d01 a01 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y
-
-iritacli query nft token d01 a01
-
-//tx burn
-iritacli tx nft burn d01 a01 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-
-iritacli query nft collection d01
-
 
 
 ========================================================================================================================
 ========================================================================================================================
-==================guardian======================================================================================================
+==================guardian  已经取消 ==================================================
 ========================================================================================================================
 ========================================================================================================================
 
 iritacli keys show v0
 在genesis里面搜索profiler手动添加
 
-iritacli tx guardian add-profiler --from=v0 --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=aa --chain-id=shilei-qa --fees=4stake -b block -y
+iritacli tx guardian add-profiler --from=v0 --address=iaa1zt2px7nadml270zhrnz5akp35ea6rmxe6gj87w --description=aa --chain-id=shilei-qa --fees=4point -b block -y
 iritacli tx guardian add-trustee --from=v0 --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=aa --chain-id=shilei-qa --fees=4stake -b block -y
 
 iritacli query guardian profilers
@@ -180,5 +115,5 @@ iritacli query guardian trustees
 iritacli tx record create --chain-id=shilei-qa "hahaha" "flighting" --from=v0 --fees=4point -b block -y --meta="metadata" --uri="uridata"
 
 2. 查询存证
-iritacli query record record bb33502dd5dfa4b2001e018794b995570525fdd56c24ac1948b5358b191b7991 -o=json --indent
+iritacli query record record --trust-node 9a21d73695c9db2b530e5f7ab0ce8ceb7786d0a4eea894bcf2f7dcaee388e894 -o=json --indent
 

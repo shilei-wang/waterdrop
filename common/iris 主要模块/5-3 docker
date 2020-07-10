@@ -21,3 +21,15 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 
 把端口映射出来：
 docker run -p 26657:26657 -it irishub
+
+
+
+----
+退出docker , 每次退出docker后再进去，所有数据都会被删除。 docker run -it irishub
+exit
+
+查看镜像：
+docker images
+
+删除镜像：
+docker rmi imagesID
