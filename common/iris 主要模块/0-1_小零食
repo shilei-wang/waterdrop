@@ -1,8 +1,140 @@
 
-测另外17的 service。
+iris tx nft -h
+
+  burn
+  edit
+  issue
+  mint
+  transfer
+
+iris tx token issue --name=token-name --min-unit="mu401" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4stake  -b block -y   --symbol=a04
+
+
+iris tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4stake --keyring-backend=os -b block -y --node=http://localhost:26657 --offline
 
 
 
+====================
+NFT
+====================
+
+
+
+=====
+issue denom
+=====
+iris tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4stake --keyring-backend=os  -b block -y --node=http://localhost:26657
+iritacli tx nft issue d02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+mint
+=====
+iritacli tx nft mint d01 a01 --recipient=$(iritacli keys show v0 --address) --token-uri="tokenURI" --token-data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+iritacli tx nft mint d01 a02 --recipient=$(iritacli keys show v0 --address) --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+iritacli tx nft mint d02 a01 --recipient=$(iritacli keys show v1 --address) --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+查询
+=====
+//demon:d01 下的nft supply总数
+iritacli query nft supply --trust-node d01
+
+//iritacli query nft owner
+iritacli query nft owner --trust-node $(iritacli keys show v0 --address)
+
+//collection
+iritacli query nft collection --trust-node d01
+
+//query denoms
+iritacli query nft denoms --trust-node
+
+//query nft
+iritacli query nft token --trust-node d01 a01
+
+
+=====
+edit ， 必须要用owner
+=====
+//转给v1 一点point 50000point --chain-id=shilei-qa --fees=4point -b block -y
+iritacli query bank balances --trust-node $(iritacli keys show v0 --address)
+iritacli tx send v0 $(iritacli keys show v1 --address) 10000point --chain-id=shilei-qa --fees=4point -b block -y
+
+iritacli tx nft edit d01 a01 --token-uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+iritacli query nft token --trust-node d01 a01
+
+
+=====
+transfer
+=====
+iritacli tx nft transfer $(iritacli keys show v1 --address) d01 a01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+iritacli query nft token --trust-node d01 a01
+
+=====
+burn
+=====
+iritacli tx nft burn d01 a01 --from=v1 --chain-id=shilei-qa --fees=4point -b block -y
+iritacli tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+iritacli query nft collection --trust-node d01
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------
+
+
+ls /mnt/master/config
+mv /mnt/config.toml /mnt/master/config/config.toml
+mv /mnt/addrbook.json /mnt/master/config/addrbook.json
+
+iris start --home=/mnt/master > /mnt/iris.log &
+tail -f /mnt/iris.log
+
+https://www.irisplorer.io/#/home
+稳定节点：
+http://35.221.235.168:26657
+
+
+----------------
+读出余额， 连接rest查询 ， 对比余额
+
+检查irita 文档还有一些没有完全看完
+
+export 余额
+export 看stake
+
+redelegations？？
+
+
+报告 export 做了哪些工作:
+geneisis 太大  270w行 很多miss block
+export 能不能有个（类似）进度条， 时间太长 像假死。
+测试方法
+
+
+iaa18rtw90hxz4jsgydcusakz6q245jh59kfma3e5h 出现export后余额和rest查询不一致。 rest少  (communityTaxCoins)
+iaa1v6c3sa76s3grss3xu64tvn9nd556jlcw6azc85 该账户有发行了一个 axon 币， 考虑是否在主网export时 删除。
+
+连停止状态下 ， 查询reward会崩溃。
 
 =========================
 
