@@ -1,87 +1,183 @@
 
-iris tx nft -h
+更新最新的代码 重测service 和相关的命令
 
-  burn
-  edit
-  issue
-  mint
-  transfer
-
-iris tx token issue --name=token-name --min-unit="mu401" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4stake  -b block -y   --symbol=a04
+ -b block -y --node=http://localhost:26657
 
 
-iris tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4stake --keyring-backend=os -b block -y --node=http://localhost:26657 --offline
-
-
-
-====================
-NFT
-====================
-
-
-
-=====
-issue denom
-=====
-iris tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4stake --keyring-backend=os  -b block -y --node=http://localhost:26657
-iritacli tx nft issue d02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-=====
-mint
-=====
-iritacli tx nft mint d01 a01 --recipient=$(iritacli keys show v0 --address) --token-uri="tokenURI" --token-data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-iritacli tx nft mint d01 a02 --recipient=$(iritacli keys show v0 --address) --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-iritacli tx nft mint d02 a01 --recipient=$(iritacli keys show v1 --address) --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-=====
-查询
-=====
-//demon:d01 下的nft supply总数
-iritacli query nft supply --trust-node d01
-
-//iritacli query nft owner
-iritacli query nft owner --trust-node $(iritacli keys show v0 --address)
-
-//collection
-iritacli query nft collection --trust-node d01
-
-//query denoms
-iritacli query nft denoms --trust-node
-
-//query nft
-iritacli query nft token --trust-node d01 a01
-
-
-=====
-edit ， 必须要用owner
-=====
-//转给v1 一点point 50000point --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query bank balances --trust-node $(iritacli keys show v0 --address)
-iritacli tx send v0 $(iritacli keys show v1 --address) 10000point --chain-id=shilei-qa --fees=4point -b block -y
-
-iritacli tx nft edit d01 a01 --token-uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query nft token --trust-node d01 a01
-
-
-=====
-transfer
-=====
-iritacli tx nft transfer $(iritacli keys show v1 --address) d01 a01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query nft token --trust-node d01 a01
-
-=====
-burn
-=====
-iritacli tx nft burn d01 a01 --from=v1 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-iritacli query nft collection --trust-node d01
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
+======================
 
 
 
 
+iris tx service -h
+  bind              Bind an existing service definition
+  call              Initiate a service call
+  define            Define a new service
+  disable           Disable an available service binding
+  enable            Enable an unavailable service binding
+  kill              Terminate a request context
+  pause             Pause a running request context
+  refund-deposit    Refund all deposit from a service binding
+  respond           Respond to a service request
+  set-withdraw-addr Set a withdrawal address for an owner
+  start             Start a paused request context
+  update            Update a request context
+  update-binding    Update an existing service binding
+  withdraw-fees     Withdraw the earned fees of a provider or ow
+
+
+
+
+===================
+    定义
+===================
+1. 服务定义
+iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake --keyring-backend=os -b block -y --node=http://localhost:26657
+
+2. 服务定义查询 （可以查询 method id）
+iris query service definition --trust-node a001
+
+3. 查询 schema
+iris query service schema --trust-node pricing
+iris query service schema --trust-node result
+
+===================
+    绑定
+===================
+1. 服务绑定
+iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657 --from=v0 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5
+
+
+2. 查询服务绑定
+iris query service binding  --trust-node a001 $(iris keys show v0 --address)
+iris query service bindings --trust-node a001
+iris query service bindings --trust-node a001 --owner=$(iris keys show v0 --address)
+
+
+3. 更新绑定 --min-resp-time（qos）也可以改
+iris tx service update-binding a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --deposit=2stake --qos=6
+
+
+4. 设置提取地址
+iris tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
+
+//查询提取地址
+iris query service withdraw-addr --trust-node $(iris keys show v0 --address)
+
+7.服务失效
+iris tx service disable a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+
+8.服务恢复 ，可以增加抵押
+iris tx service enable a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --deposit=1stake
+
+9. 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov)) 、、这个还没有测
+iris tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+
+
+===================
+    调用
+===================
+1. 服务调用
+1）批量请求
+//单个
+iris tx service call --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1stake --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v0 --address)
+
+//重复
+iris tx service call --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --service-name=a001 --service-fee-cap=1stake --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v0 -a) --timeout=20 --repeated --frequency=20 --total=-1
+
+查询请求列表
+//如果查不到 可能是price低了，可能是min-resp-time没满足bind
+iris query service requests a001 $(iris keys show v0 --address) -o=json --indent  --trust-node
+
+
+根据上一条返回的id
+iris query service request -o=json --indent  --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000300000000000005FF0000
+
+//用<request-context-id>超时后可以查到 ， requests只能查询到当前活跃的
+iris query service requests -o=json --indent  EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000 7
+iris query service request-context C9F4EA3442E1CB86980CD9FA46A2AFAA7805821FF74F68903D8E28D8707FFFA70000000000000000
+
+
+3.相应请求
+iris tx service respond --chain-id=shilei-qa --from=v0  --fees=4stake -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iris query service requests a001 $(iris keys show v0 --address) -o=json --trust-node | jq -r .[0].id)
+
+4.查询相应请求 ，用"3）"返回request id
+iris query service response -o=json --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000500000000000006270000
+
+     ===========================
+       取回服务调用产生的服务费（卖家），未响应超时的服务费会自动退还给（买家）
+     ===========================
+1.查询服务费
+iris query service fees --trust-node $(iris keys show v0 --address)
+
+
+2.提取服务调用产生的服务费
+iris tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+// iris query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
+
+3.注意 irita 没有 withdraw-tax
+
+     ===========================
+      请求上下文相关 ====》》》  测下 nftlcd 的bug 下载一个新的
+     ===========================
+1. 查询请求上下文 <request-context-id>， 返回这个call的很多字段信息
+iris query service request-context --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+//查询request id
+iris query service requests a001 $(iris keys show v0 --address) -o=json --trust-node --indent
+
+2. 暂停请求上下文
+iris tx service pause --chain-id=shilei-qa --from=v0  --fees=4stake -b block -y 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+
+3. 启动请求上下文
+//state变成running , BatchState在complete状态也会变running
+iris tx service start --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+
+4. 更新请求上下文
+iris tx service update --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  --frequency=20 --total=3000 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+
+5. 终止请求上下文
+// state变成complete
+// 非repeated 不能kill
+iris tx service kill --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+
+6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
+//列表只有有效的才会被查出， 但是iris service request-context 永远能查出）
+iris query service request-context --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+
+7. 查询请求上下文的响应列表（后面是request id）
+//注意这个只能查活跃的 ， 过期的查不到。
+iris query service response --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000500000000000006270000 -o=json
+iris query service responses <request-context-id> <batch-counter>
 
 
 

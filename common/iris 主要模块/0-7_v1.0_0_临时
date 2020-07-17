@@ -57,12 +57,145 @@ iris query token tokens --trust-node iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 查询fee：
 iris query token fee --trust-node a01
 
-
 ====================
 NFT
 ====================
+issue：
+iris tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4stake --keyring-backend=os -b block -y --node=http://localhost:26657
+
+查询：(有问题 没测)
+iris query nft supply --trust-node d01 --node=http://localhost:26657
+iris query nft owner --trust-node $(iritacli keys show v0 --address) --node=http://localhost:26657
+iris query nft collection --trust-node d01 --node=http://localhost:26657
+iris query nft denoms --trust-node --node=http://localhost:26657
+iris query nft token --trust-node d01 a01 --node=http://localhost:26657
+
+mint:
+iris tx nft mint d01 a01 --recipient=$(iris keys show v0 --address) --token-uri="tokenURI" --token-data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657
+
+edit（必须要用owner）：
+iris tx nft edit d01 a01 --token-uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657
+
+transfer：
+iris tx nft transfer iaa1pkhw2svp2m7fd3mstpylfk48rrlal8sdmv3kqc d01 a01 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657
+
+burn：
+iris tx nft mint d01 a02 --recipient=$(iris keys show v0 --address) --token-uri="tokenURI" --token-data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657
+
+iris tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657
 
 
+====================
+service
+====================
+
+
+======================
+     htlc
+======================
+//注意：因为本链 所以other-chain这个暂时00
+//secret不填的话自动生成
+iris tx htlc create --to=iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau  --amount=1stake --time-lock=50 --timestamp=1580000000 --receiver-on-other-chain=00 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+//也可以填
+echo 12345678 | iris tx htlc create --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=1stake --time-lock=50 --timestamp=1580000000 --receiver-on-other-chain=00 --secret=b5e03cf9be4b77ca253d941467fe1664688403c666fc92317415b9513ad7340b --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+返回:
+Secret:      4b4fc2eb74ff4f8031255c7a0abc89a97b9ecfac534f78b6d95e9d62c986527b
+HashLock:    7b0def580b1ddc5277c47697cd171869396189c535e0cf64af6cfb74dcc585bf
+
+查询  query-htlc 【HashLock】
+iris query htlc htlc 7b0def580b1ddc5277c47697cd171869396189c535e0cf64af6cfb74dcc585bf --chain-id=shilei-qa
+
+声明所有 claim
+iris tx htlc claim 7b0def580b1ddc5277c47697cd171869396189c535e0cf64af6cfb74dcc585bf 4b4fc2eb74ff4f8031255c7a0abc89a97b9ecfac534f78b6d95e9d62c986527b --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+取回过期  htlc refund
+iris tx htlc refund 7b0def580b1ddc5277c47697cd171869396189c535e0cf64af6cfb74dcc585bf --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+
+======================
+     random 随机数（这个没有做好）service 还是有问题
+======================
+
+
+1.定义 自带一个service：random （这个没有做好）
+iris service definition random
+
+2.绑定 （这个没有做好）
+iris tx service bind --chain-id=shilei-qa --from=v0 --fees=4stake --service-name=random --min-resp-time=5 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json  -b block -y --node=http://localhost:26657
+
+//查询
+iris query service bindings random
+
+3.request
+iris tx rand request-rand --chain-id=shilei-qa --from=v0 --fees=4stake --keyring-backend=os -b block -y 20 --node=http://localhost:26657
+
+// 在(0,block-interval)之内可以通过 rand模块的rand-height查到该次请求， 0是指提交请求的那一刻
+    iris query rand query-queue 9060 --node=http://localhost:26657
+    iris query rand query-queue --node=http://localhost:26657
+
+// 在(block-interval, block-interval+timeout[service默认超时时间100块])只能可以通过 service模块的request-id查到该次请求
+// 现在request的第一条查询已经可以现实 request-id （这个没有做好）
+    iris query service requests random $(iris keys show v0 -a) --node=http://localhost:26657 --trust-node
+
+1）注意记录一下：rand模块的request-id，小写的：ff4d166564e46543c536566962df0fe00f6adaedab7411fa346233231196feb6
+2）注意，10块以后查询service的request-id：
+    iris service requests random $(iris keys show v0 --address)
+3）注意， rand的request是单次的， repeated=false
+
+4.respond 这里会返回request-id
+echo 1234567890 | iris service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --request-id=$(iris service requests random $(iris keys show v0 --address) -o=json | jq -r .[0].id) --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --result='{"code":200,"message":"ok"}' --commit
+
+5.查询结果， 注意这里用的是rand模块的request-id
+iris query rand rand 286a7878c73f9ea9010895b43013ba7149f242c72150ebc80fb49d92d4e60b66 --node=http://localhost:26657 --trust-node
+
+======================
+     guardian
+======================
+===
+iris tx guardian -h
+===
+修改genesis 复制里面v0， iaa地址
+
+    "guardian": {
+      "profilers": [
+        {
+          "description": "genesis",
+          "type": "Genesis",
+          "address": "iaa1kdmk5ldpgqzvz6yu7hkhckpmksh05exj57zw9l",
+          "added_by": ""
+        }
+      ],
+      "trustees": [
+        {
+          "description": "genesis",
+          "type": "Genesis",
+          "address": "iaa1kdmk5ldpgqzvz6yu7hkhckpmksh05exj57zw9l",
+          "added_by": ""
+        }
+      ]
+    },
+
+
+1.获取所有profiler账号列表
+iris query guardian profilers --chain-id=shilei-qa --node=http://localhost:26657
+
+2.获取所有trustee账号列表 （取回tax的账户）
+iris query guardian trustees --chain-id=shilei-qa --node=http://localhost:26657
+
+3.添加profiler账号
+iris tx guardian add-profiler --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --description=v0 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657 --keyring-backend=os
+
+4.添加trustee账号
+iris tx guardian add-trustee --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --description=v0 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657 --keyring-backend=os
+
+
+5.删除profiler账号
+iris tx guardian delete-profiler --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657 --keyring-backend=os
+
+6.删除trustee账号
+iris tx guardian delete-trustee --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657 --keyring-backend=os
 
 
 ======================================================================================================
@@ -70,46 +203,27 @@ NFT
 测试点
 https://gitlab.bianjie.ai/vincent/document/blob/master/projects/202007.md
 
+更新最新的代码 重测service 和相关的命令
+
 、、、 token
 
- service
+。。。 service
 
- NFT
+、、、NFT
 
- HTLC
+。。。HTLC
 
- coinswap
+。。、random
 
- random
+。。、guardian
+
 
  oracle
 
- guardian
-
-
-
+coinswap sawag
 ======================================================================================================
 ======================================================================================================
 
-1) cli端指定错误的用户地址，查询 会panic
-iris keys show v0 --home=/Users/sherldock/testnset
-panic: could not create directory : mkdir : no such file or directory
+irishub v1.0 ，重构后的代码初步测试有以下问题需修复：
 
-
-2) 转账不加 --keyring-backend 会崩溃
-panic: runtime error: invalid memory address or nil pointer dereference
-[signal SIGSEGV: segmentation violation code=0x1 addr=0x58 pc=0x4a18b57]
-
-
-3）输入一个错误的fee（带小数） 会崩溃
-panic: invalid coin expression: 0.4stake
-goroutine 1 [running]:
-github.com/cosmos/cosmos-sdk/client/tx.Factory.WithFees(...)
-
-4) iris version 没改。0.16
-
-5) --indent取消了， 返回可读性变差
-
-6） 所有交易的返回有多余 \"  ， 未转义
-
-7) NFT 功能整体不可用
+https://gitlab.bianjie.ai/vincent/document/blob/patch-1/projects/issues.md
