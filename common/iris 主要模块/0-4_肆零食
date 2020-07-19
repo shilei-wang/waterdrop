@@ -3,6 +3,127 @@
 
 
 
+
+
+
+
+
+
+
+
+
+      "bonds": [
+        {
+          "delegator_addr": "iaa1qq93sapmdcx36uz64vvw5gzuevtxsc7ldcvlqv",
+          "height": "6292053",
+          "shares": "16575000000000000000000.0000000000",
+          "validator_addr": "iva1qq93sapmdcx36uz64vvw5gzuevtxsc7lcfxsat"
+        },
+
+
+
+                {
+                  "delegator_addr": "iaa1w7ewedr57z6p7f8nknmdvukfxwkwlsvfjumdts",
+                  "height": "5365342",
+                  "shares": "600000000000000000000000.0000000000",
+                  "validator_addr": "iva1qq93sapmdcx36uz64vvw5gzuevtxsc7lcfxsat"
+                },
+
+
+      "last_validator_powers": [
+        {
+          "Address": "iva1qq93sapmdcx36uz64vvw5gzuevtxsc7lcfxsat",
+          "Power": "616575"
+        },
+
+
+
+      "validators": [
+        {
+          "bond_height": "0",
+          "commission": {
+            "max_change_rate": "1.0000000000",
+            "max_rate": "1.0000000000",
+            "rate": "0.0300000000",
+            "update_time": "2020-07-10T02:32:21.959178252Z"
+          },
+          "consensus_pubkey": "icp1zcjduepq8ks47xv6c50czpwt2r0z2jwp9tmv9n9g3ukxwv7k2v2ddn4u7fdqwzj2na",
+          "delegator_shares": "616575000000000000000000.0000000000",
+          "description": {
+            "details": "",
+            "identity": "",
+            "moniker": "FreshIriser",
+            "website": ""
+          },
+          "jailed": false,
+          "operator_address": "iva1qq93sapmdcx36uz64vvw5gzuevtxsc7lcfxsat",
+          "status": 2,
+          "tokens": "616575000000000000000000.0000000000",
+          "unbonding_height": "0",
+          "unbonding_time": "1970-01-01T00:00:00Z"
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+panic(0x1106540, 0x16517a0)
+	/usr/local/go/src/runtime/panic.go:522 +0x1b5
+github.com/irisnet/irishub/app/v1/distribution/types.TotalAccum.UpdateForNewHeight(0x1c12c5, 0xc0009bff00, 0x1694b00, 0x2050c78, 0x0, 0xc0009befe0, 0x0, 0x0)
+	/irishub/app/v1/distribution/types/total_accum.go:26 +0x29b
+github.com/irisnet/irishub/app/v1/distribution/types.ValidatorDistInfo.UpdateTotalDelAccum(...)
+	/irishub/app/v1/distribution/types/validator_info.go:56
+github.com/irisnet/irishub/app/v1/distribution/types.DelegationDistInfo.WithdrawRewards(0xc002c80080, 0x14, 0x14, 0xc002c800a0, 0x14, 0x14, 0x1c12c5, 0x1694b00, 0x2050c78, 0x60be22, ...)
+	/irishub/app/v1/distribution/types/delegator_info.go:43 +0x14e
+github.com/irisnet/irishub/app/v1/distribution/keeper.queryRewards.func1(0x0, 0x168f8c0, 0xc001684dc0, 0xc001684dc0)
+	/irishub/app/v1/distribution/keeper/querier.go:245 +0x6bb
+github.com/irisnet/irishub/app/v1/stake/keeper.Keeper.IterateDelegations(0x1685140, 0xc00019fca0, 0x1685180, 0xc00019fcb0, 0xc0000e9110, 0x16adac0, 0xc0010b7650, 0x16a43a0, 0xc0010d23c0, 0xc0000e9110, ...)
+	/irishub/app/v1/stake/keeper/sdk_types.go:140 +0x3b4
+github.com/irisnet/irishub/app/v1/distribution/keeper.queryRewards(0x1693e80, 0xc0000b0030, 0x16a70c0, 0xc00114fb80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, ...)
+	/irishub/app/v1/distribution/keeper/querier.go:255 +0x599
+github.com/irisnet/irishub/app/v1/distribution/keeper.NewQuerier.func1(0x1693e80, 0xc0000b0030, 0x16a70c0, 0xc00114fb80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, ...)
+	/irishub/app/v1/distribution/keeper/querier.go:38 +0x376
+github.com/irisnet/irishub/app.handleQueryCustom(0xc0000c1340, 0xc0008db1a0, 0x3, 0x3, 0xc0001ae230, 0x38, 0x70, 0xc0020360a0, 0x14, 0x0, ...)
+	/irishub/app/baseapp.go:477 +0x413
+github.com/irisnet/irishub/app.(*BaseApp).Query(0xc0000c1340, 0xc0001ae230, 0x38, 0x70, 0xc0020360a0, 0x14, 0x0, 0x0, 0x0, 0x0, ...)
+
 ================================================================================================================
 
 DID 多种加密方式测试

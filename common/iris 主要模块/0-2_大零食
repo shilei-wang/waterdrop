@@ -92,9 +92,7 @@ ssh root@192.168.150.38
 12345678
 
 
-
-
-
+docker exec -it iris sh
 
 
 

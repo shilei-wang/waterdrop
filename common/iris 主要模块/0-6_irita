@@ -170,3 +170,18 @@ iritacli tx broadcast ~/my_workspace/Tx-sign -b block -y
 iritacli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 注意利用lcd broadcast的时候要 改tx格式， 加mode
+
+
+
+*******************************************
+           部署doc
+*******************************************
+安装：
+brew install yarn
+
+部署：
+cd /Users/sherlock/go/src/gitlab.bianjie.ai/irita/docs
+yarn serve
+
+打开：
+http://localhost:8080/

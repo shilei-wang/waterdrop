@@ -52,8 +52,84 @@ iris start --home=/mnt/master > /mnt/iris.log &
 
 tail -f /mnt/iris.log
 
+-------
+关闭iris
+-------
+ps -ef|grep iris
+kill -9 436
+iris start --home=/mnt/master > /mnt/iris.log &
+
+-------
+追上主网后export
+-------
+rm /mnt/genesis_export.json
+ls /mnt
+iris export --home=/mnt/master --output-file=/mnt/genesis_export.json
+
+在本机 下载下来看下
+scp root@192.168.150.38:/var/lib/docker/snapshot/genesis_export.json ~/
+
+
+---------------------------------------------------------------
+---------------------------------------------------------------
+---------------------------------------------------------------
+
+-------
+把主网config.toml 里面连接删掉
+这样起来以后就不会去连接主网
+注意：/var/lib/docker/snapshot = /mnt
+-------
+//下载config.toml
+scp root@192.168.150.38:/var/lib/docker/snapshot/config.toml  ~/
+scp root@192.168.150.38:/var/lib/docker/snapshot/master/config/addrbook.json  ~/
+docker中备份 addrbook.json
+cp /mnt/master/config/addrbook.json /mnt/addrbook.json
+cat /mnt/addrbook.json
+
+//修改 config.toml 后上传 , seeds = ""， persistent_peers = ""
+//修改 addrbook.json 后上传 , 删除所有里面地址， 仅保留 {	"key": "d*******",	"addrs": [	]}
+scp ~/config.toml root@192.168.150.38:/var/lib/docker/snapshot/master/config/config.toml
+scp ~/addrbook.json root@192.168.150.38:/var/lib/docker/snapshot/master/config/addrbook.json
+进入docker中：
+cat /mnt/master/config/config.toml
+cat /mnt/master/config/addrbook.json
+
+//打开程序，确认不会联网
+iris start --home=/mnt/master > /mnt/iris.log &
+tail -f /mnt/iris.log
+
+//验证自己的奖金地址
+iriscli bank account iaa13csfhe6q3xee3rr73kgrdkv9t2l7he530tfqpz --indent
+开通docker内映射， 打开lcd，验证
+http://192.168.150.38:1317/blocks/latest
+http://192.168.150.38:1317/bank/accounts/iaa13csfhe6q3xee3rr73kgrdkv9t2l7he530tfqpz
+
+---------------------------------------------------------------
+---------------------------------------------------------------
+---------------------------------------------------------------
+
+https://www.irisplorer.io/#/home
+
+
+rm /mnt/genesis_export.json
+ls /mnt
+iris export --for-zero-height --home=/mnt/master --output-file=/mnt/genesis_export.json
 
 
 
+---------------------------------------------------------------
+---------------------------------------------------------------
+---------------------------------------------------------------
+http://192.168.150.38:1317/swagger-ui/#/
+
+http://192.168.150.38:1317/bank/accounts/distribution/iaa18apxn7vzwvp5m3c4ed6lrsdvxu2fqgjvglms8h/rewards
 
 
+ iriscli distribution rewards iaa18apxn7vzwvp5m3c4ed6lrsdvxu2fqgjvglms8h
+
+
+--
+iriscli stake validator iva1qq93sapmdcx36uz64vvw5gzuevtxsc7lcfxsat
+
+
+iva1qq93sapmdcx36uz64vvw5gzuevtxsc7lcfxsat
