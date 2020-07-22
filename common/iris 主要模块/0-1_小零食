@@ -1,185 +1,65 @@
 
-更新最新的代码 重测service 和相关的命令
-
  -b block -y --node=http://localhost:26657
 
+random *2 重测
+mint
 
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
-======================
+14:24
+这几个模块加token的查询接口也需要重新测试一下。
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
+
+2. staking
+iris query staking validators --chain-id=shilei-qa |jq
+iriscli query staking validator fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
+iriscli tx staking delegate fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q 5stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iriscli query staking delegation faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
+iriscli query staking delegations faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 --chain-id=shilei-qa
+echo 12345678 | iriscli tx staking unbond fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q 100stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iriscli query staking unbonding-delegation faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa  （有问题）
+echo 12345678 | iriscli tx distribution set-withdraw-addr faa18fxvahs5nc56zgtxu935zm22z20vgpvlhcqpnh --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+echo 12345678 | iriscli tx distribution withdraw-all-rewards --from v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iriscli query account faa18fxvahs5nc56zgtxu935zm22z20vgpvlhcqpnh --chain-id=shilei-qa
+
+===
 
 
 
 
-iris tx service -h
-  bind              Bind an existing service definition
-  call              Initiate a service call
-  define            Define a new service
-  disable           Disable an available service binding
-  enable            Enable an unavailable service binding
-  kill              Terminate a request context
-  pause             Pause a running request context
-  refund-deposit    Refund all deposit from a service binding
-  respond           Respond to a service request
-  set-withdraw-addr Set a withdrawal address for an owner
-  start             Start a paused request context
-  update            Update a request context
-  update-binding    Update an existing service binding
-  withdraw-fees     Withdraw the earned fees of a provider or ow
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
+
+iris query mint params --trust-node  --node=http://localhost:26657
+
+其中Inflation 是产生收益的“大头”， 简单计算这一项就可以知道大概的收益 。
+Inflation设定是年4%（这个比例后续可以投票修改） ， 20亿*4% = 8000万
+reward = 8000w / 365天 = 22 *10^4， 目前抵押的通证是 bonded = 550 *10^6 （浏览器可查）
+
+则每份iris每日抵押收益 = reward/bonded = 0.0004iris (既每万份每日4iris， 年化4*365/10000=14.6%)
+所以我们强烈建议各位验证人尽量多抵押，赚取收益！
 
 
 
 
-===================
-    定义
-===================
-1. 服务定义
-iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake --keyring-backend=os -b block -y --node=http://localhost:26657
-
-2. 服务定义查询 （可以查询 method id）
-iris query service definition --trust-node a001
-
-3. 查询 schema
-iris query service schema --trust-node pricing
-iris query service schema --trust-node result
-
-===================
-    绑定
-===================
-1. 服务绑定
-iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657 --from=v0 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5
-
-
-2. 查询服务绑定
-iris query service binding  --trust-node a001 $(iris keys show v0 --address)
-iris query service bindings --trust-node a001
-iris query service bindings --trust-node a001 --owner=$(iris keys show v0 --address)
-
-
-3. 更新绑定 --min-resp-time（qos）也可以改
-iris tx service update-binding a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --deposit=2stake --qos=6
-
-
-4. 设置提取地址
-iris tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
-
-//查询提取地址
-iris query service withdraw-addr --trust-node $(iris keys show v0 --address)
-
-7.服务失效
-iris tx service disable a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
-
-8.服务恢复 ，可以增加抵押
-iris tx service enable a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --deposit=1stake
-
-9. 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov)) 、、这个还没有测
-iris tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
-
-
-===================
-    调用
-===================
-1. 服务调用
-1）批量请求
-//单个
-iris tx service call --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1stake --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v0 --address)
-
-//重复
-iris tx service call --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --service-name=a001 --service-fee-cap=1stake --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v0 -a) --timeout=20 --repeated --frequency=20 --total=-1
-
-查询请求列表
-//如果查不到 可能是price低了，可能是min-resp-time没满足bind
-iris query service requests a001 $(iris keys show v0 --address) -o=json --indent  --trust-node
-
-
-根据上一条返回的id
-iris query service request -o=json --indent  --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000300000000000005FF0000
-
-//用<request-context-id>超时后可以查到 ， requests只能查询到当前活跃的
-iris query service requests -o=json --indent  EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000 7
-iris query service request-context C9F4EA3442E1CB86980CD9FA46A2AFAA7805821FF74F68903D8E28D8707FFFA70000000000000000
-
-
-3.相应请求
-iris tx service respond --chain-id=shilei-qa --from=v0  --fees=4stake -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iris query service requests a001 $(iris keys show v0 --address) -o=json --trust-node | jq -r .[0].id)
-
-4.查询相应请求 ，用"3）"返回request id
-iris query service response -o=json --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000500000000000006270000
-
+    ===========================
+        设置withdraw地址
      ===========================
-       取回服务调用产生的服务费（卖家），未响应超时的服务费会自动退还给（买家）
+echo 1234567890 | iriscli distribution set-withdraw-addr faa1264n55fg25z6czs43tk6j6rs3ravkz9x447gxx --fee=0.4iris --from=v0 --chain-id=shilei-qa --commit
      ===========================
-1.查询服务费
-iris query service fees --trust-node $(iris keys show v0 --address)
-
-
-2.提取服务调用产生的服务费
-iris tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
-// iris query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
-
-3.注意 irita 没有 withdraw-tax
-
+        查询withdraw地址
      ===========================
-      请求上下文相关 ====》》》  测下 nftlcd 的bug 下载一个新的
-     ===========================
-1. 查询请求上下文 <request-context-id>， 返回这个call的很多字段信息
-iris query service request-context --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
-//查询request id
-iris query service requests a001 $(iris keys show v0 --address) -o=json --trust-node --indent
-
-2. 暂停请求上下文
-iris tx service pause --chain-id=shilei-qa --from=v0  --fees=4stake -b block -y 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
-
-3. 启动请求上下文
-//state变成running , BatchState在complete状态也会变running
-iris tx service start --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
-
-4. 更新请求上下文
-iris tx service update --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  --frequency=20 --total=3000 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
-
-5. 终止请求上下文
-// state变成complete
-// 非repeated 不能kill
-iris tx service kill --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
-
-6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
-//列表只有有效的才会被查出， 但是iris service request-context 永远能查出）
-iris query service request-context --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
-
-7. 查询请求上下文的响应列表（后面是request id）
-//注意这个只能查活跃的 ， 过期的查不到。
-iris query service response --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000500000000000006270000 -o=json
-iris query service responses <request-context-id> <batch-counter>
+iriscli distribution withdraw-address faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+iriscli bank account faa1264n55fg25z6czs43tk6j6rs3ravkz9x447gxx
 
 
+
+
+
+==============================================================================================================
+==============================================================================================================
+==============================================================================================================
 
 
 

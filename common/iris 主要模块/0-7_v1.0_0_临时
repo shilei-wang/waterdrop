@@ -6,7 +6,9 @@ git pull
 
 //只有主网版本 没有setTestEnv.sh
 make install
-iris version
+
+//go mod tidy
+//iris version
 
 rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
 iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
@@ -15,6 +17,7 @@ sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris
 sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
 iris start --home=/Users/sherlock/testnet/v0/iris
 
+所有交易后面可以加  | jq 看返回
 
 ====================
 基础操作
@@ -22,9 +25,7 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 // --keyring-backend=os 只需指定一次
 cd /Users/sherlock/testnet/v0/iris/
 iris keys show v0
-
 iris tx bank send v0  $(iris keys show v0 -a) 1stake --fees=4stake --chain-id=shilei-qa --keyring-backend=os -b block -y --node=http://localhost:26657
-
 iris query bank balances $(iris keys show v0 -a) --node=http://localhost:26657
 
 
@@ -85,11 +86,6 @@ iris tx nft mint d01 a02 --recipient=$(iris keys show v0 --address) --token-uri=
 iris tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657
 
 
-====================
-service
-====================
-
-
 ======================
      htlc
 ======================
@@ -113,42 +109,6 @@ iris tx htlc claim 7b0def580b1ddc5277c47697cd171869396189c535e0cf64af6cfb74dcc58
 取回过期  htlc refund
 iris tx htlc refund 7b0def580b1ddc5277c47697cd171869396189c535e0cf64af6cfb74dcc585bf --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
 
-
-======================
-     random 随机数（这个没有做好）service 还是有问题
-======================
-
-
-1.定义 自带一个service：random （这个没有做好）
-iris service definition random
-
-2.绑定 （这个没有做好）
-iris tx service bind --chain-id=shilei-qa --from=v0 --fees=4stake --service-name=random --min-resp-time=5 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json  -b block -y --node=http://localhost:26657
-
-//查询
-iris query service bindings random
-
-3.request
-iris tx rand request-rand --chain-id=shilei-qa --from=v0 --fees=4stake --keyring-backend=os -b block -y 20 --node=http://localhost:26657
-
-// 在(0,block-interval)之内可以通过 rand模块的rand-height查到该次请求， 0是指提交请求的那一刻
-    iris query rand query-queue 9060 --node=http://localhost:26657
-    iris query rand query-queue --node=http://localhost:26657
-
-// 在(block-interval, block-interval+timeout[service默认超时时间100块])只能可以通过 service模块的request-id查到该次请求
-// 现在request的第一条查询已经可以现实 request-id （这个没有做好）
-    iris query service requests random $(iris keys show v0 -a) --node=http://localhost:26657 --trust-node
-
-1）注意记录一下：rand模块的request-id，小写的：ff4d166564e46543c536566962df0fe00f6adaedab7411fa346233231196feb6
-2）注意，10块以后查询service的request-id：
-    iris service requests random $(iris keys show v0 --address)
-3）注意， rand的request是单次的， repeated=false
-
-4.respond 这里会返回request-id
-echo 1234567890 | iris service respond --chain-id=shilei-qa --from=v0 --fee=0.004iris --request-id=$(iris service requests random $(iris keys show v0 --address) -o=json | jq -r .[0].id) --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --result='{"code":200,"message":"ok"}' --commit
-
-5.查询结果， 注意这里用的是rand模块的request-id
-iris query rand rand 286a7878c73f9ea9010895b43013ba7149f242c72150ebc80fb49d92d4e60b66 --node=http://localhost:26657 --trust-node
 
 ======================
      guardian
@@ -199,9 +159,306 @@ iris tx guardian delete-trustee --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m
 
 
 ======================================================================================================
+     service
 ======================================================================================================
-测试点
-https://gitlab.bianjie.ai/vincent/document/blob/master/projects/202007.md
+
+
+===================
+    定义
+===================
+1. 服务定义
+iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake --keyring-backend=os -b block -y --node=http://localhost:26657
+
+2. 服务定义查询 （可以查询 method id）
+iris query service definition --trust-node a001
+
+3. 查询 schema
+iris query service schema --trust-node pricing
+iris query service schema --trust-node result
+
+===================
+    绑定
+===================
+1. 服务绑定
+iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657 --from=v0 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5
+
+
+2. 查询服务绑定
+iris query service binding  --trust-node a001 $(iris keys show v0 --address)
+iris query service bindings --trust-node a001
+iris query service bindings --trust-node a001 --owner=$(iris keys show v0 --address)
+
+3. 更新绑定 --min-resp-time（qos）也可以改
+iris tx service update-binding a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --deposit=2stake --qos=6
+
+4. 设置提取地址
+iris tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
+
+//查询提取地址
+iris query service withdraw-addr --trust-node $(iris keys show v0 --address)
+
+7.服务失效
+iris tx service disable a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+
+8.服务恢复 ，可以增加抵押
+iris tx service enable a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --deposit=1stake
+
+9. 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov)) 、、这个还没有测
+iris tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+
+
+===================
+    调用
+===================
+1. 服务调用
+1）批量请求
+//单个
+iris tx service call --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1stake --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v0 --address)
+
+//重复
+iris tx service call --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --service-name=a001 --service-fee-cap=1stake --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v0 -a) --timeout=20 --repeated --frequency=20 --total=-1
+
+查询请求列表
+//如果查不到 可能是price低了，可能是min-resp-time没满足bind
+iris query service requests a001 $(iris keys show v0 --address) --trust-node
+
+
+根据上一条返回的id
+iris query service request --trust-node 7359A0A5787CA7FEDD48B468945DFA9949D1001DEE2452DBD7922F8C541B321F0000000000000000000000000000003A00000000000004C60000
+
+//用<request-context-id>超时后可以查到 ， requests只能查询到当前活跃的
+iris query service requests -o=json --indent  EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000 7
+iris query service request-context C9F4EA3442E1CB86980CD9FA46A2AFAA7805821FF74F68903D8E28D8707FFFA70000000000000000
+
+
+2.相应请求
+iris tx service respond --chain-id=shilei-qa --from=v0  --fees=4stake -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iris query service requests a001 $(iris keys show v0 --address) -o=json --trust-node | jq -r .[0].id)
+
+3.查询相应请求 ，用"2）"返回request id
+iris query service response --trust-node 7359A0A5787CA7FEDD48B468945DFA9949D1001DEE2452DBD7922F8C541B321F0000000000000000000000000000003C00000000000004EE0000
+
+     ===========================
+       取回服务调用产生的服务费（卖家），未响应超时的服务费会自动退还给（买家）
+     ===========================
+1.查询服务费
+iris query service fees --trust-node $(iris keys show v0 --address)
+
+
+2.提取服务调用产生的服务费
+iris tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+// iris query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
+
+3.注意 irita 没有 withdraw-tax
+
+     ===========================
+      请求上下文相关 ====》》》  测下 nftlcd 的bug 下载一个新的
+     ===========================
+1. 查询请求上下文 <request-context-id>， 返回这个call的很多字段信息
+iris query service request-context --trust-node 7359A0A5787CA7FEDD48B468945DFA9949D1001DEE2452DBD7922F8C541B321F0000000000000000
+//查询request id
+iris query service requests a001 $(iris keys show v0 --address) --trust-node
+
+2. 暂停请求上下文
+iris tx service pause --chain-id=shilei-qa --from=v0  --fees=4stake -b block -y 7359A0A5787CA7FEDD48B468945DFA9949D1001DEE2452DBD7922F8C541B321F0000000000000000
+
+3. 启动请求上下文
+//state变成running , BatchState在complete状态也会变running
+iris tx service start --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y 7359A0A5787CA7FEDD48B468945DFA9949D1001DEE2452DBD7922F8C541B321F0000000000000000
+
+4. 更新请求上下文
+iris tx service update --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  --frequency=20 --total=3000 7359A0A5787CA7FEDD48B468945DFA9949D1001DEE2452DBD7922F8C541B321F0000000000000000
+
+5. 终止请求上下文
+// state变成complete
+// 非repeated 不能kill
+iris tx service kill --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  7359A0A5787CA7FEDD48B468945DFA9949D1001DEE2452DBD7922F8C541B321F0000000000000000
+
+6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
+//列表只有有效的才会被查出， 但是iris service request-context 永远能查出）
+iris query service request-context --trust-node 7359A0A5787CA7FEDD48B468945DFA9949D1001DEE2452DBD7922F8C541B321F0000000000000000
+
+7. 查询请求上下文的响应列表（后面是request id）
+//注意这个只能查活跃的 ， 过期的查不到。
+iris query service response --trust-node 7359A0A5787CA7FEDD48B468945DFA9949D1001DEE2452DBD7922F8C541B321F0000000000000000000000000000003C00000000000004EE0000 -o=json | jq
+iris query service responses <request-context-id> <batch-counter>
+
+
+
+================================================================================
+================================================================================
+oracle
+================================================================================
+================================================================================
+
+===
+注意
+===
+目前需要profiler, 起来的时候需要有profiler
+
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
+sed -i '' 's/"description": "genesis"/"description": "genesis","type": "Genesis","address": "iaa1pm432kqz62mutq439ynqs87u30r36062qdw977","added_by": ""/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+
+sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+iris keys add v1 --recover
+figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
+// iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
+
+cd /Users/sherlock/testnet/v0/iris/
+iris tx bank send v0  $(iris keys show v1 -a) 100000stake --fees=4stake --chain-id=shilei-qa --keyring-backend=os -b block -y --node=http://localhost:26657
+iris query bank balances $(iris keys show v1 -a) --node=http://localhost:26657
+
+//使v0具有profiler权限
+iris tx guardian add-profiler --address=$(iris keys show v0 -a) --description=v0 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657 --keyring-backend=os
+
+===
+定义, 绑定
+===
+iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake --keyring-backend=os -b block -y --node=http://localhost:26657
+
+iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657 --from=v0 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5
+
+===
+开始
+===
+
+1. Create Feed
+//创建feed的同时相当于创建了一个service call
+//threshold 不能大约provider的个数
+//State初始=pause
+//--value-json-path="data.user.name"
+//不定义create会报错， 不绑定不会报错， 但是后续request会收不到。这里要注意。
+iris tx oracle create --chain-id=shilei-qa --from=v0 --fees=4stake --description=description --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v0 --address) --service-fee-cap=1stake --timeout=20 --frequency=20 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f001 -b block -y --keyring-backend=os --node=http://localhost:26657 | jq
+
+2. Query Feed
+iris query oracle query-feed f001 --trust-node --node=http://localhost:26657 | jq
+
+3. Start Feed
+//State=running
+iris tx oracle start f001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --keyring-backend=os --node=http://localhost:26657 | jq
+
+4. Pause Feed
+//State=pause
+iris tx oracle pause f001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --keyring-backend=os --node=http://localhost:26657 | jq
+
+5. Update Feed
+iris tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4stake --latest-history=1 -b block -y --keyring-backend=os --node=http://localhost:26657 | jq
+// --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=1 --description  --latest-history --service-fee-cap --timeout --frequency --total --threshold
+
+6. Query Feeds
+iris query oracle query-feeds --state=running --trust-node --node=http://localhost:26657 | jq
+iris query oracle query-feeds --state=paused --trust-node --node=http://localhost:26657 | jq
+
+//直接搜出所有的
+iris query oracle query-feeds --trust-node --node=http://localhost:26657 | jq
+
+7. Query Value
+iris query oracle query-value f001 --trust-node --node=http://localhost:26657 | jq
+
+    **************
+    单人响应
+    **************
+iris tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(iris query service requests a001 $(iris keys show v0 --address) -o=json --trust-node | jq -r .[0].id) --data="{\"data\": \"100\"}" --result='{"code":200,"message":"ok"}' -b block -y --keyring-backend=os --node=http://localhost:26657 | jq
+
+iris query oracle query-value f001 --trust-node --node=http://localhost:26657
+
+
+    **************
+    多人响应
+    **************
+    //同一个call， RequestContextID是的同一个。 但是针对于不同的provider的RequestID都是不一样的， 而且同一个provider每轮的RequestID也是不一样的
+
+//先要创建v1 recover，转账
+iris keys add v1 --recover
+figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
+// iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
+
+cd /Users/sherlock/testnet/v0/iris/
+iris tx bank send v0  $(iris keys show v1 -a) 100000stake --fees=4stake --chain-id=shilei-qa --keyring-backend=os -b block -y --node=http://localhost:26657
+iris query bank balances $(iris keys show v1 -a) --node=http://localhost:26657
+
+
+//增加一个provider v1
+iris tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4stake --providers=$(iris keys show v0 --address),$(iris keys show v1 --address) -b block -y --keyring-backend=os --node=http://localhost:26657 | jq
+
+//v1也要绑定， 不绑定就不能respond
+iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --node=http://localhost:26657 --from=v1 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5
+
+//等一会儿，到下一轮，两个都可以查到了，此条不用执行
+iris query service requests a001 $(iris keys show v0 --address) --trust-node
+iris query service requests a001 $(iris keys show v1 --address) --trust-node
+
+//v0 ， v1 ：分别response 1次，共2次
+iris tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(iris query service requests a001 $(iris keys show v0 --address) -o=json --trust-node | jq -r .[0].id) --data="{\"data\": \"100\"}" --result='{"code":200,"message":"ok"}' -b block -y --keyring-backend=os --node=http://localhost:26657 | jq
+
+iris tx service respond --chain-id=shilei-qa --from=v1 --fees=4stake --request-id=$(iris query service requests a001 $(iris keys show v1 --address) -o=json --trust-node | jq -r .[0].id) --data="{\"data\": \"200\"}" --result='{"code":200,"message":"ok"}' -b block -y --keyring-backend=os --node=http://localhost:26657 | jq
+
+//查询结果，等到一轮timeout以后出结果， 如果出现150就说明成功了，取了2个的均值。
+iris query oracle query-value f001 --trust-node --node=http://localhost:26657
+
+
+======================
+    random （ --oracle=true  有问题）
+======================
+
+===
+不使用oracle
+===
+//记录request_id
+iris tx rand request-rand --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y 10 | jq
+
+//10块后立即可以查询 (10块内查不到)
+iris query rand rand d4ae80e5c2329121c8796a4309625c2635046e4d76172410badfaee08216a73d --trust-node
+
+
+===
+使用service中的oracle（循环） 【这个oracle 没有做好】
+===
+1.定义 自带一个service：random （这个没有做好）
+iris query service definition random --trust-node
+
+2.定义 绑定 【注意一定要用random这个名字】
+iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas_random.json --name=random --fees=4stake -b block -y
+
+iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --from=v0 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=random --qos=5
+
+//查询
+iris query service bindings random --trust-node | jq
+
+3.request  //block-interval=20 【注意 默认使用 random名字的服务】【这里记录request_id， 最后5）rand rand用】
+iris tx rand request-rand --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y 20 --oracle=true --service-fee-cap=1stake | jq
+
+request id：8d67bc1d00bedd65aed4be157ec67acac8243902559f099c6586242ad794be3a
+
+// 在(0,block-interval)之内可以通过 rand模块的rand-height查到该次请求， 0是指提交请求的那一刻
+    iris query rand query-queue 9060
+    iris query rand query-queue
+
+// 在(block-interval, block-interval+timeout[service默认超时时间100块])只能可以通过 service模块的request-id查到该次请求
+// 现在request的第一条查询已经可以现实 request-id （这个没有做好）
+// 注意， rand的request是单次的， repeated=false
+    iris query service requests random $(iris keys show v0 -a) --trust-node | jq
+
+
+4.respond 这里会返回request-id 【过了20个块，就已经发出request了， 这个时候就可以respond了】
+iris tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(iris query service requests random $(iris keys show v0 -a) -o=json --trust-node | jq -r .[0].id) --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --result='{"code":200,"message":"ok"}' -b block -y | jq
+
+5.查询结果， 注意这里用的是rand模块的request-id（3返回的id）， 注意不是4中的request-id。
+iris query rand rand 8d67bc1d00bedd65aed4be157ec67acac8243902559f099c6586242ad794be3a --node=http://localhost:26657 --trust-node
+
+
+
+
+
+======================================================================================================
+======================================================================================================
+======================================================================================================
+
+
 
 更新最新的代码 重测service 和相关的命令
 
@@ -217,8 +474,7 @@ https://gitlab.bianjie.ai/vincent/document/blob/master/projects/202007.md
 
 。。、guardian
 
-
- oracle
+。。。oracle
 
 coinswap sawag
 ======================================================================================================
@@ -227,3 +483,10 @@ coinswap sawag
 irishub v1.0 ，重构后的代码初步测试有以下问题需修复：
 
 https://gitlab.bianjie.ai/vincent/document/blob/patch-1/projects/issues.md
+
+
+iris query service definition random --trust-node  初始化的random 现在没有了
+
+iris tx rand request-rand 中  oracle 重构有问题（ --oracle=true ）
+
+非oracle模式rand ，在生成数据钱查询 返回internal error
