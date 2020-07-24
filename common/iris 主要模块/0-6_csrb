@@ -55,7 +55,7 @@ address: csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
 
 csrbcli tx send v0 caa1kd4pljywse4u07pwpjgdxqwv23gq70uxm2n56v 50000000point --chain-id=shilei-qa --fees=4point -b block -y
-csrbcli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
+csrbcli query bank balances --trust-node caa1kd4pljywse4u07pwpjgdxqwv23gq70uxm2n56v
 
 
 =====================================================================================================================
@@ -274,7 +274,7 @@ csrbcli tx service kill --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
 
 6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
 //列表只有有效的才会被查出， 但是iriscli service request-context 永远能查出）
-csrbcli query service request-context --trust-node 423992EA3EA10E4F168A2832C40CFEC6A4DF710C67C418368D4C8D0AB25776FB0000000000000000
+csrbcli query service request-context --trust-node BD0788127A3F7E17407A18C376D31ED03B641FC86B9D373C0DB0C7343AC42CD20000000000000000
 
 7. 查询请求上下文的响应列表（后面是request id）
 //注意这个只能查活跃的 ， 过期的查不到。
