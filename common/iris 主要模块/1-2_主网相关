@@ -1,0 +1,190 @@
+﻿******************************************************************************************************************
+       稳定主网节点 发交易
+******************************************************************************************************************
+
+iriscli bank send --amount=10iris --fee=0.4iris --chain-id=irishub --from=v0 --to=iaa19aapzn2vmmyyjl3ht0en9vfgff30h0f7d63d7m --node=http://35.221.235.168:26657
+
+
+//我的奖金地址
+iriscli bank account iaa13csfhe6q3xee3rr73kgrdkv9t2l7he530tfqpz --node=http://35.221.235.168:26657 --indent
+
+
+//所有交易可以浏览器看
+https://www.irisplorer.io/#/home
+稳定节点：
+http://35.221.235.168:26657
+
+
+
+******************************************************************************************************************
+       主网测试
+       许波，服务器docker下好快照，装好iris
+       我同步就行了，测试快照需要用到
+       如果只是查询发交易，则直接给个全节点，就能用了。
+******************************************************************************************************************
+
+------
+连接（直接用了现成的服务器）
+iris快照和2进制文件都存在docker中
+------
+新建tab
+ssh root@192.168.150.38
+12345678
+
+//进入docker
+docker exec -it iris sh
+
+//导航到外挂盘， 在mnt中的数据 ， 重启docker后不会被清空
+cd /mnt/
+ls
+
+//下载genesis 和 config
+wget https://raw.githubusercontent.com/irisnet/mainnet/master/config/config.toml
+wget https://raw.githubusercontent.com/irisnet/mainnet/master/config/genesis.json
+
+------
+启动
+------
+cd /mnt/
+
+iris init --home=/mnt/master --chain-id=irishub  --moniker=export
+ls /mnt/master
+
+//把快照复制过去
+mv /mnt/application.db  /mnt/master/data
+mv /mnt/evidence.db  /mnt/master/data
+mv /mnt/cs.wal /mnt/master/data
+mv /mnt/state.db  /mnt/master/data
+mv /mnt/blockstore.db  /mnt/master/data
+ls /mnt/master/data
+
+//把genesis和config复制过去
+rm /mnt/master/config/config.toml  /mnt/master/config/genesis.json
+ls /mnt/master/config
+cp /mnt/config.toml  /mnt/master/config
+cp /mnt/genesis.json  /mnt/master/config
+ls /mnt/master/config
+
+iris start --home=/mnt/master > /mnt/iris.log &
+
+tail -f /mnt/iris.log
+
+
+-------
+关闭iris
+-------
+ps -ef|grep iris
+kill -9 436
+iris start --home=/mnt/master > /mnt/iris.log &
+
+
+-------
+追上主网后export
+-------
+rm /mnt/genesis_export.json
+ls /mnt
+iris export --home=/mnt/master --output-file=/mnt/genesis_export.json
+
+在本机 下载下来看下
+scp root@192.168.150.38:/var/lib/docker/snapshot/genesis_export.json ~/
+
+-------
+export中 让节点不连主网
+把主网config.toml 里面连接删掉
+注意：/var/lib/docker/snapshot = /mnt
+-------
+//下载config.toml
+scp root@192.168.150.38:/var/lib/docker/snapshot/config.toml  ~/
+scp root@192.168.150.38:/var/lib/docker/snapshot/master/config/addrbook.json  ~/
+docker中备份 addrbook.json
+cp /mnt/master/config/addrbook.json /mnt/addrbook.json
+cat /mnt/addrbook.json
+
+//修改 config.toml 后上传 , seeds = ""， persistent_peers = ""
+//修改 addrbook.json 后上传 , 删除所有里面地址， 仅保留 {	"key": "d*******",	"addrs": [	]}
+scp ~/config.toml root@192.168.150.38:/var/lib/docker/snapshot/master/config/config.toml
+scp ~/addrbook.json root@192.168.150.38:/var/lib/docker/snapshot/master/config/addrbook.json
+进入docker中：
+cat /mnt/master/config/config.toml
+cat /mnt/master/config/addrbook.json
+
+//打开程序，确认不会联网
+iris start --home=/mnt/master > /mnt/iris.log &
+tail -f /mnt/iris.log
+
+//验证自己的奖金地址
+iriscli bank account iaa13csfhe6q3xee3rr73kgrdkv9t2l7he530tfqpz --indent
+
+//开通docker内映射(这个要许波弄)， 打开lcd，验证
+http://192.168.150.38:1317/blocks/latest
+http://192.168.150.38:1317/bank/accounts/iaa13csfhe6q3xee3rr73kgrdkv9t2l7he530tfqpz
+
+
+
+
+
+
+******************************************************************************************************************
+******************************************************************************************************************
+********* 自己跑一个 主网节点（快照）  *********************************************************************************
+********* 这个没有成功，因为太大了    *********************************************************************************
+******************************************************************************************************************
+
+*******************************************
+   更新master
+*******************************************
+cd /Users/sherlock/go/src/github.com/irishub
+git fetch --all
+git checkout .  //放弃当前目录下的修改
+git checkout master
+git pull
+git branch && git rev-parse HEAD
+
+
+*******************************************
+   安装，运行docker
+*******************************************
+cd /Users/sherlock/go/src/github.com/irishub
+
+//把当前文件夹导入docker中的irishub编译，当前文件夹里有dockerfile文件，执行文件里的内容，第一次时间较长，需要下载依赖等
+//注意要把原先就有irishub镜像删除， docker images ， docker rmi imagesID
+//需要翻墙
+docker build -t irishub .
+
+//运行，进入docker ， 退出是exit
+docker run -it irishub
+
+//所有创建的目录都在docker内部， 退出docker后自动删除复原。
+iris version
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+成功出块后退出， 再进去, 需要翻墙。
+exit
+docker run -it irishub
+iris init --home=/Users/sherlock/irishub --chain-id=irishub  --moniker=test_export
+cd /Users/sherlock/irishub/config
+rm -rf  config.toml  genesis.json
+wget https://raw.githubusercontent.com/irisnet/mainnet/master/config/config.toml
+wget https://raw.githubusercontent.com/irisnet/mainnet/master/config/genesis.json
+ls
+
+*******************************************
+下载快照 （没成功）
+*******************************************
+
+cd /Users/sherlock/irishub/data/config
+
+打开 https://www.bitcat365.com/resource/irisnet-block-data
+wget https://data.bitcat365.com/irisnet/data_snapshot.tar.lz4
+wget https://data.bitcat365.com/irisnet/data_snapshot.tar.lz4.md5
+
+lz4 -d  data_snapshot.tar.lz4  | tar xzf -
+
+//太大了 最后服务器下载.
+//断开代理， brew install wget
+
+先下载到一个临时位置：
+cd  /Users/sherlock/my_workspace/master
+wget http://download.bianjie.ai/data/data_snapshot.tar.lz4
+下载下来了 ， 内存太小 还是不行。
