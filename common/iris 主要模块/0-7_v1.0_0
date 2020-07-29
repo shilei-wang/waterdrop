@@ -1,198 +1,625 @@
 cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .
-git checkout -b v1.0.0-refactor upstream/v1.0.0-refactor  //git checkout v1.0.0-refactor //git pull
-//git merge upstream/v1.0.0-refactor
-0-1_小零食
+git checkout -b vincent-v1.0 upstream/vincent-v1.0  //git checkout v1.0.0-refactor // git checkout master
+git pull
+git branch && git rev-parse HEAD
 
-source scripts/setTestEnv.sh
+//只有主网版本 没有setTestEnv.sh
 make install
 
+//go mod tidy
+//iris version
 
 rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
-echo 12345678 | iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
-// subl /Users/sherlock/testnet/v0/iris/config/genesis.json
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
 sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
 sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
 sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
 iris start --home=/Users/sherlock/testnet/v0/iris
-mv /Users/sherlock/testnet/v0/iriscli /Users/sherlock/.iriscli
-iriscli keys list
 
-================
---from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-========================================================================================================================
+所有交易后面可以加  |jq 看返回
 
-------
-用钥匙串的方式 （如果锁定失效了  可以钥匙串》文件》解锁钥匙串登录里点一下开启）
-------
-iriscli keys show v0
-iriscli query account faa1gqz4pl8z43jfxpqvxzg65vdc39ag795grnhrmt --chain-id=shilei-qa
-iriscli keys add v1
-iriscli keys add v2 --recover
-figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
-//iriscli keys update v2 //update 没有了
-iriscli keys delete v2
-iriscli keys export v0 //这里和我们原来有区别 --output-file不用了
 
-------
-用file的方式
-------
-iriscli keys add x0 --keyring-backend=file --home=/Users/sherlock/iriscli
-echo 12345678 | iriscli keys add x0 --keyring-backend=file --home=/Users/sherlock/iriscli
-iriscli keys show x0 --keyring-backend=file --home=/Users/sherlock/iriscli
-echo 12345678 | iriscli keys list --keyring-backend=file --home=/Users/sherlock/iriscli
-iriscli keys add v1 --keyring-backend=file --home=/Users/sherlock/iriscli
-echo 12345678 | iriscli keys delete v1 --keyring-backend=file --home=/Users/sherlock/iriscli
+====================
+rest
+====================
+先暂停链
+sed -i '' 's/swagger = false/swagger = true/g' /Users/sherlock/testnet/v0/iris/config/app.toml
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+
+http://0.0.0.0:1317/
+http://localhost:1317/swagger-ui/
+
+
+====================
+用init自己起
+====================
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+iris init --home=/Users/sherlock/testnet/v0/iris --chain-id=shilei-qa v0
+iris add-genesis-account $(iris keys show v0 --address) 100000000000000stake --home=/Users/sherlock/testnet/v0/iris
+iris gentx --home=/Users/sherlock/testnet/v0/iris --chain-id=shilei-qa v0
+iris collect-gentxs --home=/Users/sherlock/testnet/v0/iris
+iris start --home=/Users/sherlock/testnet/v0/iris
+// 默认
 
 
 
+====================
+基础操作
+====================
+iris keys show v0
+iris tx bank send v0  $(iris keys show v0 -a) 1stake --fees=4stake --chain-id=shilei-qa -b block -y |jq
+iris query bank balances $(iris keys show v0 -a) |jqiris tx bank send v0  $(iris keys show v0 -a) 1stake --fees=4stake --chain-id=shilei-qa -b block -y |jq
+iris query bank balances $(iris keys show v0 -a) |jq
 
 
 
-1. 转账 (小数点会panic)
-echo 12345678 | iriscli tx send v0 faa1pm432kqz62mutq439ynqs87u30r36062czga7r 1stake --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query account faa1pm432kqz62mutq439ynqs87u30r36062czga7r --chain-id=shilei-qa
+====================
+token
+====================
+发行资产：
+iris tx token issue --name=token-name --min-unit="mu01" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y  --symbol=a01 |jq
 
-2. staking
-iriscli query staking validators --chain-id=shilei-qa
-iriscli query staking validator fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
-iriscli tx staking delegate fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q 5stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query staking delegation faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
-iriscli query staking delegations faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 --chain-id=shilei-qa
-echo 12345678 | iriscli tx staking unbond fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q 100stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query staking unbonding-delegation faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa  （有问题）
-echo 12345678 | iriscli tx distribution set-withdraw-addr faa18fxvahs5nc56zgtxu935zm22z20vgpvlhcqpnh --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-echo 12345678 | iriscli tx distribution withdraw-all-rewards --from v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query account faa18fxvahs5nc56zgtxu935zm22z20vgpvlhcqpnh --chain-id=shilei-qa
-
-3. gov
-===
-iriscli tx gov -h
-iriscli query gov proposal -h
-===
-echo 12345678 | iriscli tx gov submit-proposal --title="Test Proposal" --description="My awesome proposal" --type="Text" --deposit="10stake" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query gov proposal 1 --chain-id=shilei-qa
-echo 12345678 | iriscli tx gov deposit 1 10000000stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query gov param deposit --chain-id=shilei-qa
-echo 12345678 | iriscli tx gov vote 1 yes  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query gov proposal 1 --chain-id=shilei-qa -o=json --indent //里面有字段可以看结果
-
-3. distribution
-===
-iriscli tx distribution -h
-===
-echo 12345678 | iriscli tx distribution withdraw-rewards fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --from v0 --chain-id=shilei-qa --fees=4stake -b block -y  （help里面不对 distri）
-echo 12345678 | iriscli tx distribution withdraw-rewards fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q  --commission --from v0 --chain-id=shilei-qa --fees=4stake -b block -y
+查询资产：
+iris query token tokens |jq
+iris query token token a01 |jq
+iris query token tokens $(iris keys show v0 -a) |jq
 
 
-3. rand
-===
-iriscli tx rand -h
-===
-//申请10块后的随机数
-echo 12345678 | iriscli tx rand request-rand 10 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+修改资产：
+iris tx token edit a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y |jq
+iris query token token a01 |jq
 
-1)保存request id ,下面用
-2） Committed at block 6741 （其中6741+10=6751, 后面query-queue用）
-
-//查询该随机数
-iriscli query rand rand e95e098edb18747cf51017039df81ceaf34a652f724f5cc2df2d3ca773ca3993 --chain-id=shilei-qa
-
-//查询某一个高度的随机数申请队列， 注意：一旦随机数生成，会从队列里面删除！！
-iriscli query rand query-queue 3877 --chain-id=shilei-qa
-
-//查询所有队列
-iriscli query rand query-queue --chain-id=shilei-qa
+增发资产：
+iris tx token mint a01 --amount=1 --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris query bank balances iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 |jq
 
 
-4. guardian
-===
-iriscli tx guardian -h
-===
-1.获取所有profiler账号列表
-iriscli query guardian profilers --chain-id=shilei-qa
-
-2.获取所有trustee账号列表 （取回tax的账户）
-iriscli query guardian trustees --chain-id=shilei-qa
-
-3.添加profiler账号
-echo 12345678 | iriscli tx guardian add-profiler --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=v0 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-
-4.添加trustee账号
-echo 12345678 | iriscli tx guardian add-trustee --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --description=v0 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-
-5.删除profiler账号
-echo 12345678 | iriscli tx guardian delete-profiler --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-
-6.删除trustee账号
-echo 12345678 | iriscli tx guardian delete-trustee --address=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+转让asset：
+iris tx token transfer a01 --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris query token tokens iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 |jq
 
 
-5. htlc
+查询fee：
+iris query token fee --trust-node a01 |jq
+
+====================
+NFT
+====================
+issue：
+iris tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+查询：
+iris query nft supply d01 |jq
+iris query nft owner $(iritacli keys show v0 --address) |jq
+iris query nft collection d01 |jq
+iris query nft denoms |jq
+iris query nft token d01 a01 |jq
+
+mint:
+iris tx nft mint d01 a01 --recipient=$(iris keys show v0 --address) --token-uri="tokenURI" --token-data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+edit（必须要用owner）：
+iris tx nft edit d01 a01 --token-uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+transfer：
+iris tx nft transfer iaa1pkhw2svp2m7fd3mstpylfk48rrlal8sdmv3kqc d01 a01 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+burn：
+iris tx nft mint d01 a02 --recipient=$(iris keys show v0 --address) --token-uri="tokenURI" --token-data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+iris tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+
 ======================
-iriscli tx htlc -h
+     htlc
 ======================
 //注意：因为本链 所以other-chain这个暂时00
 //secret不填的话自动生成
-echo 12345678 | iriscli tx htlc create --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=1stake --time-lock=50 --timestamp=1580000000 --receiver-on-other-chain=00 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris tx htlc create --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --amount=1stake --time-lock=50 --timestamp=1580000000 --receiver-on-other-chain=00 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y |jq
 
 //也可以填
-echo 12345678 | iriscli tx htlc create --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=1stake --time-lock=50 --timestamp=1580000000 --receiver-on-other-chain=00 --secret=b5e03cf9be4b77ca253d941467fe1664688403c666fc92317415b9513ad7340b --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris tx htlc create --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --amount=1stake --time-lock=50 --timestamp=1580000000 --receiver-on-other-chain=00 --secret=b5e03cf9be4b77ca253d941467fe1664688403c666fc92317415b9513ad7340e --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y |jq
 
 返回:
-Secret:      3de491053fe6e9f04f46c97d0a886ff6bd68c32c856f47faa25076c76537587b
-HashLock:    af726fa05bbf1b1eb92d6c7c4277d412e6f3435bcabf80b3ca8453295f3c31ce
+Secret:      b5e03cf9be4b77ca253d941467fe1664688403c666fc92317415b9513ad7340b
+HashLock:    3F0D93550229F9F1C97C04A0F3A63751C8AE707190729519CE65FE0B76716B7A
 
-查询  query-htlc
-iriscli query htlc htlc 533896eabd3bbeaeabc8d012c6ac8da74d780e0b45162cd3803a0d8bec1e4364 --chain-id=shilei-qa
+查询  query-htlc 【HashLock】
+iris query htlc htlc 3F0D93550229F9F1C97C04A0F3A63751C8AE707190729519CE65FE0B76716B7A  |jq
 
-声明所有 claim
-echo 12345678 | iriscli tx htlc claim --hash-lock=23f6aeb57d710850f071783b0bce5e11018f9c073ed8fa71605176b3a368996d --secret=82531f7b9794bfd75470df8e0b1d3ec3103716ffd555245ab661fab6cbe79560 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+声明所有 claim 【HashLock ， secret】
+iris tx htlc claim 50A109A7F1BD8ED83A742022A50E90E54261D24E2B032AA7EB1439844DE66FE0 b5e03cf9be4b77ca253d941467fe1664688403c666fc92317415b9513ad7340b  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y |jq
 
 取回过期  htlc refund
-echo 12345678 | iriscli tx htlc refund --hash-lock=533896eabd3bbeaeabc8d012c6ac8da74d780e0b45162cd3803a0d8bec1e4364 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris tx htlc refund 3F0D93550229F9F1C97C04A0F3A63751C8AE707190729519CE65FE0B76716B7A --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+
+======================
+     guardian
+======================
+
+===
+iris tx guardian -h
+===
+修改genesis 复制里面v0， iaa地址 【目前这个不用做了， 保存以备后续】
+subl /Users/sherlock/testnet/v0/iris/config/genesis.json
+
+    "guardian": {
+      "profilers": [
+        {
+          "description": "genesis",
+          "type": "Genesis",
+          "address": "iaa17nsr77unehjc7gltk4pacqwkantw77zmm0qwfw",
+          "added_by": ""
+        }
+      ],
+      "trustees": [
+        {
+          "description": "genesis",
+          "type": "Genesis",
+          "address": "iaa17nsr77unehjc7gltk4pacqwkantw77zmm0qwfw",
+          "added_by": ""
+        }
+      ]
+    },
+
+
+1.获取所有profiler账号列表
+iris query guardian profilers |jq
+
+2.获取所有trustee账号列表 （取回tax的账户）
+iris query guardian trustees |jq
+
+3.添加profiler账号 [注意 :只有genesis账号才可以拥有添加删除用户功能 ]
+iris tx guardian add-profiler --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --description=v0 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+4.添加trustee账号
+iris tx guardian add-trustee --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --description=v --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+5.删除profiler账号
+iris tx guardian delete-profiler --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+6.删除trustee账号
+iris tx guardian delete-trustee --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
 
 
 
-其他
-iriscli status -o=json --indent
-iriscli keys mnemonic
-iriscli keys export v0 >/Users/sherlock/a
-iriscli keys import v1 /Users/sherlock/a
-echo 12345678 | iriscli keys delete v1
-iriscli keys parse faa1pm432kqz62mutq439ynqs87u30r36062czga7r  //什么用
-iriscli keys migrate  //什么用
 
-//这些都没有测
-sign         Sign transactions generated offline
-multisign    Generate multisig signatures for transactions generated offline
-broadcast    Broadcast transactions generated offline
-encode       Encode transactions generated offline
-decode       Decode an amino-encoded transaction string
+======================================================================================================
+     service
+======================================================================================================
 
-//创建验证人
+===================
+    定义
+===================
+1. 服务定义
+iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake -b block -y
+
+2. 服务定义查询 （可以查询 method id）
+iris query service definition a001 |jq
+
+3. 查询 schema
+iris query service schema pricing |jq
+iris query service schema result |jq
+
+===================
+    绑定
+===================
+1. 服务绑定
+iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --from=v0 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5
+
+2. 查询服务绑定
+iris query service binding  a001 $(iris keys show v0 --address) |jq
+iris query service bindings a001 |jq
+iris query service bindings a001 --owner=$(iris keys show v0 --address) |jq
+
+3. 更新绑定 --min-resp-time（qos）也可以改
+iris tx service update-binding a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --deposit=2stake --qos=6
+
+4. 设置提取地址
+iris tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
+
+//查询提取地址
+iris query service withdraw-addr --trust-node $(iris keys show v0 --address)
+
+7.服务失效
+iris tx service disable a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+
+8.服务恢复 ，可以增加抵押
+iris tx service enable a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --deposit=1stake
+
+9. 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov)) 、、这个还没有测
+iris tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+
+
+===================
+    调用
+===================
+1. 服务调用
+1）批量请求
+//单个
+iris tx service call --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1stake --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v0 --address)
+
+//重复
+iris tx service call --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --service-name=a001 --service-fee-cap=1stake --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v0 -a) --timeout=20 --repeated --frequency=20 --total=-1
+
+查询请求列表
+//如果查不到 可能是price低了，可能是min-resp-time没满足bind
+iris query service requests a001 $(iris keys show v0 -a) |jq
+
+根据上一条返回的id
+iris query service request 7A8BA6A4AA91AC908CC8110617F56CB87FAAC5A6B25FA81A99B3EF1B68B7A0AE0000000000000000000000000000000200000000000002550000 |jq
+
+//用<request-context-id>超时后可以查到 ， requests只能查询到当前活跃的
+iris query service requests 7A8BA6A4AA91AC908CC8110617F56CB87FAAC5A6B25FA81A99B3EF1B68B7A0AE0000000000000000 3 |jq
+iris query service request-context 7A8BA6A4AA91AC908CC8110617F56CB87FAAC5A6B25FA81A99B3EF1B68B7A0AE0000000000000000 |jq
+
+
+2.相应请求
+iris tx service respond --chain-id=shilei-qa --from=v0  --fees=4stake -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iris query service requests a001 $(iris keys show v0 --address) -o=json --trust-node | jq -r .[0].id) |jq
+
+3.查询相应请求 ，用"2）"返回request id
+iris query service response --trust-node 7A8BA6A4AA91AC908CC8110617F56CB87FAAC5A6B25FA81A99B3EF1B68B7A0AE0000000000000000000000000000000900000000000002E10000
+
+     ===========================
+       取回服务调用产生的服务费（卖家），未响应超时的服务费会自动退还给（买家）
+     ===========================
+1.查询服务费
+iris query service fees $(iris keys show v0 --address) |jq
+
+
+2.提取服务调用产生的服务费
+iris tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+// iris query bank balances iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 |jq
+
+3.注意 irita 没有 withdraw-tax
+
+     ===========================
+      请求上下文相关 ====》》》  测下 nftlcd 的bug 下载一个新的
+     ===========================
+1. 查询请求上下文 <request-context-id>， 返回这个call的很多字段信息
+iris query service request-context 4D14C6C77F904817FA18EA27051A83001E543DA892A3BD04FC72E85B00B3E82F0000000000000000 |jq
+//查询request id
+iris query service requests a001 $(iris keys show v0 --address) |jq
+
+2. 暂停请求上下文
+iris tx service pause --chain-id=shilei-qa --from=v0  --fees=4stake -b block -y 7A8BA6A4AA91AC908CC8110617F56CB87FAAC5A6B25FA81A99B3EF1B68B7A0AE0000000000000000
+
+3. 启动请求上下文
+//state变成running , BatchState在complete状态也会变running
+iris tx service start --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y 7A8BA6A4AA91AC908CC8110617F56CB87FAAC5A6B25FA81A99B3EF1B68B7A0AE0000000000000000
+
+4. 更新请求上下文
+iris tx service update --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  --frequency=20 --total=3000 7A8BA6A4AA91AC908CC8110617F56CB87FAAC5A6B25FA81A99B3EF1B68B7A0AE0000000000000000
+
+5. 终止请求上下文
+// state变成complete
+// 非repeated 不能kill
+iris tx service kill --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  7A8BA6A4AA91AC908CC8110617F56CB87FAAC5A6B25FA81A99B3EF1B68B7A0AE0000000000000000
+
+6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
+//列表只有有效的才会被查出， 但是iris service request-context 永远能查出）
+iris query service request-context --trust-node 7A8BA6A4AA91AC908CC8110617F56CB87FAAC5A6B25FA81A99B3EF1B68B7A0AE0000000000000000 |jq
+
+7. 查询请求上下文的响应列表（后面是request id）
+//注意这个只能查活跃的 ， 过期的查不到。
+iris query service response --trust-node 7A8BA6A4AA91AC908CC8110617F56CB87FAAC5A6B25FA81A99B3EF1B68B7A0AE0000000000000000000000000000001300000000000003A90000 | jq
+iris query service responses <request-context-id> <batch-counter>
+
+
+
+================================================================================
+================================================================================
+oracle
+================================================================================
+================================================================================
+
+===
+注意
+===
+目前需要profiler, 起来的时候需要有profiler
+
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
+sed -i '' 's/"profilers": null/"profilers": [{"description": "genesis","type": "Genesis", "address": "iaa1pm432kqz62mutq439ynqs87u30r36062qdw977","added_by": ""}]/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+sed -i '' 's/"trustees": null/"trustees": [{"description": "genesis","type": "Genesis", "address": "iaa1pm432kqz62mutq439ynqs87u30r36062qdw977","added_by": ""}]/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+
+sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+iris keys add v1 --recover
+figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
+// iris keys show v1
+// iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
+
+iris tx bank send v0  $(iris keys show v1 -a) 100000stake --fees=4stake --chain-id=shilei-qa -b block -y
+iris query bank balances $(iris keys show v1 -a) |jq
+
+//使v0具有profiler权限
+iris tx guardian add-profiler --address=$(iris keys show v0 -a) --description=v0 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y
+iris tx guardian add-trustee --address=$(iris keys show v0 -a) --description=v0 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y
+
+
+===
+定义, 绑定
+===
+iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake -b block -y
+
+iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y  --from=v0 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5
+
+===
+开始
+===
+
+1. Create Feed
+//创建feed的同时相当于创建了一个service call
+//threshold 不能大约provider的个数
+//State初始=pause
+//--value-json-path="data.user.name"
+//不定义create会报错， 不绑定不会报错， 但是后续request会收不到。这里要注意。
+iris tx oracle create --chain-id=shilei-qa --from=v0 --fees=4stake --description=description --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v0 --address) --service-fee-cap=1stake --timeout=20 --frequency=20 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f001 -b block -y  | jq
+
+2. Query Feed
+iris query oracle query-feed f001 | jq
+
+3. Start Feed
+//State=running
+iris tx oracle start f001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  | jq
+
+4. Pause Feed
+//State=pause
+iris tx oracle pause f001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  | jq
+
+5. Update Feed
+iris tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4stake --latest-history=1 -b block -y  | jq
+// --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=1 --description  --latest-history --service-fee-cap --timeout --frequency --total --threshold
+
+6. Query Feeds
+iris query oracle query-feeds --state=running --trust-node  | jq
+iris query oracle query-feeds --state=paused --trust-node  | jq
+
+//直接搜出所有的
+iris query oracle query-feeds --trust-node  | jq
+
+7. Query Value
+iris query oracle query-value f001 --trust-node  | jq
+
+    **************
+    单人响应
+    **************
+iris tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(iris query service requests a001 $(iris keys show v0 --address) -o=json --trust-node | jq -r .[0].id) --data="{\"data\": \"100\"}" --result='{"code":200,"message":"ok"}' -b block -y  | jq
+
+iris query oracle query-value f001 --trust-node
+
+
+    **************
+    多人响应
+    **************
+    //同一个call， RequestContextID是的同一个。 但是针对于不同的provider的RequestID都是不一样的， 而且同一个provider每轮的RequestID也是不一样的
+
+//先要创建v1 recover，转账
+iris keys add v1 --recover
+figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
+// iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
+
+iris tx bank send v0  $(iris keys show v1 -a) 100000stake --fees=4stake --chain-id=shilei-qa -b block -y
+iris query bank balances $(iris keys show v1 -a)
+
+
+//增加一个provider v1
+iris tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4stake --providers=$(iris keys show v0 --address),$(iris keys show v1 --address) -b block -y  | jq
+
+//v1也要绑定， 不绑定就不能respond
+iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y  --from=v1 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5
+
+//等一会儿，到下一轮，两个都可以查到了，此条不用执行
+iris query service requests a001 $(iris keys show v0 --address) |jq
+iris query service requests a001 $(iris keys show v1 --address) |jq
+
+//v0 ， v1 ：分别response 1次，共2次
+iris tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(iris query service requests a001 $(iris keys show v0 --address) -o=json --trust-node | jq -r .[0].id) --data="{\"data\": \"100\"}" --result='{"code":200,"message":"ok"}' -b block -y  | jq
+
+iris tx service respond --chain-id=shilei-qa --from=v1 --fees=4stake --request-id=$(iris query service requests a001 $(iris keys show v1 --address) -o=json --trust-node | jq -r .[0].id) --data="{\"data\": \"200\"}" --result='{"code":200,"message":"ok"}' -b block -y  | jq
+
+//查询结果，等到一轮timeout以后出结果， 如果出现150就说明成功了，取了2个的均值。
+iris query oracle query-value f001 |jq
+
+======================
+    random （有问题）
+======================
+
+===
+不使用oracle
+===
+//记录request_id
+//block-interval默认为10
+iris tx rand request-rand --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --block-interval=20 | jq
+
+//20块后立即可以查询 (20块内查不到)
+iris query rand rand 25c6eec9588b1130a2d39e3d078e381372475cacf51aa63e91d7df7b90dd0fd0 | jq
+
+
+===
+使用service中的oracle
+ --oracle=true  ，注意： 这个oracle是只请求一次的！
+===
+1.定义 自带一个service：random （这个没有做好）
+iris query service definition random --trust-node
+
+2.定义 绑定 【注意一定要用random这个名字】
+iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas_random.json --name=random --fees=4stake -b block -y
+
+iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --from=v0 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=random --qos=5
+
+//查询
+iris query service bindings random | jq
+
+3.request
+//block-interval默认为10 【注意 默认使用 random名字的服务】【这里记录request_id， 最后5）rand rand用】
+//注意 有2个request id， 一个是rand的request id， 一个是service的request id
+iris tx rand request-rand --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --block-interval=10 --oracle=true --service-fee-cap=1stake | jq
+
+request id【rand】 ：59ad77ed2d75690d1369cdb3994601413b01d732b71ce23bc1ee5c27853f9fee
+generate_height   ：24
+
+
+// 在(0,block-interval)之内可以通过 rand模块的rand-height查到该次请求， 0是指提交请求的那一刻
+    iris query rand query-queue 2901 | jq
+    iris query rand query-queue | jq
+
+// 在(block-interval, block-interval+timeout[service默认超时时间100块])只能可以通过 service模块的request-id查到该次请求
+// 现在request的第一条查询已经可以现实 request-id （这个没有做好）
+// 注意， rand的request是单次的， repeated=false
+    iris query service requests random $(iris keys show v0 -a)| jq
+
+
+4.respond 这里会返回request-id 【过了20个块，就已经发出request了， 这个时候就可以respond了】这里用的service的request id
+iris tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(iris query service requests random $(iris keys show v0 -a) -o=json --trust-node | jq -r .[0].id) --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --result='{"code":200,"message":"ok"}' -b block -y | jq
+
+5.查询结果， request id【rand】， 注意不是4中的service的request-id 。
+iris query rand rand 08af22d457f7886f409e29b5b1c9786ee1a98763b929a4b6f492fb6edb4cbf08 | jq
+
+
+======================================================================================================
+     系统mint验证
+======================================================================================================
+//只有一个验证人的情况, 所有奖励除了少部分税 都给这个验证人
+//每块增加大约12.4^8， 会有小数
+iris query distribution validator-outstanding-rewards $(iris keys show v0 --bech val -a) --chain-id=shilei-qa
+
+// total
+//每块增加大约16.4^8
+iris query bank total
+
+
+====================
+staking （用的cosmos 有些问题， 暂时先不测）
+====================
+
+iris query staking validators |jq
+iris query staking validator iva1leftlgy0n4wcyq274lmdzkyzgqcnpakfjzu7dr  |jq （有问题）
+
+iris tx staking delegate fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q 5stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris query staking delegation faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
+iris query staking delegations faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 --chain-id=shilei-qa
+iris tx staking unbond fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q 100stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris query staking unbonding-delegation faa1capy9vr3ratgcqt6k442ga9kevuz05c8x8m3z2 fva1meq8el2m9ud62ffk3wkjfkc0yl7qhrj4ygqu7q --chain-id=shilei-qa
+iris tx distribution set-withdraw-addr faa18fxvahs5nc56zgtxu935zm22z20vgpvlhcqpnh --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris tx distribution withdraw-all-rewards --from v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris query account faa18fxvahs5nc56zgtxu935zm22z20vgpvlhcqpnh --chain-id=shilei-qa
+
+
+
+====================
+gov （暂时先不测）
+====================
+iris tx gov submit-proposal --title="Test Proposal" --description="My awesome proposal" --type="Text" --deposit="10stake" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris query gov proposal 1 --chain-id=shilei-qa
+iris tx gov deposit 1 10000000stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris query gov param deposit --chain-id=shilei-qa
+iris tx gov vote 1 yes  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris query gov proposal 1 --chain-id=shilei-qa -o=json --indent //里面有字段可以看结果
+
+
+
+====================
+创建验证人 也没有测
+====================
 iris init v1 --home=/Users/sherlock/v1 --chain-id=shilei-qa
 copy genesis toml
 iris tendermint show-node-id --home=/Users/sherlock/testnet/v0/iris  //node id 下面用
 toml 26657=》26687 3个，seeds = "f63440fe308c176380c0d80047871f3a667995ef@localhost:26656"
 iris start --home=/Users/sherlock/v1 （此时正常追赶）
 
-iriscli keys list
-iriscli keys add v1 --recover (上面已经创建？faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju)
-iriscli keys show x1 //faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
-echo 12345678 | iriscli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 100000000stake --chain-id=shilei-qa --fees=4stake -b block -y
-iriscli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa
+iris keys list
+iris keys add v1 --recover (上面已经创建？faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju)
+iris keys show x1 //faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 12345678 | iris tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 100000000stake --chain-id=shilei-qa --fees=4stake -b block -y
+iris query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa
 
 iris tendermint show-validator --home=/Users/sherlock/v1
 //fcp1zcjduepqpzudzh5k84h5zpnsp9l96pql7n0yaqd9pfcvcw603ngyvrcz6fdqf09vng
-echo 12345678 | iriscli tx staking create-validator --pubkey=fcp1zcjduepqpzudzh5k84h5zpnsp9l96pql7n0yaqd9pfcvcw603ngyvrcz6fdqf09vng --moniker=v1 --amount=10000stake --min-self-delegation=1 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y --commission-max-change-rate=0.1 --commission-max-rate=0.1 --commission-rate=0.1  //别人抵押 最少多少个?  --min-self-delegation=1 ?
-iriscli query staking validators --chain-id=shilei-qa
+echo 12345678 | iris tx staking create-validator --pubkey=fcp1zcjduepqpzudzh5k84h5zpnsp9l96pql7n0yaqd9pfcvcw603ngyvrcz6fdqf09vng --moniker=v1 --amount=10000stake --min-self-delegation=1 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y --commission-max-change-rate=0.1 --commission-max-rate=0.1 --commission-rate=0.1  //别人抵押 最少多少个?  --min-self-delegation=1 ?
+iris query staking validators --chain-id=shilei-qa
 
 //编辑验证人（24小时？）
-echo 12345678 | iriscli tx staking edit-validator --moniker=v11 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y --commission-rate=0.11
+echo 12345678 | iris tx staking edit-validator --moniker=v11 --from=v1 --chain-id=shilei-qa --fees=4stake -b block -y --commission-rate=0.11
 
 //redelegate (gas会抄)
-echo 12345678 | iriscli tx staking redelegate fva1jajds058muyuqr9e2uxgr8g3phjceu6z2tntj0 fva1lcuw6ewd2gfxap37sejewmta205sgssme9ru0m 5stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --gas=300000
+echo 12345678 | iris tx staking redelegate fva1jajds058muyuqr9e2uxgr8g3phjceu6z2tntj0 fva1lcuw6ewd2gfxap37sejewmta205sgssme9ru0m 5stake --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y --gas=300000
 
-iriscli query slashing signing-info --chain-id=shilei-qa fcp1zcjduepqpzudzh5k84h5zpnsp9l96pql7n0yaqd9pfcvcw603ngyvrcz6fdqf09vng
+iris query slashing signing-info --chain-id=shilei-qa fcp1zcjduepqpzudzh5k84h5zpnsp9l96pql7n0yaqd9pfcvcw603ngyvrcz6fdqf09vng
+
+======================================================================================================
+    Distribution
+======================================================================================================
+
+iris query distribution rewards $(iris keys show v0 -a)
+
+     ===========================
+                准备
+     ===========================
+iris tx bank send v0 $(iris keys show v1 -a) 1stake --fees=4stake --chain-id=shilei-qa -b block -y
+iris query bank balances $(iris keys show v1 -a) |jq
+
+iris tx distribution set-withdraw-addr $(iris keys show v1 -a)  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris tx bank send v0 $(iris keys show v0 -a) 1stake --fees=100000stake --chain-id=shilei-qa -b block -y
+
+
+iris query distribution validator-outstanding-rewards $(iris keys show v0 --bech val -a) --chain-id=shilei-qa
+iris tx distribution withdraw-rewards $(iris keys show v0 --bech val -a)  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+iris query bank balances $(iris keys show v1 -a) |jq
+
+
+
+======================================================================================================
+======================================================================================================
+======================================================================================================
+
+
+coinswap sawag（rest 用不了 暂时不能测）
+
+、、、 token
+
+。。。 service
+
+、、、NFT
+
+。。。HTLC
+
+。。、random
+
+。。、guardian
+
+。。。oracle
+
+
+======================================================================================================
+======================================================================================================
+
+irishub v1.0 ，重构后的代码初步测试有以下问题需修复：
+
+https://gitlab.bianjie.ai/vincent/document/blob/patch-1/projects/issues.md
+
+
+cosmos自带的一些bug，记录待修复：
+
+rest 和 swagger 暂时用不了
+
+
+iris query staking validator 的help中的cosmos地址
+iris query staking validator -h
+Example:
+$ iris query staking validator cosmosvaloper1gghjut3ccd8ay0zduzj64hwre2fxs9ldmqhffj
+
+
+iris tx distribution withdraw-rewards 无法提取收益
+
+Distribution 没有查询 withdraw-addr 地址的接口
+
+iris query staking validator iva*** 有问题 ，无法查询

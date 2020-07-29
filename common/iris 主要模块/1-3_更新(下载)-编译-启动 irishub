@@ -189,7 +189,7 @@ irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id
 验证 http://10.1.2.236:1317/keys
 
 2）启动swag
-http://10.1.2.236:1317/swagger-ui/#/
+http://10.1.2.236:1317/
 
 
 *******************************************
