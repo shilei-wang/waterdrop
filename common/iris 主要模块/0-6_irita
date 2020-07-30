@@ -19,7 +19,7 @@ iritacli tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 
 *******************************************
-          下载
+          下载 （github上的，现在转移了）
 *******************************************
 https://github.com/bianjieai/irita
 cd /Users/sherlock/go/src/github.com/
@@ -105,8 +105,6 @@ cd ~ && rm -rf .iritacli .irita testnet
 irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 irita start --home=/Users/sherlock/testnet/v0/irita
 
-
-
 /*
 sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
@@ -174,7 +172,7 @@ iritacli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fuf
 
 
 *******************************************
-           部署doc
+           部署document
 *******************************************
 安装：
 brew install yarn
@@ -185,3 +183,18 @@ yarn serve
 
 打开：
 http://localhost:8080/
+
+
+================================================================================================================
+irita LCD nft  目前存在的问题： 【这些lcd 有时间再验证】
+1. GET   /nft/nfts/collections/{denom}
+  get方法连续性查询会出现  "error": "invalid request: failed to load state at height 249; version does not exist (latest height: 250)"
+  必须重启 rest客户端 才能恢复。
+
+2. Get 方法如果输入留空， 执行后， swagger会假死。
+
+5） update context 的时候， service_fee_cap 的demon 设置一个不存在的token （比如iris），会出现如下bug：
+   1。交易可以发送成功，
+   2。后续request状态会异常， 查询context的时候出现无法解析的空数据。
+
+6） LCD POST /service/fees/{provider}/withdraw  这个接口未正确迁移irita， 返回404
