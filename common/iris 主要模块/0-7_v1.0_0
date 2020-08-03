@@ -441,19 +441,20 @@ iris query oracle query-value f001 |jq
 iris tx rand request-rand --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --block-interval=20 | jq
 
 //20块后立即可以查询 (20块内查不到)
-iris query rand rand 25c6eec9588b1130a2d39e3d078e381372475cacf51aa63e91d7df7b90dd0fd0 | jq
+iris query rand rand 6e46e6a19e37c4ebbf88bb8b48f18c11246d61fa47fa8bc0c6d85c13346188c8 | jq
 
 
 ===
 使用service中的oracle
  --oracle=true  ，注意： 这个oracle是只请求一次的！
 ===
-1.定义 自带一个service：random （这个没有做好）
+1.定义 自带一个service：random
 iris query service definition random --trust-node
 
-2.定义 绑定 【注意一定要用random这个名字】
-iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas_random.json --name=random --fees=4stake -b block -y
+//自己定义： 目前已经子弹带了 所以这步不要自己做了 【注意一定要用random这个名字】
+//iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas_random.json --name=random --fees=4stake -b block -y
 
+2.绑定
 iris tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --from=v0 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=random --qos=5
 
 //查询
