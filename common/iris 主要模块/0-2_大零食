@@ -1,62 +1,87 @@
+BSN Service Relayer 测试环境部署
+
+一、Irita-Hub 测试环境部署
+
+1.启动本地Irita-Hub测试节点
+
+生成测试网数据
+
+```bash
+irita testnet --v 1 --chain-id irita-hub --output-dir testnet --keyring-backend file
+```
+
+启动测试节点
+
+```bash
+Irita start --home testnet/node0/irita
+```
+
+2.iService测试服务部署
+
+exchange_rate服务定义
+
+```bash
+iritacli tx service define --name exchange_rate --schemas='{"input":{},"output":{}}' --from node0 --chain-id irita-hub -b block -y --keyring-backend file --home testnet/node0/iritacli
+```
+
+服务绑定
+
+```bash
+iritacli tx service bind --service-name exchange_rate --deposit 20000point --pricing='{"price":"1point"}' --qos 50 --from node0 --chain-id irita-hub -b block -y --keyring-backend file --home testnet/node0/iritacli
+```
+
+二、Ethereum 测试环境部署
+
+1.Ethereum Ropsten 测试网
+
+2.Infura服务节点：wss://ropsten.infura.io/ws/v3/56e89587eacb4fbe8655e4c44b146237
+
+3.
+
+合约地址：
+iServiceCoreEx:0x79b6c1ab5dbeba4879bfbea35a78fac8e6c73c92
+iServiceMarketEx: 0x87e71e95fbd95d66e307edaeb7974c1f17f87a82
+ExchangeRateService: 0x40259dF4A9EE99C730d5dadD44A8F629A438e7b8
+
+三、启动 Relayer
+
+1.安装 Relayer
+
+```bash
+make install
+```
+2.生成 Irita-Hub Key
+
+```bash
+relayer hub keys add test 123456789
+```
 
 
-========================================================================================================================
-========================================================================================================================
-================== validator ======================================================================================================
-========================================================================================================================
-========================================================================================================================
+3.配置文件
 
-=====
-create validator
-=====
-//openssl
-csrb init --home=/Users/sherlock/testnet/x2/csrb --chain-id=shilei-qa x2
-csrb genkey --home=/Users/sherlock/testnet/x2/csrb --out-file=/Users/sherlock/testnet/priv_x2.pem
-openssl req -new -key /Users/sherlock/testnet/priv_x2.pem -out /Users/sherlock/testnet/key_x2.csr -sm3 -sigopt "distid:1234567812345678"
-openssl x509 -req -in /Users/sherlock/testnet/key_x2.csr -out /Users/sherlock/testnet/key_x2.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
+将上述 Irita-Hub 以及 Ethereum 的相关配置写入到配置文件，默认为config/config.yaml
 
-//通过cert.crt创建验证人， 会返回id， 同一个key返回的id都一样。
-csrbcli tx validator create --name=name --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --description=description --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+4.更新应用链iService market中的服务绑定
+```
+relayer appchain update-svc-binding exchange_rate [provider address]  ''  0
+```
 
+5.启动
 
-=====
-query validator（s）
-=====
-通过name， 查询id
-csrbcli query validator validator --trust-node name
+```bash
+relayer start config/config.yaml
+```
 
-通过id查询
-csrbcli query validator validator --trust-node EC238CD047047B7AAFC94FA0FF97217969F68AF9B3624D62F67ED8BFDD957CBA
+四、运行测试
 
-查询全部
-csrbcli query validator list --trust-node
+1.触发跨链事件
 
-=====
-update validator（通过id）
-=====
-csrbcli tx validator update EC238CD047047B7AAFC94FA0FF97217969F68AF9B3624D62F67ED8BFDD957CBA  --name=pppc --cert=/Users/sherlock/testnet/key_x2.crt --power=20 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+```bash
+make test-eth
+```
 
-=====
-remove validator（通过id）
-=====
-csrbcli tx validator remove EC238CD047047B7AAFC94FA0FF97217969F68AF9B3624D62F67ED8BFDD957CBA --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+2.在 Irita-Hub 上响应服务请求
 
-=====
-unjail validator（通过id）100块没有上线就会被jail
-=====
-csrbcli tx slashing unjail EC238CD047047B7AAFC94FA0FF97217969F68AF9B3624D62F67ED8BFDD957CBA --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-
-
-====== 按照上面步骤创建完一个validator后， 起一个全节点 ======
-cp /Users/sherlock/testnet/v0/csrb/config/config.toml /Users/sherlock/testnet/x2/csrb/config/config.toml
-cp /Users/sherlock/testnet/v0/csrb/config/genesis.json /Users/sherlock/testnet/x2/csrb/config/genesis.json
-
-csrb tendermint show-node-id --home=/Users/sherlock/testnet/v0/csrb
-复制id 到下面的seed， 下面2条顺序不能变
-sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/x2/csrb/config/config.toml
-sed -i '' 's/seeds = ""/seeds = "88a66b7191aa35a350fecff3780163e928725504@localhost:26656"/g' /Users/sherlock/testnet/x2/csrb/config/config.toml
-
-此时正常追赶， validator就算上线了， 不会被jail
-csrb start --home=/Users/sherlock/testnet/x2/csrb
-
+```bash
+iritacli tx service respond --request-id=<request id> --result='{"code":200,"message":""}' --data='{"rate":7}' --from node0 --chain-id irita-hub -b block -y --keyring-backend file --home testnet/node0/iritacli
+```
