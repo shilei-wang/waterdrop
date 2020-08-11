@@ -1,87 +1,13 @@
-BSN Service Relayer 测试环境部署
+Bifrost Testnet
 
-一、Irita-Hub 测试环境部署
+第一阶段
+service nft 的使用
 
-1.启动本地Irita-Hub测试节点
+第二阶段
+upgrade（stargate）
 
-生成测试网数据
+第三阶段
+ibc互联 白名单，并通过 Upgrade 模块实现从 bifrost-1 到 bifrost-2 的平滑升级（保持 chain-id 为 bifrost-1 不变）
 
-```bash
-irita testnet --v 1 --chain-id irita-hub --output-dir testnet --keyring-backend file
-```
-
-启动测试节点
-
-```bash
-Irita start --home testnet/node0/irita
-```
-
-2.iService测试服务部署
-
-exchange_rate服务定义
-
-```bash
-iritacli tx service define --name exchange_rate --schemas='{"input":{},"output":{}}' --from node0 --chain-id irita-hub -b block -y --keyring-backend file --home testnet/node0/iritacli
-```
-
-服务绑定
-
-```bash
-iritacli tx service bind --service-name exchange_rate --deposit 20000point --pricing='{"price":"1point"}' --qos 50 --from node0 --chain-id irita-hub -b block -y --keyring-backend file --home testnet/node0/iritacli
-```
-
-二、Ethereum 测试环境部署
-
-1.Ethereum Ropsten 测试网
-
-2.Infura服务节点：wss://ropsten.infura.io/ws/v3/56e89587eacb4fbe8655e4c44b146237
-
-3.
-
-合约地址：
-iServiceCoreEx:0x79b6c1ab5dbeba4879bfbea35a78fac8e6c73c92
-iServiceMarketEx: 0x87e71e95fbd95d66e307edaeb7974c1f17f87a82
-ExchangeRateService: 0x40259dF4A9EE99C730d5dadD44A8F629A438e7b8
-
-三、启动 Relayer
-
-1.安装 Relayer
-
-```bash
-make install
-```
-2.生成 Irita-Hub Key
-
-```bash
-relayer hub keys add test 123456789
-```
-
-
-3.配置文件
-
-将上述 Irita-Hub 以及 Ethereum 的相关配置写入到配置文件，默认为config/config.yaml
-
-4.更新应用链iService market中的服务绑定
-```
-relayer appchain update-svc-binding exchange_rate [provider address]  ''  0
-```
-
-5.启动
-
-```bash
-relayer start config/config.yaml
-```
-
-四、运行测试
-
-1.触发跨链事件
-
-```bash
-make test-eth
-```
-
-2.在 Irita-Hub 上响应服务请求
-
-```bash
-iritacli tx service respond --request-id=<request id> --result='{"code":200,"message":""}' --data='{"rate":7}' --from node0 --chain-id irita-hub -b block -y --keyring-backend file --home testnet/node0/iritacli
-```
+其他：
+iService、Oracle、Random
