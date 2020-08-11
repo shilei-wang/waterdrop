@@ -131,7 +131,7 @@ csrbcli query token fee --trust-node a01
 csrbcli tx record create --chain-id=shilei-qa "hahaha" "flighting" --from=v0 --fees=4point -b block -y --meta="metadata" --uri="uridata"
 
 2. 查询存证
-csrbcli query record record --trust-node 9cc753a810a270f996609811cff5e77318612e43aeab2b482d1c630aa1e27971 -o=json --indent
+csrbcli query record record --trust-node d5171fb3cede55a52bed1a34347764c6f88da2e8d7ec9c13678daa606ae60ec0 -o=json --indent
 
 
 
