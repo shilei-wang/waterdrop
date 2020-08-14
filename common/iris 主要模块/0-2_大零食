@@ -1,7 +1,15 @@
 Bifrost Testnet
 
 第一阶段
-service nft 的使用
+service  的使用
+基于全新 iService 为 Random 模块引入外部随机源
+nft  的使用
+record 模块
+iService、Oracle、Random
+
+验证 IRIS Hub 1.0 的新功能，并基于 IBC 测试验证多 Hub 合作效果
+
+
 
 第二阶段
 upgrade（stargate）
@@ -11,3 +19,27 @@ ibc互联 白名单，并通过 Upgrade 模块实现从 bifrost-1 到 bifrost-2 
 
 其他：
 iService、Oracle、Random
+
+
+=====
+查一下以前的项目奖励怎么做的
+
+奖金级别： 根据任务完成情况、Bug贡献
+
+====
+ NFT 徽章形式？？
+
+ 主网升级后，可以选择继续持有该 NFT（测试网钱包） 徽章作为荣誉的象征，或进行主网 iris 兑换，
+
+
+
+ ============================
+
+
+
+
+
+
+
+
+
