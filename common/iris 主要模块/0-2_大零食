@@ -22,18 +22,19 @@ iService、Oracle、Random
 
 
 =====
-查一下以前的项目奖励怎么做的
+我也是在一边写 一边测，  1.0的random可能还有点问题， 明天再确认一下。另， nft 明天再完善一下。
 
-奖金级别： 根据任务完成情况、Bug贡献
+service  的使用
+基于全新 iService 为 Random 模块引入外部随机源
+nft  的使用
+record 模块
+iService、Oracle、Random
 
-====
- NFT 徽章形式？？
+======
 
- 主网升级后，可以选择继续持有该 NFT（测试网钱包） 徽章作为荣誉的象征，或进行主网 iris 兑换，
-
+oracle  htlc rand  都不测
 
 
- ============================
 
 
 
