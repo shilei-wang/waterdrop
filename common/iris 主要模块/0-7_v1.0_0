@@ -51,7 +51,6 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 ====================
 iris keys show v0
 iris tx bank send v0  $(iris keys show v0 -a) 1stake --fees=4stake --chain-id=shilei-qa -b block -y |jq
-iris query bank balances $(iris keys show v0 -a) |jqiris tx bank send v0  $(iris keys show v0 -a) 1stake --fees=4stake --chain-id=shilei-qa -b block -y |jq
 iris query bank balances $(iris keys show v0 -a) |jq
 
 

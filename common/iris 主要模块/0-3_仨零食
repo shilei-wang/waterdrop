@@ -1,4 +1,10 @@
+iris tx bank send v0  $(iris keys show v0 -a) 1stake --fees=4stake --chain-id=shilei-qa -b block -y |jq
 
 
+iris tx bank send --chain-id=shilei-qa --node=http://localhost:26657 v0 iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 1stake --fees=4stake --gas=50000
 
 
+iris tx bank send --chain-id=shilei-qa --node=http://localhost:26657 v0 iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --amount=1stake --fees=4stake --commit --gas=50000
+
+
+{"type":"cosmos-sdk/BaseAccount","value":{"address":"iaa1r69mvmac07m4dpkzmy3ywgquhy4nu68hf05eyx","public_key":"61rphyEDhl0vCWKm7lBvjIJzLBFlwgXArceLZ09X4Ry7i7/Zh4Y=","sequence":"7"}}
