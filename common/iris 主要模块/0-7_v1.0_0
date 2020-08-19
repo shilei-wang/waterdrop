@@ -11,6 +11,18 @@ make install
 //go mod tidy
 //iris version
 
+
+====================
+autoStart
+====================
+
+autoStart c 2
+iris query bank balances $(iris keys show v0 -a) |jq
+iris query bank balances $(iris keys show v1 -a) |jq
+
+
+-------------
+
 rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
 iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
 sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json

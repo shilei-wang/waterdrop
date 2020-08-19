@@ -1,10 +1,18 @@
-iris tx bank send v0  $(iris keys show v0 -a) 1stake --fees=4stake --chain-id=shilei-qa -b block -y |jq
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
 
 
-iris tx bank send --chain-id=shilei-qa --node=http://localhost:26657 v0 iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 1stake --fees=4stake --gas=50000
+sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+iris start --home=/Users/sherlock/testnet/v0/iris
 
 
-iris tx bank send --chain-id=shilei-qa --node=http://localhost:26657 v0 iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --amount=1stake --fees=4stake --commit --gas=50000
+
+iris start --home=/Users/sherlock/testnet/v0/iris
+iris start --home=/Users/sherlock/testnet/v1/iris
 
 
-{"type":"cosmos-sdk/BaseAccount","value":{"address":"iaa1r69mvmac07m4dpkzmy3ywgquhy4nu68hf05eyx","public_key":"61rphyEDhl0vCWKm7lBvjIJzLBFlwgXArceLZ09X4Ry7i7/Zh4Y=","sequence":"7"}}
+autoStart c 1
+
+
