@@ -16,3 +16,6 @@ iris start --home=/Users/sherlock/testnet/v1/iris
 autoStart c 1
 
 
+iris tx bank send --fees=4stake --chain-id=shilei-qa -b block -y v0  $(iris keys show v0 -a) 1stake
+
+iris query bank -h

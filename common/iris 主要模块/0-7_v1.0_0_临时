@@ -1,6 +1,15 @@
 
 
 。gas偏大  转账2次超过5w
+--
+bank下：
+coin-type
+burn
+setMemoRegexp
+token-stats
+
+---
+
 
 下面这些再验证一下
 
