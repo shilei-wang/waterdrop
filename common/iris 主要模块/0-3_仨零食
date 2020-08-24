@@ -1,0 +1,12 @@
+iris tx bank send --chain-id=shilei-qa --node=http://localhost:26657 -b block -y --fees=4stake v0 iaa17etczqqnuccz2ekfgneqx8lewj92gm9ea7hs63 100t814868u
+
+
+
+iris query token token --node=http://localhost:26657 t814868 |jq
+
+
+iris query token --node=http://localhost:26657  t814868
+
+
+
+iris query token fee --trust-node a01 |jq

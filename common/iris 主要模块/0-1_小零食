@@ -48,9 +48,9 @@ v1.0
 
 
 
-1. cschain token 模块相关测试
-2. cschain admin 权限逻辑复测
-3. 测试 cschain 离线交易，sequence等相关功能，同一个块单用户多笔交易。
+1. 测试 cschain 离线交易，sequence等相关功能，同一个块单用户多笔交易。
+2. cschain token 模块相关测试
+3. cschain admin 权限逻辑复测
 4. Bug复测以及验证
 
 =========================
