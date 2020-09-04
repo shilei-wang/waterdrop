@@ -1,12 +1,35 @@
-iris tx bank send --chain-id=shilei-qa --node=http://localhost:26657 -b block -y --fees=4stake v0 iaa17etczqqnuccz2ekfgneqx8lewj92gm9ea7hs63 100t814868u
+token | nft | htlc | guardian | service | oracle | random
 
 
 
-iris query token token --node=http://localhost:26657 t814868 |jq
+梁底板 卖压条！！！
+
+gov 怎么测？？？
+Available Commands:
+  community-pool-spend Submit a community pool spend proposal
+  param-change         Submit a parameter change proposal
+  software-upgrade     Submit a software upgrade proposal
+
+  type这里填一写什么？
 
 
-iris query token --node=http://localhost:26657  t814868
+bug验证
+mint stake gov
+lagder ？
+--------------------------------------------------
+
+
+iris tx gov submit-proposal --title="Test Proposal" --description="My awesome proposal" --type="Text" --deposit="10iris" --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
+iris query gov proposal --chain-id=shilei-qa -o=json 3 |jq
+iris tx gov deposit 3 10000000iris --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
+
+iris query gov param deposit --chain-id=shilei-qa
+
+iris tx gov vote 1 yes  --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
+iris query gov proposal 3 --chain-id=shilei-qa -o=json |jq  //里面有字段可以看结果
 
 
 
-iris query token fee --trust-node a01 |jq
+
+
+
