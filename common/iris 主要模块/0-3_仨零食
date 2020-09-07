@@ -19,17 +19,28 @@ lagder ？
 --------------------------------------------------
 
 
-iris tx gov submit-proposal --title="Test Proposal" --description="My awesome proposal" --type="Text" --deposit="10iris" --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
-iris query gov proposal --chain-id=shilei-qa -o=json 3 |jq
-iris tx gov deposit 3 10000000iris --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
-
-iris query gov param deposit --chain-id=shilei-qa
-
-iris tx gov vote 1 yes  --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
-iris query gov proposal 3 --chain-id=shilei-qa -o=json |jq  //里面有字段可以看结果
+iris tx bank send v0 $(iris keys show v1 -a) 1000000iris --fees=4iris --chain-id=shilei-qa -b block -y |jq
 
 
 
+iris tx service call --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1uiris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v1 --address) |jq
+
+
+iris tx service respond --chain-id=shilei-qa --from=v1  --fees=4iris -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iris query service requests a001 $(iris keys show v1 --address) -o=json | jq -r .requests[0].id) |jq
+
+
+iris query service fees -o=json $(iris keys show v1 --address) |jq
+
+
+iris tx service withdraw-fees $(iris keys show v1 --address)  --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y
+
+
+iris query bank balances -o=json iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
+
+
+iris tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
 
 
 
+iris query service withdraw-addr $(iris keys show v1 --address)
+iris query service fees -o=json $(iris keys show v0 --address) |jq

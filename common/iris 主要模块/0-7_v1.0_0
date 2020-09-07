@@ -210,17 +210,23 @@ iris query service schema result -o=json |jq
     绑定
 ===================
 1. 服务绑定
+//owner是v0， provider也是v0
 iris tx service bind --chain-id=shilei-qa --fees=4iris -b block -y --from=v0 --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5
+
+//owner是v0， provider也是v1
+iris tx service bind --chain-id=shilei-qa --fees=4iris --provider=$(iris keys show v1 --address) -b block -y --from=v0 --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5
 
 2. 查询服务绑定
 iris query service binding  -o=json a001 $(iris keys show v0 --address) |jq
 iris query service bindings -o=json a001 |jq
+
+//过滤a001服务下 ， owner是v0的所有provider绑定信息
 iris query service bindings -o=json a001 --owner=$(iris keys show v0 --address) |jq
 
 3. 更新绑定 --min-resp-time（qos）也可以改
 iris tx service update-binding a001 $(iris keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y --deposit=2iris --qos=6
 
-4. 设置提取地址
+4. 设置提取地址 （所有的provider只能通过owner的地址提取）
 iris tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
 
 //查询提取地址
@@ -291,6 +297,12 @@ iris query service fees -o=json $(iris keys show v0 --address) |jq
 
 2.提取服务调用产生的服务费
 iris tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y
+iris tx service withdraw-fees iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y
+
+iris tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4iris --providers=$(iris keys show v0 --address),$(iris keys show v1 --address) -b block -y  | jq
+
+
+
 // iris query bank balances -o=json iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 |jq
 
 3.注意没有 withdraw-tax
