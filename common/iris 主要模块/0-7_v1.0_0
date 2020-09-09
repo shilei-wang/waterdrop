@@ -299,10 +299,6 @@ iris query service fees -o=json $(iris keys show v0 --address) |jq
 iris tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y
 iris tx service withdraw-fees iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y
 
-iris tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4iris --providers=$(iris keys show v0 --address),$(iris keys show v1 --address) -b block -y  | jq
-
-
-
 // iris query bank balances -o=json iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 |jq
 
 3.注意没有 withdraw-tax

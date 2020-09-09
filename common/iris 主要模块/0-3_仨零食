@@ -1,46 +1,8 @@
 token | nft | htlc | guardian | service | oracle | random
 
 
-
-梁底板 卖压条！！！
-
-gov 怎么测？？？
-Available Commands:
-  community-pool-spend Submit a community pool spend proposal
-  param-change         Submit a parameter change proposal
-  software-upgrade     Submit a software upgrade proposal
-
-  type这里填一写什么？
-
-
 bug验证
 mint stake gov
 lagder ？
 --------------------------------------------------
 
-
-iris tx bank send v0 $(iris keys show v1 -a) 1000000iris --fees=4iris --chain-id=shilei-qa -b block -y |jq
-
-
-
-iris tx service call --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1uiris --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iris keys show v1 --address) |jq
-
-
-iris tx service respond --chain-id=shilei-qa --from=v1  --fees=4iris -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iris query service requests a001 $(iris keys show v1 --address) -o=json | jq -r .requests[0].id) |jq
-
-
-iris query service fees -o=json $(iris keys show v1 --address) |jq
-
-
-iris tx service withdraw-fees $(iris keys show v1 --address)  --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y
-
-
-iris query bank balances -o=json iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
-
-
-iris tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
-
-
-
-iris query service withdraw-addr $(iris keys show v1 --address)
-iris query service fees -o=json $(iris keys show v0 --address) |jq
