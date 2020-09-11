@@ -1,57 +1,50 @@
+计数器
+..... .....
+
+
+--------------------------------------------------
 token | nft | htlc | guardian | service | oracle | random
 
 bug验证
 mint stake gov lagder ？
 
 --------------------------------------------------
-iris keys add x1 --multisig-threshold=2 --multisig=v0,v1
 
-iris keys add <multisig-keyname> --multisig-threshold=2 --multisig=<signer-keyname-1>,<signer-keyname-2>,<signer-keyname-3>
+--service-name --qos=5
 
-德平路：
-买20米网线
-2个护角条
+# 创建服务绑定
+iris tx service bind  <provider-address> <deposit> <pricing-json or path/to/pricing.json>
 
-电工
-带一点膨胀泡沫。
-插座移位
-网线告诉我位置
-2个插座打开
-挂画丁钩
+iris tx service bind --chain-id=shilei-qa --fees=4iris -b block -y --from=v0 --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json
 
 
-油漆工
-在硅藻泥之前：
-修补插座
-地暖水泥封上
+# 更新服务绑定
+iris tx service update-binding <service-name> <provider-address> --deposit=<added-deposit> --qos=<qos> --pricing=<pricing-json or path/to/pricing.json>
+
+# 启用一个不可用的服务绑定
+iris tx service enable <service-name> <provider-address> <added-deposit>
+
+# 禁用一个可用的服务绑定
+iris tx service disable <service-name> <provider-address>
+
+# 取回服务绑定的押金
+iris tx service refund-deposit <service-name> <provider-address>
+
+# 查询一个服务的所有绑定
+iris tx service bindings <service-name>
+
+# 查询一个账户所拥有的所有绑定
+iris q service bindings service bindings <service-name> --owner <address>
+
+# 查询指定的服务绑定
+iris q service binding <service-name> <provider-address>
+
+# 查询定价 schema
+iris q service service schema pricing
 
 
-空调和地暖：
-打扫卫生之前， 出风口空调装
-空调，地暖保修几年，用保修卡还是什么 ， 怎么推算时间呢。
 
-时间表：
 
-周六：
-装门，踢脚线
-。小胶带保护门
 
-。厕所换保护垫
-。2m的踢脚线3个房间放进去试试看。
 
-买材料
-退踢脚线76*0.3
 
-周日：
-装柜子。
-买材料
-
-周1-5：
-。美缝结束
-。过来2玻璃门+卫生间门
-。准备材料，投影布，投影架子
-买材料（吊灯里面的灯）
-。买烟
-
-周六，周日：
-电工是第一次安装
