@@ -171,18 +171,6 @@ iritacli query bank balances --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fuf
 
 
 
-*******************************************
-           部署document
-*******************************************
-安装：
-brew install yarn
-
-部署：
-cd /Users/sherlock/go/src/gitlab.bianjie.ai/irita/docs
-yarn serve
-
-打开：
-http://localhost:8080/
 
 
 ================================================================================================================

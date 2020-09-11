@@ -1,0 +1,2 @@
+iris query bank balances [address] --denom=[denom]
+iris query bank total --denom=[denom]

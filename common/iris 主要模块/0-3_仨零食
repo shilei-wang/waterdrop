@@ -1,8 +1,14 @@
 token | nft | htlc | guardian | service | oracle | random
 
-
 bug验证
-mint stake gov
-lagder ？
---------------------------------------------------
+mint stake gov lagder ？
 
+--------------------------------------------------
+iris tx htlc create --to=<recipient> --receiver-on-other-chain=<receiver-on-other-chain> --amount=<amount> --secret=<secret> --hash-lock=<hash-lock> --timestamp=<timestamp> --time-lock=<time-lock> --from=mykey
+
+
+
+
+iris query htlc htlc <hash-lock>
+
+iris query htlc htlc 3f0d93550229f9f1c97c04a0f3a63751c8ae707190729519ce65fe0b76716b7a -o=json |jq

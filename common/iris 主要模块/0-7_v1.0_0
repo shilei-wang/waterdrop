@@ -709,3 +709,32 @@ iris tx bank send v0 $(iris keys show b -a) 100iris --fees=4iris --chain-id=shil
 iris query bank balances -o=json $(iris keys show b -a) |jq
 
 iris tx bank send b iaa16utfzmx48pe5rvc7zq0mnmk4a96v7yg2tyrutd 90iris --fees=4iris --chain-id=shilei-qa -b block -y
+
+
+*******************************************
+          更新 doc： 独立的仓库和测试分开
+*******************************************
+----------- 直接在主分支上push
+git checkout -b shilei/doc—fix upstream/master
+图形界面 git commit
+git push upstream shilei/update-changelog-0.15 //第一次会创建分支
+//去网上pr
+
+WIP: Add "json indent" usage and fix the "query output format" of all the docs
+R4R: Update `doc/swagger version/version.go` to v0.14.1
+
+-------
+部署document
+-------
+安装：
+brew install yarn
+yarn install
+
+部署：
+cd /Users/sherlock/go/src/github.com/irishub/docs
+rm -fr node_modules
+yarn serve
+
+打开：
+http://localhost:8080/
+
