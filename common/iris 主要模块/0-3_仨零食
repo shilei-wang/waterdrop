@@ -4,11 +4,54 @@ bug验证
 mint stake gov lagder ？
 
 --------------------------------------------------
-iris tx htlc create --to=<recipient> --receiver-on-other-chain=<receiver-on-other-chain> --amount=<amount> --secret=<secret> --hash-lock=<hash-lock> --timestamp=<timestamp> --time-lock=<time-lock> --from=mykey
+iris keys add x1 --multisig-threshold=2 --multisig=v0,v1
+
+iris keys add <multisig-keyname> --multisig-threshold=2 --multisig=<signer-keyname-1>,<signer-keyname-2>,<signer-keyname-3>
+
+德平路：
+买20米网线
+2个护角条
+
+电工
+带一点膨胀泡沫。
+插座移位
+网线告诉我位置
+2个插座打开
+挂画丁钩
 
 
+油漆工
+在硅藻泥之前：
+修补插座
+地暖水泥封上
 
 
-iris query htlc htlc <hash-lock>
+空调和地暖：
+打扫卫生之前， 出风口空调装
+空调，地暖保修几年，用保修卡还是什么 ， 怎么推算时间呢。
 
-iris query htlc htlc 3f0d93550229f9f1c97c04a0f3a63751c8ae707190729519ce65fe0b76716b7a -o=json |jq
+时间表：
+
+周六：
+装门，踢脚线
+。小胶带保护门
+
+。厕所换保护垫
+。2m的踢脚线3个房间放进去试试看。
+
+买材料
+退踢脚线76*0.3
+
+周日：
+装柜子。
+买材料
+
+周1-5：
+。美缝结束
+。过来2玻璃门+卫生间门
+。准备材料，投影布，投影架子
+买材料（吊灯里面的灯）
+。买烟
+
+周六，周日：
+电工是第一次安装
