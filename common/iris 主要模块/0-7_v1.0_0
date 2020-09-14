@@ -240,7 +240,7 @@ iris tx service enable a001 $(iris keys show v0 --address) --chain-id=shilei-qa 
 
 9. 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov)) 、、这个还没有测
 iris tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y
-
+//iris tx service refund-deposit <service-name> <provider-address>
 
 ===================
     调用
@@ -256,7 +256,7 @@ iris tx service call --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y --s
 
 查询请求列表
 //如果查不到 可能是price低了，可能是min-resp-time没满足bind
-iris query service requests a001 -o=json $(iris keys show v0 -a) |jq
+iris query service requests -o=json a001 $(iris keys show v0 -a) |jq
 
 ===
 记录
@@ -716,8 +716,11 @@ iris tx bank send b iaa16utfzmx48pe5rvc7zq0mnmk4a96v7yg2tyrutd 90iris --fees=4ir
 *******************************************
 ----------- 直接在主分支上push
 git checkout -b shilei/doc—fix upstream/master
+git push upstream shilei/doc—fix
+更新下载图形界面，切换到shilei/doc—fix分支
+
 图形界面 git commit
-git push upstream shilei/update-changelog-0.15 //第一次会创建分支
+git push upstream shilei/doc—fix //第一次会创建分支
 //去网上pr
 
 WIP: Add "json indent" usage and fix the "query output format" of all the docs

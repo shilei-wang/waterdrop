@@ -10,41 +10,6 @@ mint stake gov lagder ？
 
 --------------------------------------------------
 
---service-name --qos=5
-
-# 创建服务绑定
-iris tx service bind  <provider-address> <deposit> <pricing-json or path/to/pricing.json>
-
-iris tx service bind --chain-id=shilei-qa --fees=4iris -b block -y --from=v0 --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json
 
 
-# 更新服务绑定
-iris tx service update-binding <service-name> <provider-address> --deposit=<added-deposit> --qos=<qos> --pricing=<pricing-json or path/to/pricing.json>
-
-# 启用一个不可用的服务绑定
-iris tx service enable <service-name> <provider-address> <added-deposit>
-
-# 禁用一个可用的服务绑定
-iris tx service disable <service-name> <provider-address>
-
-# 取回服务绑定的押金
-iris tx service refund-deposit <service-name> <provider-address>
-
-# 查询一个服务的所有绑定
-iris tx service bindings <service-name>
-
-# 查询一个账户所拥有的所有绑定
-iris q service bindings service bindings <service-name> --owner <address>
-
-# 查询指定的服务绑定
-iris q service binding <service-name> <provider-address>
-
-# 查询定价 schema
-iris q service service schema pricing
-
-
-
-
-
-
-
+iris tx service define [flags]
