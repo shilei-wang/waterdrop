@@ -1,8 +1,6 @@
-文档
-dist
-做完
 
-做oracle nft dist
+
+做nft英文 关联， oracle  dist
 
 service的自动化 query很多没做 context
 random没做
@@ -10,6 +8,8 @@ random没做
 //help中缺少owner
 iris query nft supply d01 --owner=$(iris keys show v0 --address)
 
+//有2个name
+iris tx nft issue -h
 ===========
  Ladger 发交易出错， 应该是cosmos交易的问题。（添加创建用户运行正常）
 sign的--home有bug

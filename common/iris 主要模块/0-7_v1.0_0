@@ -112,10 +112,12 @@ mint:
 iris tx nft mint d01 a01 --recipient=$(iris keys show v0 --address) --name="name" --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
 
 查询：
+iris query nft supply d01 --owner=$(iris keys show v0 --address)
 iris query nft supply -o=json d01 |jq
 iris query nft owner -o=json $(iris keys show v0 --address) |jq
+iris query nft owner -o=json $(iris keys show v0 --address) --denom=d01 |jq
 iris query nft collection -o=json d01 |jq
-iris query nft denom d01
+iris query nft denom d01 |jq
 iris query nft denoms -o=json |jq
 iris query nft token -o=json d01 a01 |jq
 
