@@ -10,6 +10,86 @@ mint stake gov lagder ？
 
 --------------------------------------------------
 
+iris q nft token <denom> <token-id>
+
+---
+查询：
+iris query nft supply d01 --owner=$(iris keys show v0 --address)
+iris query nft supply -o=json d01 |jq
+iris query nft owner -o=json $(iris keys show v0 --address) |jq
+iris query nft owner -o=json $(iris keys show v0 --address) --denom=d01 |jq
+iris query nft collection -o=json d01 |jq
+iris query nft denom d01 |jq
+iris query nft denoms -o=json |jq
+iris query nft token -o=json d01 a01 |jq
+
+=====
 
 
-iris tx service define [flags]
+
+--------------------------------------------------
+--------------------------------------------------
+--------------------------------------------------
+
+
+
+
+#增发
+在发行资产之后即可增发（创建）该类型的具体资产。需指定资产 ID、接收者地址、元数据或其 URI。
+
+CLI
+
+iris tx nft mint <denom> ---recipient=<recipient-address> --token-id=<token-id> --token-uri=<token-uri> --token-data=<token-data>
+#编辑
+可对指定资产的元数据进行更新。
+
+CLI
+
+iris tx nft edit <denom> <token-id> --token-uri=<token-uri> --token-data=<token-data>
+#转移
+转移指定资产。
+
+CLI
+
+iris tx nft transfer <denom> <token-id> --recipient=<recipient-address>
+#销毁
+可以销毁已创建的资产。
+
+CLI
+
+iris tx nft burn <denom> <token-id>
+#查询指定的资产类别
+根据 Denom 查询资产类别信息。
+
+CLI
+
+iris q query nft denom <denom>
+#查询所有资产类别信息
+查询已发行的所有资产类别信息。
+
+CLI
+
+iris q nft denoms
+#查询指定类别资产的总量
+根据 Denom 查询资产总量；接受可选的 owner 参数。
+
+CLI
+
+iris q nft supply <denom> --owner=<owner>
+#查询指定账户的所有资产
+查询某一账户所拥有的全部资产；可以指定 Denom 参数。
+
+CLI
+
+iris q nft owner --denom=<denom>
+#查询指定类别的所有资产
+根据 Denom 查询所有资产。
+
+CLI
+
+iris q nft collection <denom>
+#查询指定资产
+根据 Denom 以及 ID 查询具体资产。
+
+CLI
+

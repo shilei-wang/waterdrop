@@ -106,6 +106,7 @@ NFT
 ====================
 issue：
 iris tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
+// --schema=<schema-content or path/to/schema.json>
 
 mint:
 iris tx nft mint d01 a01 --recipient=$(iris keys show v0 --address) --name="name" --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
@@ -114,6 +115,7 @@ iris tx nft mint d01 a01 --recipient=$(iris keys show v0 --address) --name="name
 iris query nft supply -o=json d01 |jq
 iris query nft owner -o=json $(iris keys show v0 --address) |jq
 iris query nft collection -o=json d01 |jq
+iris query nft denom d01
 iris query nft denoms -o=json |jq
 iris query nft token -o=json d01 a01 |jq
 
