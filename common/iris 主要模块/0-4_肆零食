@@ -1,5 +1,36 @@
+@ -1,8 +1,38 @@
+--------------------------------------------------
+token | nft | htlc | guardian | service | oracle | random
+
+bug验证
+mint stake gov lagder ？
+
+--------------------------------------------------
+文档
+bank|distribution|htlc|keys|nft|oracle|rand|service|token|guardian|
+
+
+tx？？
+没做
+gov|intro|param|slashing|staking|status|tendermint|mint|upgrade
+
+feature：
+coinsawp
+--------------------------------------------------
+--------------------------------------------------
+
 iris query bank balances [address] --denom=[denom]
 iris query bank total --denom=[denom]
+
+
+
+
+
+
+
+--------------------------------------------------
+--------------------------------------------------
+
 
 
 
