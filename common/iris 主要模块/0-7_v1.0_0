@@ -21,13 +21,13 @@ autoStart
 autoStart c 1
 
 autoStart c 2
-iris query bank balances $(iris keys show v0 -a) |jq
-iris query bank balances $(iris keys show v1 -a) |jq
+iris query bank balances -o=json $(iris keys show v0 -a) |jq
+iris query bank balances -o=json $(iris keys show v1 -a) |jq
 
 
 -------------
 
-rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+rm -rf /Users/sherlock/.iris /Users/sherlock/testnet
 iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1 --chain-id=shilei-qa
 sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
 sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
@@ -35,6 +35,20 @@ sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/iris/con
 iris start --home=/Users/sherlock/testnet/v0/iris
 
 所有交易后面可以加  |jq 看返回
+
+
+//霍达改uiris的临时版本
+rm -rf /Users/sherlock/.iris
+iris init testing --chain-id=shilei-qa
+iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
+iris gentx v0 --chain-id=shilei-qa --amount 100000000uiris
+sed -i '' 's/stake/uiris/g' /Users/sherlock/.iris/config/genesis.json
+
+subl /Users/sherlock/.iris/config/genesis.json
+[{"description":"test","account_type":0,"address":"iaa1ryqr58lh703ypanlv30v3j48qxwsvucp6g279l","added_by":"iaa1ryqr58lh703ypanlv30v3j48qxwsvucp6g279l"}]
+
+iris collect-gentxs
+iris start
 
 
 ====================
