@@ -1,46 +1,106 @@
-Bifrost Testnet
 
-第一阶段
-service  的使用
-基于全新 iService 为 Random 模块引入外部随机源
-nft  的使用
-record 模块
-iService、Oracle、Random
+测试内容：cschain
+1. v1.0.0功能复测
+2. service v1.2
+3. 国密Keys管理及转账验证
 
-验证 IRIS Hub 1.0 的新功能，并基于 IBC 测试验证多 Hub 合作效果
+==============
+
+V1.2 change
+
+非功能性需求 （cschain irishub）
+- 服务绑定：新增 options 参数
+- 发起请求：input 格式变更为 {"header":{},"body":{}}
+- 响应请求：output 格式变更为 {"header":{},"body":{}}
+注：header必选，header、body内容不做校验
+
+模块服务（irishub ）
+- 系统初始化时预置oracle汇率服务定义与服务绑定，ServiceName: oracle-price
+- 请求系统汇率服务时需首先创建oracle，feedname为utoken-uiris格式
+- 发起系统汇率服务请求时input格式为 {"header":{},"body":{"pair":"uatom-uiris"}}，body.pair值对应feedname
+- 系统服务返回output格式为 {"header":{},"body":{"rate":"1.234"}}
+- 创建服务绑定时可指定非iris支付，指定支付所用token需存在对应FeedName为utoken-uiris的oracle
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+=================
+发token
+=================
+//scale和iris保持一致  好计算
+echo y| iris tx token issue --name=atom --min-unit="uatom" --scale=6 --initial-supply=100000000 --max-supply=300000000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y  --symbol=atom |jq
+
+iris q token tokens
+
+=================
+定义oracle服务
+=================
+iris tx service define --name=oracle --description="this is a oracle service"  --author-description="oracle service provider"  --schemas='{"input":{"type":"object"},"output":{"type":"object"}}'  --chain-id=shilei-qa --from=v0 -b block -y
+
+iris tx service bind --service-name=oracle --deposit=20000iris --pricing='{"price":"0iris"}' --qos=1 --options="{}"  --chain-id=shilei-qa --from=v0 -b block -y
+
+iris q service definition oracle --chain-id=shilei-qa
+iris q service bindings oracle --chain-id=shilei-qa
+
+iris tx oracle create --feed-name="uatom-uiris" --description="test feed" --latest-history=10  --service-name="oracle" --input='{"header":{},"body":{"pair":"uatom-uiris"}}' --providers=$(iris keys show v0 --address) --service-fee-cap=1iris --timeout=30 --frequency=31 --threshold=1 --aggregate-func="avg" --value-json-path="body.last" --chain-id=shilei-qa --from=v0 -b block -y
+
+iris tx oracle start uatom-uiris --chain-id=shilei-qa --from=v0 -b block -y
+
+iris q oracle feed uatom-uiris --chain-id=shilei-qa
+
+=================
+查询request 并且respond
+//五分钟必须respond一次 不然后面用到查的都会过期。
+=================
+iris q service requests oracle $(iris keys show v0 --address) --chain-id=shilei-qa
+
+//一个atom = 0.2个iris
+iris tx service respond --request-id=724AF6E9A2FAC55EBEE7711094D6EB3C06370AD8587EFF7890F7B8389C3CBDBB0000000000000000000000000000000300000000000000450000 --result='{"code":200,"message":""}' --data='{"header":{},"body":{"last":"0.2"}}'  --chain-id=shilei-qa --from=v0 -b block -y
+
+iris q oracle value uatom-uiris --chain-id=shilei-qa
+
+=================
+这个是系统定义的服务，可以去抓取汇率，必须执行 ，不然后续会报错
+=================
+
+iris q service definition oracle-price
+iris q service bindings oracle-price
+
+iris tx service call --service-name=oracle-price --providers=$(iris keys show v0 --address) --service-fee-cap=1iris --data='{"header":{},"body":{"pair":"uatom-uiris"}}' --timeout=100 --repeated --frequency=150 --total=100  --chain-id=shilei-qa --from=v0 -b block -y
+
+//用上面返回的request id查询respose， 可以查到最新(5分钟的汇率)
+iris q service response DD142C5BF33AC50863484338C0F994FE8609348EBD114D50CC2BF3C828C075400000000000000000000000000000000100000000000000110000
+
+==========================================================================================================================================
+==========================================================================================================================================
+
+=================
+例子： 这个就是用iris付款 直接转换atom的汇率
+=================
+
+iris tx service define --name=test --description="this is a test service" --author-description="test service provider" --schemas='{"input":{"type":"object"},"output":{"type":"object"}}' --chain-id=shilei-qa --from=v0 -b block -y
+
+iris tx service bind --service-name=test --deposit=20000iris --pricing='{"price":"100atom"}' --qos=100 --options="{}" --chain-id=shilei-qa --from=v0 -b block -y
 
 
+//注意call之前一定要respond上面的汇率服务， 5分钟不respose默认价格汇率差不多 后续的request就查不到了）
+iris tx service call --service-name=test --providers=$(iris keys show v0 --address) --service-fee-cap=100000iris --data='{"header":{},"body":{}}' --timeout=100  --chain-id=shilei-qa --from=v0 -b block -y
 
-第二阶段
-upgrade（stargate）
+iris q service requests test $(iris keys show v0 --address) --chain-id=shilei-qa
 
-第三阶段
-ibc互联 白名单，并通过 Upgrade 模块实现从 bifrost-1 到 bifrost-2 的平滑升级（保持 chain-id 为 bifrost-1 不变）
+iris tx service respond --request-id=2C42EA3A176040170706269EFF313B81F55CB1C1071EA29A51218B3E167B06070000000000000000000000000000000100000000000000530000  --result='{"code":200,"message":""}' --data='{"header":{},"body":{"test":""}}' --chain-id=shilei-qa --from=v0 -b block -y
 
-其他：
-iService、Oracle、Random
-
-
-=====
-我也是在一边写 一边测，  1.0的random可能还有点问题， 明天再确认一下。另， nft 明天再完善一下。
-
-service  的使用
-基于全新 iService 为 Random 模块引入外部随机源
-nft  的使用
-record 模块
-iService、Oracle、Random
-
-======
-
-oracle  htlc rand  都不测
+iris q service response D6A4B8E3CC0511567F5CC0BB614D0DB1916CD84E6A58F44EB99A388A417FA6750000000000000000000000000000000100000000000000280000
 
 
+===
+检查
+===
+iris query bank balances -o=json $(iris keys show v0 -a) |jq
 
-
-
-
-
-
-
-
+iris query service fees -o=json $(iris keys show v0 --address) |jq
 

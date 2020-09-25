@@ -1,5 +1,0 @@
-iris tx guardian add-profiler --chain-id=shilei-qa --node=http://localhost:26657 -b block -y --fees=4iris --from=v0 --description=vx_faa --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
-
-
-
-iris keys show v0

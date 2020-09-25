@@ -13,6 +13,15 @@ make install
 //go mod tidy
 //iris version
 
+================
+  下载某个commit  6c297612587cd2eef56f6a695d3446d14e235b57
+================
+cd /Users/sherlock/go/src/github.com/irishub
+git fetch --all
+git checkout .
+git reset --hard 6c297612587cd2eef56f6a695d3446d14e235b57
+git branch && git rev-parse HEAD
+
 
 ====================
 autoStart
@@ -37,18 +46,22 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 所有交易后面可以加  |jq 看返回
 
 
-//霍达改uiris的临时版本
+//霍达改service 1.2的临时版本
 rm -rf /Users/sherlock/.iris
 iris init testing --chain-id=shilei-qa
 iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
 iris gentx v0 --chain-id=shilei-qa --amount 100000000uiris
 sed -i '' 's/stake/uiris/g' /Users/sherlock/.iris/config/genesis.json
-
-subl /Users/sherlock/.iris/config/genesis.json
-[{"description":"test","account_type":0,"address":"iaa1ryqr58lh703ypanlv30v3j48qxwsvucp6g279l","added_by":"iaa1ryqr58lh703ypanlv30v3j48qxwsvucp6g279l"}]
-
+sed -i '' 's/"profilers": \[\]/"profilers": \[{"description":"test","account_type":0,"address":"iaa1ryqr58lh703ypanlv30v3j48qxwsvucp6g279l","added_by":"iaa1ryqr58lh703ypanlv30v3j48qxwsvucp6g279l"}\]/g' /Users/sherlock/.iris/config/genesis.json
 iris collect-gentxs
 iris start
+
+
+
+//  subl /Users/sherlock/.iris/config/genesis.json
+//  [{"description":"test","account_type":0,"address":"iaa1ryqr58lh703ypanlv30v3j48qxwsvucp6g279l","added_by":"iaa1ryqr58lh703ypanlv30v3j48qxwsvucp6g279l"}]
+
+
 
 
 ====================
@@ -131,7 +144,7 @@ iris query nft supply -o=json d01 |jq
 iris query nft owner -o=json $(iris keys show v0 --address) |jq
 iris query nft owner -o=json $(iris keys show v0 --address) --denom=d01 |jq
 iris query nft collection -o=json d01 |jq
-iris query nft denom d01 |jq
+iris query nft denom -o=json d01 |jq
 iris query nft denoms -o=json |jq
 iris query nft token -o=json d01 a01 |jq
 
