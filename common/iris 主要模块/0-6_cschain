@@ -1,3 +1,17 @@
+
+=======
+
+oracle (atom)
+csrb wallet??
+
+
+自动化测试 cschain
+
+
+
+
+
+
 现存问题
 ----
 create validator 还有问题
@@ -5,13 +19,7 @@ cschain query slashing signing-info
 cschain query slashing signing-infos
 ----
 
-需要做：
 
-oracle (atom)
-csrb wallet??
-
-
-自动化测试 cschain
 
 未测：
 国密Keys管理及转账验证

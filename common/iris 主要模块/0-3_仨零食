@@ -1,32 +1,70 @@
-echo y| cschain tx token issue --name=atom --min-unit="atom" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=atom |jq
+需要做：
+1.自动化测试+service 前面的检查一下遗漏
+2.coinswap界面测试
+3.自动化测试负向用例
+4.iris 和 uiris 做一个表格
+5.增加cschain模块自动化
 
-cschain query token tokens -o=json  |jq
-
-cschain tx bank send v0 $(cschain keys show v1 -a) 100atom --fees=4point --chain-id=shilei-qa -b block -y |jq
-cschain tx bank send v0 $(cschain keys show v1 -a) 100point --fees=4point --chain-id=shilei-qa -b block -y |jq
-cschain query bank balances $(cschain k eys show v1 -a)
-
-======
-
-cschain tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
+=====
+service的自动化 query很多没做 context
+random没做
 
 
-cschain tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_cschain_atom.json --service-name=a001 --qos=5
 
-======
 
-=================
-定义oracle服务
-=================
-cschain tx service define --name=oracle --description="this is a oracle service"  --author-description="oracle service provider"  --schemas='{"input":{"type":"object"},"output":{"type":"object"}}' --fees=4point --chain-id=shilei-qa --from=v0 -b block -y
+======================
+    random
+======================
 
-cschain tx service bind --service-name=oracle --deposit=20000point --pricing='{"price":"0point"}' --qos=1 --options="{}"  --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+===
+不使用oracle
+===
+//记录request_id
+//block-interval默认为10
+iris tx random request-random --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y --block-interval=20 | jq
 
-cschain q service definition oracle --chain-id=shilei-qa
-cschain q service bindings oracle --chain-id=shilei-qa
+//20块后立即可以查询 (20块内查不到)
+iris query random random -o=json 998eef085bf9501fb867385ad37b6f1330c46fd7667b565710b3d292335c5f89 | jq
+iris query random queue
 
-cschain tx oracle create --feed-name="uatom-uiris" --description="test feed" --latest-history=10  --service-name="oracle" --input='{"header":{},"body":{"pair":"uatom-uiris"}}' --providers=$(iris keys show v0 --address) --service-fee-cap=1iris --timeout=30 --frequency=31 --threshold=1 --aggregate-func="avg" --value-json-path="body.last" --chain-id=shilei-qa --from=v0 -b block -y
+===
+使用service中的oracle
+ --oracle=true  ，注意： 这个oracle是只请求一次的！
+===
+1.定义 自带一个service：random
+iris query service definition random
 
-cschain tx oracle start uatom-uiris --chain-id=shilei-qa --from=v0 -b block -y
+//自己定义： 目前已经子弹带了 所以这步不要自己做了 【注意一定要用random这个名字】
+//iris tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas_random.json --name=random --fees=4iris -b block -y
 
-cschain q oracle feed uatom-uiris --chain-id=shilei-qa
+2.绑定
+iris tx service bind --chain-id=shilei-qa --fees=4iris -b block -y --from=v0 --deposit=20000uiris --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=random --qos=5
+
+//查询
+iris query service bindings -o=json random | jq
+
+3.request
+//block-interval默认为10 【注意 默认使用 random名字的服务】【这里记录request_id， 最后5）rand rand用】
+//注意 有2个request id， 一个是rand的request id， 一个是service的request id
+iris tx random request-random --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y --block-interval=10 --oracle=true --service-fee-cap=1uiris | jq
+
+request id【rand】 ：9b1f2fbde28fa8cb1f88a39f8b132891053ed4c5b55ba018ea6a9307e74d3229
+generate_height   ：8621
+
+
+// 在(0,block-interval)之内可以通过 rand模块的rand-height查到该次请求， 0是指提交请求的那一刻
+    iris query random queue -o=json 8775 | jq
+    iris query random queue -o=json | jq
+
+// 在(block-interval, block-interval+timeout[service默认超时时间100块])只能可以通过 service模块的request-id查到该次请求
+// 现在request的第一条查询已经可以现实 request-id （这个没有做好）
+// 注意， rand的request是单次的， repeated=false
+    iris query service requests random -o=json $(iris keys show v0 -a)| jq
+
+
+4.respond 这里会返回request-id 【过了20个块，就已经发出request了， 这个时候就可以respond了】这里用的service的request id
+iris tx service respond --chain-id=shilei-qa --from=v0 --fees=4iris --request-id=$(iris query service requests random $(iris keys show v0 -a) -o=json | jq -r .requests[0].id) --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --result='{"code":200,"message":"ok"}' -b block -y | jq
+
+5.查询结果， request id【rand】， 注意不是4中的service的request-id 。
+iris query random random -o=json 9b1f2fbde28fa8cb1f88a39f8b132891053ed4c5b55ba018ea6a9307e74d3229 | jq
+
