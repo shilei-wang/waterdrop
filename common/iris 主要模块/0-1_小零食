@@ -2,11 +2,9 @@
 文档：
 
 ===
-service 1.2
+
 扣钱的比率不对
 fee可不填 交易成功 不扣fee
-
-
 
 
 测试自动最新master
@@ -17,8 +15,7 @@ fee可不填 交易成功 不扣fee
 
 测试dist部分
 
-service的自动化 query很多没做 context
-random没做
+
 =====
 //help中缺少owner
 iris query nft supply d01 --owner=$(iris keys show v0 --address)

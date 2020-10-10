@@ -18,25 +18,104 @@ feature：
 coinsawp
 --------------------------------------------------
 --------------------------------------------------
-
-iris query bank balances [address] --denom=[denom]
-iris query bank total --denom=[denom]
-
-
-
-
-
-
-
---------------------------------------------------
---------------------------------------------------
-
-
-
-
-上班前：一次爬楼+波比跳
-上班：深蹲50次
-中午：一次爬楼
-上班：深蹲50次
-下班后一次爬楼+波比跳
-回家后：波比跳
+{
+  "height": "2313",
+  "txhash": "F450698C2EC49CB5E5A034DF27016B9C83790C41F5BD5DF9B1B236BB157FEF77",
+  "codespace": "",
+  "code": 0,
+  "data": "0A110A0F726573706F6E645F73657276696365",
+  "raw_log": "[{\"events\":[{\"type\":\"complete_batch\",\"attributes\":[{\"key\":\"request_context_id\",\"value\":\"F431C4FDB34E99412B6D83151417AB813E2596557D37B82A7884AC6AD1A4AB630000000000000000\"},{\"key\":\"request_context_state\",\"value\":\"{\\\"batch_counter\\\":1,\\\"state\\\":\\\"completed\\\",\\\"batch_response_threshold\\\":1,\\\"batch_request_count\\\":1,\\\"batch_response_count\\\":1}\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"respond_service\"},{\"key\":\"sender\",\"value\":\"iaa1wnrllnlwm67jvqs963x8dhvqz4kdaaswmawrqy\"},{\"key\":\"module\",\"value\":\"service\"},{\"key\":\"sender\",\"value\":\"iaa1hj0h49hh6pvymffjehzkqvanrgp75twxw80qts\"},{\"key\":\"request_context_id\",\"value\":\"F431C4FDB34E99412B6D83151417AB813E2596557D37B82A7884AC6AD1A4AB630000000000000000\"},{\"key\":\"request_id\",\"value\":\"F431C4FDB34E99412B6D83151417AB813E2596557D37B82A7884AC6AD1A4AB630000000000000000000000000000000100000000000008E20000\"},{\"key\":\"consumer\",\"value\":\"iaa1hj0h49hh6pvymffjehzkqvanrgp75twxw80qts\"}]},{\"type\":\"service_slash\",\"attributes\":[{\"key\":\"request_id\",\"value\":\"F431C4FDB34E99412B6D83151417AB813E2596557D37B82A7884AC6AD1A4AB630000000000000000000000000000000100000000000008E20000\"},{\"key\":\"provider\",\"value\":\"iaa1hj0h49hh6pvymffjehzkqvanrgp75twxw80qts\"},{\"key\":\"slashed_coins\",\"value\":\"19702090uiris\"}]},{\"type\":\"transfer\",\"attributes\":[{\"key\":\"recipient\",\"value\":\"iaa1hj0h49hh6pvymffjehzkqvanrgp75twxw80qts\"},{\"key\":\"sender\",\"value\":\"iaa1wnrllnlwm67jvqs963x8dhvqz4kdaaswmawrqy\"},{\"key\":\"amount\",\"value\":\"1uiris\"}]}]}]",
+  "logs": [
+    {
+      "msg_index": 0,
+      "log": "",
+      "events": [
+        {
+          "type": "complete_batch",
+          "attributes": [
+            {
+              "key": "request_context_id",
+              "value": "F431C4FDB34E99412B6D83151417AB813E2596557D37B82A7884AC6AD1A4AB630000000000000000"
+            },
+            {
+              "key": "request_context_state",
+              "value": "{\"batch_counter\":1,\"state\":\"completed\",\"batch_response_threshold\":1,\"batch_request_count\":1,\"batch_response_count\":1}"
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "respond_service"
+            },
+            {
+              "key": "sender",
+              "value": "iaa1wnrllnlwm67jvqs963x8dhvqz4kdaaswmawrqy"
+            },
+            {
+              "key": "module",
+              "value": "service"
+            },
+            {
+              "key": "sender",
+              "value": "iaa1hj0h49hh6pvymffjehzkqvanrgp75twxw80qts"
+            },
+            {
+              "key": "request_context_id",
+              "value": "F431C4FDB34E99412B6D83151417AB813E2596557D37B82A7884AC6AD1A4AB630000000000000000"
+            },
+            {
+              "key": "request_id",
+              "value": "F431C4FDB34E99412B6D83151417AB813E2596557D37B82A7884AC6AD1A4AB630000000000000000000000000000000100000000000008E20000"
+            },
+            {
+              "key": "consumer",
+              "value": "iaa1hj0h49hh6pvymffjehzkqvanrgp75twxw80qts"
+            }
+          ]
+        },
+        {
+          "type": "service_slash",
+          "attributes": [
+            {
+              "key": "request_id",
+              "value": "F431C4FDB34E99412B6D83151417AB813E2596557D37B82A7884AC6AD1A4AB630000000000000000000000000000000100000000000008E20000"
+            },
+            {
+              "key": "provider",
+              "value": "iaa1hj0h49hh6pvymffjehzkqvanrgp75twxw80qts"
+            },
+            {
+              "key": "slashed_coins",
+              "value": "19702090uiris"
+            }
+          ]
+        },
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "recipient",
+              "value": "iaa1hj0h49hh6pvymffjehzkqvanrgp75twxw80qts"
+            },
+            {
+              "key": "sender",
+              "value": "iaa1wnrllnlwm67jvqs963x8dhvqz4kdaaswmawrqy"
+            },
+            {
+              "key": "amount",
+              "value": "1uiris"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": "",
+  "gas_wanted": "200000",
+  "gas_used": "126740",
+  "tx": null,
+  "timestamp": ""
+}
