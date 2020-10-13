@@ -1,34 +1,20 @@
 需要做：
-。。。。。。1.service+atom
 
-.iris 和 uiris 做一个表格
-.coinswap界面测试
+
 .自动化测试负向用例
+.coinswap界面测试
 .增加cschain模块自动化
 
 
 
-=====
+==============
+自动化
+==============
 service的自动化 query很多没做 context
 random没做
 
 
-==============
 
-V1.2 change
-
-非功能性需求 （cschain irishub）
-- 服务绑定：新增 options 参数
-- 发起请求：input 格式变更为 {"header":{},"body":{}}
-- 响应请求：output 格式变更为 {"header":{},"body":{}}
-注：header必选，header、body内容不做校验
-
-模块服务（irishub ）
-- 系统初始化时预置oracle汇率服务定义与服务绑定，ServiceName: oracle-price
-- 请求系统汇率服务时需首先创建oracle，feedname为utoken-uiris格式
-- 发起系统汇率服务请求时input格式为 {"header":{},"body":{"pair":"uatom-uiris"}}，body.pair值对应feedname
-- 系统服务返回output格式为 {"header":{},"body":{"rate":"1.234"}}
-- 创建服务绑定时可指定非iris支付，指定支付所用token需存在对应FeedName为utoken-uiris的oracle
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------

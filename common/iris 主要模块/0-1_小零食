@@ -1,32 +1,22 @@
 
-文档：
-
-===
-
-扣钱的比率不对
-fee可不填 交易成功 不扣fee
 
 
-测试自动最新master
-文档扫尾
---
+========
+存在问题
+========
+。fee可不填 交易成功 不扣fee
+。iris tx nft issue -h（有2个name）
+。iris query nft supply d01 --owner=$(iris keys show v0 --address)   （help中缺少owner）
+。 Ladger 发交易出错， 应该是cosmos交易的问题。（添加创建用户运行正常）（sign的--home有bug）
+========
+还没做的
+========
+。测试dist部分
+。所有命令试下 iris的小数，和token的小数
 
-做nft英文 关联， oracle  dist
-
-测试dist部分
 
 
-=====
-//help中缺少owner
-iris query nft supply d01 --owner=$(iris keys show v0 --address)
 
-//有2个name
-iris tx nft issue -h
-===========
- Ladger 发交易出错， 应该是cosmos交易的问题。（添加创建用户运行正常）
-sign的--home有bug
-所有命令试下 iris的小数
-和token的小数
 
 
 ----------------------------------------------------------------------------------------------------------------
@@ -166,7 +156,6 @@ iService、Oracle、Random
 验证 IRIS Hub 1.0 的新功能，并基于 IBC 测试验证多 Hub 合作效果
 
 
-
 第二阶段
 upgrade（stargate）
 
@@ -175,7 +164,6 @@ ibc互联 白名单，并通过 Upgrade 模块实现从 bifrost-1 到 bifrost-2 
 
 其他：
 iService、Oracle、Random
-
 
 =====
 我也是在一边写 一边测，  1.0的random可能还有点问题， 明天再确认一下。另， nft 明天再完善一下。
