@@ -99,9 +99,9 @@ iris query bank balances -o=json $(iris keys show v0 -a) |jq
 token
 ====================
 发行资产：
-echo y| iris tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y  --symbol=a01 |jq
+echo y| iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y  --symbol=a01 |jq
 
-iris tx bank send v0 $(iris keys show v0 -a) 1mu01 --fees=4iris --chain-id=shilei-qa -b block -y |jq
+iris tx bank send v0 $(iris keys show v0 -a) 1ua01 --fees=4iris --chain-id=shilei-qa -b block -y |jq
 
 查询资产：
 iris query token tokens -o=json $(iris keys show v0 -a) |jq
@@ -833,7 +833,7 @@ R4R: Update `doc/swagger version/version.go` to v0.14.1
 -------
 安装：
 brew install yarn
-yarn install
+yarn install   （每次新的功能都要做一遍）
 
 部署：
 cd /Users/sherlock/go/src/github.com/irishub/docs

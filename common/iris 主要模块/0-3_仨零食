@@ -1,0 +1,66 @@
+irishub 配置要改3个部分才能用 coinswap (可以暂停后修改)
+
+subl ~/.iris/config/app.toml
+
+
+# Enable defines if the API server should be enabled.
+enable = true
+# Swagger defines if swagger documentation should automatically be registered.
+swagger = true
+
+enabled-unsafe-cors = true
+
+subl ~/.iris/config/config.toml
+laddr = "tcp://0.0.0.0:26657" (这个改了才能访问 http://10.1.4.24:26657 否则只能localhost）
+cors_allowed_origins = ["*"]
+
+===
+coinswap
+3个ip 要改成自己的ip 10.1.4.24
+chainid也要改一下，VUE_APP_HUB_CHAIN_ID=shilei-qa
+
+===
+yarn install
+yarn serve
+
+访问
+http://10.1.4.24:8081/
+
+=======================
+发行资产：
+echo y| iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y  --symbol=a01 |jq
+
+
+iris tx bank send v0 iaa1areyzh2zw2y60aqeh6v8gy8vhud98y3k92c4uf 1000a01 --fees=4iris --chain-id=shilei-qa -b block -y |jq
+iris tx bank send v0 iaa1areyzh2zw2y60aqeh6v8gy8vhud98y3k92c4uf 1000iris --fees=4iris --chain-id=shilei-qa -b block -y |jq
+iris query bank balances -o=json iaa1areyzh2zw2y60aqeh6v8gy8vhud98y3k92c4uf |jq
+
+
+
+
+
+===============
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
