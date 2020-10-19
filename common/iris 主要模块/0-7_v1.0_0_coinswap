@@ -1,0 +1,128 @@
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------  coinswap  ----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+====
+coinswap客户端下载
+====
+cd /Users/sherlock/go/src/github.com/coinswap
+git fetch --all
+git checkout .
+git pull
+
+【特别重要!】
+3个(10.1.4.179)ip 要改成自己的ip 10.1.4.24
+chainid也要改一下，VUE_APP_HUB_CHAIN_ID=shilei-qa
+
+yarn install
+
+cd /Users/sherlock/go/src/github.com/coinswap
+yarn serve
+
+访问
+http://10.1.4.24:8081/
+
+
+====
+irishub 配置要改3个部分才能用 coinswap
+====
+
+rm -rf /Users/sherlock/.iris
+iris init testing --chain-id=shilei-qa
+iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
+iris gentx v0 --chain-id=shilei-qa --amount 100000000uiris
+sed -i '' 's/stake/uiris/g' /Users/sherlock/.iris/config/genesis.json
+sed -i '' 's/"profilers": \[\]/"profilers": \[{"description":"test","account_type":0,"address":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0","added_by":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0"}\]/g' /Users/sherlock/.iris/config/genesis.json
+
+sed -i '' 's/enable = false/enable = true/g' /Users/sherlock/.iris/config/app.toml
+sed -i '' 's/swagger = false/swagger = true/g' /Users/sherlock/.iris/config/app.toml
+sed -i '' 's/enabled-unsafe-cors = false/enabled-unsafe-cors = true/g' /Users/sherlock/.iris/config/app.toml
+sed -i '' 's/127.0.0.1:26657/0.0.0.0:26657/g' /Users/sherlock/.iris/config/config.toml
+sed -i '' 's/cors_allowed_origins = \[\]/cors_allowed_origins = \["*"\]/g' /Users/sherlock/.iris/config/config.toml
+
+iris collect-gentxs
+iris start
+
+
+====
+客户端
+====
+//需要提供客户端账户助记词
+iris keys add x1 --recover
+figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
+http://10.1.4.24:8081/
+
+
+
+====
+初始化
+====
+发行资产：
+echo y| iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y  --symbol=a01 |jq
+iris query bank balances -o=json $(iris keys show v0 -a) |jq
+
+iris tx bank send v0 $(iris keys show x1 -a) 1000a01 --fees=4iris --chain-id=shilei-qa -b block -y |jq
+iris tx bank send v0 $(iris keys show x1 -a) 10000iris --fees=4iris --chain-id=shilei-qa -b block -y |jq
+iris query bank balances -o=json $(iris keys show x1 -a) |jq
+
+
+echo y| iris tx token issue --name=token-name --min-unit="ua02" --scale=6 --initial-supply=1000000 --max-supply=3000000 --mintable=true --from=v0 --chain-id=shilei-qa  -b block -y  --symbol=a02 |jq
+iris tx bank send v0 $(iris keys show x1 -a) 1000a02  --chain-id=shilei-qa -b block -y |jq
+
+
+====
+查询
+====
+http://localhost:1317/coinswap/liquidities/uni:ua01
+iris q tx D4FA1BD705AA3F0C4FA39AE161A9B1C6EA058D0BD395A8034A81B02DD7685A71
+
+
+
+====
+测试
+====
+
+-------
+单次兑换 iris <--> token
+-------
+deposit ：100iris，100token
+【 确定 output 模式 ，计算input 】
+output（dt_y）：10token
+input （dt_x）：11.145iris
+dt_x = (1000*x*dt_y)/(997*(y-dt_y))
+11.45iris = （1000 * 100iris * 10token ）/ （997 * （100token - 10token））
+
+
+【 确定 input 模式 ，计算output 】
+input （dt_y）：10iris
+output（dt_x）：9.066itoken
+dt_x = (997*dt_y*x)/(1000*y+997*dt_y)
+9.066itoken = （997 * 10token * 100iris）/ （1000* 100token + 997*10token）
+
+
+
+-------
+二次兑换 token1 <--> token2
+-------
+【 确定 output 模式 ，计算input 】
+output（dt_y）：10token2
+input （dt_x）： ？？？token1  (12.58token1)
+
+第一次兑换：计算出input的iris
+【 确定 output 模式 ，计算input 】
+output（dt_y）：10token2
+input （dt_x）：11.144545iris
+dt_x = (1000*x*dt_y)/(997*(y-dt_y))
+11.144545iris = （1000 * 100iris * 10token ）/ （997 * （100token - 10token））
+
+
+第一次兑换：计算出input的iris
+【 确定 output 模式 ，计算input 】
+output（dt_y）：11.45iris
+input （dt_x）：12.58token1
+dt_x = (1000*x*dt_y)/(997*(y-dt_y))
+12.58token1 = （1000 * 100token1 * 11.144545iris ）/ （997 * （100iris - 11.144545iris））

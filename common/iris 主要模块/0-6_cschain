@@ -535,6 +535,7 @@ cschain query oracle value f001 -o=json | jq
     **************
 cschain tx service respond --chain-id=shilei-qa --from=v0 --fees=4point --request-id=$(cschain query service requests a001 $(cschain keys show v0 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "12345"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
 
+//如果查不到 可能是create的时候--value-json-path不对。
 cschain query oracle value f001 -o=json | jq
 
 
