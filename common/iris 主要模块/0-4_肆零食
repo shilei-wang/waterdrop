@@ -1,0 +1,98 @@
+
+
+================================================================================
+================================================================================
+oracle
+================================================================================
+================================================================================
+cd ~ && rm -rf .irita testnet
+irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+irita start --home=/Users/sherlock/testnet/v0/irita
+
+===
+定义, 绑定
+===
+irita tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake -b block -y
+
+irita tx service bind --chain-id=shilei-qa --fees=4stake -b block -y  --from=v0 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5
+
+===
+开始
+===
+
+1. Create Feed
+//创建feed的同时相当于创建了一个service call
+//threshold 不能大约provider的个数
+//State初始=pause
+//--value-json-path="data.user.name"
+//不定义create会报错， 不绑定不会报错， 但是后续request会收不到。这里要注意。
+irita tx oracle create --chain-id=shilei-qa --from=v0 --fees=4stake --description=description --latest-history=10 --service-name=a001 --input="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(irita keys show v0 --address) --service-fee-cap=1stake --timeout=20 --frequency=20 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f001 -b block -y -o=json |jq
+
+2. Query Feed
+irita query oracle feed --trust-node f001 -o=json | jq
+
+3. Start Feed
+//State=running
+irita tx oracle start f001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y -o=json | jq
+
+4. Pause Feed
+//State=pause
+irita tx oracle pause f001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y -o=json | jq
+
+5. Update Feed
+irita tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4stake --latest-history=5 -b block -y -o=json | jq
+// --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1irita --timeout=5 --frequency=5 --total=-1 --threshold=1 --description  --latest-history --service-fee-cap --timeout --frequency --total --threshold
+
+6. Query Feeds
+irita query oracle feeds --state=running --trust-node -o=json | jq
+irita query oracle feeds --state=paused --trust-node -o=json | jq
+
+//直接搜出所有的
+irita query oracle feeds --trust-node -o=json | jq
+
+7. Query Value
+irita query oracle value f001 --trust-node -o=json | jq
+
+    **************
+    单人响应
+    **************
+irita tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(irita query service requests a001 $(irita keys show v0 --address) -o=json --trust-node | jq -r .[0].id) --data="{\"data\": \"100\"}" --result='{"code":200,"message":"ok"}' -b block -y -o=json | jq
+
+irita query oracle value f001 --trust-node -o=json | jq
+
+
+    **************
+    多人响应
+    **************
+    //同一个call， RequestContextID是的同一个。 但是针对于不同的provider的RequestID都是不一样的， 而且同一个provider每轮的RequestID也是不一样的
+
+//先要创建v1 recover，转账
+irita keys add v1 --recover
+figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
+// iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
+
+
+irita tx send v0 $(irita keys show v1 -a) 50000stake --chain-id=shilei-qa --fees=4stake -b block -y
+irita query bank balances $(irita keys show v1 -a) --trust-node
+
+//需要PowerUser
+irita tx admin add-roles $(irita keys show v1 --address)  PowerUser --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+
+
+//增加一个provider v1
+irita tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4stake --providers=$(irita keys show v0 --address),$(irita keys show v1 --address) -b block -y -o=json | jq
+
+//v1也要绑定， 不绑定就不能respond
+irita tx service bind --chain-id=shilei-qa --fees=4stake -b block -y  --from=v1 --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5
+
+//等一会儿，到下一轮，两个都可以查到了，此条不用执行
+irita query service requests a001 $(irita keys show v0 --address) --trust-node -o=json | jq
+irita query service requests a001 $(irita keys show v1 --address) --trust-node -o=json | jq
+
+//v0 ， v1 ：分别response 1次，共2次
+irita tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(irita query service requests a001 $(irita keys show v0 --address) -o=json --trust-node | jq -r .[0].id) --data="{\"data\": \"100\"}" --result='{"code":200,"message":"ok"}' -b block -y
+
+irita tx service respond --chain-id=shilei-qa --from=v1 --fees=4stake --request-id=$(irita query service requests a001 $(irita keys show v1 --address) -o=json --trust-node | jq -r .[0].id) --data="{\"data\": \"200\"}" --result='{"code":200,"message":"ok"}' -b block -y
+
+//查询结果，等到一轮timeout以后出结果， 如果出现150就说明成功了，取了2个的均值。
+irita query oracle value f001 --trust-node -o=json | jq
