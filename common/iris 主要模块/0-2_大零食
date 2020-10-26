@@ -3,6 +3,7 @@
 需要做：
 .自动化测试负向用例
 .增加cschain模块自动化
+.增加文字测试用例,更新katalon 测试报告
 
 
 
@@ -11,6 +12,14 @@
 ==============
 service的自动化 query很多没做 context
 random没做
+
+
+问题：
+
+iris tx nft transfer 自己可以转给自己？  token哪里会检查不能自己转给自己
+
+query nft collection . nft supply 对于负向测试 返回不一样。
+"amount\":\"0\"")      "not existed : invalid denom")
 
 
 

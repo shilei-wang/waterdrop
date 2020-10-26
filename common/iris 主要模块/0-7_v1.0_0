@@ -95,7 +95,7 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 基础操作
 ====================
 iris keys show v0
-iris tx bank send v0 $(iris keys show v0 -a) 1iris --fees=4iris --chain-id=shilei-qa -b block -y |jq
+iris tx bank send v0 $(iris keys show v1 -a) 100000iris --fees=4iris --chain-id=shilei-qa -b block -y |jq
 iris query bank balances -o=json $(iris keys show v0 -a) |jq
 
 
