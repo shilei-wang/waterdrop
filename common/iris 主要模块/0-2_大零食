@@ -1,14 +1,7 @@
-列出测试点
 
-
-admin+一下
-record+一下
-
-测试irata
+http://wiki.bianjie.ai/display/IR/TestCases-iServiceInvocation
 
 需要做：
-.自动化测试负向用例
-.增加cschain模块自动化
 .增加文字测试用例,更新katalon 测试报告
 
 
