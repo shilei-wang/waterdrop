@@ -1,59 +1,217 @@
 
 =============================================
-feature 1： record submit
+nft
 =============================================
+【正向测试】 验证"issue"交易功能是否正确
+【测试方法】执行"issue"交易，并指定denomID。
+【期望结果】 交易成功，并返回 "code:0"，nft被正确issue。
 
-1)【功能验证】 验证"submit"功能是否正确
-【执行命令】 iriscli record submit --chain-id=shilei-qa --description="good" --onchain-data="shelwin flighting1" --from=v1 --fee=0.004iris
-【期望结果】 提交存证成功，并正确返回 "tx hash","action", "ConsumedTxFee", "ownerAddress", "record-id"
-【测试结果】 Fail
-【Normal Bug001】 ConsumedTxFee 返回值不可读,没有对编码进行转义。例如："FW\u001f:\u0018\u0000"
 
-2)【反向测试】 验证"输入的chain-id"值和实际chain-id不符的情况下，程序是否能返回正确的error提示。
-【执行命令】 iriscli record submit --chain-id=shilei --description="good" --onchain-data="shelwin flighting" --from=v1 --fee=0.004iris
-【期望结果】 程序能给出正确的错误提示。
-【测试结果】 Pass
+【正向测试】 验证"mint"交易功能是否正确
+【测试方法】 先进行"issue"操作，再执行"mint"交易（指定刚才issue出的denomID， 和新的tokenID）。
+【期望结果】 交易成功，并返回 "code:0"。 nft被正确mint
 
-3) 【反向测试】 验证"--onchain-data"值为空的情况下，程序是否能返回正确的error提示。
-【执行命令】 iriscli record submit --chain-id=shilei --description="good" --onchain-data="shelwin flighting2" --from=v1 --fee=0.004iris
-【期望结果】 程序能给出正确的错误提示。
-【测试结果】 Pass
 
-4) 【反向测试】 验证"输入的description"值为空的情况下，程序是否能返回正确的error提示。
-【执行命令】 iriscli record submit --chain-id=shilei-qa --description="" --onchain-data="shelwin flighting3" --from=v1 --fee=0.004iris
-【期望结果】 程序能给出正确的错误提示。
-【测试结果】 Pass
+【正向测试】 验证"transfer"交易功能是否正确
+【测试方法】 先进行"issue/mint"操作，执行"transfer"交易
+【期望结果】 交易成功，并返回 "code:0"。 查询和新的tokenID的信息， tokenID被正确转到新的用户。
 
-5) 【反向测试】 验证2次"输入重复的onchain-data"的情况下，程序是否能返回正确的error提示。
-【执行命令】 iriscli record submit --chain-id=shilei-qa --description="&$" --onchain-data="shelwin flighting4" --from=v1 --fee=0.004iris
-                (备注：连续2次执行该命令)
-【期望结果】 第二次submit不能正常提交， 程序能给出正确的错误提示。
-【测试结果】 PASS
-【Improvement】 The description of error message is incorrect .  when we try to interpret the sentence "id已经存在"， we use "ID already exists" instead of "ID is already existed" (Syntax error, same problem is found in "query" feature, the error message in "download" feature is correct)
 
-6) 【反向测试】 验证"输入的--onchain-data"值为特殊字符的情况下，submit是否能正常提交。 （测试数据： ~ @#￥%&*‘\n）
-【执行命令】 iriscli record submit --chain-id=shilei-qa --description="good" --onchain-data="$%" --from=v1 --fee=0.004iris
-【期望结果】 submit可以正常提交， 可以通过query的请求来验证特殊字符是否能正确写入区块链。
-【测试结果】 Pass
+【正向测试】 验证"edit"交易功能是否正确
+【测试方法】 先进行"issue/mint"操作，执行在"edit"交易并指定uri和data分别为"tokenURI-2","tokenData-2"
+【期望结果】 交易成功，并返回 "code:0"。 查询tokenID的信息，， 相对应的字段被正确修改。
 
-7) 【反向测试】 验证"输入的description"值为特殊字符的情况下，submit是否能正常提交。 （测试数据： ~ @#￥%&*‘\n）
-【执行命令】 iriscli record submit --chain-id=shilei-qa --description="&$" --onchain-data="shelwin flighting5" --from=v1 --fee=0.004iris
-【期望结果】 submit可以正常提交， 可以通过query的请求来验证特殊字符是否能正确写入区块链。
-【测试结果】 Pass
 
-8) 【边界测试】 验证"输入的--onchain-data"是否对输入长度进行限制， 如果超过长度是否会有正确的error提示
-【执行命令】 iriscli record submit --chain-id=shilei-qa --description="Good" --onchain-data=【输入明显较长长度的字符串,例如10000字节长度】 --from=v1 --fee=0.004iris
-【期望结果】 应该有长度限制提示。 （对由于没有明确的spec说明，此处期望结果根据现实经验给出期望结果，后续有了明确的spec后会做修改。）
-【测试结果】 Pass （程序提示onchain-data上传数据size最大为1024字节）
+【正向测试】 验证"query Supply"查询功能是否正确
+【测试方法】 先进行"issue/mint"操作，执行"query Supply"查询命令
+【期望结果】 查询成功，并返回相应的Supply信息。
 
-9) 【边界测试】 验证"输入的--onchain-data"长度进行边界测试，输入测试参数的长度分别为: 1个字节 1023字节 1024字节 1025字节
-【执行命令】 iriscli record submit --chain-id=shilei-qa --description="Good" --onchain-data=【输入上述测试参数分别测试】 --from=v1 --fee=0.004iris
-【期望结果】 onchain-data长度为 [1023字节] [1024字节] submit可以正常提交，onchain-data长度为 [1025字节] 时提示超出长度。
-【测试结果】 Fail
-【Normal Bug002】 程序提示上传数据size最大为1024字节， 实际测试结果： 1023字节长度的字符串可以上传， 1024字节长度的字符串不能上传，1025字节长度的字符串不能上传. 与期望结果不符。
+【正向测试】 验证"query Owner"查询功能是否正确
+【测试方法】 先进行"issue/mint"操作，执行"query Owner"查询命令
+【期望结果】 查询成功，并返回相应的Owner信息。
 
-10) 【边界测试】 验证"输入的description"是否对输入长度进行限制， 如果超过长度是否会有正确的error提示
-【执行命令】 iriscli record submit --chain-id=shilei-qa --description=【输入明显较长长度的字符串,例如10000字节长度】 --onchain-data"shelwin flighting6" --from=v1 --fee=0.004iris
-【期望结果】 应该有长度限制提示。 （对由于没有明确的spec说明，此处期望结果根据现实经验给出期望结果，后续有了明确的spec后会做修改。）
-【测试结果】 Fail
-【Improvement】 description值，无长度限制提示
+【正向测试】 验证"query Collection"查询功能是否正确
+【测试方法】 先进行"issue/mint"操作，执行"query Collection"查询命令
+【期望结果】 查询成功，并返回相应的demon信息。
+
+
+【正向测试】 验证"query Denoms"查询功能是否正确
+【测试方法】 先进行"issue/mint"操作，执行"query Denoms"查询命令
+【期望结果】 查询成功，并返回相应的demons信息。
+
+
+【正向测试】 验证"query Token"查询功能是否正确
+【测试方法】 先进行"issue/mint"操作，执行"query Token"查询命令
+【期望结果】 查询成功，并返回相应的Token信息。
+
+**
+
+【负向测试】 "issue"交易， 指定错误的scale
+【测试方法】 执行"issue"交易，并且指定scale为"-1"和"10"
+【期望结果】 交易失败，并返回"invalid argument"和 "invalid token scale"信息。
+
+
+
+=============================================
+token
+=============================================
+【正向测试】 验证"issue"交易功能是否正确
+【测试方法】 在"issue"交易前查询账户余额，执行"issue"交易，再次查询账户余额。 对新issue的token，进行转账交易。
+【期望结果】 交易成功，并返回 "code:0"。 两次账户余额的差值等于issue的花费加上fee的值， 查询的账户增加相对的新token数量，新issue的token可以正常进行send交易。
+
+【正向测试】 验证"mint"交易功能是否正确
+【测试方法】 先进行"issue"操作，在"mint"交易前查询账户余额，执行"mint"交易，再次查询账户余额。
+【期望结果】 交易成功，并返回 "code:0"。 两次账户余额的差值等于"mint"的花费加上fee的值。 查询的账户增加相对于的mint数量的token。
+
+
+【正向测试】 验证"edit"交易功能是否正确
+【测试方法】 先进行"issue"操作，执行在"edit"交易时修改"name/mintable/maxsupply"等字段。
+【期望结果】 交易成功，并返回 "code:0"。 查询token的信息， 相对应的字段被正确修改。
+
+
+【正向测试】 验证"transfer"交易功能是否正确
+【测试方法】 先进行"issue"操作，执行在"transfer"交易，把token owner转给其他人。
+【期望结果】 交易成功，并返回 "code:0"。 查询token的信息， "token owner"被正确转到新的用户。
+
+
+【正向测试】 验证"query token"查询功能是否正确
+【测试方法】 执行"query token"查询命令。（包含子命令query token token和 query token tokens）
+【期望结果】 查询成功，并返回相应的token、tokens信息。
+
+
+【正向测试】 验证"query token"查询功能是否正确
+【测试方法】 执行"query token"查询命令。（包含子命令query token token和 query token tokens）
+【期望结果】 查询成功，并返回相应的token、tokens信息。
+
+
+【正向测试】 验证"query fee"查询功能是否正确
+【测试方法】 执行"query fee"查询命令。
+【期望结果】 查询成功，并返回相应的issue_fee和mint_fee所需要的费用。
+
+
+【负向测试】 "issue"交易， 指定错误的scale
+【测试方法】 执行"issue"交易，并且指定scale为"-1"和"10"
+【期望结果】 交易失败，并返回"invalid argument"和 "invalid token scale"信息。
+
+【负向测试】 "issue"交易， 指定错误的initialSupply
+【测试方法】 执行"issue"交易，并且指定initialSupply为"-1"和"abc"
+【期望结果】 交易失败，并返回"invalid argument"信息。
+
+【负向测试】 "issue"交易， 指定的超出边界的initialSupply
+【测试方法】 执行"issue"交易，并且指定initialSupply为"2000000000000000000"
+【期望结果】 交易失败，并返回"invalid token initial supply"信息。
+
+【负向测试】 "issue"交易， 指定initialSupply大于maxSupply
+【测试方法】 执行"issue"交易，并且指定initialSupply，maxSupply分别为20000， 10000
+【期望结果】 交易失败，并返回"invalid token max supply"信息。
+
+【负向测试】 "issue"交易， 指定错误的name
+【测试方法】 执行"issue"交易，并且指定name分别为a，12a
+【期望结果】 交易失败，并返回"only accepts length"和"only accepts alphanumeric characters"信息。
+
+【负向测试】 "issue"交易， 重复issue同一个symbol的token
+【测试方法】 执行"issue"交易，并且用刚才issue的symbol再次重复issue
+【期望结果】 交易失败，并返回"symbol already exists"信息。
+
+
+【负向测试】 "mint"交易， mint一个不可增发的token
+【测试方法】 执行"issue"交易，并且指定mintable=false， 对该token进行mint操作
+【期望结果】 交易失败，并返回"set to be non-mintable"信息。
+
+
+【负向测试】 "mint"交易， 增发超出maxsupply的token
+【测试方法】 执行"issue"交易，并且指定maxSupply=20000， 对该token进行mint操作，增发数量指定为100000
+【期望结果】 交易失败，并返回"exceeded the maximum supply"信息。
+
+
+【负向测试】 "edit"交易， 编辑一个并未issue的token
+【测试方法】 执行"edit"交易，并且指定一个不存在的token。
+【期望结果】 交易失败，并返回"token does not exist"信息。
+
+
+【负向测试】 "edit"交易， 使得maxSupply小于initialSupply
+【测试方法】 执行"issue"交易(指定initialSupply=10000)，执行"edit"交易并且指定maxSupply=9999
+【期望结果】 交易失败，并返回"invalid token max supply"信息。
+
+
+【负向测试】 "edit"交易， 指定错误的maxSupply
+【测试方法】 执行"issue"交易，执行"edit"交易并且指定maxSupply分别为"2000000000000000000"和"-1"
+【期望结果】 交易失败，并返回"invalid token max supply"和"invalid argument"信息。
+
+
+【负向测试】 "transfer"交易， 把token自己transfer给自己
+【测试方法】 执行"issue"交易， 然后把该token的转移给自己
+【期望结果】 交易失败，并返回"the new owner must not be same"信息。
+
+
+【负向测试】 "transfer"交易， 转移一个owner已经不是自己的token
+【测试方法】 执行"issue"交易， 然后把该token的转移给他人， 再次把该token转移给他人、
+【期望结果】 交易失败，并返回"invalid token owner"信息。
+
+
+【负向测试】 "transfer"交易， 转移一个不存在的token
+【测试方法】 执行"transfer"交易，指定一个不存在的token
+【期望结果】 交易失败，并返回"token does not exist"信息。
+
+
+【负向测试】 "query Token"查询，查询一个不存在的token
+【测试方法】 执行"query Token"查询，指定一个不存在的token
+【期望结果】 交易失败，并返回"token not found"信息。
+
+
+【负向测试】 "query fee"查询，查询name长度超过边界值的fee
+【测试方法】 执行"query fee"查询，指定name分别为"a0"和"a022222213321234342523445235"
+【期望结果】 交易失败，并返回"only accepts length [3, 20]"信息。
+
+
+【负向测试】 "query fee"查询，查询name不符合规范的fee
+【测试方法】 执行"query fee"查询，指定name分别为"0222a"
+【期望结果】 交易失败，并返回"only accepts alphanumeric characters"信息。
+
+
+
+=============================================
+bank
+=============================================
+【正向测试】 验证"send"交易功能是否正确
+【测试方法】 在转账前查询账户余额，执行转账，转账后再次查询账户余额
+【期望结果】 交易成功，并返回 "code:0"。 两次账户余额的差值等于转账金额加上fee的值。
+
+
+【正向测试】 验证"balances"查询功能是否正确
+【测试方法】 在"send"的测试流程中加入了"balances"的查询余额的命令
+【期望结果】 查询成功，并返回相应的余额。
+
+
+【正向测试】 验证"account"查询功能是否正确
+【测试方法】 执行"account"查询命令。
+【期望结果】 查询成功，并返回相应的账户信息。
+
+
+【负向测试】 "send"交易， 转账"0"token
+【测试方法】 执行"send"交易，并且指定转账金额为"0"token
+【期望结果】 交易失败，并返回相应"Error"信息。
+
+
+【负向测试】 "send"交易， 转账"9999999999999999999999999999"token
+【测试方法】 执行"send"交易，并且指定转账金额为"9999999999999999999999999999"token
+【期望结果】 交易失败，并返回 "insufficient funds"信息。
+
+
+【负向测试】 "send"交易， 转账"1abc"
+【测试方法】 执行"send"交易，并且指定转账金额为"1abc"
+【期望结果】 交易失败，并返回 "insufficient funds"信息。
+
+
+【负向测试】 "account"查询， 查询一个在链上不存在的地址的信息
+【测试方法】 执行"account"查询，查询链上不存在的地址
+【期望结果】 交易失败，并返回相应"Error"信息。
+
+
+【负向测试】 "balances"查询， 查询一个在链上不存在的地址的余额
+【测试方法】 执行"balances"查询，查询链上不存在的地址
+【期望结果】 交易失败，并返回相应"Error"信息。
+
+
+
+
