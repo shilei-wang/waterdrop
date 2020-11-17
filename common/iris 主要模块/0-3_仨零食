@@ -1,3 +1,154 @@
+
+=============================================
+service
+=============================================
+【正向测试】 验证"define"交易功能是否正确。
+【测试方法】 执行"define"交易。
+【期望结果】 交易成功，并返回 "code:0"， 通过"query definition"查询， 确认service被正确define。
+
+
+【正向测试】 验证"query schema"查询功能是否正确。
+【测试方法】 执行"query schema"查询， 分别指定"pricing"和"result"参数。
+【期望结果】 查询成功，并返回相应的schema格式。
+
+
+【正向测试】 验证"bind"交易功能是否正确。
+【测试方法】 先执行"define"交易，再执行"bind"交易
+【期望结果】 交易成功，并返回 "code:0"， 通过"query binding"查询， 确认service被正确bind。
+
+
+【正向测试】 验证"query binding"查询功能是否正确。
+【测试方法】 先执行"define/bind"交易，再执行"query binding"查询
+【期望结果】 查询成功， 确认service_name provider owner等信息和bind时一致。
+
+
+【正向测试】 验证"query bindings"查询功能是否正确。
+【测试方法】 先执行"define/bind"交易，再执行"query bindings"查询
+【期望结果】 查询成功， 确认service_name provider owner等信息和bind时一致。
+
+
+【正向测试】 验证"update-binding"交易功能是否正确。
+【测试方法】 先执行"define/bind"交易， 再执行"update-binding"交易， 并且指定修改qos，并且增加amount抵押
+【期望结果】 交易成功，并返回 "code:0"， 通过"query binding"查询， 确认qos被修改，且抵押的amount被增加。
+
+
+【正向测试】 验证"set-withdraw-addr"交易功能是否正确。
+【测试方法】 执行"set-withdraw-addr"交易， 并指定相应的地址。
+【期望结果】 交易成功，并返回 "code:0"， 通过"query withdraw-addr"查询， 确认withdraw-addr被修改成新的地址。
+
+
+【正向测试】 验证"enable"交易功能是否正确。
+【测试方法】 先执行"define/bind"交易，再对该服务执行"enable"交易。
+【期望结果】 交易成功，并返回 "code:0"， 通过"query binding"查询， 确认该服务被enable。
+
+
+【正向测试】 验证"disable"交易功能是否正确。
+【测试方法】 先执行"define/bind/enable"交易，再对该服务执行"disable"交易。
+【期望结果】 交易成功，并返回 "code:0"， 通过"query binding"查询， 确认该服务被disable。
+
+
+【正向测试】 验证"call"交易功能是否正确。
+【测试方法】 先执行"define/bind"交易，再对该服务执行"call"交易。
+【期望结果】 交易成功，并返回 "code:0"， 通过"query requests"查询， 确认该服务正确的call。
+
+
+【正向测试】 验证"respond"交易功能是否正确。
+【测试方法】 先执行"define/bind/call"交易，通过记录返回的id，再执行"respond"交易。
+【期望结果】 交易成功，并返回 "code:0"， 通过"query response"查询， 确认该服务被正确的respond。
+
+
+【正向测试】 验证"withdraw-fees"交易功能是否正确。
+【测试方法】 先执行"define/bind/call/respond"交易，再执行"withdraw-fees"交易。
+【期望结果】 交易成功，并返回 "code:0"， 通过通过查询余额的变化，确认fee被正确withdraw。
+
+
+【负向测试】 "define"交易，define时指定一个错误的"name"
+【测试方法】 执行"define"交易，并指定name为"0a"
+【期望结果】 交易失败，并返回"must contain alphanumeric characters"信息。
+
+
+【负向测试】 "define"交易，define时指定一个长度超过边界的"name"
+【测试方法】 执行"define"交易，并指定name为"a1234567890123456789012345678901234567890123456789012345678901234567890"
+【期望结果】 交易失败，并返回"length greater than 0 and less than or equal to 70"信息。
+
+
+【负向测试】 "define"交易，define时指定重复的tag
+【测试方法】 执行"define"交易，并指定tag为"t1,t1"
+【期望结果】 交易失败，并返回"duplicate tag"信息。
+
+
+【负向测试】 "define"交易，define时指定空的tag
+【测试方法】 执行"define"交易，并指定tag为",t1"
+【期望结果】 交易失败，并返回"tag must not be empty"信息。
+
+
+【负向测试】 "define"交易，define时指定长度超出边界的tag
+【测试方法】 执行"define"交易，并指定tag为"a1234567890123456789012345678901234567890123456789012345678901234567890"
+【期望结果】 交易失败，并返回"max: 70: invalid tags"信息。
+
+
+【负向测试】 "query definition"查询，查询一个不存在的definition
+【测试方法】 执行"query definition"查询，指定一个不存在的definition name
+【期望结果】 查询失败，并返回"unknown service definition"信息。
+
+
+【负向测试】 "query definition"查询，查询一个name为空的definition
+【测试方法】 执行"query definition"查询，指定name为空
+【期望结果】 查询失败，并返回"invalid service name"信息。
+
+
+【负向测试】 "query definition"查询，查询一个name为空的definition
+【测试方法】 执行"query definition"查询，指定name为空
+【期望结果】 查询失败，并返回"invalid service name"信息。
+
+
+【负向测试】 "query schema"查询，查询一个错误的type
+【测试方法】 执行"query definition"查询，指定type为"abc"
+【期望结果】 查询失败，并返回"invalid service schema name"信息。
+
+
+
+
+
+=============================================
+guardian
+=============================================
+【正向测试】 验证"add-profiler"交易功能是否正确。
+【测试方法】 执行"add-profiler"交易。
+【期望结果】 交易成功，并返回 "code:0"，通过profiler查询功能，确认新的profiler被添加。
+
+
+【正向测试】 验证"delete-profiler"交易功能是否正确。
+【测试方法】 先执行"add-profiler"交易， 然后执行"delete-profiler"交易。
+【期望结果】 交易成功，并返回 "code:0"，通过profiler查询功能，确认新的profiler被删除。
+
+
+【正向测试】 验证"query profilers"查询功能是否正确
+【测试方法】 执行"query profilers"查询。
+【期望结果】 查询成功，并返回相应的profilers列表信息。
+
+
+【负向测试】 "add-profiler"交易，添加一个已经存在的profiler
+【测试方法】 先执行"add-profiler"交易，先执行"add-profiler"交易 add同样的地址。
+【期望结果】 交易失败，并返回"profiler already exists"信息。
+
+
+【负向测试】 "add-profiler"交易，添加一个错误的地址
+【测试方法】 执行"add-profiler"交易，并指定add一个错误的地址
+【期望结果】 交易失败，并返回"pchecksum failed"信息。
+
+
+【负向测试】 "add-profiler"交易，添加一个错误的地址
+【测试方法】 执行"add-profiler"交易，并指定add一个错误的地址
+【期望结果】 交易失败，并返回"pchecksum failed"信息。
+
+
+【负向测试】 "delete-profiler"交易，删除一个不存在的profiler
+【测试方法】 执行"delete-profiler"交易，并指定一个并不是profiler的地址
+【期望结果】 交易失败，并返回"unknown profiler"信息。
+
+
+
 =============================================
 htlc
 =============================================
@@ -57,9 +208,13 @@ htlc
 
 
 【负向测试】 "claim"交易，claim一个并未create的htlc
-【测试方法】 执行"query htlc"查询，指定一个空的hashlock
-【期望结果】 查询失败，并返回"HTLC  not found"信息。
+【测试方法】 执行"query htlc"查询，指定一个并未create的hashlock
+【期望结果】 查询失败，并返回"unknown htlc"信息。
 
+
+【负向测试】 "claim"交易，claim时使用错误的secret
+【测试方法】 执行"create"交易，执行"claim"交易，指定一个错误的secret
+【期望结果】 查询失败，并返回"invalid secret"信息。
 
 
 
