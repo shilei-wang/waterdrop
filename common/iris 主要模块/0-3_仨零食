@@ -1,9 +1,73 @@
+=============================================
+htlc
+=============================================
+【正向测试】 验证"create"交易功能是否正确， 指定timestamp。
+【测试方法】 生成随机secret，timestamp，并计算出hashlock。指定以上参数并执行"create"交易，指定相应的amount，并记录交易前后的账户余额。
+【期望结果】 交易成功，并返回 "code:0"，htlc被正确create。 交易前后账户差额为amount+fee。
+
+
+【正向测试】 验证"create"交易功能是否正确， 不指定timestamp， 客户端自己计算返回secret
+【测试方法】 执行"create"交易，指定相应的amount，并记录交易前后的账户余额。
+【期望结果】 交易成功，并返回 "code:0"，htlc被正确create。 交易前后账户差额为amount+fee。
+
+
+【正向测试】 验证"query htlc"查询功能是否正确
+【测试方法】 执行"create"交易，执行"query htlc"查询命令
+【期望结果】 查询成功，并返回相应的htlc信息。
+
+
+【正向测试】 验证"claim"查询功能是否正确
+【测试方法】 执行"create"交易，记录create时指定的amount， 执行"claim"交易， 记录claim对象在交易前后的余额。
+【期望结果】 交易成功，并返回 "code:0"，htlc被正确claim。 claim对象在交易前后账户差额为amount。
+
+
+【负向测试】 "create"交易， 指定amount为错误的数量
+【测试方法】 执行"create"交易，并指定amount分别为"0uiris"和"-1uiris"
+【期望结果】 交易失败，并返回"the transferred amount must be valid"和"invalid coin expression"信息。
+
+
+【负向测试】 "create"交易， 指定amount超过余额上限
+【测试方法】 执行"create"交易，并指定amount分别为"10000000000000000000000000000000iris"
+【期望结果】 交易失败，并返回"insufficient funds"信息。
+
+
+【负向测试】 "create"交易， 指定错误的secret
+【测试方法】 执行"create"交易，并指定格式错误的secret
+【期望结果】 交易失败，并返回"encoding/hex: odd length hex string"信息。
+
+
+【负向测试】 "create"交易， 指定time_lock超出边界
+【测试方法】 执行"create"交易，并指定time_lock分别为"0"和"30000"
+【期望结果】 交易失败，并返回"the time lock must be between [50,25480]: invalid time lock"信息。
+
+
+【负向测试】 "create"交易， 指定错误的timestamp
+【测试方法】 执行"create"交易，并指定格式错误的timestamp
+【期望结果】 交易失败，并返回"invalid syntax"信息。
+
+
+【负向测试】 "query htlc"查询，查询一个不存在的hashlock
+【测试方法】 执行"query htlc"查询，指定一个不存在的hashlock
+【期望结果】 查询失败，并返回"key not found"信息。
+
+
+【负向测试】 "query htlc"查询，指定hashlock为空
+【测试方法】 执行"query htlc"查询，指定一个空的hashlock
+【期望结果】 查询失败，并返回"HTLC  not found"信息。
+
+
+【负向测试】 "claim"交易，claim一个并未create的htlc
+【测试方法】 执行"query htlc"查询，指定一个空的hashlock
+【期望结果】 查询失败，并返回"HTLC  not found"信息。
+
+
+
 
 =============================================
 nft
 =============================================
 【正向测试】 验证"issue"交易功能是否正确
-【测试方法】执行"issue"交易，并指定denomID。
+【测试方法】 执行"issue"交易，并指定denomID。
 【期望结果】 交易成功，并返回 "code:0"，nft被正确issue。
 
 
@@ -44,13 +108,84 @@ nft
 【测试方法】 先进行"issue/mint"操作，执行"query Token"查询命令
 【期望结果】 查询成功，并返回相应的Token信息。
 
-**
 
-【负向测试】 "issue"交易， 指定错误的scale
-【测试方法】 执行"issue"交易，并且指定scale为"-1"和"10"
-【期望结果】 交易失败，并返回"invalid argument"和 "invalid token scale"信息。
+【负向测试】 "issue"交易， 指定长度超过边界的name
+【测试方法】 执行"issue"交易，并且指定name为"a"和"1234567890123456789012345678901234567890123456789012345678901234567890"
+【期望结果】 交易失败，并返回"only accepts value [3, 64]"信息。
 
 
+【负向测试】 "issue"交易， 重复issue相同symbol
+【测试方法】 执行"issue"交易，并且用上次的symbol再次issue。
+【期望结果】 交易失败，并返回"already exists"信息。
+
+
+【负向测试】 "issue"交易， 重复issue相同name
+【测试方法】 执行"issue"交易，并且用上次的name再次issue。
+【期望结果】 交易失败，并返回"already exists"信息。
+
+
+【负向测试】 "mint"交易， mint一个不存在的symbol
+【测试方法】 执行"mint"交易，并且指定symbol为"abcd"
+【期望结果】 交易失败，并返回"not exists: invalid denom"信息。
+
+
+【负向测试】 "mint"交易， mint重复的tokenID
+【测试方法】 执行"issue"交易，执行"mint"交易，再次执行"mint"交易并指定重复的tokenID
+【期望结果】 交易失败，并返回"NFT already exists"信息。
+
+
+【负向测试】 "transfer"交易， transfer时指定错误的denom
+【测试方法】 执行"issue"交易，再次执行"transfer"交易并指定denom为"aaaaa"
+【期望结果】 交易失败，并返回"not exists: invalid denom"信息。
+
+
+【负向测试】 "transfer"交易， transfer时指定错误的tokenID
+【测试方法】 执行"issue"交易，再次执行"transfer"交易并指定tokenID为"aaaaa"
+【期望结果】 交易失败，并返回"unknown NFT collection"信息。
+
+
+【负向测试】 "transfer"交易， transfer owner已经不是自己的tokenID
+【测试方法】 执行"issue/transfer"交易，再次执行transfer交易（此时owner已经不属于自己）
+【期望结果】 交易失败，并返回"unauthorized address"信息。
+
+
+【负向测试】 "edit"交易， edit时指定错误的denom
+【测试方法】 执行"issue"交易，再次执行"edit"交易并指定denom为"abc"
+【期望结果】 交易失败，并返回"not exists: invalid denom"信息。
+
+
+【负向测试】 "edit"交易， edit不属于自己的tokenID
+【测试方法】 执行"issue/transfer"交易，再次执行"edit"交易。
+【期望结果】 交易失败，并返回"unauthorized address"信息。
+
+
+【负向测试】 "edit"交易， edit不属于自己的tokenID
+【测试方法】 执行"issue/transfer"交易，再次执行"edit"交易。
+【期望结果】 交易失败，并返回"unauthorized address"信息。
+
+
+【负向测试】 "query Supply"查询，查询一个不存在的demon
+【测试方法】 执行"query Supply"查询，指定一个不存在的demon
+【期望结果】 交易失败，并返回"amount:0"信息。
+
+
+【负向测试】 "query Owner"查询，查询一个不存在的Owner地址
+【测试方法】 执行"query Owner"查询，指定一个不存在的Owner地址
+【期望结果】 交易失败，并返回"id_collections:[]"信息。
+
+
+【负向测试】 "query Collection"查询，查询一个不存在的demon
+【测试方法】 执行"query Collection"查询，指定一个不存在的demon
+【期望结果】 交易失败，并返回"not existed : invalid denom"信息。
+
+【负向测试】 "query Token"查询，查询一个不存在的demon
+【测试方法】 执行"query Token"查询，指定一个不存在的demon
+【期望结果】 交易失败，并返回"unknown NFT: invalid request"信息。
+
+
+【负向测试】 "query Token"查询，查询一个不存在的TokenID
+【测试方法】 执行"issue"交易，执行"query Token"查询，指定一个不存在的TokenID
+【期望结果】 交易失败，并返回"unknown NFT: invalid request"信息。
 
 =============================================
 token
