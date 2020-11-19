@@ -1,3 +1,213 @@
+=============================================
+admin
+=============================================
+
+【正向测试】 验证"add-roles"交易功能是否正确。
+【测试方法】 执行"add-roles"交易， 并指定roles为"NODE_ADMIN"
+【期望结果】 交易成功，并返回 "code:0"， 通过"query admin roles"查询，确认roles的"NODE_ADMIN"被正确add。
+
+
+【正向测试】 验证"add-roles"交易功能是否正确（同时add多个roles）。
+【测试方法】 执行"add-roles"交易， 并指定roles为"NODE_ADMIN PERM_ADMIN BLACKLIST_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN"
+【期望结果】 交易成功，并返回 "code:0"， 通过"query admin roles"查询，确认roles的"NODE_ADMIN PERM_ADMIN BLACKLIST_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN"被正确add。
+
+
+【正向测试】 验证"remove-roles"交易功能是否正确。
+【测试方法】 先执行"add-roles"交易（add NODE_ADMIN），执行"remove-roles"交易， 并指定remove roles为"NODE_ADMIN"
+【期望结果】 交易成功，并返回 "code:0"， 通过"query admin roles"查询，确认roles的"NODE_ADMIN"被正确remove。
+
+
+【正向测试】 验证"remove-roles"交易功能是否正确。
+【测试方法】 先执行"add-roles"交易（add 多个roles），执行"remove-roles"交易， 并指定remove roles为"NODE_ADMIN PERM_ADMIN BLACKLIST_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN"
+【期望结果】 交易成功，并返回 "code:0"， 通过"query admin roles"查询，确认多个roles被正确remove。
+
+
+【正向测试】 验证"block-account"交易功能是否正确。
+【测试方法】 执行"block-account"交易，并指定相应的地址。
+【期望结果】 交易成功，并返回 "code:0"， 通过"query admin blacklist"查询，确认该地址被block。
+
+
+【正向测试】 验证"unblock-account"交易功能是否正确。
+【测试方法】 先执行"block-account"交易，并指定相应的地址。然后指定的该地址执行"unblock-account"交易。
+【期望结果】 交易成功，并返回 "code:0"， 通过"query admin blacklist"查询，确认该地址被unblock。
+
+
+【负向测试】 "add-roles"交易， 添加有ADMIN权限地址
+【测试方法】 执行"add-roles"交易， 并指定roles为"NODE_ADMIN"， 并指定有ADMIN权限地址
+【期望结果】 交易失败，并返回"can not operate root admin"信息。
+
+
+【负向测试】 "add-roles"交易， 添加错误的权限
+【测试方法】 执行"add-roles"交易， 并指定roles为"abc"
+【期望结果】 交易失败，并返回"not a valid"信息。
+
+
+【负向测试】 "add-roles"交易， 添加错误的权限
+【测试方法】 执行"add-roles"交易， 并指定roles为"abc"
+【期望结果】 交易失败，并返回"not a valid"信息。
+
+
+【负向测试】 "add-roles"交易， 添加权限为ROOT_ADMIN
+【测试方法】 执行"add-roles"交易， 并指定roles为"ROOT_ADMIN"
+【期望结果】 交易失败，并返回"can not add root account"信息。
+
+
+【负向测试】 "remove-roles"交易， remove并不存在的权限
+【测试方法】 执行"remove-roles"交易， 并指定roles为"ROOT_ADMIN"，此时该地址并没有ROOT_ADMIN权限
+【期望结果】 交易失败，并返回"the account does not have this role"信息。
+
+
+【负向测试】 "remove-roles"交易， remove错误的权限
+【测试方法】 执行"remove-roles"交易， 并指定roles为"abc"
+【期望结果】 交易失败，并返回"not a valid"信息。
+
+
+【负向测试】 "remove-roles"交易， remove权限为ROOT_ADMIN
+【测试方法】 执行"remove-roles"交易， 并指定roles为"ROOT_ADMIN"
+【期望结果】 交易失败，并返回"can not remove root account"信息。
+
+
+【负向测试】 "block-account"交易， block权限为ADMIN的用户
+【测试方法】 执行"block-account"交易， 并指定地址为"ROOT_ADMIN"的用户
+【期望结果】 交易失败，并返回"can not block admin account"信息。
+
+
+【负向测试】 "block-account"交易， 重复block，block一个已经被blocked用户
+【测试方法】 执行"block-account"交易， 并再次对改地址执行"block-account"交易
+【期望结果】 交易失败，并返回"account already blocked"信息。
+
+
+【负向测试】 "unblock-account"交易， unblock一个不在block list里面的地址
+【测试方法】 执行"block-account"交易， 指定一个不在blocklist中的地址
+【期望结果】 交易失败，并返回"unknown blocked account"信息。
+
+=============================================
+record
+=============================================
+【正向测试】 验证"record create"交易功能是否正确。
+【测试方法】 执行"record create"交易
+【期望结果】 交易成功，并返回 "code:0"， 通过"query record"查询，确认record被正确create。
+
+
+【正向测试】 验证"query record"查询功能
+【测试方法】 执行"record create"交易， 指定digest, digest_algo, uri, meta, 执行"query record"查询
+【期望结果】 查询成功， 通过"query record"查询后的结果和create时的参数一致。
+
+
+【负向测试】 "record create"交易，指定digest和digest_algo为空
+【测试方法】 执行"record create"交易， 分别指定digest和digest_algo为空
+【期望结果】 交易失败，并返回 "digest missing"和"digest algo missing"信息。
+
+
+【负向测试】 "query record"查询， 指定错误的record id
+【测试方法】 执行"record create"交易，  通过"query record"查询，并指定错误的record id
+【期望结果】 交易失败，并返回 "contents：[]"信息。
+
+
+=============================================
+random
+=============================================
+【正向测试】 验证系统自定义"random"的service 是否正确。
+【测试方法】 执行"query service definition"查询, 指定serviceName为"random"
+【期望结果】 查询成功， random service 已被系统定义。
+
+
+【正向测试】 验证"request-random"交易功能是否正确。
+【测试方法】 执行"request-random"交易，记录返回的random_request_id和generate_height
+【期望结果】 交易成功，并返回 "code:0"， 通过返回的generate_height，查询query random queue，确认"request-random"交易成功。
+
+
+【正向测试】 验证"query random"查询功能是否正确。
+【测试方法】 执行"request-random/service respond"交易，再执行"query random"交易，并指定random_request_id。
+【期望结果】 查询成功， 并且返回0到1之间的随机数。
+
+
+【负向测试】 "request-random"交易，指定错误的block-interval
+【测试方法】 执行"request-random"交易，指定错误的block-interval为-1
+【期望结果】 交易失败，并返回"invalid syntax"信息。
+
+
+【负向测试】 验证"query random"，指定不正确的random_request_id
+【测试方法】 执行"query random"交易，并指定random_request_id。
+【期望结果】 查询失败，并返回"invalid request id"信息。
+
+
+
+
+=============================================
+oracle
+=============================================
+【正向测试】 验证"oracle create"交易功能是否正确。
+【测试方法】 先执行service的"define/bind"交易,再执行"oracle create"交易
+【期望结果】 交易成功，并返回 "code:0"， 通过"oracle feed"查询，确认oracle被正确create。
+
+
+【正向测试】 验证"oracle start"交易功能是否正确。
+【测试方法】 先执行"define/bind/oracle create"交易,再执行"oracle start"交易
+【期望结果】 交易成功，并返回 "code:0"， 通过"query requests"查询，确认oracle被正确start。
+
+
+【正向测试】 验证"respond"交易功能是否正确。
+【测试方法】 先执行"define/bind/oracle create/oracle start"交易, 通过返回request id， 再执行"respond"交易
+【期望结果】 交易成功，并返回 "code:0"， 通过"query oracle value"查询，确认oracle被正确respond。
+
+
+【正向测试】 验证"query oracle value"查询功能是否正确。
+【测试方法】 先执行"define/bind/oracle create/oracle start/respond"交易, 通过返回feedname， 再执行"query oracle value"交易
+【期望结果】 交易成功，并返回 "code:0"， 验证value是否符合预期。
+
+
+【负向测试】 "oracle create"交易，create时指定一个错误的serviceName
+【测试方法】 先执行"define/bind"交易，执行"create"交易，并指定serviceName为"abc"
+【期望结果】 交易失败，并返回"unknown service definition"信息。
+
+
+【负向测试】 "oracle create"交易，create时指定一个错误的feedname
+【测试方法】 先执行"define/bind"交易，执行"create"交易，并指定feedname为"123"
+【期望结果】 交易失败，并返回"invalid feed name"信息。
+
+
+【负向测试】 "oracle create"交易，create时指定一个timeout为0
+【测试方法】 先执行"define/bind"交易，执行"create"交易，并指定timeout为0
+【期望结果】 交易失败，并返回"must be greater than 0"信息。
+
+
+【负向测试】 "oracle create"交易，create时指定一个timeout>frequency
+【测试方法】 先执行"define/bind"交易，执行"create"交易，并指定timeout 21 >frequency 20
+【期望结果】 交易失败，并返回"timeout [21] should be no more than frequency [20]"信息。
+
+
+【负向测试】 "oracle create"交易，create时指定threshold为0
+【测试方法】 先执行"define/bind"交易，执行"create"交易，并指定threshold为0
+【期望结果】 交易失败，并返回"response threshold should be between 1 and 1"信息。
+
+
+【负向测试】 "oracle create"交易，create时指定没有被注册的method
+【测试方法】 先执行"define/bind"交易，执行"create"交易，并指定method为abc
+【期望结果】 交易失败，并返回"method don't register"信息。
+
+
+【负向测试】 "oracle start"交易，指定错误的feedname
+【测试方法】 先执行"define/bind/oracle create"交易，再执行"oracle start"交易， 并指定feedname为abc
+【期望结果】 交易失败，并返回"unknown feed"信息。
+
+
+【负向测试】 "oracle start"交易，start一个已经started的oracle（重复start）
+【测试方法】 先执行"define/bind/oracle create/oracle start"交易，再次执行"oracle start"交易
+【期望结果】 交易失败，并返回"invalid state feed"信息。
+
+
+【负向测试】 "oracle pause"交易，指定错误的feedname
+【测试方法】 先执行"define/bind/oracle create/oracle start"交易，再执行"oracle pause"交易， 并指定feedname为abc
+【期望结果】 交易失败，并返回"unknown feed"信息。
+
+
+【负向测试】 "oracle pause"交易，pause一个已经paused的oracle（重复pause）
+【测试方法】 先执行"define/bind/oracle create/oracle start/oracle pause"交易，再次执行"oracle pause"交易
+【期望结果】 交易失败，并返回"invalid state feed"信息。
+
+
+
 
 =============================================
 service
@@ -107,6 +317,139 @@ service
 【期望结果】 查询失败，并返回"invalid service schema name"信息。
 
 
+【负向测试】 "bind"交易，bind一个不存在的definition
+【测试方法】 执行"bind"交易，并指定serviceName为"abc"
+【期望结果】 交易失败，并返回"unknown service definition"信息。
+
+
+【负向测试】 "bind"交易，bind时指定deposit的数量小于define中的定义
+【测试方法】 执行"bind"交易，并指定deposit的数量为"1"
+【期望结果】 交易失败，并返回"insufficient deposit"信息。
+
+
+【负向测试】 "bind"交易，bind时指定deposit的数量大约余额
+【测试方法】 执行"bind"交易，并指定deposit的数量为"999999999999999999999"
+【期望结果】 交易失败，并返回"insufficient funds"信息。
+
+
+【负向测试】 "bind"交易，bind时指定deposit的数量为0
+【测试方法】 执行"bind"交易，并指定deposit的数量为"0"
+【期望结果】 交易失败，并返回"invalid deposit"信息。
+
+
+【负向测试】 "bind"交易，bind时指定qos为0
+【测试方法】 执行"bind"交易，并指定qos的数量为"0"
+【期望结果】 交易失败，并返回"qos must be greater than 0"信息。
+
+
+【负向测试】 "bind"交易，bind时指定qos超过上界
+【测试方法】 执行"bind"交易，并指定qos的数量为"111111111111111111111111110"
+【期望结果】 交易失败，并返回"value out of range"信息。
+
+
+【负向测试】 "bind"交易，bind时指定错误的格式的qos
+【测试方法】 执行"bind"交易，并指定qos的数量为"abc"
+【期望结果】 交易失败，并返回"invalid syntax"信息。
+
+
+【负向测试】 "bind"交易，重复bind
+【测试方法】 先执行"define/bind"交易，再次执行bind相同的serviceName
+【期望结果】 交易失败，并返回"service binding already exists"信息。
+
+
+【负向测试】 "query binding"查询，查询一个不存在的binding
+【测试方法】 执行"query binding"查询，指定一个不存在的serviceName
+【期望结果】 查询失败，并返回"unknown service binding"信息。
+
+
+【负向测试】 "query binding"查询，查询一个不存在的binding
+【测试方法】 执行"query binding"查询，指定一个不存在的serviceName
+【期望结果】 查询失败，并返回"unknown service binding"信息。
+
+
+【负向测试】 "query bindings"查询，查询一个不存在的bindings
+【测试方法】 执行"query binding"查询，指定一个不存在的serviceName
+【期望结果】 查询失败，并返回"[]"信息。
+
+
+【负向测试】 "query bindings"查询，查询一个不存在的bindings
+【测试方法】 执行"query binding"查询，指定一个不存在的serviceName
+【期望结果】 查询失败，并返回"[]"信息。
+
+
+【负向测试】 "update-binding"交易，update一个错误的qos
+【测试方法】 执行"bind"交易，并指定qos为"-1"和"aaa"
+【期望结果】 交易失败，并返回"invalid syntax"信息。
+
+
+【负向测试】 "update-binding"交易，update指定格式不正确的deposit
+【测试方法】 执行"bind"交易，并指定deposit为"-1iris"
+【期望结果】 交易失败，并返回"invalid coin expression"信息。
+
+
+【负向测试】 "set-withdraw-addr"交易，指定格式不正确的地址
+【测试方法】 执行"set-withdraw-addr"交易，并指定地址为"iva"地址
+【期望结果】 交易失败，并返回"invalid Bech32 prefix"信息。
+
+
+【负向测试】 "set-withdraw-addr"交易，指定格式不正确的地址
+【测试方法】 执行"set-withdraw-addr"交易，并指定地址为"iva"地址
+【期望结果】 交易失败，并返回"invalid Bech32 prefix"信息。
+
+
+【负向测试】 "set-withdraw-addr"交易，指定空的地址
+【测试方法】 执行"set-withdraw-addr"交易，并指定地址为空
+【期望结果】 交易失败，并返回"empty address string is not allowed"信息。
+
+
+【负向测试】 "enable"交易，指定不存在的definition
+【测试方法】 执行"enable"交易，并指定serviceName为"abc"
+【期望结果】 交易失败，并返回"unknown service binding"信息。
+
+
+【负向测试】 "enable"交易，指定一个定义了但是没有bind的service
+【测试方法】 执行"enable"交易，指定一个定义了但是没有bind的service
+【期望结果】 交易失败，并返回"unknown service binding"信息。
+
+
+【负向测试】 "enable"交易，enable一个已经enable的service
+【测试方法】 先执行"define/bind"交易，再对该服务执行"enable"交易。
+【期望结果】 交易失败，并返回"service binding available"信息。
+
+
+【负向测试】 "disable"交易，指定不存在的definition
+【测试方法】 执行"disable"交易，并指定serviceName为"abc"
+【期望结果】 交易失败，并返回"unknown service binding"信息。
+
+
+【负向测试】 "disable"交易，指定一个定义了但是没有bind的service
+【测试方法】 执行"disable"交易，指定一个定义了但是没有bind的service
+【期望结果】 交易失败，并返回"unknown service binding"信息。
+
+
+【负向测试】 "disable"交易，disable一个已经disable的service
+【测试方法】 先执行"define/bind/disable"交易，再对该服务执行"disable"交易。
+【期望结果】 交易失败，并返回"service binding unavailable"信息。
+
+
+【负向测试】 "call"交易，指定不存在的definition
+【测试方法】 执行"disable"交易，并指定serviceName为"abc"
+【期望结果】 交易失败，并返回"unknown service binding"信息。
+
+
+【负向测试】 "call"交易，指定service-fee-cap为0
+【测试方法】 先执行"define/bind"交易，再执行"call"指定service-fee-cap为0
+【期望结果】 交易失败，并返回"invalid deposit"信息。
+
+
+【负向测试】 "call"交易，指定timeout超过边界
+【测试方法】 先执行"define/bind"交易，再执行"call"指定timeout为0和"99999999"
+【期望结果】 交易失败，并返回"must be greater than 0"和"must not be greater than the max request timeout"信息。
+
+
+【负向测试】 "respond"交易，指定错误的request id
+【测试方法】 先执行"define/bind/call"交易，再执行"respond"指定错误的request id 和 空的 request id。
+【期望结果】 交易失败，并返回"invalid request id"信息。
 
 
 
