@@ -1,3 +1,21 @@
+@王石磊  irishub 提测：
+1. guardian 模块重构 (profiler -> super, 删除trustee)
+2. service binding update options
+3. 回归测试
+
+
+1） 搜索一下guardian代码 ， 有很多地方还存在 uatom的描述
+
+
+========
+目标：
+========
+1. 完成最近的测试 上传代码
+2. 完成任务细分 （测试用例 先看下别人的任务是怎么做的）
+3. 测试用例分模块 编写（分开成不同的页面）
+4. 写自动测试。
+
+
 
 
 
@@ -9,17 +27,9 @@
 。iris query nft supply d01 --owner=$(iris keys show v0 --address)   （help中缺少owner）
 。 Ladger 发交易出错， 应该是cosmos交易的问题。（添加创建用户运行正常）（sign的--home有bug）
 。cschain tx admin add-roles --chain-id=shilei-qa --node=http://localhost:26657 -b block -y --fees=4point iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 abc --from=v0 Error: 'abc' is not a valid vote option
-
-
-
-========
-还没做的
-========
-。测试dist部分
-。所有命令试下 iris的小数，和token的小数
-
-
-http://wiki.bianjie.ai/display/IR/TestCases-iServiceInvocation
+。iris tx nft transfer 自己可以转给自己？  token哪里会检查不能自己转给自己
+。query nft collection . nft supply 对于负向测试 返回不一样。
+"amount\":\"0\"")      "not existed : invalid denom")
 
 
 

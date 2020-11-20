@@ -49,9 +49,10 @@ iris init testing --chain-id=shilei-qa
 iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
 iris gentx v0 --chain-id=shilei-qa --amount 100000000uiris
 sed -i '' 's/stake/uiris/g' /Users/sherlock/.iris/config/genesis.json
-sed -i '' 's/"profilers": \[\]/"profilers": \[{"description":"test","account_type":0,"address":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0","added_by":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0"}\]/g' /Users/sherlock/.iris/config/genesis.json
+sed -i '' 's/"supers": \[\]/"supers": \[{"description":"test","account_type":0,"address":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0","added_by":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0"}\]/g' /Users/sherlock/.iris/config/genesis.json
 iris collect-gentxs
 iris start
+
 
 
 ==================
@@ -193,32 +194,27 @@ iris tx htlc refund 3F0D93550229F9F1C97C04A0F3A63751C8AE707190729519CE65FE0B7671
      guardian
 ======================
 
+注意：目前只有oracle create 需要super权限
+
 ===
 iris tx guardian -h
 ===
 修改genesis 复制里面v0， iaa地址 【目前这个不用做了， 保存以备后续】
-subl /Users/sherlock/testnet/v0/iris/config/genesis.json
+subl /Users/sherlock/.iris/config/genesis.json
 
-[{"description":"test","account_type":0,"address":"iaa1xxmxr09qvyqp5gkvlnlfq6wycde0kgncrvy687","added_by":"iaa1xxmxr09qvyqp5gkvlnlfq6wycde0kgncrvy687"}]
+sed -i '' 's/"supers": \[\]/"supers": \[{"description":"test","account_type":0,"address":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0","added_by":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0"}\]/g' /Users/sherlock/.iris/config/genesis.json
 
 
-1.获取所有profiler账号列表
-iris query guardian profilers -o=json |jq
+1.获取所有super账号列表
+iris query guardian supers -o=json |jq
 
-2.获取所有trustee账号列表 （取回tax的账户）
-iris query guardian trustees -o=json |jq
 
-3.添加profiler账号 [注意 :只有genesis账号才可以拥有添加删除用户功能 ]
-iris tx guardian add-profiler --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --description=v0 --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
+2.添加super账号 [注意 :只有genesis账号才可以拥有添加删除用户功能 ]
+iris tx guardian add-super --address=$(iris keys show v1 -a) --description=v0 --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
 
-4.添加trustee账号
-iris tx guardian add-trustee --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --description=v --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
+3.删除superr账号
+iris tx guardian delete-super --address=$(iris keys show v1 -a) --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
 
-5.删除profiler账号
-iris tx guardian delete-profiler --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
-
-6.删除trustee账号
-iris tx guardian delete-trustee --address=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
 
 
 ======================================================================================================
