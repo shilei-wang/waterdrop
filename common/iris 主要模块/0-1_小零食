@@ -1,10 +1,36 @@
+
+
+irishub 提测：已经测试完毕。发现bug 2处。
+1） htlc create 返回 secret nil （最新代码已经修复，且已验证）
+2） 返回message有"uatom"的描述  （sdk自带问题， 无法修复）
+自动化测试结果：
+https://analytics.katalon.com/team/9148/project/11815/executions/174
+
+
+cschain 提测：回归测试，测试完毕。未发现bug。后续需要测试的功能
+1） 多节点出空块逻辑验证
+2） 升级测试 （多节点，正向测试已经在周5做过了，正向测试通过）
+自动化测试结果：
+https://analytics.katalon.com/team/9148/project/11815/executions/174
+
+
+
+
 @王石磊  irishub 提测：
 1. guardian 模块重构 (profiler -> super, 删除trustee)
 2. service binding update options
 3. 回归测试
 
+【service 还要测一下】
+【bug需要在网上提议西】
 
 1） 搜索一下guardian代码 ， 有很多地方还存在 uatom的描述
+2)  iris tx htlc create --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --amount=1iris --time-lock=50 --timestamp=1580000000 --receiver-on-other-chain=00 --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
+
+
+cschain
+不出块
+升级
 
 
 ========

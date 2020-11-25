@@ -210,7 +210,7 @@ iris query guardian supers -o=json |jq
 
 
 2.添加super账号 [注意 :只有genesis账号才可以拥有添加删除用户功能 ]
-iris tx guardian add-super --address=$(iris keys show v1 -a) --description=v0 --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
+iris tx guardian add-dd --address=$(iris keys show v1 -a) --description=v0 --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
 
 3.删除superr账号
 iris tx guardian delete-super --address=$(iris keys show v1 -a) --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
@@ -509,27 +509,28 @@ iris query service bindings -o=json random | jq
 3.request
 //block-interval默认为10 【注意 默认使用 random名字的服务】【这里记录request_id， 最后5）rand rand用】
 //注意 有2个request id， 一个是rand的request id， 一个是service的request id
-iris tx random request-random --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y --block-interval=10 --oracle=true --service-fee-cap=2iris | jq
+iris tx random request --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y --block-interval=10 --oracle=true --service-fee-cap=2iris | jq
 
-request id【rand】 ：056815cf18e1e05b3f74b8278fe9a0d3f1e873c043c8c61b3f2a783baecae4f4
-generate_height   ：215
+request id【rand】 ：d66c431541cde8d46bb55b96b506de755c5005b20322254cac9b5073d042e617
+generate_height   ：61
 
 
 // 在(0,block-interval)之内可以通过 rand模块的rand-height查到该次请求， 0是指提交请求的那一刻
-    iris query random queue -o=json 215 | jq
+    iris query random queue -o=json 61 | jq
     iris query random queue -o=json | jq
 
 // 在(block-interval, block-interval+timeout[service默认超时时间100块])只能可以通过 service模块的request-id查到该次请求
 // 现在request的第一条查询已经可以现实 request-id （这个没有做好）
 // 注意， rand的request是单次的， repeated=false
+// 注意，如果这里查不到，很可能random request的时候service-fee-cap小了，注意注意！
     iris query service requests random -o=json $(iris keys show v0 -a)| jq
 
 
 4.respond 这里会返回request-id 【过了20个块，就已经发出request了， 这个时候就可以respond了】这里用的service的request id
-iris tx service respond --chain-id=shilei-qa --from=v0 --fees=4iris --request-id=$(iris query service requests random $(iris keys show v0 -a) -o=json | jq -r .requests[0].id) --data='{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}' --result='{"code":200,"message":"ok"}' -b block -y | jq
+iris tx service respond --chain-id=shilei-qa --from=v0 --fees=4iris --request-id=$(iris query service requests random $(iris keys show v0 -a) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"seed":"3132333435363738393031323334353637383930313233343536373839303132"}}' --result='{"code":200,"message":"ok"}' -b block -y | jq
 
 5.查询结果， request id【rand】， 注意不是4中的service的request-id 。
-iris query random random -o=json 056815cf18e1e05b3f74b8278fe9a0d3f1e873c043c8c61b3f2a783baecae4f4 | jq
+iris query random random -o=json d66c431541cde8d46bb55b96b506de755c5005b20322254cac9b5073d042e617 | jq
 
 
 

@@ -374,6 +374,9 @@ cschain tx admin block-account $(cschain keys show v1 --address) --from=v0 --cha
 --
 cschain tx bank send v0 $(cschain keys show v1 -a) 10000point --chain-id=shilei-qa --fees=4point -b block -y
 cschain tx bank send v1 $(cschain keys show v1 --address) 1point --chain-id=shilei-qa --fees=4point -b block -y
+
+cschain query bank balances $(cschain keys show v1 -a)
+
 --
 
 =====
@@ -587,7 +590,7 @@ cschain query oracle value f001 -o=json | jq
 ===
 //记录request_id
 //block-interval默认为10
-cschain tx random request-random --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --block-interval=5 | jq
+cschain tx random request --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --block-interval=5 | jq
 
 //5块后立即可以查询 (5块内查不到)
 cschain query random random -o=json 6ce0c7fbddf6f931143efbace1b0c168c2e9325534d418366231087ecc2d3369 | jq
@@ -630,7 +633,7 @@ generate_height   ：73
 
 
 4.respond 这里会返回request-id 【过了20个块，就已经发出request了， 这个时候就可以respond了】这里用的service的request id
-cschain tx service respond --chain-id=shilei-qa --from=v0 --fees=4point --request-id=$(cschain query service requests random $(cschain keys show v0 -a) -o=json | jq -r .requests[0].id) --data='{"seed":"b7e77397c3dd1093f3ba8093ba20ff2b85730290da0ed031557a24be0c55a32a"}' --result='{"code":200,"message":"ok"}' -b block -y | jq
+cschain tx service respond --chain-id=shilei-qa --from=v0 --fees=4point --request-id=$(cschain query service requests random $(cschain keys show v0 -a) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"seed":"b7e77397c3dd1093f3ba8093ba20ff2b85730290da0ed031557a24be0c55a32a"}}' --result='{"code":200,"message":"ok"}' -b block -y | jq
 
 5.查询结果， request id【rand】， 注意不是4中的service的request-id 。
 cschain query random random -o=json b7e77397c3dd1093f3ba8093ba20ff2b85730290da0ed031557a24be0c55a32a | jq

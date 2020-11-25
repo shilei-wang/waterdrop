@@ -198,6 +198,9 @@ error: you need to resolve your current index first
 git reset --merge
 git checkout develop
 
+git checkout master
+
+git branch -d master
 
 ==================================================================
                 创建分支
