@@ -105,7 +105,7 @@ iris query bank balances -o=json $(iris keys show v0 -a) |jq
 token
 ====================
 发行资产：
-echo y| iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y  --symbol=a01 |jq
+iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y  --symbol=a01 |jq
 
 iris tx bank send v0 $(iris keys show v0 -a) 1ua01 --fees=4iris --chain-id=shilei-qa -b block -y |jq
 
@@ -308,7 +308,7 @@ D7C0EF6E19D29FAA83C603EABCBCA9BE378C5CF05F7CBCE1EA37971FAF808C540000000000000000
 
 -----
 
-根据上一条返回的id
+根据上一条返回的id （过期也可以查到）
 iris query service request -o=json D7C0EF6E19D29FAA83C603EABCBCA9BE378C5CF05F7CBCE1EA37971FAF808C540000000000000000000000000000000100000000000001D70000 |jq
 
 //用<request-context-id>超时后可以查到，当前running也可以查到，看一下批次号

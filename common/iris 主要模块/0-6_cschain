@@ -96,7 +96,7 @@ cschain start --home=/Users/sherlock/testnet/v0/cschain --pruning=nothing
 token
 ====================
 发行资产：
-echo y| cschain tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01 |jq
+cschain tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
 
 cschain tx bank send v0 $(cschain keys show v0 -a) 1mu01 --fees=4point --chain-id=shilei-qa -b block -y |jq
 
@@ -165,7 +165,7 @@ Record
 cschain tx record create --chain-id=shilei-qa "hahaha" "flighting" --from=v0 --fees=4point -b block -y --meta="metadata" --uri="uridata"
 
 2. 查询存证
-cschain query record record 185d9af295107634d2c12342992042ae77446e55eb2d0521a3592e35c3bdfdc9 -o=json |jq
+cschain query record record 5d790ef03ad6726d560945dc98ad11686953deb034720ddc69dd10feb2172e06 -o=json |jq
 
 
 
@@ -243,21 +243,21 @@ cschain query service requests -o=json a001 $(cschain keys show v0 -a) |jq
 记录
 ===
 id：
-58AA73D0C6B765E5E94FE5B8DA1AC78822C8EA2F0861285E6DCEDBB4CE55B80D000000000000000000000000000000010000000000000D650000
+969E689F9DF2F845667217081B542F9D17CF64E40473DD53DBE0F95633C4C6FB0000000000000000000000000000000100000000000000140000
 
 request_context_id:
-58AA73D0C6B765E5E94FE5B8DA1AC78822C8EA2F0861285E6DCEDBB4CE55B80D0000000000000000
+969E689F9DF2F845667217081B542F9D17CF64E40473DD53DBE0F95633C4C6FB0000000000000000
 
 -----
 
 根据上一条返回的id
-cschain query service request -o=json 58AA73D0C6B765E5E94FE5B8DA1AC78822C8EA2F0861285E6DCEDBB4CE55B80D000000000000000000000000000000010000000000000D650000 |jq
+cschain query service request -o=json 969E689F9DF2F845667217081B542F9D17CF64E40473DD53DBE0F95633C4C6FB0000000000000000000000000000000100000000000000140000 |jq
 
 //用<request-context-id>超时后可以查到，当前running也可以查到，看一下批次号
-cschain query service request-context -o=json 58AA73D0C6B765E5E94FE5B8DA1AC78822C8EA2F0861285E6DCEDBB4CE55B80D0000000000000000 |jq
+cschain query service request-context -o=json 969E689F9DF2F845667217081B542F9D17CF64E40473DD53DBE0F95633C4C6FB0000000000000000 |jq
 
 //requests只能查询到当前活跃的
-cschain query service requests -o=json 58AA73D0C6B765E5E94FE5B8DA1AC78822C8EA2F0861285E6DCEDBB4CE55B80D0000000000000000 1 |jq
+cschain query service requests -o=json 969E689F9DF2F845667217081B542F9D17CF64E40473DD53DBE0F95633C4C6FB0000000000000000 1 |jq
 
 
 
@@ -925,6 +925,30 @@ func main() {
 4）复制返回的数据
 --pubkey=30(rsa较短)08 --pubkey-algo=rsa
 --pubkey=30(dsa较长)08 --pubkey-algo=dsa
+
+
+=========================================================================
+=========================================================================
+不出空块设置
+=========================================================================
+=========================================================================
+
+无交易不出块，先暂停
+subl /Users/sherlock/testnet/v0/cschain/config/config.toml
+【 搜索 create_empty_blocks 】
+
+# EmptyBlocks mode and possible interval between empty blocks
+create_empty_blocks = false   （false代表无交易不出空块， 默认为true：无交易也出块）
+create_empty_blocks_interval = "0s"    （时间代表，如果出空块，间隔时间，要加上commit时间的）
+
+例子：
+默认commit时间是5s，create_empty_blocks = true ，create_empty_blocks_interval=3s
+结果： 无交易每8秒出块， 有交易5秒出块
+
+测试用交易：
+cschain tx bank send v0 $(cschain keys show v0 -a) 123point --chain-id=shilei-qa --fees=4point -b block -y
+
+
 
 
 
