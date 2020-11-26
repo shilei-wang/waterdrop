@@ -363,7 +363,7 @@ cschain query admin roles $(cschain keys show v0 --address)
 remove-roles
 =====
 cschain tx admin remove-roles $(cschain keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-cschain tx admin remove-roles $(cschain keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx admin remove-roles $(cschain keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN NODE_ADMIN --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
 block-account

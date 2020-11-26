@@ -210,7 +210,7 @@ iris query guardian supers -o=json |jq
 
 
 2.添加super账号 [注意 :只有genesis账号才可以拥有添加删除用户功能 ]
-iris tx guardian add-dd --address=$(iris keys show v1 -a) --description=v0 --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
+iris tx guardian add-super --address=$(iris keys show v1 -a) --description=v0 --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
 
 3.删除superr账号
 iris tx guardian delete-super --address=$(iris keys show v1 -a) --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y
