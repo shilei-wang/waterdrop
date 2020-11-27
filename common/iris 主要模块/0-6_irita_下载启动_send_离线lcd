@@ -59,7 +59,7 @@ irita keys show v0
 irita query account $(irita keys show v0 --address) 
 irita query bank balances  $(irita keys show v0 --address)
 
-irita tx send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100000point --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100000point --chain-id=shilei-qa --fees=4point -b block -y
 irita query account iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 
 irita query bank balances iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 

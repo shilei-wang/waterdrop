@@ -8,10 +8,9 @@
 发行资产：
 3位资产 30万 40%入tax， 60%burn
 **********************
+irita tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
 
-echo y | irita tx token issue --name=token-name --min-unit="mu01" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
-
-irita tx send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 1mu01 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 1mu01 --chain-id=shilei-qa --fees=4point -b block -y
 irita query account iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 irita query account $(irita keys show v0 --address)
 irita query bank balances iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
