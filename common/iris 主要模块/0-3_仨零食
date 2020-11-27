@@ -1,0 +1,49 @@
+irita tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v1 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
+
+
+irita tx admin add-roles $(irita keys show v1 --address) POWER_USER --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+irita tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v1 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
+
+
+irita keys add v2
+irita tx bank send v0 $(irita keys show v2 -a) 100000point --chain-id=shilei-qa --fees=4point -b block -y
+
+irita tx bank send v1 $(irita keys show v2 -a) 100a01 --chain-id=shilei-qa --fees=4point -b block -y
+
+成功：
+irita tx bank send v2 $(irita keys show v0 -a) 100point --chain-id=shilei-qa --fees=4point -b block -y
+不成功：
+irita tx bank send v2 $(irita keys show v0 -a) 100a01 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+irita tx token transfer a01 --to=$(irita keys show v0 -a) --from=v1 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+成功：
+irita tx bank send v2 $(irita keys show v0 -a) 100a01 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v1 $(irita keys show v0 -a) 100a01 --chain-id=shilei-qa --fees=4point -b block -y
+
+不成功：
+irita tx bank send v1 $(irita keys show v2 -a) 100a01 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v2 $(irita keys show v1 -a) 10000000000000a01 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+
+
+irita tx token transfer point --to=$(irita keys show v0 -a) --from=v1 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+irita query bank balances $(irita keys show v2 -a)
+irita query bank balances $(irita keys show v0 -a)
+
+
+irita tx bank send v0 $(irita keys show v2 -a) 10a01 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v1 $(irita keys show v2 -a) 1a01 --chain-id=shilei-qa --fees=4point -b block -y
+
+确认owner是刚才的改的
+cschain query token tokens -o=json  |jq
+
+
+irita tx bank send v2 $(irita keys show v0 -a) 10a01 --chain-id=shilei-qa --fees=4point -b block -y
+

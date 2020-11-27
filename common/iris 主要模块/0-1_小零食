@@ -1,4 +1,7 @@
 cschain 升级测试 多节点升级
+cschain 不出空块测试
+cschain 自动化测试脚本完善
+cschain 回归测试
 
 ======
 
@@ -6,6 +9,7 @@ cschain
 参数修改
 add validator
 did
+irita opd 转账功能
 
 
 

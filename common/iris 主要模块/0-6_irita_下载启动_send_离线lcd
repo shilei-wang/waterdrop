@@ -40,6 +40,9 @@ sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irit
 sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/app.toml
+
+sed -i '' 's/iaa183rfa8tvtp6ax7jr7dfaf7ywv870sykxxykejp/iaa183rfa8tvtp6ax7jr7dfaf7ywv870sykxxykejp/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+
 irita start --home=/Users/sherlock/testnet/v0/irita
 
 
@@ -73,11 +76,19 @@ irita query bank balances iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
            启动lcd
 *******************************************
 
-irita rest-server 
-irita rest-server  >/Users/sherlock/lcd.log & tail -f /home/shilei/lcd.log
+修改api.toml
+# Enable defines if the API server should be enabled.
+enable = true
+
+# Swagger defines if swagger documentation should automatically be registered.
+swagger = true
+
+# Address defines the API server to listen on.
+address = "tcp://0.0.0.0:1317"
+
 
 swagger：
-http://localhost:1317/
+http://localhost:1317/swagger
 
 
 *******************************************
@@ -130,3 +141,65 @@ irita tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 =====
 --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}"
+
+
+*******************************************
+       限制转移 UnrestrictedTokenTransfer
+*******************************************
+
+========
+准备工作
+========
+修改  /Users/sherlock/testnet/v0/irita/config/app.toml
+# Enable defines if the API server should be enabled.
+enable = true
+
+修改参数 ： UnrestrictedTokenTransfer （注意是驼峰方式）
+irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+查询这个值，是不是改了：
+http://localhost:1317/cosmos/bank/v1beta1/params
+
+值为false ： 限制转移
+规则：
+    1) Send: 发送方和接受方（之一）必须是 token owner
+    2) MultiSend: 对于每个token,   要么 inputs（可能为多个地址）要么outputs（可能为多个地址），必须都是此 token 的 owner
+
+注意1：不能用以下方式查，代码里面没有加上去
+irita query slashing params
+
+注意2：
+需要把v0（root admin）的地址加到主token的owner里面。（genesis》"tokens"》owner）
+后续看情况是不是要启动的时候改genesis。
+
+***********
+用testnet 起链  改token owner
+***********
+
+cd ~ && rm -rf .irita .irita testnet
+irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/app.toml
+
+【这里手动改下】
+subl /Users/sherlock/testnet/v0/irita/config/genesis.json 【v0的address 覆盖原来的token owner】
+irita start --home=/Users/sherlock/testnet/v0/irita
+
+确认owner是刚才的改的
+cschain query token tokens -o=json  |jq
+
+值改为false，开启限制。
+irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+验证（正常send）：
+irita tx bank send v0 $(irita keys show v1 -a) 100000point --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v1 $(irita keys show v0 -a) 100point --chain-id=shilei-qa --fees=4point -b block -y
+
+验证（不能send）：
+irita tx bank send v1 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100point --chain-id=shilei-qa --fees=4point -b block -y
+
+
+

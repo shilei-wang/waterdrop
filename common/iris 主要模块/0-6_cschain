@@ -95,7 +95,7 @@ cschain start --home=/Users/sherlock/testnet/v0/cschain --pruning=nothing
 ====================
 token
 ====================
-发行资产：
+发行资产：（必须是 PowerUser）
 cschain tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
 
 cschain tx bank send v0 $(cschain keys show v0 -a) 1mu01 --fees=4point --chain-id=shilei-qa -b block -y |jq
