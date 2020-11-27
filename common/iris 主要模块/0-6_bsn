@@ -1,10 +1,9 @@
 *******************************************
            bsnhub
 *******************************************
+
+下载：
 cd /Users/sherlock/go/src/gitlab.bianjie.ai
-
-
-这个后还没有做：
 git clone https://gitlab.bianjie.ai/bsn/bsnhub.git
 cd bsnhub
 git remote add upstream  https://gitlab.bianjie.ai/bsn/bsnhub.git

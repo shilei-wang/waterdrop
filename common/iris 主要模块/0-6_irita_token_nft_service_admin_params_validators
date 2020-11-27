@@ -9,55 +9,55 @@
 3位资产 30万 40%入tax， 60%burn
 **********************
 
-echo y | iritacli tx token issue --name=token-name --min-unit="mu01" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
+echo y | irita tx token issue --name=token-name --min-unit="mu01" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
 
-iritacli tx send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 1mu01 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query account iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau --trust-node
-iritacli query account $(iritacli keys show v0 --address) --trust-node
-iritacli query bank balances --trust-node iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
+irita tx send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 1mu01 --chain-id=shilei-qa --fees=4point -b block -y
+irita query account iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
+irita query account $(irita keys show v0 --address)
+irita query bank balances iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 
 --
-iritacli query bank balances --trust-node $(iritacli keys show v0 --address)
+irita query bank balances $(irita keys show v0 --address)
 
-echo y | iritacli tx token issue --name=token-name --min-unit="mu02" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a02
+echo y | irita tx token issue --name=token-name --min-unit="mu02" --scale=18 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a02
 
 ======================
 查询资产：
 ======================
 //查询目前所有tokens
-iritacli query token tokens --trust-node
+irita query token tokens
 
 //查询单个
-iritacli query token token a01 --trust-node
+irita query token token a01
 
 //查询指定 owner 的全部资产：(gateway资产不会被查询)
-iritacli query token tokens $(iritacli keys show v0 --address) --trust-node
+irita query token tokens $(irita keys show v0 --address)
 
 
 ======================
 修改资产：
 ======================
-iritacli tx token edit a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query token token a01 --trust-node
+irita tx token edit a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita query token token a01
 
 
 ======================
 增发资产：
 ======================
-echo y | iritacli tx token mint a01 --amount=1 --to=iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query bank balances --trust-node iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau --trust-node
+echo y | irita tx token mint a01 --amount=1 --to=iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita query bank balances iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 
-iritacli tx send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 1mu01 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 1mu01 --chain-id=shilei-qa --fees=4point -b block -y
 
 
 ======================
 转让asset：
 ======================
-iritacli tx token transfer a01 --to=iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query token tokens --trust-node $(iritacli keys show v1 --address)
+irita tx token transfer a01 --to=iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita query token tokens $(irita keys show v1 --address)
 
 ----
-iritacli keys add v1 --recover
+irita keys add v1 --recover
 caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
 
@@ -65,7 +65,7 @@ iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
 ======================
 查询fee：
 ======================
-iritacli query token fee --trust-node a01
+irita query token fee a01
 
 
 
@@ -80,49 +80,49 @@ iritacli query token fee --trust-node a01
                 定义
      ===========================
 1. 服务定义
-iritacli tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
+irita tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
 
 2. 服务定义查询 （可以查询 method id）
-iritacli query service definition --trust-node a001
+irita query service definition a001
 
 3. 查询 schema
-iritacli query service schema --trust-node pricing
-iritacli query service schema --trust-node result
+irita query service schema pricing
+irita query service schema result
 
      ===========================
                 绑定
      ===========================
 3. 服务绑定
-iritacli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5
+irita tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5
 
-iritacli tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5  --provider=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
+irita tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --pricing=/Users/sherlock/my_workspace/service/pricing.json --service-name=a001 --qos=5  --provider=iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
 
 
 4. 查询服务绑定
-iritacli query service binding  --trust-node a001 $(iritacli keys show v0 --address)
-iritacli query service bindings --trust-node a001
-iritacli query service bindings --trust-node a001 --owner=$(iritacli keys show v0 --address)
+irita query service binding  a001 $(irita keys show v0 --address)
+irita query service bindings a001
+irita query service bindings a001 --owner=$(irita keys show v0 --address)
 
 
 5. 更新绑定 --min-resp-time（qos）也可以改
-iritacli tx service update-binding a001 $(iritacli keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=2point --pricing=/Users/sherlock/my_workspace/service/pricing.json --qos=6
+irita tx service update-binding a001 $(irita keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=2point --pricing=/Users/sherlock/my_workspace/service/pricing.json --qos=6
 
-iritacli tx service update-binding a001 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --chain-id=shilei-qa --from=v1 --fees=4point -b block -y --deposit=2point --pricing=/Users/sherlock/my_workspace/service/pricing.json --qos=7
+irita tx service update-binding a001 iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp --chain-id=shilei-qa --from=v1 --fees=4point -b block -y --deposit=2point --pricing=/Users/sherlock/my_workspace/service/pricing.json --qos=7
 
 6. 设置提取地址
-iritacli tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4point -b block -y iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
+irita tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4point -b block -y iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 
 //查询提取地址
-iritacli query service withdraw-addr --trust-node $(iritacli keys show v0 --address)
+irita query service withdraw-addr $(irita keys show v0 --address)
 
 7.服务失效
-iritacli tx service disable a001 $(iritacli keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+irita tx service disable a001 $(irita keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
 
 8.服务恢复 ，可以增加抵押
-iritacli tx service enable a001 $(iritacli keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=1point
+irita tx service enable a001 $(irita keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=1point
 
 9. 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov)) 、、这个还没有测
-iritacli tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+irita tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
 
      ===========================
       service 调用
@@ -131,40 +131,40 @@ iritacli tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4p
 1. 服务调用
 1）批量请求
 //单个
-iritacli tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iritacli keys show v0 --address)
+irita tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(irita keys show v0 --address)
 
 //重复
-iritacli tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(iritacli keys show v0 --address) --timeout=20 --repeated --frequency=20 --total=-1
+irita tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001 --service-fee-cap=1point --data="{\"id\": \"1234\",\"name\": \"bianjie\",\"data\": \"facedata\"}" --providers=$(irita keys show v0 --address) --timeout=20 --repeated --frequency=20 --total=-1
 
 查询请求列表
 //如果查不到 可能是price低了，可能是min-resp-time没满足bind
-iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json --indent  --trust-node
+irita query service requests a001 $(irita keys show v0 --address) -o=json --indent 
 
 
 根据上一条返回的id
-iritacli query service request -o=json --indent  --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000300000000000005FF0000
+irita query service request -o=json --indent  782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000300000000000005FF0000
 
 //用<request-context-id>超时后可以查到 ， requests只能查询到当前活跃的
-iritacli query service requests -o=json --indent  EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000 7
-iritacli query service request-context C9F4EA3442E1CB86980CD9FA46A2AFAA7805821FF74F68903D8E28D8707FFFA70000000000000000
+irita query service requests -o=json --indent  EA1D25FB486DABEFD19107A586B4C578BB9E386C979B5063E141549109D1A7620000000000000000 7
+irita query service request-context C9F4EA3442E1CB86980CD9FA46A2AFAA7805821FF74F68903D8E28D8707FFFA70000000000000000
 
 
 3.相应请求
-iritacli tx service respond --chain-id=shilei-qa --from=v0  --fees=4point -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json --trust-node | jq -r .[0].id)
+irita tx service respond --chain-id=shilei-qa --from=v0  --fees=4point -b block -y  --data="{\"data\": \"userdata\"}" --result='{"code":200,"message":"it500"}' --request-id=$(irita query service requests a001 $(irita keys show v0 --address) -o=json | jq -r .[0].id)
 
 4.查询相应请求 ，用"3）"返回request id
-iritacli query service response -o=json --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000500000000000006270000
+irita query service response -o=json 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000500000000000006270000
 
      ===========================
        取回服务调用产生的服务费（卖家），未响应超时的服务费会自动退还给（买家）
      ===========================
 1.查询服务费
-iritacli query service fees --trust-node $(iritacli keys show v0 --address)
+irita query service fees $(irita keys show v0 --address)
 
 
 2.提取服务调用产生的服务费
-iritacli tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
-// iritacli query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
+irita tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+// irita query account iaa1lcuw6ewd2gfxap37sejewmta205sgssm5m0tjp
 
 3.注意 irita 没有 withdraw-tax
 
@@ -172,33 +172,33 @@ iritacli tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4point -
       请求上下文相关 ====》》》  测下 nftlcd 的bug 下载一个新的
      ===========================
 1. 查询请求上下文 <request-context-id>， 返回这个call的很多字段信息
-iritacli query service request-context --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+irita query service request-context 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
 //查询request id
-iritacli query service requests a001 $(iritacli keys show v0 --address) -o=json --trust-node --indent
+irita query service requests a001 $(irita keys show v0 --address) -o=json --indent
 
 2. 暂停请求上下文
-iritacli tx service pause --chain-id=shilei-qa --from=v0  --fees=4point -b block -y 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+irita tx service pause --chain-id=shilei-qa --from=v0  --fees=4point -b block -y 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
 
 3. 启动请求上下文
 //state变成running , BatchState在complete状态也会变running
-iritacli tx service start --chain-id=shilei-qa --from=v0 --fees=4point -b block -y 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+irita tx service start --chain-id=shilei-qa --from=v0 --fees=4point -b block -y 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
 
 4. 更新请求上下文
-iritacli tx service update --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  --frequency=20 --total=3000 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+irita tx service update --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  --frequency=20 --total=3000 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
 
 5. 终止请求上下文
 // state变成complete
 // 非repeated 不能kill
-iritacli tx service kill --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+irita tx service kill --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
 
 6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
 //列表只有有效的才会被查出， 但是iriscli service request-context 永远能查出）
-iritacli query service request-context --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
+irita query service request-context 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000
 
 7. 查询请求上下文的响应列表（后面是request id）
 //注意这个只能查活跃的 ， 过期的查不到。
-iritacli query service response --trust-node 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000500000000000006270000 -o=json
-iritacli query service responses <request-context-id> <batch-counter>
+irita query service response 782DB95A2B5D575527D2D2881F4E3C9903BD235A358E87E0A9D465859C6E95ED0000000000000000000000000000000500000000000006270000 -o=json
+irita query service responses <request-context-id> <batch-counter>
 
 
 
@@ -218,53 +218,53 @@ iritacli query service responses <request-context-id> <batch-counter>
 | nft issue denom     | RootAdmin、PowerUser      |
 | service define/bind | RootAdmin、PowerUser      |
 
-$(iritacli keys show v1 --address)
+$(irita keys show v1 --address)
 
 =====
 add-roles
 =====
 // PermAdmin(控制权限， 只能有root添加和删除此权限， PermAdmin不能操作同样有PermAdmin权限的用户), BlacklistAdmin（黑名单，带admin的不能被加入黑名单）, NodeAdmin（节点，验证人）, ParamAdmin （参数修改）, PowerUser （issue mint）
-iritacli tx admin add-roles $(iritacli keys show v0 --address) NodeAdmin --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli tx admin add-roles $(iritacli keys show v1 --address) PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx admin add-roles $(irita keys show v0 --address) NodeAdmin --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx admin add-roles $(irita keys show v1 --address) PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
 query roles
 =====
-iritacli query admin roles $(iritacli keys show v1 --address) --trust-node
-iritacli query admin roles $(iritacli keys show v0 --address) --trust-node
+irita query admin roles $(irita keys show v1 --address)
+irita query admin roles $(irita keys show v0 --address)
 
 
 =====
 remove-roles
 =====
-iritacli tx admin remove-roles $(iritacli keys show v1 --address)  NodeAdmin --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli tx admin remove-roles $(iritacli keys show v1 --address)  PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx admin remove-roles $(irita keys show v1 --address)  NodeAdmin --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx admin remove-roles $(irita keys show v1 --address)  PermAdmin BlacklistAdmin NodeAdmin ParamAdmin PowerUser --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
 block-account
 =====
 //限制该用户所有交易
-iritacli tx admin block-account  $(iritacli keys show v1 --address)  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx admin block-account  $(irita keys show v1 --address)  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 ==
-iritacli keys add v1 --recover
+irita keys add v1 --recover
 caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
 address: csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 
-iritacli tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000point --chain-id=shilei-qa --fees=4point -b block -y
+irita tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000point --chain-id=shilei-qa --fees=4point -b block -y
 
 ==
 
 =====
 query blacklist
 =====
-iritacli query admin blacklist --trust-node
+irita query admin blacklist
 
 
 =====
 unblock block-account
 =====
-iritacli tx admin unblock-account  $(iritacli keys show v1 --address)  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx admin unblock-account  $(irita keys show v1 --address)  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 
 
@@ -284,29 +284,29 @@ openssl req -new -key /Users/sherlock/testnet/priv_x2.pem -out /Users/sherlock/t
 openssl x509 -req -in /Users/sherlock/testnet/key_x2.csr -out /Users/sherlock/testnet/key_x2.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
 
 //通过cert.crt创建验证人
-iritacli tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 
 =====
 query validator（s）
 =====
-iritacli query validator validator --trust-node x2
-iritacli query validator list --trust-node
+irita query validator validator x2
+irita query validator list
 
 =====
 update validator
 =====
-iritacli tx validator update x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=20 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx validator update x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=20 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
 remove validator
 =====
-iritacli tx validator remove x2 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx validator remove x2 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
 unjail validator
 =====
-iritacli tx slashing unjail x2 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx slashing unjail x2 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 ====== 起一个全节点 ======
 这个参见csrb吧
@@ -319,8 +319,8 @@ iritacli tx slashing unjail x2 --from=v0 --chain-id=shilei-qa --fees=4point -b b
 ========================================================================================================================
 subl /Users/sherlock/my_workspace/service/param.json
 
-iritacli tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query slashing params --trust-node
+irita tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita query slashing params
 
 
 
@@ -333,61 +333,61 @@ iritacli query slashing params --trust-node
 =====
 issue denom
 =====
-iritacli tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli tx nft issue d02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx nft issue d02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
 mint
 =====
-iritacli tx nft mint d01 a01 --recipient=$(iritacli keys show v0 --address) --token-uri="tokenURI" --token-data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx nft mint d01 a01 --recipient=$(irita keys show v0 --address) --token-uri="tokenURI" --token-data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
-iritacli tx nft mint d01 a02 --recipient=$(iritacli keys show v0 --address) --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx nft mint d01 a02 --recipient=$(irita keys show v0 --address) --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
-iritacli tx nft mint d02 a01 --recipient=$(iritacli keys show v1 --address) --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx nft mint d02 a01 --recipient=$(irita keys show v1 --address) --token-uri="tokenURI"  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
 =====
 查询
 =====
 //demon:d01 下的nft supply总数
-iritacli query nft supply --trust-node d01
+irita query nft supply d01
 
-//iritacli query nft owner
-iritacli query nft owner --trust-node $(iritacli keys show v0 --address)
+//irita query nft owner
+irita query nft owner $(irita keys show v0 --address)
 
 //collection
-iritacli query nft collection --trust-node d01
+irita query nft collection d01
 
 //query denoms
-iritacli query nft denoms --trust-node
+irita query nft denoms
 
 //query nft
-iritacli query nft token --trust-node d01 a01
+irita query nft token d01 a01
 
 
 =====
 edit ， 必须要用owner
 =====
 //转给v1 一点point 50000point --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query bank balances --trust-node $(iritacli keys show v0 --address)
-iritacli tx send v0 $(iritacli keys show v1 --address) 10000point --chain-id=shilei-qa --fees=4point -b block -y
+irita query bank balances $(irita keys show v0 --address)
+irita tx send v0 $(irita keys show v1 --address) 10000point --chain-id=shilei-qa --fees=4point -b block -y
 
-iritacli tx nft edit d01 a01 --token-uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query nft token --trust-node d01 a01
+irita tx nft edit d01 a01 --token-uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita query nft token d01 a01
 
 
 =====
 transfer
 =====
-iritacli tx nft transfer $(iritacli keys show v1 --address) d01 a01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli query nft token --trust-node d01 a01
+irita tx nft transfer $(irita keys show v1 --address) d01 a01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita query nft token d01 a01
 
 =====
 burn
 =====
-iritacli tx nft burn d01 a01 --from=v1 --chain-id=shilei-qa --fees=4point -b block -y
-iritacli tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx nft burn d01 a01 --from=v1 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
-iritacli query nft collection --trust-node d01
+irita query nft collection d01
 
 
 
