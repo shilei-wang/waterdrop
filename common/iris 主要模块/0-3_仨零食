@@ -1,49 +1,110 @@
-irita tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v1 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
+  irita tx node [command]
 
-
-irita tx admin add-roles $(irita keys show v1 --address) POWER_USER --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-
-irita tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v1 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
-
-
-irita keys add v2
-irita tx bank send v0 $(irita keys show v2 -a) 100000point --chain-id=shilei-qa --fees=4point -b block -y
-
-irita tx bank send v1 $(irita keys show v2 -a) 100a01 --chain-id=shilei-qa --fees=4point -b block -y
-
-成功：
-irita tx bank send v2 $(irita keys show v0 -a) 100point --chain-id=shilei-qa --fees=4point -b block -y
-不成功：
-irita tx bank send v2 $(irita keys show v0 -a) 100a01 --chain-id=shilei-qa --fees=4point -b block -y
-
-
-irita tx token transfer a01 --to=$(irita keys show v0 -a) --from=v1 --chain-id=shilei-qa --fees=4point -b block -y
-
-
-成功：
-irita tx bank send v2 $(irita keys show v0 -a) 100a01 --chain-id=shilei-qa --fees=4point -b block -y
-irita tx bank send v1 $(irita keys show v0 -a) 100a01 --chain-id=shilei-qa --fees=4point -b block -y
-
-不成功：
-irita tx bank send v1 $(irita keys show v2 -a) 100a01 --chain-id=shilei-qa --fees=4point -b block -y
-irita tx bank send v2 $(irita keys show v1 -a) 10000000000000a01 --chain-id=shilei-qa --fees=4point -b block -y
+Available Commands:
+  create-validator Create a new validator
+  grant            Grant a node access to the chain
+  remove-validator Remove an existing validator
+  revoke           Revoke the chain access from the node
+  update-validator Update an existing validator
 
 
 
+=====
+create validator
+=====
+//openssl
+irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=shilei-qa x2
+irita genkey --type=node --home=/Users/sherlock/testnet/x2/irita --out-file=/Users/sherlock/testnet/priv_x2.pem
+openssl req -new -key /Users/sherlock/testnet/priv_x2.pem -out /Users/sherlock/testnet/key_x2.csr -sm3 -sigopt "distid:1234567812345678"
+openssl x509 -req -in /Users/sherlock/testnet/key_x2.csr -out /Users/sherlock/testnet/key_x2.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
 
-irita tx token transfer point --to=$(irita keys show v0 -a) --from=v1 --chain-id=shilei-qa --fees=4point -b block -y
+//通过cert.crt创建验证人
+irita tx node create-validator --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+重要： 记录上面返回的id
+=====
+开新页面：
+VID=F17B8F345CA7FD23278711F675EEA8D3392231423056293468CD500C31B507E4
+
+====== 按照上面步骤创建完一个validator后， 起一个全节点 ======
+cp /Users/sherlock/testnet/v0/irita/config/config.toml /Users/sherlock/testnet/x2/irita/config/config.toml
+cp /Users/sherlock/testnet/v0/irita/config/genesis.json /Users/sherlock/testnet/x2/irita/config/genesis.json
+
+irita tendermint show-node-id --home=/Users/sherlock/testnet/v0/irita
+复制id 到下面的seed， 下面2条顺序不能变
+sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/x2/irita/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "e7c4eadca211e6d759b5ed79d8dfb27bd88a30ec@localhost:26656"/g' /Users/sherlock/testnet/x2/irita/config/config.toml
+sed -i '' 's/9090/9091/g' /Users/sherlock/testnet/x2/irita/config/app.toml
 
 
-irita query bank balances $(irita keys show v2 -a)
-irita query bank balances $(irita keys show v0 -a)
+=====
+启动
+=====
+//此时正常追赶， validator就算上线了， 不会被jail
+irita start --home=/Users/sherlock/testnet/x2/irita
 
 
-irita tx bank send v0 $(irita keys show v2 -a) 10a01 --chain-id=shilei-qa --fees=4point -b block -y
-irita tx bank send v1 $(irita keys show v2 -a) 1a01 --chain-id=shilei-qa --fees=4point -b block -y
+//验证
+irita query tendermint-validator-set
+irita q node nodes
+cschain tendermint show-validator --home=/Users/sherlock/testnet/v0/irita
+cschain tendermint show-validator --home=/Users/sherlock/testnet/x2/irita
 
-确认owner是刚才的改的
-cschain query token tokens -o=json  |jq
 
 
-irita tx bank send v2 $(irita keys show v0 -a) 10a01 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx node grant --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
 
+
+========================================================================================================================
+========================================================================================================================
+================== validator ======================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+=====
+create validator
+=====
+//openssl
+irita init --home=/Users/sherlock/testnet/x2/csrb --chain-id=shilei-qa x2
+irita genkey --home=/Users/sherlock/testnet/x2/csrb --out-file=/Users/sherlock/testnet/priv_x2.pem
+openssl req -new -key /Users/sherlock/testnet/priv_x2.pem -out /Users/sherlock/testnet/key_x2.csr -sm3 -sigopt "distid:1234567812345678"
+openssl x509 -req -in /Users/sherlock/testnet/key_x2.csr -out /Users/sherlock/testnet/key_x2.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
+
+//通过cert.crt创建验证人
+irita tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+
+
+
+
+
+
+
+=====
+query validator（s）
+=====
+irita query validator validator x2
+irita query validator list
+
+irita q node nodes
+
+
+=====
+update validator
+=====
+irita tx validator update x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=20 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+remove validator
+=====
+irita tx validator remove x2 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+=====
+unjail validator
+=====
+irita tx slashing unjail x2 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+====== 起一个全节点 ======
+这个参见csrb吧
