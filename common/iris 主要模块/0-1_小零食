@@ -1,7 +1,8 @@
-cschain 升级测试 多节点升级
-cschain 不出空块测试
-cschain 自动化测试脚本完善
-cschain 回归测试
+
+
+
+5. 自动化测试测试用例评审 @程文席 @王石磊
+
 
 ======
 
@@ -9,7 +10,6 @@ cschain
 参数修改
 add validator
 did
-irita opd 转账功能
 
 
 
@@ -53,6 +53,13 @@ Bug复测以及验证
 
 cschain service 不同代币汇率转换测试
 Bug复测以及验证
+
+
+cschain 升级测试 多节点升级
+cschain 不出空块测试
+cschain 自动化测试脚本完善
+cschain 回归测试
+
 
 
 1. cschain 功能测试
