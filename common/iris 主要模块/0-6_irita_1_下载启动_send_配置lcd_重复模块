@@ -1,0 +1,208 @@
+*******************************************
+    下载
+*******************************************
+https://github.com/bianjieai/irita
+cd /Users/sherlock/go/src/github.com/
+
+这个后还没有做：
+git clone https://github.com/bianjieai/irita.git
+cd irishub
+git remote add upstream https://github.com/irisnet/irishub.git
+git fetch --all //此时应该Fetching origin；  Fetching upstream
+git checkout -b develop upstream/develop   //git branch 建立本地develop代码分支， 不能同时拥有origin和upstream
+git branch
+
+*******************************************
+    更新
+*******************************************
+cd /Users/sherlock/go/src/github.com/irita
+git fetch --all
+git checkout .
+// git checkout master
+git pull
+git branch && git rev-parse HEAD
+
+make install
+
+跟新依赖（开代理, make install 自带，一般不用执行）
+//注意：如果代理不稳定 可以用这条命令 export GOPROXY=https://goproxy.cn
+go mod tidy
+
+
+
+*******************************************
+          用testnet起
+*******************************************
+
+cd ~ && rm -rf .irita .irita testnet
+irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/app.toml
+irita start --home=/Users/sherlock/testnet/v0/irita
+
+
+//允许转账【后续如果改了 就不用执行】
+irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100000point --chain-id=shilei-qa --fees=4point -b block -y
+
+
+另外，可以改token owner的genesis
+sed -i '' 's/iaa183rfa8tvtp6ax7jr7dfaf7ywv870sykxxykejp/XXXXX/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+
+---
+2个validators
+---
+cd ~ && rm -rf .irita .irita testnet
+echo 12345678 | irita testnet --v=2 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+修改v1里面3个ip
+mv /Users/sherlock/testnet/v0/irita /Users/sherlock/.irita
+irita start --home=/Users/sherlock/testnet/v0/irita
+irita start --home=/Users/sherlock/testnet/v1/irita
+
+
+*******************************************
+    用init起
+*******************************************
+
+
+========
+快速init起链
+========
+rm -rf ~/testnet
+irita init --home=/Users/sherlock/testnet/v0/irita --chain-id=shilei-qa v0
+irita genkey --type=validator --home=/Users/sherlock/testnet/v0/irita --out-file=/Users/sherlock/testnet/priv_v0_validator.pem
+irita add-genesis-account $(irita keys show v0 -a) 1000000000point --home=/Users/sherlock/testnet/v0/irita --root-admin
+irita genkey --home=/Users/sherlock/testnet/v0/irita --out-file=/Users/sherlock/testnet/priv.pem
+openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/priv.pem -out /Users/sherlock/testnet/cert.crt -days 365
+
+irita set-root-cert /Users/sherlock/testnet/cert.crt --home=/Users/sherlock/testnet/v0/irita
+irita add-genesis-validator --name=v0 --cert=/Users/sherlock/testnet/cert.crt --power=100 --home=/Users/sherlock/testnet/v0/irita --from=v0
+sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/app.toml
+irita start --home=/Users/sherlock/testnet/v0/irita --pruning=nothing
+
+验证：
+irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v0 $(irita keys show v1 -a) 100000point --chain-id=shilei-qa --fees=4point -b block -y
+
+========
+openssl 具体步骤
+========
+rm -rf ~/testnet
+1）初始化 genesis.json 文件
+irita init --home=/Users/sherlock/testnet/v0/irita --chain-id=shilei-qa v0
+
+2）创建一个初始化账户v0
+irita genkey --type=validator --home=/Users/sherlock/testnet/v0/irita --out-file=/Users/sherlock/testnet/priv_v0_validator.pem
+
+3）、将v0添加到genesis.json 文件，并为该账户添加'RootAdmin'权限
+irita add-genesis-account $(irita keys show v0 -a) 1000000000point --home=/Users/sherlock/testnet/v0/irita --root-admin
+
+4）、导出验证节点v0(步骤1生成的)私钥为pem格式，方便用于申请节点证书
+irita genkey --home=/Users/sherlock/testnet/v0/irita --out-file=/Users/sherlock/testnet/priv.pem
+
+5）、使用步骤4中的私钥文件生成证书请求
+自签证书 （大部分选项回车用默认，密码写一个）
+openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/priv.pem -out /Users/sherlock/testnet/cert.crt -days 365
+
+6）、导入企业根证书
+irita set-root-cert /Users/sherlock/testnet/cert.crt --home=/Users/sherlock/testnet/v0/irita
+
+7）、添加x1到genesis.json文件 （add-genesis-validator）
+irita add-genesis-validator --name=v0 --cert=/Users/sherlock/testnet/cert.crt --power=100 --home=/Users/sherlock/testnet/v0/irita --from=v0
+
+8）、启动节点 （--pruning=nothing 所有数据都保存）
+irita start --home=/Users/sherlock/testnet/v0/irita --pruning=nothing
+
+
+
+
+*******************************************
+    基础转账测试
+*******************************************
+irita keys show v0
+irita query account $(irita keys show v0 --address) 
+irita query bank balances  $(irita keys show v0 --address)
+
+irita tx bank send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100000point --chain-id=shilei-qa --fees=4point -b block -y
+irita query account iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 
+irita query bank balances iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
+
+
+
+
+
+**************************************************************************************
+**************************************************************************************
+**************************************************************************************
+
+
+*******************************************
+    LCD配置
+*******************************************
+
+修改api.toml
+# Enable defines if the API server should be enabled.
+enable = true
+
+# Swagger defines if swagger documentation should automatically be registered.
+swagger = true
+
+# Address defines the API server to listen on.
+address = "tcp://0.0.0.0:1317"
+
+
+swagger：
+http://localhost:1317/swagger
+
+
+*******************************************
+           lcd 签名
+*******************************************
+irita rest-server
+
+irita tx sign "/Users/sherlock/my_workspace/waterdrop/common/iris 主要模块/0-7_tx-generate" --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+irita tx broadcast ~/my_workspace/Tx-sign -b block -y
+
+
+
+*******************************************
+这个暂时保留，如果后续砍掉了lcd 就删除， 要测试再提bug
+irita LCD nft  目前存在的问题： 【这些lcd 有时间再验证】
+*******************************************
+
+1. GET   /nft/nfts/collections/{denom}
+  get方法连续性查询会出现  "error": "invalid request: failed to load state at height 249; version does not exist (latest height: 250)"
+  必须重启 rest客户端 才能恢复。
+
+2. Get 方法如果输入留空， 执行后， swagger会假死。
+
+5） update context 的时候， service_fee_cap 的demon 设置一个不存在的token （比如iris），会出现如下bug：
+   1。交易可以发送成功，
+   2。后续request状态会异常， 查询context的时候出现无法解析的空数据。
+
+6） LCD POST /service/fees/{provider}/withdraw  这个接口未正确迁移irita， 返回404
+
+
+
+========================================================================================================================
+========================================================================================================================
+=============   重复模块 ===========================================================================================
+========================================================================================================================
+========================================================================================================================
+
+**********************
+token admin service nft record
+**********************
+
+以上同cschain， 用irita ** 就可以了， 可以用自动化测试测。
+
+
+
+

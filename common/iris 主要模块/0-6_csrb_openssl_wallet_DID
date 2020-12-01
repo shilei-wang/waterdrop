@@ -6,7 +6,7 @@
 加密用的, 如果不按照testnet将不可用
 
 ======================
-安装
+安装 openssl
 ======================
 cd /Users/sherlock/go/src/github.com/
 git clone https://github.com/openssl/openssl.git

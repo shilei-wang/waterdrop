@@ -1,0 +1,185 @@
+
+
+
+
+=====================================================================================================================
+=====================================================================================================================
+======    DID ====================================================================================================
+=====================================================================================================================
+=====================================================================================================================
+
+
+============
+新创建"空的"identity
+============
+//所有参数都不带， 直接生成新UUID
+//记录返回id 后续使用
+iritacli tx identity create --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+
+====================================
+【ecdsa加密】新创建带id，带参数的dentity【ecdsa加密】
+====================================
+// --id --pubkey --pubkey-algo(加密类型) --credentials(uri) --cert-file
+
+openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/cert.crt -days 365
+
+iritacli tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+
+iritacli query identity identity --trust-node 67eb663eccc148adb6878743e3156c01
+
+*****
+获取id
+*****
+//16字节的 16进制字符即可。即32个字符。
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA （量尺）
+67eb663eccc148adb6878743e3156c01
+--id=67eb663eccc148adb6878743e3156c01
+
+*****
+获取pubkey
+*****
+加密类型:ecdsa
+http://dbis.rwth-aachen.de/~renzel/mobsos/lib/js/jsrsasign/sample-ecdsa.html （需要翻墙）
+直接点生成，复制pubkey
+0483d453336102a7429c9b4735031fc1a4bd74818e3d0ecc407198f5fb107a45b5bedffc88c4495059d2f014d3a82d22cd8c5e4889b660b4fb599fdf60fda1741d
+去掉开头的04， 截取前32字节（1个字节8位=2个4位（一个16进制字符表示）， 也就是64个16进制的字符。）
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA （量尺）
+83d453336102a7429c9b4735031fc1a4bd74818e3d0ecc407198f5fb107a45b5be
+--pubkey=83d453336102a7429c9b4735031fc1a4bd74818e3d0ecc407198f5fb107a45b5be
+--pubkey-algo=ecdsa
+
+*****
+获取cert-file
+*****
+//自签证书
+openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/cert.crt -days 365
+
+--cert-file=/Users/sherlock/testnet/cert.crt
+
+*****
+credentials
+*****
+就是一个字符串
+
+
+
+====================================
+修改identity
+====================================
+iritacli tx identity update 67eb663eccc148adb6878743e3156c01 --credentials="credentials-uri2" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+
+//可修改参数:
+--pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c
+--pubkey-algo=ecdsa
+--credentials="credentials-uri"
+--cert-file=/Users/sherlock/testnet/cert.crt
+
+
+====================================
+查询identity
+====================================
+iritacli query identity identity --trust-node 67eb663eccc148adb6878743e3156c01
+
+
+============
+其他加密方法
+============
+//ECDSA 33  02+32
+//ED25519 32
+//SM2 03+32
+//rsa和dsa
+
+参见csrb
+
+============
+rest
+============
+参见csrb
+
+
+
+=====================================================================================================================
+=====================================================================================================================
+           离线交易
+=====================================================================================================================
+=====================================================================================================================
+
+irita tx send $(csrbcli keys show v0 --address) csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000000point --chain-id=shilei-qa --fees=4point -b block -y --generate-only >~/my_workspace/Tx-generate
+irita tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+irita tx broadcast ~/my_workspace/Tx-sign -b block -y
+
+irita query bank balances  csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
+
+注意利用lcd broadcast的时候要 改tx格式， 加mode
+
+
+
+========================================================================================================================
+========================================================================================================================
+================== export ======================================================================================================
+========================================================================================================================
+========================================================================================================================
+
+cd ~ && rm -rf .iritacli .irita testnet
+irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+irita start --home=/Users/sherlock/testnet/v0/irita --pruning=nothing
+
+注意：使用export功能的话，一定要加上--pruning=nothing ， 这个参数的含义是每个新块都会把数据写入数据库。
+如果没有这个参数， 会导致新链100块之内不能export，因为数据没有写入数据库。 nft也不能导出
+
+//irita export --home=/Users/sherlock/testnet/v0/irita >/Users/sherlock/genesis.json
+irita export --for-zero-height --home=/Users/sherlock/testnet/v0/irita >/Users/sherlock/genesis.json
+irita unsafe-reset-all --home=/Users/sherlock/testnet/v0/irita
+
+"time_iota_ms":"0" 》 "time_iota_ms":"10"
+cp ~/genesis.json /Users/sherlock/testnet/v0/irita/config
+irita start --home=/Users/sherlock/testnet/v0/irita
+
+
+========================================================================================================================
+========================================================================================================================
+=========多种格式地址查询======================================================================================================
+========================================================================================================================
+========================================================================================================================
+// 一共4种
+
+irita
+
+======
+iaa ,iap
+======
+iritacli keys show v0
+
+==>
+  address: iaa1djd5sf2wxym7qjzq8u0aut0hmd7derlgkpah0h
+  pubkey: iap1addwnpepqfw4kt4vxdkuczppecxwxgec8qynk9jdnkzrs8njkpsvzx88nzayznxjw09
+
+
+======
+icp
+======
+iritacli query validator validator --trust-node v0
+
+==>
+    pubkey: icp1ulx45dfpqf657pzs37n5ru9shsapm39ttzjq8435s4txlgw7cl6sjn8vg2jj5xsl6mc
+
+
+======
+ica
+======
+iritacli query slashing signing-info --trust-node icp1ulx45dfpqf657pzs37n5ru9shsapm39ttzjq8435s4txlgw7cl6sjn8vg2jj5xsl6mc
+
+==>
+    address: ica1kqgc0cs5fsjr8fhv8m5c4vzuvxpaww2cms893v
+
+
+========================================================================================================================
+========================================================================================================================
+==================修改参数======================================================================================================
+========================================================================================================================
+========================================================================================================================
+subl /Users/sherlock/my_workspace/service/param.json
+
+irita tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita query slashing params
+

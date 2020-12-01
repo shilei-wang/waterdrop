@@ -1,0 +1,288 @@
+
+========================================================================================================================
+========================================================================================================================
+================== node 和 validator ===================================================================================
+========================================================================================================================
+========================================================================================================================
+
+
+=====
+create validator
+注意：
+一个全节点有两个证书：1. validator证书  2. node证书
+=====
+//openssl
+irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=shilei-qa x2
+irita genkey --type=validator --home=/Users/sherlock/testnet/x2/irita --out-file=/Users/sherlock/testnet/priv_x2_validator.pem
+openssl req -new -key /Users/sherlock/testnet/priv_x2_validator.pem -out /Users/sherlock/testnet/key_x2_validator.csr -sm3 -sigopt "distid:1234567812345678"
+openssl x509 -req -in /Users/sherlock/testnet/key_x2_validator.csr -out /Users/sherlock/testnet/key_x2_validator.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
+
+//通过cert.crt创建验证人
+irita tx node create-validator --name=x2 --cert=/Users/sherlock/testnet/key_x2_validator.crt --power=10 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+VID=083345EC666DFCBB99D6E7CB0E4A5CCD855D47925F0E24A3D9C4EDD540CAA10E
+
+
+
+====== 按照上面步骤创建完一个validator后， 起一个全节点 ======
+cp /Users/sherlock/testnet/v0/irita/config/config.toml /Users/sherlock/testnet/x2/irita/config/config.toml
+cp /Users/sherlock/testnet/v0/irita/config/genesis.json /Users/sherlock/testnet/x2/irita/config/genesis.json
+
+irita tendermint show-node-id --home=/Users/sherlock/testnet/v0/irita
+复制id 到下面的seed， 下面2条顺序不能变
+sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/x2/irita/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "64fa80514c50b9397b8a7af34188738eac994a44@localhost:26656"/g' /Users/sherlock/testnet/x2/irita/config/config.toml
+sed -i '' 's/9090/9091/g' /Users/sherlock/testnet/x2/irita/config/app.toml
+
+
+=====
+启动
+=====
+//此时正常追赶， validator就算上线了， 不会被jail
+irita start --home=/Users/sherlock/testnet/x2/irita
+
+
+//验证
+irita query tendermint-validator-set
+irita query node nodes （只能看到一个 因为还没有授权）
+irita tendermint show-validator --home=/Users/sherlock/testnet/v0/irita
+irita tendermint show-validator --home=/Users/sherlock/testnet/x2/irita
+
+
+=====
+其他validator 命令
+=====
+
+---
+query validator（s）：
+---
+irita query node validator $VID
+irita query node list
+
+
+---
+update validator
+---
+irita tx node update-validator $VID --cert=/Users/sherlock/testnet/key_x2.crt --power=20 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+验证:
+irita query node validator $VID
+
+
+
+---
+remove validator
+---
+irita tx node remove-validator $VID --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+验证:
+irita query node list
+
+
+---
+unjail validator 注意:这个在slash模块下 【代码里写了10分钟，jail后过10分钟才可以unjail】
+---
+irita tx slashing unjail $VID --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+
+
+==============================
+node 相关，实际是和validator相互独立的。
+node测试本身不用一定是validator
+==============================
+=====
+起全节点 （普通节点 不是validtor）
+=====
+//如果已经创建该节点(validator) ，则这步是不需要的
+irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=shilei-qa x2
+
+//从这里开始
+irita genkey --type=node --home=/Users/sherlock/testnet/x2/irita --out-file=/Users/sherlock/testnet/priv_x2_node.pem
+openssl req -new -key /Users/sherlock/testnet/priv_x2_node.pem -out /Users/sherlock/testnet/key_x2_node.csr -sm3 -sigopt "distid:1234567812345678"
+openssl x509 -req -in /Users/sherlock/testnet/key_x2_node.csr -out /Users/sherlock/testnet/key_x2_node.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
+
+//修改参数后，起全节点
+cp /Users/sherlock/testnet/v0/irita/config/config.toml /Users/sherlock/testnet/x2/irita/config/config.toml
+cp /Users/sherlock/testnet/v0/irita/config/genesis.json /Users/sherlock/testnet/x2/irita/config/genesis.json
+
+irita tendermint show-node-id --home=/Users/sherlock/testnet/v0/irita
+复制id 到下面的seed， 下面2条顺序不能变
+sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/x2/irita/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "e75d9ce5e56f5a15e936b579f4f3f57dc46fcf42@localhost:26656"/g' /Users/sherlock/testnet/x2/irita/config/config.toml
+sed -i '' 's/9090/9091/g' /Users/sherlock/testnet/x2/irita/config/app.toml
+irita start --home=/Users/sherlock/testnet/x2/irita
+
+
+=====
+grant 授权（加入白名单）
+=====
+irita tx node grant --name=x2 --cert=/Users/sherlock/testnet/key_x2_node.crt --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+记录：
+NID=587E463542DAA02B79C1F27CDB50E6D423DBAD17
+
+验证：
+irita query node nodes
+irita query node node $NID
+
+=====
+v0节点 限制非白名单连接
+=====
+subl /Users/sherlock/testnet/v0/irita/config/config.toml
+filter_peers = true
+
+
+=====
+revoke （移除白名单）
+=====
+注意：
+需要：（ROOT_ADMIN，NODE_ADMIN）admin
+
+irita query admin roles $(irita keys show v0 --address)
+irita tx node revoke $NID --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita query node nodes
+
+
+=====================================================================================================================
+=====================================================================================================================
+       限制转移 UnrestrictedTokenTransfer
+=====================================================================================================================
+=====================================================================================================================
+
+========
+准备工作
+========
+修改  /Users/sherlock/testnet/v0/irita/config/app.toml
+# Enable defines if the API server should be enabled.
+enable = true
+
+修改参数 ： UnrestrictedTokenTransfer （注意是驼峰方式）
+irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+查询这个值，是不是改了：
+http://localhost:1317/cosmos/bank/v1beta1/params
+
+值为false ： 限制转移
+规则：
+    1) Send: 发送方和接受方（之一）必须是 token owner
+    2) MultiSend: 对于每个token,   要么 inputs（可能为多个地址）要么outputs（可能为多个地址），必须都是此 token 的 owner
+
+注意1：不能用以下方式查，代码里面没有加上去
+irita query slashing params
+
+注意2：
+需要把v0（root admin）的地址加到主token的owner里面。（genesis》"tokens"》owner）
+后续看情况是不是要启动的时候改genesis。
+
+***********
+用testnet 起链  改token owner
+***********
+
+cd ~ && rm -rf .irita .irita testnet
+irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/app.toml
+
+【这里手动改下】
+subl /Users/sherlock/testnet/v0/irita/config/genesis.json 【v0的address 覆盖原来的token owner】
+irita start --home=/Users/sherlock/testnet/v0/irita
+
+确认owner是刚才的改的
+cschain query token tokens -o=json  |jq
+
+值改为false，开启限制。
+irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+
+验证（正常send）：
+irita tx bank send v0 $(irita keys show v1 -a) 100000point --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v1 $(irita keys show v0 -a) 100point --chain-id=shilei-qa --fees=4point -b block -y
+
+验证（不能send）：
+irita tx bank send v1 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100point --chain-id=shilei-qa --fees=4point -b block -y
+
+
+
+
+
+=====================================================================================================================
+=====================================================================================================================
+======    wasm (WebAssembly) 已经取消 =====================================================================
+=====================================================================================================================
+=====================================================================================================================
+https://github.com/bianjieai/irita/tree/vincent-sequence/modules/wasm
+
+---
+1. Compile smart contract
+---
+# install wasm-pack  //需要翻墙 curl www.google.com
+curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+# clone example
+cd /Users/sherlock/go/src/github.com/
+mkdir confio
+cd confio
+git clone https://github.com/confio/cosmwasm-examples
+cd cosmwasm-examples/escrow
+git checkout escrow-0.2.1
+
+# 需要安装更新 node ， rust
+brew install node 或者 brew upgrade node
+
+brew install rustup-init
+rustup update
+rustc --version
+rustc 1.41.0 (5e1a79984 2020-01-27)
+
+# complie  //需要翻墙 curl www.google.com
+wasm-pack build
+du -h ./pkg/cw_escrow_bg.wasm
+
+# cp wasm to work dir
+mkdir ~/wasm-test
+cp ./pkg/cw_escrow_bg.wasm ~/wasm-test/contract.wasm
+
+---
+2. Init testnet
+---
+cd ~/wasm-test
+irita testnet --v 1 --chain-id test
+irita start --home mytestnet/node0/irita
+
+
+---
+3. deploy the contract
+---
+# add key node1
+iritacli keys add node1
+
+# both should be empty
+iritacli query wasm list-code
+iritacli query wasm list-contracts
+
+# upload and see we create code 1
+# gas is huge due to wasm size... but auto-zipping reduced this from 800k to around 260k
+iritacli tx wasm store contract.wasm --gas 3000000 --from node0  -y -b block --chain-id test
+iritacli query wasm list-code
+
+---
+4. Instantiating the contract
+---
+# instantiate contract and verify
+INIT="{\"arbiter\":\"$(iritacli keys show node0 -a)\", \"recipient\":\"$(iritacli keys show node1 -a)\", \"end_time\":0, \"end_height\":0}"
+
+//实例化
+iritacli tx wasm instantiate 1 "$INIT" --from node0 --amount=50000stake -y -b block --chain-id test
+
+# check the contract state (and account balance)
+iritacli query wasm list-contracts
+iritacli query wasm contract <contract-id>
+iritacli query account <contract-id>
+
+
+iritacli query wasm list-contracts
+iritacli query wasm contract faa18vd8fpwxzck93qlwghaj6arh4p7c5n89307smc
+iritacli query account faa18vd8fpwxzck93qlwghaj6arh4p7c5n89307smc
+
+
+
