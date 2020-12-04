@@ -45,7 +45,7 @@ git fetch --all
 git checkout .
 // git checkout master
 // git reset --hard ff621151ced0aa6ec22897a78a3e73d3827b0152
-git pullhtlc
+git pull
 git branch && git rev-parse HEAD
 
 

@@ -484,7 +484,7 @@ iris query oracle value f001 -o=json | jq
 ===
 //记录request_id
 //block-interval默认为10
-iris tx random request-random --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y --block-interval=5 | jq
+iris tx random request --chain-id=shilei-qa --from=v0 --fees=4iris -b block -y --block-interval=5 | jq
 
 //5块后立即可以查询 (5块内查不到)
 iris query random random -o=json 8bfa888757f6e5e5936045cef893498ee077d3ea2c1e7fe174fcedf0687c451d | jq
