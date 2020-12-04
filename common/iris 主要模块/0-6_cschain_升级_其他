@@ -73,7 +73,7 @@ cschain query admin blacklist
 ====
 发起升级
 ====
-cschain tx upgrade create "v1" --upgrade-height=10000 --chain-id=shilei-qa --fees=10point -b block -y --from=v0
+cschain tx upgrade create "v1" --upgrade-height=25 --chain-id=shilei-qa --fees=10point -b block -y --from=v0
 
 在height=1300的时候，网络终止共识，节点退出运行
 更换，v1版本
@@ -121,8 +121,16 @@ cschain start --home=/Users/sherlock/testnet/v0/cschain --unsafe-skip-upgrades=2
 
 
 
+************************************************************************
+其他
+************************************************************************
 
 
 
+==========================================
+==========================================
+validator node(白名单)
+==========================================
+==========================================
 
-
+参见irita
