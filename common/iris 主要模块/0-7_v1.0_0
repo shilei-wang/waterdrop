@@ -118,9 +118,12 @@ iris query token tokens -o=json  |jq
 iris tx token edit a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y |jq
 iris query token token -o=json a01 |jq
 
-增发资产：
-echo y| iris tx token mint a01 --amount=1 --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+增发资产：()
+iris tx token mint a01 --amount=1 --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --from=v0 --chain-id=qa-test --fees=4iris -b block -y
 iris query bank balances -o=json iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 |jq
+
+//不指定to，则默认mint给自己
+iris tx token mint a01 --amount=1 --from=v0 --chain-id=qa-test --fees=4iris -b block -y
 
 
 转让asset：
