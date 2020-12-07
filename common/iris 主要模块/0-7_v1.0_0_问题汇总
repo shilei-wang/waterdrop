@@ -22,7 +22,7 @@ iriscli rand query-rand  *****
 重构后的设计：（rand重复了2次容易混淆）
 iriscli query rand rand ****
 htlc 也有这个问题
-iriscli query htlc htlc c29a9fee2e7848efd14430b8044739cb46a8937c7871915277e2d7e7834814ed --chain-id=shilei-qa
+iriscli query htlc htlc c29a9fee2e7848efd14430b8044739cb46a8937c7871915277e2d7e7834814ed --chain-id=qa-test
 
 2） iriscli query rand query-queue  有问题，返回不正确
 

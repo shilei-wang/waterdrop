@@ -115,7 +115,7 @@ sudo mv iritacli /usr/local/bin/
 cd /home/shilei
 rm -rf .iritacli .irita testnet
 
-echo 12345678 | irita testnet --v=1 --chain-id=shilei-qa --output-dir=/home/shilei/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+echo 12345678 | irita testnet --v=1 --chain-id=qa-test --output-dir=/home/shilei/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 
 验证：
 iritacli keys list --home=/home/shilei/testnet/v0/iritacli
@@ -141,9 +141,9 @@ tail -f /home/shilei/iris.log
 *******
 iritacli keys show v0 --home=/home/shilei/testnet/v0/iritacli
 
-echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v0/iritacli
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=qa-test --fees=4stake -b block -y --home=/home/shilei/testnet/v0/iritacli
 
-iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa --home=/home/shilei/testnet/v0/iritacli
+iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=qa-test --home=/home/shilei/testnet/v0/iritacli
 
 *******
 3.2 启动lcd
@@ -204,7 +204,7 @@ ssh shilei@35.201.162.181 （yes ， 密码：？？， 退出 exit）
 cd /home/shilei
 rm -rf .iritacli .irita testnet
 
-echo 12345678 | irita testnet --v=2 --chain-id=shilei-qa --output-dir=/home/shilei/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+echo 12345678 | irita testnet --v=2 --chain-id=qa-test --output-dir=/home/shilei/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 
 验证：
 iritacli keys list --home=/home/shilei/testnet/v0/iritacli
@@ -304,12 +304,12 @@ tail -f /home/shilei/lcd.log
 
 --- 5. 准备 数据---
 v0：
-echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v0/iritacli
-iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa --home=/home/shilei/testnet/v0/iritacli
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=qa-test --fees=4stake -b block -y --home=/home/shilei/testnet/v0/iritacli
+iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=qa-test --home=/home/shilei/testnet/v0/iritacli
 
 v1：
-echo 12345678 | iritacli tx send v1 faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v1/iritacli
-iritacli query account faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --chain-id=shilei-qa --home=/home/shilei/testnet/v1/iritacli
+echo 12345678 | iritacli tx send v1 faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 10000000stake --chain-id=qa-test --fees=4stake -b block -y --home=/home/shilei/testnet/v1/iritacli
+iritacli query account faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --chain-id=qa-test --home=/home/shilei/testnet/v1/iritacli
 
 
 
@@ -367,7 +367,7 @@ ssh shilei@35.201.162.181 （yes ， 密码：？？， 退出 exit）
 cd /home/shilei
 rm -rf .iritacli .irita testnet
 
-echo 12345678 | irita testnet --v=4 --chain-id=shilei-qa --output-dir=/home/shilei/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+echo 12345678 | irita testnet --v=4 --chain-id=qa-test --output-dir=/home/shilei/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 
 验证：
 iritacli keys list --home=/home/shilei/testnet/v0/iritacli
@@ -471,21 +471,21 @@ tail -f /home/shilei/lcd.log
 
 --- 5. 准备 数据---
 v0：
-echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v0/iritacli
-iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa --home=/home/shilei/testnet/v0/iritacli
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=qa-test --fees=4stake -b block -y --home=/home/shilei/testnet/v0/iritacli
+iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=qa-test --home=/home/shilei/testnet/v0/iritacli
 
 v1：
-echo 12345678 | iritacli tx send v1 faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v1/iritacli
-iritacli query account faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --chain-id=shilei-qa --home=/home/shilei/testnet/v1/iritacli
+echo 12345678 | iritacli tx send v1 faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 10000000stake --chain-id=qa-test --fees=4stake -b block -y --home=/home/shilei/testnet/v1/iritacli
+iritacli query account faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --chain-id=qa-test --home=/home/shilei/testnet/v1/iritacli
 
 v2：
-echo 12345678 | iritacli tx send v2 faa1g2leswktj49r7krq5mzn6lp888zlr4xeltgz6h 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v2/iritacli
-iritacli query account faa1g2leswktj49r7krq5mzn6lp888zlr4xeltgz6h --chain-id=shilei-qa --home=/home/shilei/testnet/v2/iritacli
+echo 12345678 | iritacli tx send v2 faa1g2leswktj49r7krq5mzn6lp888zlr4xeltgz6h 10000000stake --chain-id=qa-test --fees=4stake -b block -y --home=/home/shilei/testnet/v2/iritacli
+iritacli query account faa1g2leswktj49r7krq5mzn6lp888zlr4xeltgz6h --chain-id=qa-test --home=/home/shilei/testnet/v2/iritacli
 
 
 v3：
-echo 12345678 | iritacli tx send v3 faa172w4exasa959gymaa3yc2ly574zjpgqakd6a3s 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y --home=/home/shilei/testnet/v3/iritacli
-iritacli query account faa172w4exasa959gymaa3yc2ly574zjpgqakd6a3s --chain-id=shilei-qa --home=/home/shilei/testnet/v3/iritacli
+echo 12345678 | iritacli tx send v3 faa172w4exasa959gymaa3yc2ly574zjpgqakd6a3s 10000000stake --chain-id=qa-test --fees=4stake -b block -y --home=/home/shilei/testnet/v3/iritacli
+iritacli query account faa172w4exasa959gymaa3yc2ly574zjpgqakd6a3s --chain-id=qa-test --home=/home/shilei/testnet/v3/iritacli
 
 
 
@@ -591,8 +591,8 @@ Commit： 5 seconds
 *******************************************
 压力测试，单机版本？？
 
-echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=shilei-qa --fees=4stake -b block -y
-iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=shilei-qa
+echo 12345678 | iritacli tx send v0 faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju 10000000stake --chain-id=qa-test --fees=4stake -b block -y
+iritacli query account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --chain-id=qa-test
 
 iritacli rest-server --trust-node  --home=$HOME/.iritacli/
 

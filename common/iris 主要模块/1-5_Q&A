@@ -11,7 +11,7 @@ iriscli stake create-validator --chain-id=irishub --from=sparkpool --fee=0.6iris
 
 iriscli keys show <key name> --bech val
 
-iriscli stake validator fva1285anct6gnl7zkdnvm34788pu9wrcyhk4nt6el  --chain-id=shilei-qa
+iriscli stake validator fva1285anct6gnl7zkdnvm34788pu9wrcyhk4nt6el  --chain-id=qa-test
 
 目前委托收益是 ：每10000iris抵押一天，收益4iris(扣除验证人10%佣金 大约得到3.6iris)
 qq问答

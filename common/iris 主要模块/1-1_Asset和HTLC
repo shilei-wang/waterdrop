@@ -18,7 +18,7 @@ iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
 iriscli keys show v0
 iriscli bank account faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5
 
-echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.004iris --commit --chain-id=qa-test --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 
 ======================
@@ -29,24 +29,24 @@ iriscli asset token -h
 
 ======================
 //这里2次输入不能用echo，好像又可以了
-echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=qa-test --fee=0.004iris --commit --symbol=a01
 
 
-echo 1234567890 | iriscli bank send --amount=100a01-min --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 1234567890 | iriscli bank send --amount=100a01-min --fee=0.004iris --commit --chain-id=qa-test --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 ======================
 修改资产：
 iriscli asset edit-token
 max-supply 只能往下改不能往上改， 且不能低于当时的total supply
 ======================
-echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset token edit i.a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=qa-test --fee=0.6iris --commit
 
 
 ======================
 增发资产：
 iriscli asset mint-token
 ======================
-echo 1234567890 | iriscli asset token mint i.a01 --amount=1 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset token mint i.a01 --amount=1 --to=faa12lufgaph38n5l66vxyh0fz3la4lcdxjphndta5 --from=v0 --chain-id=qa-test --fee=0.6iris --commit
 
 
 ======================
@@ -73,7 +73,7 @@ lcd 可以通过多条件查询token， 但是需要在toml文件中开启index
 iriscli asset transfer-token-owner
 ======================
 
-echo 1234567890 | iriscli asset token transfer i.a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset token transfer i.a01 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4 --from=v0 --chain-id=qa-test --fee=0.6iris --commit
 
     查询： iriscli asset token tokens --token-id=a01
     seed： "art forest winter fork dream birth craft shift hope direct return glide pass glimpse flush unfold return eye able cactus erode fatal clock stereo"
@@ -98,7 +98,7 @@ iriscli bank token-stats a01 -o=json --indent
 转账
 ======================
 
-echo 1234567890 | iriscli bank send --amount=100a01 --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
+echo 1234567890 | iriscli bank send --amount=100a01 --fee=0.4iris --commit --chain-id=qa-test --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
 
 
 ********************************************************************************************************************************************************************************
@@ -154,15 +154,15 @@ Create htlc
 ======================
 //注意：因为本链 所以other-chain这个暂时00
 //secret不填的话自动生成
-echo 1234567890 | iriscli htlc create --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=10iris --time-lock=5 --timestamp=1580000000 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=shilei-qa --commit
+echo 1234567890 | iriscli htlc create --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=10iris --time-lock=5 --timestamp=1580000000 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=qa-test --commit
 
 
 //也可以填
-echo 1234567890 | iriscli htlc create --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=10iris --time-lock=50 --timestamp=1580000000 --secret=b5e03cf9be4b77ca253d941467fe1664688403c666fc92317415b9513ad7340b --receiver-on-other-chain=00 --fee=0.3iris --chain-id=shilei-qa --commit
+echo 1234567890 | iriscli htlc create --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=10iris --time-lock=50 --timestamp=1580000000 --secret=b5e03cf9be4b77ca253d941467fe1664688403c666fc92317415b9513ad7340b --receiver-on-other-chain=00 --fee=0.3iris --chain-id=qa-test --commit
 
 
 //可以支持多代币
-echo 1234567890 | iriscli htlc create --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=10iris,10a01 --time-lock=5 --timestamp=1580000000 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=shilei-qa --commit
+echo 1234567890 | iriscli htlc create --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --amount=10iris,10a01 --time-lock=5 --timestamp=1580000000 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=qa-test --commit
 
 
 返回:
@@ -181,14 +181,14 @@ iriscli htlc query-htlc 6aef0866edfd125a3a6adee78613a4c54ac3a67efdedd24b0bc72c97
 声明所有 claim
 ======================
 
-echo 1234567890 | iriscli htlc claim --hash-lock=50a109a7f1bd8ed83a742022a50e90e54261d24e2b032aa7eb1439844de66fe0 --secret=b5e03cf9be4b77ca253d941467fe1664688403c666fc92317415b9513ad7340b --from=v0 --fee=0.3iris --chain-id=shilei-qa --commit
+echo 1234567890 | iriscli htlc claim --hash-lock=50a109a7f1bd8ed83a742022a50e90e54261d24e2b032aa7eb1439844de66fe0 --secret=b5e03cf9be4b77ca253d941467fe1664688403c666fc92317415b9513ad7340b --from=v0 --fee=0.3iris --chain-id=qa-test --commit
 
 
 ======================
 取回过期  htlc refund
 ======================
 
-echo 1234567890 | iriscli htlc refund --from=v0 --hash-lock=6aef0866edfd125a3a6adee78613a4c54ac3a67efdedd24b0bc72c973dc56389 --fee=0.3iris --chain-id=shilei-qa --commit
+echo 1234567890 | iriscli htlc refund --from=v0 --hash-lock=6aef0866edfd125a3a6adee78613a4c54ac3a67efdedd24b0bc72c973dc56389 --fee=0.3iris --chain-id=qa-test --commit
 
 
 
@@ -211,7 +211,7 @@ iriscli asset create-gateway
 3位资产 60万 40%入tax， 60%burn
 ======================
 
-echo 1234567890 | iriscli asset create-gateway --moniker=gdex  --identity=abc --details=detail --website=website --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset create-gateway --moniker=gdex  --identity=abc --details=detail --website=website --from=v0 --chain-id=qa-test --fee=0.6iris --commit
 
 ======================
 查询网关：
@@ -232,14 +232,14 @@ iriscli asset query-gateways
 iriscli asset edit-gateway
 ======================
 
-echo 1234567890 | iriscli asset edit-gateway --moniker=gdex --identity=a --details=b --website=c --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset edit-gateway --moniker=gdex --identity=a --details=b --website=c --from=v0 --chain-id=qa-test --fee=0.6iris --commit
 
 ======================
 转让网关：
 iriscli asset transfer-gateway-owner
 ======================
 
-echo 1234567890 | iriscli asset transfer-gateway-owner --moniker=gdex --to=faa1yg3hltaendpphczma889urzhmd737663fpa5jx --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset transfer-gateway-owner --moniker=gdex --to=faa1yg3hltaendpphczma889urzhmd737663fpa5jx --from=v0 --chain-id=qa-test --fee=0.6iris --commit
     查询： iriscli asset query-gateway --moniker=gdex
 
 ======================
@@ -257,7 +257,7 @@ iriscli asset query-fee --token=gde.aah
 是直接发资产费用的 10%
 ======================
 
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --decimal=0 --canonical-symbol=alias --name=name --initial-supply=10000 --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=gateway --gateway=gdex --symbol=g01 --decimal=0 --canonical-symbol=alias --name=name --initial-supply=10000 --from=v0 --chain-id=qa-test --fee=0.6iris --commit
 
 ======================
 查询资产：
@@ -271,7 +271,7 @@ iriscli asset query-token gdex.g01
 转账
 ======================
 
-echo 1234567890 | iriscli bank send --amount=100gdex.g01 --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
+echo 1234567890 | iriscli bank send --amount=100gdex.g01 --fee=0.4iris --commit --chain-id=qa-test --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
 
 
 ****************************************************************************************
@@ -279,9 +279,9 @@ echo 1234567890 | iriscli bank send --amount=100gdex.g01 --fee=0.4iris --commit 
                 因为暂时没有币，所以只有定义可以测
 ****************************************************************************************
 
-echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=TokenAddition --deposit=2000iris --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa --token-min-unit-alias=alias --token-canonical-symbol=source --token-name=token-name --token-decimal=0 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --token-symbol=a01
+echo 1234567890 | iriscli gov submit-proposal  --title=t --description=t --type=TokenAddition --deposit=2000iris --fee=0.004iris --commit --from=v0 --chain-id=qa-test --token-min-unit-alias=alias --token-canonical-symbol=source --token-name=token-name --token-decimal=0 --from=v0 --chain-id=qa-test --fee=0.004iris --commit --token-symbol=a01
 
-echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=shilei-qa  --proposal-id=4
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.004iris --commit --from=v0 --chain-id=qa-test  --proposal-id=4
 
 iriscli gov query-proposal --trust-node --proposal-id=1
 
@@ -302,24 +302,24 @@ autoStart gd 1
 v16
 ******************************************
 
-echo 1234567890 | iriscli asset issue-token --family=fungible --source=native  --decimal=0 --symbol=a16 --name=a16 --initial-supply=100 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
+echo 1234567890 | iriscli asset issue-token --family=fungible --source=native  --decimal=0 --symbol=a16 --name=a16 --initial-supply=100 --from=v0 --chain-id=qa-test --fee=0.004iris --commit
 
 iriscli asset query-token a16
 
 ------------
 
-iriscli asset create-gateway --moniker=gatem16 --identity=gate --details=details --website=website --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
+iriscli asset create-gateway --moniker=gatem16 --identity=gate --details=details --website=website --from=v0 --chain-id=qa-test --fee=0.004iris --commit
 
-iriscli asset issue-token --family=fungible --source=gateway --gateway=gatem16 --decimal=0 --symbol=g16 --name=g16 --initial-supply=100 --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit
+iriscli asset issue-token --family=fungible --source=gateway --gateway=gatem16 --decimal=0 --symbol=g16 --name=g16 --initial-supply=100 --from=v0 --chain-id=qa-test --fee=0.004iris --commit
 
 iriscli asset query-token gatem16.g16
 
 ------------
 
 
-echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=shilei-qa --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=3 --switch-height=4100 --threshold=0.9 --commit
+echo 1234567890 | iriscli gov submit-proposal --title=t --description=t --type="SoftwareUpgrade" --deposit=4000iris --from=v0 --chain-id=qa-test --fee=0.5iris --gas=20000 --software=https://github.com/irisnet/irishub/tree/v0.9.0 --version=3 --switch-height=4100 --threshold=0.9 --commit
 
-echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=shilei-qa  --proposal-id=1 --commit
+echo 1234567890 | iriscli gov vote --option=Yes --fee=0.04iris --from=v0 --chain-id=qa-test  --proposal-id=1 --commit
 
 
 iriscli gov query-proposal --trust-node --proposal-id=1

@@ -1,10 +1,10 @@
 *******************************************
                常用操作
 *******************************************
-irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=shilei-qa --trust-node
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=qa-test --trust-node
 
 //指定home
-irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=shilei-qa --trust-node --home=/root/.iriscli
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=qa-test --trust-node --home=/root/.iriscli
 
 
 http://10.1.2.168:30317/keys //测试rest是否打开
@@ -17,14 +17,14 @@ http://10.1.2.168:30317/swagger-ui/#/
 准备：
 cd ~
 随便生成一个tx文件
-iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547 --generate-only >~/Tx-generate
+iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=qa-test --from=v0 --to=faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547 --generate-only >~/Tx-generate
 
 
 
 第一步： POST 构造交易
 {
   "base_tx": {
-    "chain_id": "shilei-qa",
+    "chain_id": "qa-test",
     "gas": "20000",
     "fee": "0.4iris",
     "memo": "memo"
@@ -42,7 +42,7 @@ iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=shilei-qa --from=v0
 
 第二步： 用cli 签名交易
 
-echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+echo 1234567890 | iriscli tx sign ~/my_workspace/Tx-generate --name=v0 --chain-id=qa-test >~/my_workspace/Tx-sign
 
 注意：注意：注意：注意：注意：注意：！！！
 //注意： 最新的版本已经不需要替换 {"tx": {

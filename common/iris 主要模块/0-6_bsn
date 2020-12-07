@@ -29,10 +29,10 @@ make install
 *******************************************
 
 cd ~ && rm -rf .irita testnet
-irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+irita testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 irita start --home=/Users/sherlock/testnet/v0/irita
 
-irita tx bank send v0 $(irita keys show v0 -a) 50000stake --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx bank send v0 $(irita keys show v0 -a) 50000stake --chain-id=qa-test --fees=4stake -b block -y
 irita query bank balances $(irita keys show v0 -a)
 
 
@@ -43,7 +43,7 @@ irita query bank balances $(irita keys show v0 -a)
 rm -rf ~/testnet
 
 1）、初始化 genesis.json 文件
-irita init --home=/Users/sherlock/testnet/x1/irita --chain-id=shilei-qa x1
+irita init --home=/Users/sherlock/testnet/x1/irita --chain-id=qa-test x1
 
 2）、创建一个初始化账户x1
 irita keys add x1
@@ -98,8 +98,8 @@ irita keys show v1 --address
 add-roles
 =====
 // PERM_ADMIN(控制权限， 只能有root添加和删除此权限， PermAdmin不能操作同样有PermAdmin权限的用户), BLACKLIST_ADMIN（黑名单，带admin的不能被加入黑名单）, NODE_ADMIN（节点，验证人）, PARAM_ADMIN （参数修改）, POWER_USER （issue mint oracle）
-irita tx admin add-roles $(irita keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-irita tx admin add-roles $(irita keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN NODE_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx admin add-roles $(irita keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=qa-test --fees=4stake -b block -y
+irita tx admin add-roles $(irita keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN NODE_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 =====
 query roles
@@ -111,18 +111,18 @@ irita query admin roles $(irita keys show v0 --address)
 =====
 remove-roles
 =====
-irita tx admin remove-roles $(irita keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
-irita tx admin remove-roles $(irita keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx admin remove-roles $(irita keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=qa-test --fees=4stake -b block -y
+irita tx admin remove-roles $(irita keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN  --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 =====
 block-account
 =====
 //限制该用户所有交易
-irita tx admin block-account $(irita keys show v1 --address) --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx admin block-account $(irita keys show v1 --address) --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 --
-irita tx bank send v0 $(irita keys show v1 -a) 10000stake --chain-id=shilei-qa --fees=4stake -b block -y
-irita tx bank send v1 $(irita keys show v1 --address) 1stake --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx bank send v0 $(irita keys show v1 -a) 10000stake --chain-id=qa-test --fees=4stake -b block -y
+irita tx bank send v1 $(irita keys show v1 --address) 1stake --chain-id=qa-test --fees=4stake -b block -y
 --
 
 =====
@@ -134,7 +134,7 @@ irita query admin blacklist
 =====
 unblock block-account
 =====
-irita tx admin unblock-account $(irita keys show v1 --address) --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx admin unblock-account $(irita keys show v1 --address) --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 
 
@@ -150,7 +150,7 @@ irita tx admin unblock-account $(irita keys show v1 --address) --from=v0 --chain
 init起链（注意：testnet是不会有cert.crt的！）
 ========
 rm -rf /Users/sherlock/.irita /Users/sherlock/testnet
-irita init --home=/Users/sherlock/testnet/v0/irita --chain-id=shilei-qa v0
+irita init --home=/Users/sherlock/testnet/v0/irita --chain-id=qa-test v0
 irita add-genesis-account $(irita keys show v0 -a) 1000000000stake --home=/Users/sherlock/testnet/v0/irita --root-admin
 irita genkey --home=/Users/sherlock/testnet/v0/irita --out-file=/Users/sherlock/testnet/priv.pem
 openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/priv.pem -out /Users/sherlock/testnet/cert.crt -days 365
@@ -164,14 +164,14 @@ irita start --home=/Users/sherlock/testnet/v0/irita --pruning=nothing
 create validator
 =====
 //openssl
-irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=shilei-qa x2
+irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=qa-test x2
 irita genkey --home=/Users/sherlock/testnet/x2/irita --out-file=/Users/sherlock/testnet/priv_x2.pem
 openssl req -new -key /Users/sherlock/testnet/priv_x2.pem -out /Users/sherlock/testnet/key_x2.csr -sm3 -sigopt "distid:1234567812345678"
 
 
 （特别注意：testnet是不会有cert.crt的！，所以要用init重启链！）
 openssl x509 -req -in /Users/sherlock/testnet/key_x2.csr -out /Users/sherlock/testnet/key_x2.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/cert.crt -CAkey /Users/sherlock/testnet/priv.pem -CAcreateserial
-irita tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --description=description --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --description=description --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 =====
 重要： 记录上面返回的id
@@ -217,17 +217,17 @@ irita query validator list
 update validator（通过id）
 =====
 //注意如果输入power=0，因为是默认值， 默认不改变原来power的值
-irita tx validator update $VID --cert=/Users/sherlock/testnet/key_x2.crt --power=200002222222  --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx validator update $VID --cert=/Users/sherlock/testnet/key_x2.crt --power=200002222222  --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 =====
 remove validator（通过id）
 =====
-irita tx validator remove $VID --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx validator remove $VID --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 =====
 unjail validator（通过id）100块没有上线就会被jail
 =====
-irita tx slashing unjail $VID --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx slashing unjail $VID --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 
 
@@ -237,11 +237,11 @@ irita tx slashing unjail $VID --from=v0 --chain-id=shilei-qa --fees=4stake -b bl
 NFT
 ====================
 issue：
-irita tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx nft issue d01 --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 // --schema=<schema-content or path/to/schema.json>
 
 mint:
-irita tx nft mint d01 a01 --recipient=$(irita keys show v0 --address) --name="name" --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx nft mint d01 a01 --recipient=$(irita keys show v0 --address) --name="name" --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 查询：
 irita query nft supply d01 --owner=$(irita keys show v0 --address)
@@ -255,16 +255,16 @@ irita query nft token -o=json d01 a01 |jq
 
 
 edit（必须要用owner）：
-irita tx nft edit d01 a01 --name="name2" --uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx nft edit d01 a01 --name="name2" --uri="tokenURI2" --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 transfer：
-irita tx nft transfer iaa1pkhw2svp2m7fd3mstpylfk48rrlal8sdmv3kqc d01 a01 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx nft transfer iaa1pkhw2svp2m7fd3mstpylfk48rrlal8sdmv3kqc d01 a01 --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 irita query nft token -o=json d01 a01 |jq
 
 burn：
-irita tx nft mint d01 a02 --recipient=$(irita keys show v0 --address) --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx nft mint d01 a02 --recipient=$(irita keys show v0 --address) --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
-irita tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx nft burn d01 a02 --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 
 
@@ -275,7 +275,7 @@ Record
 
 1. [交易] 提交存证
 // --description="hahaha" --onchain-data="shelwin flighting"
-irita tx record create --chain-id=shilei-qa "hahaha" "flighting" --from=v0 --fees=4stake -b block -y --meta="metadata" --uri="uridata"
+irita tx record create --chain-id=qa-test "hahaha" "flighting" --from=v0 --fees=4stake -b block -y --meta="metadata" --uri="uridata"
 
 2. 查询存证
 irita query record record 5ee84ba978931d62c6557c219a45654ec634792e263bf5c26c35c2741c06fa8f -o=json |jq
@@ -291,7 +291,7 @@ irita query record record 5ee84ba978931d62c6557c219a45654ec634792e263bf5c26c35c2
     定义
 ===================
 1. 服务定义
-irita tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake -b block -y
+irita tx service define --chain-id=qa-test --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake -b block -y
 
 2. 服务定义查询 （可以查询 method id）
 irita query service definition -o=json a001 |jq
@@ -305,10 +305,10 @@ irita query service schema result -o=json |jq
 ===================
 1. 服务绑定
 //owner是v0， provider也是v0
-irita tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --from=v0 --deposit=20000stake --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_irita.json --service-name=a001 --qos=5
+irita tx service bind --chain-id=qa-test --fees=4stake -b block -y --from=v0 --deposit=20000stake --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_irita.json --service-name=a001 --qos=5
 
 //owner是v0， provider也是v1
-irita tx service bind --chain-id=shilei-qa --fees=4stake --provider=$(irita keys show v1 --address) -b block -y --from=v0 --options={} --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_irita.json --service-name=a001 --qos=5
+irita tx service bind --chain-id=qa-test --fees=4stake --provider=$(irita keys show v1 --address) -b block -y --from=v0 --options={} --deposit=20000stake --pricing=/Users/sherlock/my_workspace/service/pricing_irita.json --service-name=a001 --qos=5
 
 2. 查询服务绑定
 irita query service binding  -o=json a001 $(irita keys show v0 --address) |jq
@@ -318,22 +318,22 @@ irita query service bindings -o=json a001 |jq
 irita query service bindings -o=json a001 --owner=$(irita keys show v0 --address) |jq
 
 3. 更新绑定 --min-resp-time（qos）也可以改
-irita tx service update-binding a001 $(irita keys show v0 --address) --chain-id=shilei-qa --from=v0 --options={} --fees=4stake -b block -y --deposit=2stake --qos=6
+irita tx service update-binding a001 $(irita keys show v0 --address) --chain-id=qa-test --from=v0 --options={} --fees=4stake -b block -y --deposit=2stake --qos=6
 
 4. 设置提取地址 （所有的provider只能通过owner的地址提取）
-irita tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
+irita tx service set-withdraw-addr --chain-id=qa-test --from=v0 --fees=4stake -b block -y iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
 
 //查询提取地址
 irita query service withdraw-addr $(irita keys show v0 --address)
 
 7.服务失效
-irita tx service disable a001 $(irita keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+irita tx service disable a001 $(irita keys show v0 --address) --chain-id=qa-test --from=v0 --fees=4stake -b block -y
 
 8.服务恢复 ，可以增加抵押
-irita tx service enable a001 $(irita keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --deposit=1stake
+irita tx service enable a001 $(irita keys show v0 --address) --chain-id=qa-test --from=v0 --fees=4stake -b block -y --deposit=1stake
 
 9. 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov)) 、、这个还没有测
-irita tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+irita tx service refund-deposit a001 --chain-id=qa-test --from=v0 --fees=4stake -b block -y
 //irita tx service refund-deposit <service-name> <provider-address>
 
 ===================
@@ -342,10 +342,10 @@ irita tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4stak
 1. 服务调用
 1）批量请求
 //单个
-irita tx service call --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1stake --data=/Users/sherlock/my_workspace/service/data.json --providers=$(irita keys show v0 --address) |jq
+irita tx service call --chain-id=qa-test --from=v0 --fees=4stake -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1stake --data=/Users/sherlock/my_workspace/service/data.json --providers=$(irita keys show v0 --address) |jq
 
 //重复
-irita tx service call --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --service-name=a001 --service-fee-cap=1stake --data=/Users/sherlock/my_workspace/service/data.json --providers=$(irita keys show v0 -a) --timeout=20 --repeated --frequency=20 --total=-1 |jq
+irita tx service call --chain-id=qa-test --from=v0 --fees=4stake -b block -y --service-name=a001 --service-fee-cap=1stake --data=/Users/sherlock/my_workspace/service/data.json --providers=$(irita keys show v0 -a) --timeout=20 --repeated --frequency=20 --total=-1 |jq
 
 
 查询请求列表
@@ -375,7 +375,7 @@ irita query service requests -o=json 58AA73D0C6B765E5E94FE5B8DA1AC78822C8EA2F086
 
 
 2.相应请求
-irita tx service respond --chain-id=shilei-qa --from=v0  --fees=4stake -b block -y  --data=/Users/sherlock/my_workspace/service/data.json --result='{"code":200,"message":"it500"}' --request-id=$(irita query service requests a001 $(irita keys show v0 --address) -o=json | jq -r .requests[0].id) |jq
+irita tx service respond --chain-id=qa-test --from=v0  --fees=4stake -b block -y  --data=/Users/sherlock/my_workspace/service/data.json --result='{"code":200,"message":"it500"}' --request-id=$(irita query service requests a001 $(irita keys show v0 --address) -o=json | jq -r .requests[0].id) |jq
 
 
 
@@ -390,8 +390,8 @@ irita query service fees -o=json $(irita keys show v0 --address) |jq
 
 
 2.提取服务调用产生的服务费
-irita tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
-irita tx service withdraw-fees iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+irita tx service withdraw-fees --chain-id=qa-test --from=v0 --fees=4stake -b block -y
+irita tx service withdraw-fees iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --chain-id=qa-test --from=v0 --fees=4stake -b block -y
 
 // irita query bank balances -o=json iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 |jq
 
@@ -407,19 +407,19 @@ irita query service request-context -o=json $CONTEXTID |jq
 irita query service requests a001 -o=json $(irita keys show v0 --address) |jq
 
 2. 暂停请求上下文
-irita tx service pause --chain-id=shilei-qa --from=v0  --fees=4stake -b block -y $CONTEXTID
+irita tx service pause --chain-id=qa-test --from=v0  --fees=4stake -b block -y $CONTEXTID
 
 3. 启动请求上下文
 //state变成running , BatchState在complete状态也会变running
-irita tx service start --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y $CONTEXTID
+irita tx service start --chain-id=qa-test --from=v0 --fees=4stake -b block -y $CONTEXTID
 
 4. 更新请求上下文
-irita tx service update --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  --frequency=20 --total=3000 $CONTEXTID
+irita tx service update --chain-id=qa-test --from=v0 --fees=4stake -b block -y  --frequency=20 --total=3000 $CONTEXTID
 
 5. 终止请求上下文
 // state变成complete
 // 非repeated 不能kill
-irita tx service kill --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  $CONTEXTID
+irita tx service kill --chain-id=qa-test --from=v0 --fees=4stake -b block -y  $CONTEXTID
 
 6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
 //列表只有有效的才会被查出， 但是irita service request-context 永远能查出）
@@ -441,9 +441,9 @@ oracle
 ===
 定义, 绑定
 ===
-irita tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake -b block -y
+irita tx service define --chain-id=qa-test --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4stake -b block -y
 
-irita tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --from=v0 --deposit=20000stake --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_irita.json --service-name=a001 --qos=5
+irita tx service bind --chain-id=qa-test --fees=4stake -b block -y --from=v0 --deposit=20000stake --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_irita.json --service-name=a001 --qos=5
 
 
 ===
@@ -456,21 +456,21 @@ irita tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --from=v0 -
 //State初始=pause
 //--value-json-path="data.user.name"
 //不定义create会报错， 不绑定不会报错， 但是后续request会收不到。这里要注意。
-irita tx oracle create --chain-id=shilei-qa --from=v0 --fees=4stake --description=description --latest-history=10 --service-name=a001 --input=/Users/sherlock/my_workspace/service/input.json --providers=$(irita keys show v0 --address) --service-fee-cap=1stake --timeout=20 --frequency=20 --threshold=1 --aggregate-func="avg" --value-json-path="body.data" --feed-name=f001 -b block -y  | jq
+irita tx oracle create --chain-id=qa-test --from=v0 --fees=4stake --description=description --latest-history=10 --service-name=a001 --input=/Users/sherlock/my_workspace/service/input.json --providers=$(irita keys show v0 --address) --service-fee-cap=1stake --timeout=20 --frequency=20 --threshold=1 --aggregate-func="avg" --value-json-path="body.data" --feed-name=f001 -b block -y  | jq
 
 2. Query Feed
 irita query oracle feed -o=json f001 | jq
 
 3. Start Feed
 //State=running
-irita tx oracle start f001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  | jq
+irita tx oracle start f001 --chain-id=qa-test --from=v0 --fees=4stake -b block -y  | jq
 
 4. Pause Feed
 //State=pause
-irita tx oracle pause f001 --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y  | jq
+irita tx oracle pause f001 --chain-id=qa-test --from=v0 --fees=4stake -b block -y  | jq
 
 5. Update Feed
-irita tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4stake --latest-history=2 -b block -y  | jq
+irita tx oracle edit f001 --chain-id=qa-test --from=v0 --fees=4stake --latest-history=2 -b block -y  | jq
 // --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1irita --timeout=5 --frequency=5 --total=-1 --threshold=1 --description  --latest-history --service-fee-cap --timeout --frequency --total --threshold
 
 6. Query Feeds
@@ -486,7 +486,7 @@ irita query oracle value f001 -o=json | jq
     **************
     单人响应
     **************
-irita tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(irita query service requests a001 $(irita keys show v0 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "12345"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
+irita tx service respond --chain-id=qa-test --from=v0 --fees=4stake --request-id=$(irita query service requests a001 $(irita keys show v0 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "12345"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
 
 //如果查不到 可能是create的时候--value-json-path不对。
 irita query oracle value f001 -o=json | jq
@@ -503,25 +503,25 @@ irita keys add v1 --recover
 figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
 // iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
 
-irita tx bank send v0  $(irita keys show v1 -a) 100000stake --fees=4stake --chain-id=shilei-qa -b block -y
+irita tx bank send v0  $(irita keys show v1 -a) 100000stake --fees=4stake --chain-id=qa-test -b block -y
 irita query bank balances $(irita keys show v1 -a)
 
-irita tx admin add-roles $(irita keys show v1 --address) POWER_USER --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx admin add-roles $(irita keys show v1 --address) POWER_USER --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 //增加一个provider v1
-irita tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4stake --providers=$(irita keys show v0 --address),$(irita keys show v1 --address) -b block -y  | jq
+irita tx oracle edit f001 --chain-id=qa-test --from=v0 --fees=4stake --providers=$(irita keys show v0 --address),$(irita keys show v1 --address) -b block -y  | jq
 
 //v1也要绑定， 不绑定就不能respond
-irita tx service bind --chain-id=shilei-qa --fees=4stake -b block -y  --from=v1 --deposit=20000stake --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_irita.json --service-name=a001 --qos=5
+irita tx service bind --chain-id=qa-test --fees=4stake -b block -y  --from=v1 --deposit=20000stake --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_irita.json --service-name=a001 --qos=5
 
 //等一会儿，到下一轮，两个都可以查到了，此条不用执行
 irita query service requests -o=json a001 $(irita keys show v0 --address) |jq
 irita query service requests -o=json a001 $(irita keys show v1 --address) |jq
 
 //v0 ， v1 ：分别response 1次，共2次
-irita tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(irita query service requests a001 $(irita keys show v0 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "100"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
+irita tx service respond --chain-id=qa-test --from=v0 --fees=4stake --request-id=$(irita query service requests a001 $(irita keys show v0 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "100"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
 
-irita tx service respond --chain-id=shilei-qa --from=v1 --fees=4stake --request-id=$(irita query service requests a001 $(irita keys show v1 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "200"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
+irita tx service respond --chain-id=qa-test --from=v1 --fees=4stake --request-id=$(irita query service requests a001 $(irita keys show v1 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "200"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
 
 //查询结果，等到一轮timeout以后出结果， 如果出现150就说明成功了，取了2个的均值。
 irita query oracle value f001 -o=json | jq
@@ -541,7 +541,7 @@ irita query oracle value f001 -o=json | jq
 ===
 //记录request_id
 //block-interval默认为10
-irita tx random request-random --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --block-interval=5 | jq
+irita tx random request-random --chain-id=qa-test --from=v0 --fees=4stake -b block -y --block-interval=5 | jq
 
 //5块后立即可以查询 (5块内查不到)
 irita query random random -o=json c4e7d7059b80ec83f58e0c1336e14d074eedd94727f60d6fed4bb1234620f9e4 | jq
@@ -556,10 +556,10 @@ irita query random queue
 irita query service definition random
 
 //自己定义： 目前已经子弹带了 所以这步不要自己做了 【注意一定要用random这个名字】
-//irita tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas_random.json --name=random --fees=4stake -b block -y
+//irita tx service define --chain-id=qa-test --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas_random.json --name=random --fees=4stake -b block -y
 
 2.绑定
-irita tx service bind --chain-id=shilei-qa --fees=4stake -b block -y --from=v0 --deposit=20000stake --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_irita.json --service-name=random --qos=5
+irita tx service bind --chain-id=qa-test --fees=4stake -b block -y --from=v0 --deposit=20000stake --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_irita.json --service-name=random --qos=5
 
 //查询
 irita query service bindings -o=json random | jq
@@ -567,7 +567,7 @@ irita query service bindings -o=json random | jq
 3.request
 //block-interval默认为10 【注意 默认使用 random名字的服务】【这里记录request_id， 最后5）rand rand用】
 //注意 有2个request id， 一个是rand的request id， 一个是service的request id
-irita tx random request-random --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y --block-interval=10 --oracle=true --service-fee-cap=1stake | jq
+irita tx random request-random --chain-id=qa-test --from=v0 --fees=4stake -b block -y --block-interval=10 --oracle=true --service-fee-cap=1stake | jq
 
 request id【rand】 ：fdd3bac5e6232a7dc3c6841cfcc5aab44d99a177c23443725aea860d94345ac2
 generate_height   ：2242
@@ -584,7 +584,7 @@ generate_height   ：2242
 
 
 4.respond 这里会返回request-id 【过了20个块，就已经发出request了， 这个时候就可以respond了】这里用的service的request id
-irita tx service respond --chain-id=shilei-qa --from=v0 --fees=4stake --request-id=$(irita query service requests random $(irita keys show v0 -a) -o=json | jq -r .requests[0].id) --data='{"seed":"b7e77397c3dd1093f3ba8093ba20ff2b85730290da0ed031557a24be0c55a32a"}' --result='{"code":200,"message":"ok"}' -b block -y | jq
+irita tx service respond --chain-id=qa-test --from=v0 --fees=4stake --request-id=$(irita query service requests random $(irita keys show v0 -a) -o=json | jq -r .requests[0].id) --data='{"seed":"b7e77397c3dd1093f3ba8093ba20ff2b85730290da0ed031557a24be0c55a32a"}' --result='{"code":200,"message":"ok"}' -b block -y | jq
 
 5.查询结果， request id【rand】， 注意不是4中的service的request-id 。
 irita query random random -o=json fdd3bac5e6232a7dc3c6841cfcc5aab44d99a177c23443725aea860d94345ac2 | jq
@@ -595,8 +595,8 @@ irita query random random -o=json fdd3bac5e6232a7dc3c6841cfcc5aab44d99a177c23443
 ========================================================================================================================
 ========================================================================================================================
 
-irita tx bank send $(irita keys show v0 --address) $(irita keys show v1 --address) 123stake --chain-id=shilei-qa --fees=4stake -b block -y --generate-only >~/my_workspace/Tx-generate
-irita tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+irita tx bank send $(irita keys show v0 --address) $(irita keys show v1 --address) 123stake --chain-id=qa-test --fees=4stake -b block -y --generate-only >~/my_workspace/Tx-generate
+irita tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=qa-test >~/my_workspace/Tx-sign
 irita tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 irita query bank balances $(irita keys show v1 --address)
@@ -606,12 +606,12 @@ irita query bank balances $(irita keys show v1 --address)
 以不同sequence（这个没测）
 ====
 
-irita tx send $(irita keys show v0 --address) irita13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 1stake --chain-id=shilei-qa --fees=4stake -b block -y --generate-only  >~/my_workspace/Tx-generate
+irita tx send $(irita keys show v0 --address) irita13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 1stake --chain-id=qa-test --fees=4stake -b block -y --generate-only  >~/my_workspace/Tx-generate
 
 //注意 ：这里sequence一定要正确。
 //如果sequence大了， 则broadcast时会报错。
 //如果sequence小了， 则broadcast时会显示当时这个sequence交易时的hash，也就是老的hash，同一个sequence的hash一样。
-irita tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa --offline --sequence=1 --account-number=0 >~/my_workspace/Tx-sign
+irita tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=qa-test --offline --sequence=1 --account-number=0 >~/my_workspace/Tx-sign
 irita tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 irita query tx --trust-node 2A6411BCAF75AF49A4AD34CDB839CF0F6E16AB4C59EF2FFD20513BB4CD31C8B7
@@ -624,7 +624,7 @@ irita query account --trust-node irita13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 ========================================================================================================================
 
 cd ~ && rm -rf .irita testnet
-irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+irita testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 irita start --home=/Users/sherlock/testnet/v0/irita --pruning=nothing
 
 注意：使用export功能的话，一定要加上--pruning=nothing ， 这个参数的含义是每个新块都会把数据写入数据库。
@@ -650,7 +650,7 @@ irita query slashing params >/Users/sherlock/genesis.json
 
 //subl /Users/sherlock/my_workspace/service/param.json
 
-irita tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=shilei-qa --fees=4stake -b block -y
+irita tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=qa-test --fees=4stake -b block -y
 
 
 
@@ -666,18 +666,18 @@ irita keys add v1 --recover
 
 2）创建多签账户， 给这个多签账户转一笔初始token（10irita）
 irita keys add x1 --multisig-threshold=2 --multisig=v0,v1
-irita tx bank send $(irita keys show v0 --address) $(irita keys show x1 --address) 100stake --fees=4stake --chain-id=shilei-qa --from=v0 -b block -y
+irita tx bank send $(irita keys show v0 --address) $(irita keys show x1 --address) 100stake --fees=4stake --chain-id=qa-test --from=v0 -b block -y
 
 3）多签账户构造【转账】交易
-irita tx bank send $(irita keys show x1 --address) $(irita keys show v0 --address) 1stake --chain-id=shilei-qa --fees=4stake  -b block -y --generate-only >~/my_workspace/Tx-generate
+irita tx bank send $(irita keys show x1 --address) $(irita keys show v0 --address) 1stake --chain-id=qa-test --fees=4stake  -b block -y --generate-only >~/my_workspace/Tx-generate
 
 4）用v0，v1对Tx-generate进行签名
-irita tx sign /Users/sherlock/my_workspace/Tx-generate --from=v0 --chain-id=shilei-qa --multisig=$(irita keys show x1 --address)  --signature-only >~/my_workspace/Tx-sign-v0
+irita tx sign /Users/sherlock/my_workspace/Tx-generate --from=v0 --chain-id=qa-test --multisig=$(irita keys show x1 --address)  --signature-only >~/my_workspace/Tx-sign-v0
 
-irita tx sign /Users/sherlock/my_workspace/Tx-generate --from=v1 --chain-id=shilei-qa --multisig=$(irita keys show x1 --address)  --signature-only >~/my_workspace/Tx-sign-v1
+irita tx sign /Users/sherlock/my_workspace/Tx-generate --from=v1 --chain-id=qa-test --multisig=$(irita keys show x1 --address)  --signature-only >~/my_workspace/Tx-sign-v1
 
 5）合并2个签名,并生成Tx-signed
-irita tx multisign --chain-id=shilei-qa /Users/sherlock/my_workspace/Tx-generate x1 /Users/sherlock/my_workspace/Tx-sign-v0 /Users/sherlock/my_workspace/Tx-sign-v1 > ~/my_workspace/Tx-signed
+irita tx multisign --chain-id=qa-test /Users/sherlock/my_workspace/Tx-generate x1 /Users/sherlock/my_workspace/Tx-sign-v0 /Users/sherlock/my_workspace/Tx-sign-v1 > ~/my_workspace/Tx-signed
 
 6）广播签名
 irita tx broadcast /Users/sherlock/my_workspace/Tx-signed -b block -y
@@ -696,7 +696,7 @@ irita tx broadcast /Users/sherlock/my_workspace/Tx-signed -b block -y
 ============
 //所有参数都不带， 直接生成新UUID
 //记录返回id 后续使用
-irita tx identity create --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+irita tx identity create --chain-id=qa-test --from=v0 --fees=4stake -b block -y
 
 ====================================
 【ecdsa加密】新创建带id，带参数的dentity【ecdsa加密】
@@ -706,7 +706,7 @@ irita tx identity create --chain-id=shilei-qa --from=v0 --fees=4stake -b block -
 openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/cert.crt -days 365
 
 //id和pubkey 具体看后面
-irita tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --fees=4stake --from=v0 -b block -y
+irita tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=qa-test --fees=4stake --from=v0 -b block -y
 
 
 *****
@@ -750,7 +750,7 @@ credentials
 ====================================
 修改identity
 ====================================
-irita tx identity update $UUID --credentials="credentials-uri23" --chain-id=shilei-qa --from=v0 --fees=4stake -b block -y
+irita tx identity update $UUID --credentials="credentials-uri23" --chain-id=qa-test --from=v0 --fees=4stake -b block -y
 
 //可修改参数:
 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c
@@ -770,13 +770,13 @@ irita query identity identity $UUID
 ============
 
 //ECDSA 33  02+32 （例子已经写了）
-irita tx identity create --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --id=67eb663eccc148adb6878743e3156c01 --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --from=v0 -b block -y
+irita tx identity create --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --id=67eb663eccc148adb6878743e3156c01 --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=qa-test --from=v0 -b block -y
 
 //ED25519 32  （实际链上不校验pubkey有效性，都是线下自己校验，长度对就行）
-irita tx identity create --id=67eb663eccc148adb6878743e3156c36 --pubkey=b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=ed25519 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+irita tx identity create --id=67eb663eccc148adb6878743e3156c36 --pubkey=b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=ed25519 --credentials="credentials-uri" --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 //SM2 03+32
-irita tx identity create --id=67eb663eccc148adb6878743e3156c37 --pubkey=03b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=SM2 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+irita tx identity create --id=67eb663eccc148adb6878743e3156c37 --pubkey=03b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=SM2 --credentials="credentials-uri" --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 //rsa和dsa
 1)需要先在网站生成秘钥对 ，选择对应的ras和dsa

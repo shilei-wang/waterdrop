@@ -11,7 +11,7 @@ create validator
 一个全节点有两个证书：1. validator证书  2. node证书
 =====
 //openssl
-irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=shilei-qa x2
+irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=qa-test x2
 irita genkey --type=validator --home=/Users/sherlock/testnet/x2/irita --out-file=/Users/sherlock/testnet/priv_x2_validator.pem
 openssl req -new -key /Users/sherlock/testnet/priv_x2_validator.pem -out /Users/sherlock/testnet/key_x2_validator.csr -sm3 -sigopt "distid:1234567812345678"
 
@@ -19,7 +19,7 @@ openssl req -new -key /Users/sherlock/testnet/priv_x2_validator.pem -out /Users/
 openssl x509 -req -in /Users/sherlock/testnet/key_x2_validator.csr -out /Users/sherlock/testnet/key_x2_validator.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
 
 //通过cert.crt创建验证人
-irita tx node create-validator --name=x2 --cert=/Users/sherlock/testnet/key_x2_validator.crt --power=10 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx node create-validator --name=x2 --cert=/Users/sherlock/testnet/key_x2_validator.crt --power=10 --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 VID=E550E9FF8FAF503869B0316E79DC96E628881FA9439D0AFCDDF93550B0151254
 
@@ -64,7 +64,7 @@ irita query node nodes
 ---
 update validator
 ---
-irita tx node update-validator $VID --cert=/Users/sherlock/testnet/key_x2.crt --power=20 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx node update-validator $VID --cert=/Users/sherlock/testnet/key_x2.crt --power=20 --from=v0 --chain-id=qa-test --fees=4point -b block -y
 验证:
 irita query node validator $VID
 
@@ -73,7 +73,7 @@ irita query node validator $VID
 ---
 remove validator
 ---
-irita tx node remove-validator $VID --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx node remove-validator $VID --from=v0 --chain-id=qa-test --fees=4point -b block -y
 验证:
 irita query node list
 
@@ -81,7 +81,7 @@ irita query node list
 ---
 unjail validator 注意:这个在slash模块下 【代码里写了10分钟，jail后过10分钟才可以unjail】
 ---
-irita tx slashing unjail $VID --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx slashing unjail $VID --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 
 
@@ -93,7 +93,7 @@ node测试本身不用一定是validator
 起全节点 （普通节点 不是validtor）
 =====
 //如果已经创建该节点(validator) ，则这步是不需要的
-irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=shilei-qa x2
+irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=qa-test x2
 
 //从这里开始， 如果validator已经起来 则只要执行下面3行就行
 irita genkey --type=node --home=/Users/sherlock/testnet/x2/irita --out-file=/Users/sherlock/testnet/priv_x2_node.pem
@@ -115,7 +115,7 @@ irita start --home=/Users/sherlock/testnet/x2/irita
 =====
 grant 授权（加入白名单）
 =====
-irita tx node grant --name=x2 --cert=/Users/sherlock/testnet/key_x2_node.crt --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx node grant --name=x2 --cert=/Users/sherlock/testnet/key_x2_node.crt --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 记录：
 NID=CDDC708DEDB48050E0ACA2BEB27D243E7646E56F
@@ -138,7 +138,7 @@ revoke （移除白名单）
 需要：（ROOT_ADMIN，NODE_ADMIN）admin
 
 irita query admin roles $(irita keys show v0 --address)
-irita tx node revoke $NID --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx node revoke $NID --from=v0 --chain-id=qa-test --fees=4point -b block -y
 irita query node nodes
 
 
@@ -156,7 +156,7 @@ irita query node nodes
 enable = true
 
 修改参数 ： UnrestrictedTokenTransfer （注意是驼峰方式）
-irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 查询这个值，是不是改了：
 http://localhost:1317/cosmos/bank/v1beta1/params
@@ -178,7 +178,7 @@ irita query slashing params
 ***********
 
 cd ~ && rm -rf .irita .irita testnet
-irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+irita testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
@@ -193,14 +193,14 @@ irita start --home=/Users/sherlock/testnet/v0/irita
 irita query token tokens -o=json  |jq
 
 值改为false，开启限制。
-irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 验证（正常send）：
-irita tx bank send v0 $(irita keys show v1 -a) 100000point --chain-id=shilei-qa --fees=4point -b block -y
-irita tx bank send v1 $(irita keys show v0 -a) 100point --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v0 $(irita keys show v1 -a) 100000point --chain-id=qa-test --fees=4point -b block -y
+irita tx bank send v1 $(irita keys show v0 -a) 100point --chain-id=qa-test --fees=4point -b block -y
 
 验证（不能send）：
-irita tx bank send v1 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100point --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v1 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100point --chain-id=qa-test --fees=4point -b block -y
 
 
 

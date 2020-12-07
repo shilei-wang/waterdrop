@@ -48,16 +48,16 @@ go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lan
 ***************************************************
 1. profile（环境）
 node ：localhost:26657
-chainId  ：shilei-qa
+chainId  ：qa-test
 
 2. object repository
 cmd>cmdwithoneargs : http://10.1.2.168:8080
 
 3. 打开testcase 运行
 
-iriscli iservice define --chain-id=shilei-qa --node=localhost:26657 --from=faucet --fee=0.004iris --name=test1 --service-description=";adjf;kj*&^*W&^*&654654 sdfsdf" --author-description=";adjf;kj*&^*W&^*&654654 sdfsdf" --tags="**^% lskd 923d" --file=/test.proto --broadcast=Broadcast
+iriscli iservice define --chain-id=qa-test --node=localhost:26657 --from=faucet --fee=0.004iris --name=test1 --service-description=";adjf;kj*&^*W&^*&654654 sdfsdf" --author-description=";adjf;kj*&^*W&^*&654654 sdfsdf" --tags="**^% lskd 923d" --file=/test.proto --broadcast=Broadcast
 
-iriscli iservice define --chain-id=shilei-qa  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --messaging=Unicast --idl-content=idl-content --file=/root/test.proto --service-name=001
+iriscli iservice define --chain-id=qa-test  --from=v0 --fee=0.004iris --service-description=service-description --author-description=author-description --tags=tag1,tag2 --messaging=Unicast --idl-content=idl-content --file=/root/test.proto --service-name=001
 
 4. 后续可以在init下加入 trust-node模式
 

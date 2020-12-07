@@ -36,7 +36,7 @@ did
 。iris tx nft issue -h（有2个name）
 。iris query nft supply d01 --owner=$(iris keys show v0 --address)   （help中缺少owner）
 。 Ladger 发交易出错， 应该是cosmos交易的问题。（添加创建用户运行正常）（sign的--home有bug）
-。cschain tx admin add-roles --chain-id=shilei-qa --node=http://localhost:26657 -b block -y --fees=4point iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 abc --from=v0 Error: 'abc' is not a valid vote option
+。cschain tx admin add-roles --chain-id=qa-test --node=http://localhost:26657 -b block -y --fees=4point iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 abc --from=v0 Error: 'abc' is not a valid vote option
 。iris tx nft transfer 自己可以转给自己？  token哪里会检查不能自己转给自己
 。query nft collection . nft supply 对于负向测试 返回不一样。
 "amount\":\"0\"")      "not existed : invalid denom")

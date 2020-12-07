@@ -20,7 +20,7 @@ iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
 iriscli keys show v0
 iriscli bank account $(iriscli keys show v0 --address)
 
-echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.004iris --commit --chain-id=qa-test --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
@@ -29,7 +29,7 @@ iriscli bank account faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 3位资产 30万 40%入tax， 60%burn
 ======================
 //这里2次输入不能用echo，好像又可以了
-echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=shilei-qa --fee=0.004iris --commit --symbol=a01
+echo 1234567890 | iriscli asset token issue --name=token-name --min-unit="kitty" --scale=0 --initial-supply=10000 --max-supply=30000 --mintable=true  --from=v0 --chain-id=qa-test --fee=0.004iris --commit --symbol=a01
 
 
 ======================
@@ -53,14 +53,14 @@ lcd 可以通过多条件查询token， 但是需要在toml文件中开启index
 iriscli asset edit-token
 max-supply 只能往下改不能往上改， 且不能低于当时的total supply
 ======================
-echo 1234567890 | iriscli asset token edit a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset token edit a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=qa-test --fee=0.6iris --commit
 
 
 ======================
 增发资产：
 iriscli asset mint-token
 ======================
-echo 1234567890 | iriscli asset token mint a01 --amount=1 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset token mint a01 --amount=1 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --from=v0 --chain-id=qa-test --fee=0.6iris --commit
 
 
 ======================
@@ -68,7 +68,7 @@ echo 1234567890 | iriscli asset token mint a01 --amount=1 --to=faa1lcuw6ewd2gfxa
 iriscli asset transfer-token-owner
 ======================
 
-echo 1234567890 | iriscli asset token transfer a01 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --from=v0 --chain-id=shilei-qa --fee=0.6iris --commit
+echo 1234567890 | iriscli asset token transfer a01 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --from=v0 --chain-id=qa-test --fee=0.6iris --commit
 
 
 iriscli asset token tokens --owner=$(iriscli keys show v1 --address)
@@ -96,9 +96,9 @@ iriscli bank token-stats a01 -o=json --indent
 ======================
 转账，burn
 ======================
-echo 1234567890 | iriscli bank send --amount=100a01 --fee=0.4iris --commit --chain-id=shilei-qa --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
+echo 1234567890 | iriscli bank send --amount=100a01 --fee=0.4iris --commit --chain-id=qa-test --from=v0 --to=faa1e6et7mdl2z7ek5uxd6tg6jh6xegyp8zn9dgmt4
 
-echo 1234567890 | iriscli bank burn --from=v0 --fee=0.004iris --commit --chain-id=shilei-qa --amount=1a01
+echo 1234567890 | iriscli bank burn --from=v0 --fee=0.004iris --commit --chain-id=qa-test --amount=1a01
 
 iriscli bank account $(iriscli keys show v0 --address)
 iriscli bank account faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6

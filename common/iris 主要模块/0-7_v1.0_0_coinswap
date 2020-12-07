@@ -16,7 +16,7 @@ git pull
 
 【特别重要!】
 3个(10.1.4.179)ip 要改成自己的ip 10.1.4.24
-chainid也要改一下，VUE_APP_HUB_CHAIN_ID=shilei-qa
+chainid也要改一下，VUE_APP_HUB_CHAIN_ID=qa-test
 
 yarn install
 
@@ -32,9 +32,9 @@ irishub 配置要改3个部分才能用 coinswap
 ====
 
 rm -rf /Users/sherlock/.iris
-iris init testing --chain-id=shilei-qa
+iris init testing --chain-id=qa-test
 iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
-iris gentx v0 --chain-id=shilei-qa --amount 100000000uiris
+iris gentx v0 --chain-id=qa-test --amount 100000000uiris
 sed -i '' 's/stake/uiris/g' /Users/sherlock/.iris/config/genesis.json
 sed -i '' 's/"profilers": \[\]/"profilers": \[{"description":"test","account_type":0,"address":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0","added_by":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0"}\]/g' /Users/sherlock/.iris/config/genesis.json
 
@@ -62,16 +62,16 @@ http://10.1.4.24:8081/
 初始化
 ====
 发行资产：
-echo y| iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4iris -b block -y  --symbol=a01 |jq
+echo y| iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y  --symbol=a01 |jq
 iris query bank balances -o=json $(iris keys show v0 -a) |jq
 
-iris tx bank send v0 $(iris keys show x1 -a) 1000a01 --fees=4iris --chain-id=shilei-qa -b block -y |jq
-iris tx bank send v0 $(iris keys show x1 -a) 10000iris --fees=4iris --chain-id=shilei-qa -b block -y |jq
+iris tx bank send v0 $(iris keys show x1 -a) 1000a01 --fees=4iris --chain-id=qa-test -b block -y |jq
+iris tx bank send v0 $(iris keys show x1 -a) 10000iris --fees=4iris --chain-id=qa-test -b block -y |jq
 iris query bank balances -o=json $(iris keys show x1 -a) |jq
 
 
-echo y| iris tx token issue --name=token-name --min-unit="ua02" --scale=6 --initial-supply=1000000 --max-supply=3000000 --mintable=true --from=v0 --chain-id=shilei-qa  -b block -y  --symbol=a02 |jq
-iris tx bank send v0 $(iris keys show x1 -a) 1000a02  --chain-id=shilei-qa -b block -y |jq
+echo y| iris tx token issue --name=token-name --min-unit="ua02" --scale=6 --initial-supply=1000000 --max-supply=3000000 --mintable=true --from=v0 --chain-id=qa-test  -b block -y  --symbol=a02 |jq
+iris tx bank send v0 $(iris keys show x1 -a) 1000a02  --chain-id=qa-test -b block -y |jq
 
 
 ====

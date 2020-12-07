@@ -35,7 +35,7 @@ make install
 起链
 ====
 cd ~ && rm -rf .cschain testnet
-cschain testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+cschain testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/cschain/config/genesis.json
 sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/cschain/config/app.toml
 sed -i '' 's/\"500000000\"/\"50000000000000000\"/g' /Users/sherlock/testnet/v0/cschain/config/genesis.json
@@ -46,19 +46,19 @@ cschain start --home=/Users/sherlock/testnet/v0/cschain
 看下 record
 ====
 返回没有record
-cschain tx record create --chain-id=shilei-qa "hahaha" "flighting" --from=v0 --fees=4point -b block -y --meta="metadata" --uri="uridata"
+cschain tx record create --chain-id=qa-test "hahaha" "flighting" --from=v0 --fees=4point -b block -y --meta="metadata" --uri="uridata"
 Error: unknown command "record" for "tx"
 
 ====
 造一些数据
 ====
-cschain tx bank send v0 $(cschain keys show v1 -a) 10000point --chain-id=shilei-qa --fees=4point -b block -y
-cschain tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
-cschain tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-cschain tx nft mint d01 a01 --recipient=$(cschain keys show v0 --address) --name="name" --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-cschain tx admin add-roles $(cschain keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx bank send v0 $(cschain keys show v1 -a) 10000point --chain-id=qa-test --fees=4point -b block -y
+cschain tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4point -b block -y --symbol=a01
+cschain tx nft issue d01 --from=v0 --chain-id=qa-test --fees=4point -b block -y
+cschain tx nft mint d01 a01 --recipient=$(cschain keys show v0 --address) --name="name" --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=qa-test --fees=4point -b block -y
+cschain tx admin add-roles $(cschain keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=qa-test --fees=4point -b block -y
 cschain keys add c1
-cschain tx admin block-account $(cschain keys show c1 --address) --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx admin block-account $(cschain keys show c1 --address) --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 
 cschain query bank balances $(cschain keys show v1 -a)
@@ -73,7 +73,7 @@ cschain query admin blacklist
 ====
 发起升级
 ====
-cschain tx upgrade create "v1" --upgrade-height=25 --chain-id=shilei-qa --fees=10point -b block -y --from=v0
+cschain tx upgrade create "v1" --upgrade-height=25 --chain-id=qa-test --fees=10point -b block -y --from=v0
 
 在height=1300的时候，网络终止共识，节点退出运行
 更换，v1版本
@@ -86,7 +86,7 @@ cschain query upgrade applied v1
 cschain query upgrade plan
 
 //取消升级
-cschain tx upgrade cancel --chain-id=shilei-qa --fees=10point -b block -y --from=v0
+cschain tx upgrade cancel --chain-id=qa-test --fees=10point -b block -y --from=v0
 
 ====
 验证
@@ -100,7 +100,7 @@ cschain query admin roles $(cschain keys show v1 --address)
 cschain query admin blacklist
 
 2） record
-cschain tx record create --chain-id=shilei-qa "hahaha" "flighting" --from=v0 --fees=4point -b block -y --meta="metadata" --uri="uridata"
+cschain tx record create --chain-id=qa-test "hahaha" "flighting" --from=v0 --fees=4point -b block -y --meta="metadata" --uri="uridata"
 
 cschain query record record 691ad26fa1efe55c237d7451f0777869504643eabc1c788a3d813fafa9350f26 -o=json |jq
 
@@ -110,7 +110,7 @@ cschain query record record 691ad26fa1efe55c237d7451f0777869504643eabc1c788a3d81
 ====
 第二次升级 （不实际升级）
 ====
-cschain tx upgrade create "v2" --upgrade-height=2100 --chain-id=shilei-qa --fees=10point -b block -y --from=v0
+cschain tx upgrade create "v2" --upgrade-height=2100 --chain-id=qa-test --fees=10point -b block -y --from=v0
 
 到了2100，停链，用v1执行下面会崩溃
 cschain start --home=/Users/sherlock/testnet/v0/cschain

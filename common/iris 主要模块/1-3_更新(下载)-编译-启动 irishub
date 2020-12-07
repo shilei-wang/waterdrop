@@ -160,7 +160,7 @@ iris start --home=/Users/sherlock/testnet/v1/iris
 *******************************************
 
 rm -rf .iriscli .iris testnet
-iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1  --chain-id=shilei-qa
+iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1  --chain-id=qa-test
 iris start --home=/Users/sherlock/testnet/v0/iris
 
 
@@ -185,7 +185,7 @@ iris start --home=/Users/sherlock/v0
                启动 irislcd
 *******************************************
 1）启动 irislcd
-irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --trust-node --home=$HOME/.irislcd/
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=qa-test --trust-node --home=$HOME/.irislcd/
 验证 http://10.1.2.236:1317/keys
 
 2）启动swag

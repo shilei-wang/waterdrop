@@ -21,7 +21,7 @@ sudo make install //注意这里一定要sudo权限
 rm -rf ~/testnet
 
 1）、初始化 genesis.json 文件
-csrb init --home=/Users/sherlock/testnet/x1/csrb --chain-id=shilei-qa x1
+csrb init --home=/Users/sherlock/testnet/x1/csrb --chain-id=qa-test x1
 
 2）、创建一个初始化账户x1
 csrbcli keys add x1
@@ -52,14 +52,14 @@ csrb start --home=/Users/sherlock/testnet/x1/csrb --pruning=nothing
 
 1）正常启动
 cd ~ && rm -rf .csrbcli .csrb testnet
-csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+csrb testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 csrb start --home=/Users/sherlock/testnet/v0/csrb
 
 2）自签证书 （注意：这个就不用生成证书请求）
 openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/cert.crt -days 365
 
 3）通过cert.crt创建验证人
-csrbcli tx validator create --name=x1 --cert=/Users/sherlock/testnet/cert.crt --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx validator create --name=x1 --cert=/Users/sherlock/testnet/cert.crt --power=10 --details=details --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 csrbcli q validator list --trust-node
 
@@ -68,10 +68,10 @@ csrbcli q validator list --trust-node
 ======================
 1）先正常启动，然后初始化x2
 cd ~ && rm -rf .csrbcli .csrb testnet
-csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+csrb testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 csrb start --home=/Users/sherlock/testnet/v0/csrb
 
-csrb init --home=/Users/sherlock/testnet/x2/csrb --chain-id=shilei-qa x2
+csrb init --home=/Users/sherlock/testnet/x2/csrb --chain-id=qa-test x2
 
 2）导出验证节点x2(步骤1生成的)私钥为pem格式，方便用于申请节点证书
 csrb genkey --home=/Users/sherlock/testnet/x2/csrb --out-file=/Users/sherlock/testnet/priv_x2.pem
@@ -83,7 +83,7 @@ openssl req -new -key /Users/sherlock/testnet/priv_x2.pem -out /Users/sherlock/t
 openssl x509 -req -in /Users/sherlock/testnet/key_x2.csr -out /Users/sherlock/testnet/key_x2.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
 
 5）通过cert.crt创建验证人
-csrbcli tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --details=details --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 csrbcli q validator list --trust-node
 
@@ -102,7 +102,7 @@ openssl req -new -key /Users/sherlock/testnet/priv_x2.pem -out /Users/sherlock/t
 openssl x509 -req -in /Users/sherlock/testnet/key_x2.csr -out /Users/sherlock/testnet/key_x2.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
 
 5）通过cert.crt创建验证人
-csrbcli tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --details=details --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 csrbcli q validator list --trust-node
 
@@ -119,7 +119,7 @@ make install
 openssl genpkey -algorithm ED25519 -out /Users/sherlock/testnet/priv_x3.pem
 openssl req -new -key /Users/sherlock/testnet/priv_x3.pem -out /Users/sherlock/testnet/key_x3.csr
 openssl x509 -req -in /Users/sherlock/testnet/key_x3.csr -out /Users/sherlock/testnet/key_x3.crt -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
-csrbcli tx validator create --name=x3 --cert=/Users/sherlock/testnet/key_x3.crt --power=10 --details=details --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+csrbcli tx validator create --name=x3 --cert=/Users/sherlock/testnet/key_x3.crt --power=10 --details=details --from=v0 --chain-id=qa-test --fees=4point -b block -y
 csrbcli q validator list --trust-node
 
 
@@ -202,7 +202,7 @@ open /Users/sherlock/go/src/gitlab.bianjie.ai/csrbwallet/output/darwin-amd64/csr
 =====================================================================================================================
 
 cd ~ && rm -rf .csrbcli .csrb testnet
-csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+csrb testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 csrb start --home=/Users/sherlock/testnet/v0/csrb
 
 
@@ -211,7 +211,7 @@ csrb start --home=/Users/sherlock/testnet/v0/csrb
 ============
 //所有参数都不带， 直接生成新UUID
 //记录返回id 后续使用
-csrbcli tx identity create --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+csrbcli tx identity create --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 ====================================
 【ecdsa加密】新创建带id，带参数的dentity【ecdsa加密】
@@ -220,7 +220,7 @@ csrbcli tx identity create --chain-id=shilei-qa --from=v0 -o=json --indent -b bl
 
 openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/cert.crt -days 365
 
-csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 
 *****
@@ -262,7 +262,7 @@ credentials
 ====================================
 修改identity
 ====================================
-csrbcli tx identity update 67eb663eccc148adb6878743e3156c35 --credentials="credentials-uri2" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+csrbcli tx identity update 67eb663eccc148adb6878743e3156c35 --credentials="credentials-uri2" --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 //可修改参数:
 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c
@@ -282,13 +282,13 @@ csrbcli query identity identity --trust-node 67eb663eccc148adb6878743e3156c01
 ============
 
 //ECDSA 33  02+32 （例子已经写了）
-csrbcli tx identity create --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --id=67eb663eccc148adb6878743e3156c01 --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+csrbcli tx identity create --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --id=67eb663eccc148adb6878743e3156c01 --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 //ED25519 32  （实际链上不校验pubkey有效性，都是线下自己校验，长度对就行）
-csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c36 --pubkey=b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=ed25519 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c36 --pubkey=b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=ed25519 --credentials="credentials-uri" --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 //SM2 03+32
-csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c37 --pubkey=03b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=SM2 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+csrbcli tx identity create --id=67eb663eccc148adb6878743e3156c37 --pubkey=03b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=SM2 --credentials="credentials-uri" --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 //rsa和dsa
 1)需要先在网站生成秘钥对 ，选择对应的ras和dsa

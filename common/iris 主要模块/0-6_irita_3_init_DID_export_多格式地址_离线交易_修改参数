@@ -14,7 +14,7 @@
 ============
 //所有参数都不带， 直接生成新UUID
 //记录返回id 后续使用
-iritacli tx identity create --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+iritacli tx identity create --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 ====================================
 【ecdsa加密】新创建带id，带参数的dentity【ecdsa加密】
@@ -23,7 +23,7 @@ iritacli tx identity create --chain-id=shilei-qa --from=v0 -o=json --indent -b b
 
 openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/cert.crt -days 365
 
-iritacli tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+iritacli tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 iritacli query identity identity --trust-node 67eb663eccc148adb6878743e3156c01
 
@@ -66,7 +66,7 @@ credentials
 ====================================
 修改identity
 ====================================
-iritacli tx identity update 67eb663eccc148adb6878743e3156c01 --credentials="credentials-uri2" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+iritacli tx identity update 67eb663eccc148adb6878743e3156c01 --credentials="credentials-uri2" --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 //可修改参数:
 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c
@@ -104,8 +104,8 @@ rest
 =====================================================================================================================
 =====================================================================================================================
 
-irita tx send $(csrbcli keys show v0 --address) csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000000point --chain-id=shilei-qa --fees=4point -b block -y --generate-only >~/my_workspace/Tx-generate
-irita tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+irita tx send $(csrbcli keys show v0 --address) csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000000point --chain-id=qa-test --fees=4point -b block -y --generate-only >~/my_workspace/Tx-generate
+irita tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=qa-test >~/my_workspace/Tx-sign
 irita tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 irita query bank balances  csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
@@ -121,7 +121,7 @@ irita query bank balances  csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 ========================================================================================================================
 
 cd ~ && rm -rf .iritacli .irita testnet
-irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+irita testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 irita start --home=/Users/sherlock/testnet/v0/irita --pruning=nothing
 
 注意：使用export功能的话，一定要加上--pruning=nothing ， 这个参数的含义是每个新块都会把数据写入数据库。
@@ -180,6 +180,6 @@ iritacli query slashing signing-info --trust-node icp1ulx45dfpqf657pzs37n5ru9shs
 ========================================================================================================================
 subl /Users/sherlock/my_workspace/service/param.json
 
-irita tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+irita tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
 irita query slashing params
 

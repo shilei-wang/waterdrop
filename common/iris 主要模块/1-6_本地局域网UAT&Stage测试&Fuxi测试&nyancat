@@ -23,12 +23,12 @@
 2. 自己起一个单节点 （这里千万不能错，不要用c 1 起）
     go run /Users/sherlock/go/src/github.com/irishub_auto/autotest-cmd/autoStart/lanchIris.go 1
     commander
-    irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=shilei-qa --home=$HOME/.irislcd/ --trust-node
+    irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=qa-test --home=$HOME/.irislcd/ --trust-node
 
 
 
    创建faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju , 转账1000000iris
-   echo 1234567890 | iriscli bank send --amount=1000000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+   echo 1234567890 | iriscli bank send --amount=1000000iris --fee=0.004iris --commit --chain-id=qa-test --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
    助记词：caught below output final blast sun elevator labor regular palm dizzy stand arctic judge cost typical confirm people dust panic still aspect sword save
    自己本机创建这账户的私钥， 把账户助记词给其他人，让他从这个助记词生成验证人账户。
 
@@ -385,7 +385,7 @@ iris version
   Persistent Peers:
   c87675bcaeb72a1f93dbf7d74f7b425690a994e3@34.80.202.172:26656
 
-2) iris init --home=/Users/sherlock/nyancat --chain-id=nyancat-6  --moniker=shilei-qa
+2) iris init --home=/Users/sherlock/nyancat --chain-id=nyancat-6  --moniker=qa-test
 3） copy genesis和toml 到 nyancat/config文件夹
 4) iris start --home=/Users/sherlock/nyancat （此时正常追赶，记得打开"Mac 最大连接数限制"，已记录）
    iriscli status --node=http://35.234.10.84:26657  (看下最新到多少块了，大概心理知道要多久追上)

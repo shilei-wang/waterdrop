@@ -91,7 +91,7 @@ iristool debug pubkey fap1zcjduepq5rcpk6efzreexwwmp7pl7k47asyh4lrp3y85sd86ytlz0s
 
 3. 分别在一个块的开始执行下列操作 sequence 1-2-3
 
-echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=1 && echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=2 && echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=3
+echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=qa-test --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=1 && echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=qa-test --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=2 && echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=4999 --chain-id=qa-test --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju  --async --sequence=3
 
 返回：
 async tx sent (tx hash: 1D1C9661E1504682F3E824484BDAFD075CF3D6E593CAB46C032E9051DEC92F01)
@@ -110,7 +110,7 @@ iriscli tendermint tx --trust-node 657B43FBA7B4D877963BE43DA51E8B0131147744245CF
 
 其他：
 //这条直接拒绝 超过10000了， 超时了也未能被打包
-echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=10001 --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
+echo 1234567890 | iriscli bank send --amount=5iris --fee=0.004iris --gas=10001 --chain-id=qa-test --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju
 
 
 
@@ -150,9 +150,9 @@ Base64 decode ，https://www.base64decode.net/
     保存
 8. iris start --home=/Users/sherlock/testnet/v0/iris //启动验证人节点， 2个节点同步
 9. 使用sentry节点 (一般只暴露哨兵节点)
-   echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --commit --node=http://10.1.2.168:26667
+   echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris  --chain-id=qa-test --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --commit --node=http://10.1.2.168:26667
    使用验证人节点
-   echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris  --chain-id=shilei-qa --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --commit --node=http://10.1.2.168:26657
+   echo 1234567890 | iriscli bank send --amount=1iris --fee=0.004iris  --chain-id=qa-test --from=v0 --to=faa1lcuw6ewd2gfxap37sejewmta205sgssmv5fnju --commit --node=http://10.1.2.168:26657
 
 
 *******************************************
@@ -222,7 +222,7 @@ ufw allow 26657 && ufw enable
 iriscli status (此时rest 还没有开)
 
 打开rest接口 （ufw allow 30317 && ufw enable）
-irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=shilei-qa --trust-node
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=qa-test --trust-node
 验证 http://10.1.2.168:30317/keys
 
 
@@ -246,7 +246,7 @@ iriscli monitor -n=tcp://10.1.2.168:46657 （iris哪里log应该正常 没有红
 验证 curl http://120.79.226.163:26660 （外网再验证）
 
 打开rest端口
-irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=shilei-qa --trust-node
+irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:30317 --chain-id=qa-test --trust-node
 http://120.79.226.163:1317/keys
 
 *****************************

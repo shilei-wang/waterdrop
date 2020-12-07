@@ -35,7 +35,7 @@ go mod tidy
 *******************************************
 
 cd ~ && rm -rf .irita .irita testnet
-irita testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+irita testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 sed -i '' 's/"172800000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 sed -i '' 's/"1814400000000000"/"20000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
 sed -i '' 's/"500000000"/"50000000000000"/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
@@ -45,8 +45,8 @@ irita start --home=/Users/sherlock/testnet/v0/irita
 
 
 //允许转账【后续如果改了 就不用执行】
-irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-irita tx bank send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100000point --chain-id=shilei-qa --fees=4point -b block -y
+irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
+irita tx bank send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100000point --chain-id=qa-test --fees=4point -b block -y
 
 
 另外，可以改token owner的genesis
@@ -56,7 +56,7 @@ sed -i '' 's/iaa183rfa8tvtp6ax7jr7dfaf7ywv870sykxxykejp/XXXXX/g' /Users/sherlock
 2个validators
 ---
 cd ~ && rm -rf .irita .irita testnet
-echo 12345678 | irita testnet --v=2 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+echo 12345678 | irita testnet --v=2 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 修改v1里面3个ip
 mv /Users/sherlock/testnet/v0/irita /Users/sherlock/.irita
 irita start --home=/Users/sherlock/testnet/v0/irita
@@ -74,7 +74,7 @@ irita start --home=/Users/sherlock/testnet/v1/irita
 注意：这里生成的证书名字 刻意和testnet起的一样。root_cert.pem  root_key.pem
 
 rm -rf ~/testnet
-irita init --home=/Users/sherlock/testnet/v0/irita --chain-id=shilei-qa v0
+irita init --home=/Users/sherlock/testnet/v0/irita --chain-id=qa-test v0
 irita genkey --type=validator --home=/Users/sherlock/testnet/v0/irita --out-file=/Users/sherlock/testnet/priv_v0_validator.pem
 irita add-genesis-account $(irita keys show v0 -a) 1000000000point --home=/Users/sherlock/testnet/v0/irita --root-admin
 irita genkey --home=/Users/sherlock/testnet/v0/irita --out-file=/Users/sherlock/testnet/root_key.pem
@@ -90,15 +90,15 @@ sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/app.toml
 irita start --home=/Users/sherlock/testnet/v0/irita --pruning=nothing
 
 验证：
-irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-irita tx bank send v0 $(irita keys show v1 -a) 100000point --chain-id=shilei-qa --fees=4point -b block -y
+irita tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
+irita tx bank send v0 $(irita keys show v1 -a) 100000point --chain-id=qa-test --fees=4point -b block -y
 
 ========
 openssl 具体步骤
 ========
 rm -rf ~/testnet
 1）初始化 genesis.json 文件
-irita init --home=/Users/sherlock/testnet/v0/irita --chain-id=shilei-qa v0
+irita init --home=/Users/sherlock/testnet/v0/irita --chain-id=qa-test v0
 
 2）创建一个初始化账户v0
 irita genkey --type=validator --home=/Users/sherlock/testnet/v0/irita --out-file=/Users/sherlock/testnet/priv_v0_validator.pem
@@ -132,7 +132,7 @@ irita keys show v0
 irita query account $(irita keys show v0 --address) 
 irita query bank balances  $(irita keys show v0 --address)
 
-irita tx bank send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100000point --chain-id=shilei-qa --fees=4point -b block -y
+irita tx bank send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100000point --chain-id=qa-test --fees=4point -b block -y
 irita query account iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 
 irita query bank balances iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 
@@ -169,7 +169,7 @@ http://localhost:1317/swagger
 *******************************************
 irita rest-server
 
-irita tx sign "/Users/sherlock/my_workspace/waterdrop/common/iris 主要模块/0-7_tx-generate" --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+irita tx sign "/Users/sherlock/my_workspace/waterdrop/common/iris 主要模块/0-7_tx-generate" --from=v0 --chain-id=qa-test >~/my_workspace/Tx-sign
 irita tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 

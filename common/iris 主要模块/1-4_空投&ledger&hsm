@@ -15,10 +15,10 @@ iriscli keys add a --ledger
 
 // 一般faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg 不会变
 iriscli bank account faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg
-echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.1iris --chain-id=shilei-qa --from=v0 --to=faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg --commit
+echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.1iris --chain-id=qa-test --from=v0 --to=faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg --commit
 iriscli bank account faa1984umpzmczvrrgfnlaqhsr9jygxkvnsqytllwg
 
-iriscli bank send --amount=1iris --fee=0.1iris --chain-id=shilei-qa --from=a --to=faa124ngsdftl8um8zs9c83g08h8cqg37x6vyv2gx6 --commit
+iriscli bank send --amount=1iris --fee=0.1iris --chain-id=qa-test --from=a --to=faa124ngsdftl8um8zs9c83g08h8cqg37x6vyv2gx6 --commit
 
 
 ========
@@ -29,10 +29,10 @@ Ledger 输入pin 00000000，进入cosmos app
 iriscli keys list
 iriscli keys add b --ledger  // faa14qy8a6eed5xqjudzgnmutth6ck4f6yz3cnka6k
 
-echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.1iris --chain-id=shilei-qa --from=v0 --to=faa14qy8a6eed5xqjudzgnmutth6ck4f6yz3cnka6k --commit
+echo 1234567890 | iriscli bank send --amount=10000iris --fee=0.1iris --chain-id=qa-test --from=v0 --to=faa14qy8a6eed5xqjudzgnmutth6ck4f6yz3cnka6k --commit
 iriscli bank account faa14qy8a6eed5xqjudzgnmutth6ck4f6yz3cnka6k
 
-iriscli bank send --amount=1iris --fee=0.1iris --chain-id=shilei-qa --from=b --to=faa124ngsdftl8um8zs9c83g08h8cqg37x6vyv2gx6 --commit
+iriscli bank send --amount=1iris --fee=0.1iris --chain-id=qa-test --from=b --to=faa124ngsdftl8um8zs9c83g08h8cqg37x6vyv2gx6 --commit
 iriscli bank account faa124ngsdftl8um8zs9c83g08h8cqg37x6vyv2gx6
 
 
@@ -40,7 +40,7 @@ iriscli bank account faa124ngsdftl8um8zs9c83g08h8cqg37x6vyv2gx6
 主网
 ========
 iriscli keys add a --ledger
-iriscli bank send --amount=10000iris --fee=1iris --chain-id=shilei-qa --from=v0 --to=iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --commit
+iriscli bank send --amount=10000iris --fee=1iris --chain-id=qa-test --from=v0 --to=iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4 --commit
 iriscli bank account iaa1984umpzmczvrrgfnlaqhsr9jygxkvnsquye8w4
 
 // 用测试账户转账5iris到主网ledger账户中
@@ -104,7 +104,7 @@ subl ~/my_workspace/kms/tmkms.toml （注意：初始密码是 key 1 password，
 #把原来都替换 ===》
 *************************************
 [[chain]]
-id = "shilei-qa"  #要和后面keys中的保持一致
+id = "qa-test"  #要和后面keys中的保持一致
 key_format = { type = "bech32", account_key_prefix = "fap", consensus_key_prefix = "fcp" }
 # state_file = "/path/to/irishub_priv_validator_state.json"
 
@@ -112,7 +112,7 @@ key_format = { type = "bech32", account_key_prefix = "fap", consensus_key_prefix
 [[validator]]
 addr = "tcp://localhost:26658"
 # or addr = "unix:///path/to/socket"
-chain_id = "shilei-qa"
+chain_id = "qa-test"
 reconnect = true # true is the default
 secret_key = "/Users/sherlock/my_workspace/kms/secret_connection.key"
 # max_height = "500000"
@@ -121,7 +121,7 @@ secret_key = "/Users/sherlock/my_workspace/kms/secret_connection.key"
 # 这里要加注释！！！！！！！！
 adapter = { type = "usb" }
 auth = { key = 1, password = "password" } # Default YubiHSM admin credentials. Change ASAP!
-keys = [{ chain_ids = ["shilei-qa"], key = 7 }]
+keys = [{ chain_ids = ["qa-test"], key = 7 }]
 #serial_number = "0123456789" # identify serial number of a specific YubiHSM to connect to
 *************************************
 

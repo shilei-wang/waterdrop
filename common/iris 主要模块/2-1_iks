@@ -53,17 +53,17 @@ iks keys post b 1234567890 | jq
 
 
 给账户里转一笔钱：
-echo 1234567890 | iriscli bank send --amount=20000iris --fee=0.004iris --commit --chain-id=shilei-qa --from=v0 --to=iaa178wrg5w9dpl6hjkyy3w4k7yg6n49pdsw53u2pl
+echo 1234567890 | iriscli bank send --amount=20000iris --fee=0.004iris --commit --chain-id=qa-test --from=v0 --to=iaa178wrg5w9dpl6hjkyy3w4k7yg6n49pdsw53u2pl
 
 cd ~
 //从第一个账户地址转账到第二个账户地址, chain-id，memo ，fee
-iks tx bank send $(iks keys show a | jq -r .address) $(iks keys show b | jq -r .address) 10000iris shilei-qa "memo" 1iris > unsigned.json
+iks tx bank send $(iks keys show a | jq -r .address) $(iks keys show b | jq -r .address) 10000iris qa-test "memo" 1iris > unsigned.json
 
 //查一下签名地址的 account num和 sequence id ： 1和0
 iriscli bank account $(iks keys show a | jq -r .address)
 
 //签名, chain-id ，account num, sequence id
-iks tx sign a 1234567890 shilei-qa 3 0 unsigned.json > signed.json
+iks tx sign a 1234567890 qa-test 3 0 unsigned.json > signed.json
 
 //广播
 iks tx broadcast signed.json
@@ -114,7 +114,7 @@ localhost:3000/tx/bank/send
 	"sender": "iaa178wrg5w9dpl6hjkyy3w4k7yg6n49pdsw53u2pl",
 	"reciever": "iaa1p2fspv2wltf4v5pecw9kdpekpqcrlyzzd8dxz3",
 	"amount": "1000iris",
-	"chain-id": "shilei-qa",
+	"chain-id": "qa-test",
 	"memo": "test-1iris",
 	"fees": "1iris",
 	"gas_adjustment": "1"
@@ -131,7 +131,7 @@ localhost:3000/tx/sign
 {
 	"name":"a",
 	"password": "1234567890",
-	"chain_id": "shilei-qa",
+	"chain_id": "qa-test",
 	"account_number": "3",
 	"sequence": "1",
 	"tx": {"type":"irishub/bank/StdTx","value":{"msg":[{"type":"irishub/bank/Send","value":{"inputs":[{"address":"iaa1tqsvc4ydjz6agkd0x3ufurlf0lqavqlmlnck45","coins":[{"denom":"iris-atto","amount":"1000000000000000000000"}]}],"outputs":[{"address":"iaa1p2fspv2wltf4v5pecw9kdpekpqcrlyzzd8dxz3","coins":[{"denom":"iris-atto","amount":"1000000000000000000000"}]}]}}],"fee":{"amount":[{"denom":"iris-atto","amount":"1000000000000000000"}],"gas":"50000"},"signatures":[],"memo":"test-1iris"}}

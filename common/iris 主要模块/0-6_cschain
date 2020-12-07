@@ -62,14 +62,14 @@ cschain version
 *******************************************
 //注意cschain 没有guardian
 cd ~ && rm -rf .cschain testnet
-cschain testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+cschain testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/cschain/config/genesis.json
 sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/cschain/config/app.toml
 sed -i '' 's/\"500000000\"/\"50000000000000000\"/g' /Users/sherlock/testnet/v0/cschain/config/genesis.json
 cschain start --home=/Users/sherlock/testnet/v0/cschain
 
 验证：
-cschain tx bank send v0 $(cschain keys show v0 -a) 123point --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx bank send v0 $(cschain keys show v0 -a) 123point --chain-id=qa-test --fees=4point -b block -y
 cschain query bank balances $(cschain keys show v0 -a)
 
 //cschain keys add v1 --recover
@@ -83,7 +83,7 @@ subl /Users/sherlock/testnet/v0/cschain/config/genesis.json
 ========
 注意：这里生成的证书名字 刻意和testnet起的一样。root_cert.pem  root_key.pem
 rm -rf /Users/sherlock/.cschain /Users/sherlock/testnet
-cschain init --home=/Users/sherlock/testnet/v0/cschain --chain-id=shilei-qa v0
+cschain init --home=/Users/sherlock/testnet/v0/cschain --chain-id=qa-test v0
 cschain add-genesis-account $(cschain keys show v0 -a) 1000000000point --home=/Users/sherlock/testnet/v0/cschain --root-admin
 cschain genkey --home=/Users/sherlock/testnet/v0/cschain --out-file=/Users/sherlock/testnet/root_key.pem
 openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/root_cert.pem -days 365
@@ -98,10 +98,10 @@ sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/cschain/config/app.toml
 cschain start --home=/Users/sherlock/testnet/v0/cschain --pruning=nothing
 
 
-cschain tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 验证：
-cschain tx bank send v0 $(cschain keys show v0 -a) 123point --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx bank send v0 $(cschain keys show v0 -a) 123point --chain-id=qa-test --fees=4point -b block -y
 cschain query bank balances $(cschain keys show v0 -a)
 
 
@@ -109,9 +109,9 @@ cschain query bank balances $(cschain keys show v0 -a)
 token
 ====================
 发行资产：（必须是 PowerUser）
-cschain tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4point -b block -y --symbol=a01
+cschain tx token issue --name=token-name --min-unit="mu01" --scale=9 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4point -b block -y --symbol=a01
 
-cschain tx bank send v0 $(cschain keys show v0 -a) 1mu01 --fees=4point --chain-id=shilei-qa -b block -y |jq
+cschain tx bank send v0 $(cschain keys show v0 -a) 1mu01 --fees=4point --chain-id=qa-test -b block -y |jq
 
 查询资产：
 cschain query token tokens -o=json $(cschain keys show v0 -a) |jq
@@ -120,16 +120,16 @@ cschain query token tokens -o=json  |jq
 
 
 修改资产：
-cschain tx token edit a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=shilei-qa --fees=4point -b block -y |jq
+cschain tx token edit a01 --name="Cat" --max-supply=99999 --mintable=true --from=v0 --chain-id=qa-test --fees=4point -b block -y |jq
 cschain query token token -o=json a01 |jq
 
 增发资产：
-echo y| cschain tx token mint a01 --amount=1 --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+echo y| cschain tx token mint a01 --amount=1 --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --from=v0 --chain-id=qa-test --fees=4point -b block -y
 cschain query bank balances -o=json iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 |jq
 
 
 转让asset：
-cschain tx token transfer a01 --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx token transfer a01 --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --from=v0 --chain-id=qa-test --fees=4point -b block -y
 cschain query token tokens -o=json iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 |jq
 
 查询fee：
@@ -140,11 +140,11 @@ cschain query token fee -o=json a01 |jq
 NFT
 ====================
 issue：
-cschain tx nft issue d01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx nft issue d01 --from=v0 --chain-id=qa-test --fees=4point -b block -y
 // --schema=<schema-content or path/to/schema.json>
 
 mint:
-cschain tx nft mint d01 a01 --recipient=$(cschain keys show v0 --address) --name="name" --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx nft mint d01 a01 --recipient=$(cschain keys show v0 --address) --name="name" --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 查询：
 cschain query nft supply d01 --owner=$(cschain keys show v0 --address)
@@ -158,15 +158,15 @@ cschain query nft token -o=json d01 a01 |jq
 
 
 edit（必须要用owner）：
-cschain tx nft edit d01 a01 --name="name2" --uri="tokenURI2" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx nft edit d01 a01 --name="name2" --uri="tokenURI2" --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 transfer：
-cschain tx nft transfer iaa1pkhw2svp2m7fd3mstpylfk48rrlal8sdmv3kqc d01 a01 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx nft transfer iaa1pkhw2svp2m7fd3mstpylfk48rrlal8sdmv3kqc d01 a01 --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 burn：
-cschain tx nft mint d01 a02 --recipient=$(cschain keys show v0 --address) --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx nft mint d01 a02 --recipient=$(cschain keys show v0 --address) --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
-cschain tx nft burn d01 a02 --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx nft burn d01 a02 --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 
 ====================
@@ -175,7 +175,7 @@ Record
 
 1. [交易] 提交存证
 // --description="hahaha" --onchain-data="shelwin flighting"
-cschain tx record create --chain-id=shilei-qa "hahaha" "flighting" --from=v0 --fees=4point -b block -y --meta="metadata" --uri="uridata"
+cschain tx record create --chain-id=qa-test "hahaha" "flighting" --from=v0 --fees=4point -b block -y --meta="metadata" --uri="uridata"
 
 2. 查询存证
 cschain query record record 5d790ef03ad6726d560945dc98ad11686953deb034720ddc69dd10feb2172e06 -o=json |jq
@@ -191,7 +191,7 @@ cschain query record record 5d790ef03ad6726d560945dc98ad11686953deb034720ddc69dd
     定义
 ===================
 1. 服务定义
-cschain tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
+cschain tx service define --chain-id=qa-test --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
 
 2. 服务定义查询 （可以查询 method id）
 cschain query service definition -o=json a001 |jq
@@ -205,10 +205,10 @@ cschain query service schema result -o=json |jq
 ===================
 1. 服务绑定
 //owner是v0， provider也是v0
-cschain tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_cschain.json --service-name=a001 --qos=5
+cschain tx service bind --chain-id=qa-test --fees=4point -b block -y --from=v0 --deposit=20000point --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_cschain.json --service-name=a001 --qos=5
 
 //owner是v0， provider也是v1
-cschain tx service bind --chain-id=shilei-qa --fees=4point --provider=$(cschain keys show v1 --address) -b block -y --from=v0 --options={} --deposit=20000cschain --pricing=/Users/sherlock/my_workspace/service/pricing_cschain.json --service-name=a001 --qos=5
+cschain tx service bind --chain-id=qa-test --fees=4point --provider=$(cschain keys show v1 --address) -b block -y --from=v0 --options={} --deposit=20000cschain --pricing=/Users/sherlock/my_workspace/service/pricing_cschain.json --service-name=a001 --qos=5
 
 2. 查询服务绑定
 cschain query service binding  -o=json a001 $(cschain keys show v0 --address) |jq
@@ -218,22 +218,22 @@ cschain query service bindings -o=json a001 |jq
 cschain query service bindings -o=json a001 --owner=$(cschain keys show v0 --address) |jq
 
 3. 更新绑定 --min-resp-time（qos）也可以改
-cschain tx service update-binding a001 $(cschain keys show v0 --address) --chain-id=shilei-qa --from=v0 --options={} --fees=4point -b block -y --deposit=2point --qos=6
+cschain tx service update-binding a001 $(cschain keys show v0 --address) --chain-id=qa-test --from=v0 --options={} --fees=4point -b block -y --deposit=2point --qos=6
 
 4. 设置提取地址 （所有的provider只能通过owner的地址提取）
-cschain tx service set-withdraw-addr --chain-id=shilei-qa --from=v0 --fees=4point -b block -y iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
+cschain tx service set-withdraw-addr --chain-id=qa-test --from=v0 --fees=4point -b block -y iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
 
 //查询提取地址
 cschain query service withdraw-addr $(cschain keys show v0 --address)
 
 7.服务失效
-cschain tx service disable a001 $(cschain keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+cschain tx service disable a001 $(cschain keys show v0 --address) --chain-id=qa-test --from=v0 --fees=4point -b block -y
 
 8.服务恢复 ，可以增加抵押
-cschain tx service enable a001 $(cschain keys show v0 --address) --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --deposit=1point
+cschain tx service enable a001 $(cschain keys show v0 --address) --chain-id=qa-test --from=v0 --fees=4point -b block -y --deposit=1point
 
 9. 取回抵押 (滞后 COMPLAINT_RETROSPECT (Gov) + ARBITRATION_TIMELIMIT (Gov)) 、、这个还没有测
-cschain tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+cschain tx service refund-deposit a001 --chain-id=qa-test --from=v0 --fees=4point -b block -y
 //cschain tx service refund-deposit <service-name> <provider-address>
 
 ===================
@@ -242,10 +242,10 @@ cschain tx service refund-deposit a001 --chain-id=shilei-qa --from=v0 --fees=4po
 1. 服务调用
 1）批量请求
 //单个
-cschain tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1point --data=/Users/sherlock/my_workspace/service/data.json --providers=$(cschain keys show v0 --address) |jq
+cschain tx service call --chain-id=qa-test --from=v0 --fees=4point -b block -y --service-name=a001  --timeout=20 --service-fee-cap=1point --data=/Users/sherlock/my_workspace/service/data.json --providers=$(cschain keys show v0 --address) |jq
 
 //重复
-cschain tx service call --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --service-name=a001 --service-fee-cap=1point --data=/Users/sherlock/my_workspace/service/data.json --providers=$(cschain keys show v0 -a) --timeout=20 --repeated --frequency=20 --total=-1 |jq
+cschain tx service call --chain-id=qa-test --from=v0 --fees=4point -b block -y --service-name=a001 --service-fee-cap=1point --data=/Users/sherlock/my_workspace/service/data.json --providers=$(cschain keys show v0 -a) --timeout=20 --repeated --frequency=20 --total=-1 |jq
 
 
 查询请求列表
@@ -275,7 +275,7 @@ cschain query service requests -o=json 969E689F9DF2F845667217081B542F9D17CF64E40
 
 
 2.相应请求
-cschain tx service respond --chain-id=shilei-qa --from=v0  --fees=4point -b block -y  --data=/Users/sherlock/my_workspace/service/data.json --result='{"code":200,"message":"it500"}' --request-id=$(cschain query service requests a001 $(cschain keys show v0 --address) -o=json | jq -r .requests[0].id) |jq
+cschain tx service respond --chain-id=qa-test --from=v0  --fees=4point -b block -y  --data=/Users/sherlock/my_workspace/service/data.json --result='{"code":200,"message":"it500"}' --request-id=$(cschain query service requests a001 $(cschain keys show v0 --address) -o=json | jq -r .requests[0].id) |jq
 
 
 
@@ -290,8 +290,8 @@ cschain query service fees -o=json $(cschain keys show v0 --address) |jq
 
 
 2.提取服务调用产生的服务费
-cschain tx service withdraw-fees --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
-cschain tx service withdraw-fees iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+cschain tx service withdraw-fees --chain-id=qa-test --from=v0 --fees=4point -b block -y
+cschain tx service withdraw-fees iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --chain-id=qa-test --from=v0 --fees=4point -b block -y
 
 // cschain query bank balances -o=json iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 |jq
 
@@ -307,19 +307,19 @@ cschain query service request-context -o=json $CONTEXTID |jq
 cschain query service requests a001 -o=json $(cschain keys show v0 --address) |jq
 
 2. 暂停请求上下文
-cschain tx service pause --chain-id=shilei-qa --from=v0  --fees=4point -b block -y $CONTEXTID
+cschain tx service pause --chain-id=qa-test --from=v0  --fees=4point -b block -y $CONTEXTID
 
 3. 启动请求上下文
 //state变成running , BatchState在complete状态也会变running
-cschain tx service start --chain-id=shilei-qa --from=v0 --fees=4point -b block -y $CONTEXTID
+cschain tx service start --chain-id=qa-test --from=v0 --fees=4point -b block -y $CONTEXTID
 
 4. 更新请求上下文
-cschain tx service update --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  --frequency=20 --total=3000 $CONTEXTID
+cschain tx service update --chain-id=qa-test --from=v0 --fees=4point -b block -y  --frequency=20 --total=3000 $CONTEXTID
 
 5. 终止请求上下文
 // state变成complete
 // 非repeated 不能kill
-cschain tx service kill --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  $CONTEXTID
+cschain tx service kill --chain-id=qa-test --from=v0 --fees=4point -b block -y  $CONTEXTID
 
 6. 查询请求上下文的请求列表 （注意价格不到的请求是会被过滤掉）
 //列表只有有效的才会被查出， 但是cschain service request-context 永远能查出）
@@ -362,8 +362,8 @@ cschain keys show v1 --address
 add-roles
 =====
 // PERM_ADMIN(控制权限， 只能有root添加和删除此权限， PermAdmin不能操作同样有PermAdmin权限的用户), BLACKLIST_ADMIN（黑名单，带admin的不能被加入黑名单）, NODE_ADMIN（节点，验证人）, PARAM_ADMIN （参数修改）, POWER_USER （issue mint oracle）
-cschain tx admin add-roles $(cschain keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-cschain tx admin add-roles $(cschain keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN NODE_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx admin add-roles $(cschain keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=qa-test --fees=4point -b block -y
+cschain tx admin add-roles $(cschain keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN NODE_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 =====
 query roles
@@ -375,18 +375,18 @@ cschain query admin roles $(cschain keys show v0 --address)
 =====
 remove-roles
 =====
-cschain tx admin remove-roles $(cschain keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
-cschain tx admin remove-roles $(cschain keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN NODE_ADMIN --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx admin remove-roles $(cschain keys show v1 --address) NODE_ADMIN --from=v0 --chain-id=qa-test --fees=4point -b block -y
+cschain tx admin remove-roles $(cschain keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN NODE_ADMIN --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 =====
 block-account
 =====
 //限制该用户所有交易
-cschain tx admin block-account $(cschain keys show v1 --address) --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx admin block-account $(cschain keys show v1 --address) --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 --
-cschain tx bank send v0 $(cschain keys show v1 -a) 10000point --chain-id=shilei-qa --fees=4point -b block -y
-cschain tx bank send v1 $(cschain keys show v1 --address) 1point --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx bank send v0 $(cschain keys show v1 -a) 10000point --chain-id=qa-test --fees=4point -b block -y
+cschain tx bank send v1 $(cschain keys show v1 --address) 1point --chain-id=qa-test --fees=4point -b block -y
 
 cschain query bank balances $(cschain keys show v1 -a)
 
@@ -401,7 +401,7 @@ cschain query admin blacklist
 =====
 unblock block-account
 =====
-cschain tx admin unblock-account $(cschain keys show v1 --address) --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx admin unblock-account $(cschain keys show v1 --address) --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 
 
@@ -416,7 +416,7 @@ cschain tx admin unblock-account $(cschain keys show v1 --address) --from=v0 --c
 init起链（注意：testnet是不会有cert.crt的！）
 ========
 rm -rf /Users/sherlock/.cschain /Users/sherlock/testnet
-cschain init --home=/Users/sherlock/testnet/v0/cschain --chain-id=shilei-qa v0
+cschain init --home=/Users/sherlock/testnet/v0/cschain --chain-id=qa-test v0
 cschain add-genesis-account $(cschain keys show v0 -a) 1000000000point --home=/Users/sherlock/testnet/v0/cschain --root-admin
 cschain genkey --home=/Users/sherlock/testnet/v0/cschain --out-file=/Users/sherlock/testnet/priv.pem
 openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/priv.pem -out /Users/sherlock/testnet/cert.crt -days 365
@@ -430,12 +430,12 @@ cschain start --home=/Users/sherlock/testnet/v0/cschain --pruning=nothing
 create validator
 =====
 //openssl
-cschain init --home=/Users/sherlock/testnet/x2/cschain --chain-id=shilei-qa x2
+cschain init --home=/Users/sherlock/testnet/x2/cschain --chain-id=qa-test x2
 cschain genkey --home=/Users/sherlock/testnet/x2/cschain --out-file=/Users/sherlock/testnet/priv_x2.pem
 openssl req -new -key /Users/sherlock/testnet/priv_x2.pem -out /Users/sherlock/testnet/key_x2.csr -sm3 -sigopt "distid:1234567812345678"
 
 openssl x509 -req -in /Users/sherlock/testnet/key_x2.csr -out /Users/sherlock/testnet/key_x2.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/cert.crt -CAkey /Users/sherlock/testnet/priv.pem -CAcreateserial
-cschain tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --description=description --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --description=description --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 =====
 重要： 记录上面返回的id
@@ -481,17 +481,17 @@ cschain query validator list
 update validator（通过id）
 =====
 //注意power=0是默认值， 默认不改变
-cschain tx validator update $VID --cert=/Users/sherlock/testnet/key_x2.crt --power=200002222222  --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx validator update $VID --cert=/Users/sherlock/testnet/key_x2.crt --power=200002222222  --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 =====
 remove validator（通过id）
 =====
-cschain tx validator remove $VID --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx validator remove $VID --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 =====
 unjail validator（通过id）100块没有上线就会被jail
 =====
-cschain tx slashing unjail $VID --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx slashing unjail $VID --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 
 
@@ -504,9 +504,9 @@ oracle
 ===
 定义, 绑定
 ===
-cschain tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
+cschain tx service define --chain-id=qa-test --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4point -b block -y
 
-cschain tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_cschain.json --service-name=a001 --qos=5
+cschain tx service bind --chain-id=qa-test --fees=4point -b block -y --from=v0 --deposit=20000point --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_cschain.json --service-name=a001 --qos=5
 
 
 ===
@@ -519,21 +519,21 @@ cschain tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0
 //State初始=pause
 //--value-json-path="data.user.name"
 //不定义create会报错， 不绑定不会报错， 但是后续request会收不到。这里要注意。
-cschain tx oracle create --chain-id=shilei-qa --from=v0 --fees=4point --description=description --latest-history=10 --service-name=a001 --input=/Users/sherlock/my_workspace/service/input.json --providers=$(cschain keys show v0 --address) --service-fee-cap=1point --timeout=20 --frequency=20 --threshold=1 --aggregate-func="avg" --value-json-path="body.data" --feed-name=f001 -b block -y  | jq
+cschain tx oracle create --chain-id=qa-test --from=v0 --fees=4point --description=description --latest-history=10 --service-name=a001 --input=/Users/sherlock/my_workspace/service/input.json --providers=$(cschain keys show v0 --address) --service-fee-cap=1point --timeout=20 --frequency=20 --threshold=1 --aggregate-func="avg" --value-json-path="body.data" --feed-name=f001 -b block -y  | jq
 
 2. Query Feed
 cschain query oracle feed -o=json f001 | jq
 
 3. Start Feed
 //State=running
-cschain tx oracle start f001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  | jq
+cschain tx oracle start f001 --chain-id=qa-test --from=v0 --fees=4point -b block -y  | jq
 
 4. Pause Feed
 //State=pause
-cschain tx oracle pause f001 --chain-id=shilei-qa --from=v0 --fees=4point -b block -y  | jq
+cschain tx oracle pause f001 --chain-id=qa-test --from=v0 --fees=4point -b block -y  | jq
 
 5. Update Feed
-cschain tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4point --latest-history=2 -b block -y  | jq
+cschain tx oracle edit f001 --chain-id=qa-test --from=v0 --fees=4point --latest-history=2 -b block -y  | jq
 // --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1cschain --timeout=5 --frequency=5 --total=-1 --threshold=1 --description  --latest-history --service-fee-cap --timeout --frequency --total --threshold
 
 6. Query Feeds
@@ -549,7 +549,7 @@ cschain query oracle value f001 -o=json | jq
     **************
     单人响应
     **************
-cschain tx service respond --chain-id=shilei-qa --from=v0 --fees=4point --request-id=$(cschain query service requests a001 $(cschain keys show v0 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "12345"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
+cschain tx service respond --chain-id=qa-test --from=v0 --fees=4point --request-id=$(cschain query service requests a001 $(cschain keys show v0 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "12345"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
 
 //如果查不到 可能是create的时候--value-json-path不对。
 cschain query oracle value f001 -o=json | jq
@@ -566,25 +566,25 @@ cschain keys add v1 --recover
 figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
 // iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
 
-cschain tx bank send v0  $(cschain keys show v1 -a) 100000point --fees=4point --chain-id=shilei-qa -b block -y
+cschain tx bank send v0  $(cschain keys show v1 -a) 100000point --fees=4point --chain-id=qa-test -b block -y
 cschain query bank balances $(cschain keys show v1 -a)
 
-cschain tx admin add-roles $(cschain keys show v1 --address) POWER_USER --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx admin add-roles $(cschain keys show v1 --address) POWER_USER --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 //增加一个provider v1
-cschain tx oracle edit f001 --chain-id=shilei-qa --from=v0 --fees=4point --providers=$(cschain keys show v0 --address),$(cschain keys show v1 --address) -b block -y  | jq
+cschain tx oracle edit f001 --chain-id=qa-test --from=v0 --fees=4point --providers=$(cschain keys show v0 --address),$(cschain keys show v1 --address) -b block -y  | jq
 
 //v1也要绑定， 不绑定就不能respond
-cschain tx service bind --chain-id=shilei-qa --fees=4point -b block -y  --from=v1 --deposit=20000point --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_cschain.json --service-name=a001 --qos=5
+cschain tx service bind --chain-id=qa-test --fees=4point -b block -y  --from=v1 --deposit=20000point --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_cschain.json --service-name=a001 --qos=5
 
 //等一会儿，到下一轮，两个都可以查到了，此条不用执行
 cschain query service requests -o=json a001 $(cschain keys show v0 --address) |jq
 cschain query service requests -o=json a001 $(cschain keys show v1 --address) |jq
 
 //v0 ， v1 ：分别response 1次，共2次
-cschain tx service respond --chain-id=shilei-qa --from=v0 --fees=4point --request-id=$(cschain query service requests a001 $(cschain keys show v0 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "100"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
+cschain tx service respond --chain-id=qa-test --from=v0 --fees=4point --request-id=$(cschain query service requests a001 $(cschain keys show v0 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "100"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
 
-cschain tx service respond --chain-id=shilei-qa --from=v1 --fees=4point --request-id=$(cschain query service requests a001 $(cschain keys show v1 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "200"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
+cschain tx service respond --chain-id=qa-test --from=v1 --fees=4point --request-id=$(cschain query service requests a001 $(cschain keys show v1 --address) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"data": "200"}}' --result='{"code":200,"message":"ok"}' -b block -y  | jq
 
 //查询结果，等到一轮timeout以后出结果， 如果出现150就说明成功了，取了2个的均值。
 cschain query oracle value f001 -o=json | jq
@@ -603,7 +603,7 @@ cschain query oracle value f001 -o=json | jq
 ===
 //记录request_id
 //block-interval默认为10
-cschain tx random request --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --block-interval=5 | jq
+cschain tx random request --chain-id=qa-test --from=v0 --fees=4point -b block -y --block-interval=5 | jq
 
 //5块后立即可以查询 (5块内查不到)
 cschain query random random -o=json 6ce0c7fbddf6f931143efbace1b0c168c2e9325534d418366231087ecc2d3369 | jq
@@ -618,10 +618,10 @@ cschain query random queue
 cschain query service definition random
 
 //自己定义： 目前已经子弹带了 所以这步不要自己做了 【注意一定要用random这个名字】
-//cschain tx service define --chain-id=shilei-qa --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas_random.json --name=random --fees=4point -b block -y
+//cschain tx service define --chain-id=qa-test --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas_random.json --name=random --fees=4point -b block -y
 
 2.绑定
-cschain tx service bind --chain-id=shilei-qa --fees=4point -b block -y --from=v0 --deposit=20000point --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_cschain.json --service-name=random --qos=5
+cschain tx service bind --chain-id=qa-test --fees=4point -b block -y --from=v0 --deposit=20000point --options={} --pricing=/Users/sherlock/my_workspace/service/pricing_cschain.json --service-name=random --qos=5
 
 //查询
 cschain query service bindings -o=json random | jq
@@ -629,7 +629,7 @@ cschain query service bindings -o=json random | jq
 3.request
 //block-interval默认为10 【注意 默认使用 random名字的服务】【这里记录request_id， 最后5）rand rand用】
 //注意 有2个request id， 一个是rand的request id， 一个是service的request id
-cschain tx random request-random --chain-id=shilei-qa --from=v0 --fees=4point -b block -y --block-interval=10 --oracle=true --service-fee-cap=1point | jq
+cschain tx random request-random --chain-id=qa-test --from=v0 --fees=4point -b block -y --block-interval=10 --oracle=true --service-fee-cap=1point | jq
 
 request id【rand】 ：b7e77397c3dd1093f3ba8093ba20ff2b85730290da0ed031557a24be0c55a32a
 generate_height   ：73
@@ -646,7 +646,7 @@ generate_height   ：73
 
 
 4.respond 这里会返回request-id 【过了20个块，就已经发出request了， 这个时候就可以respond了】这里用的service的request id
-cschain tx service respond --chain-id=shilei-qa --from=v0 --fees=4point --request-id=$(cschain query service requests random $(cschain keys show v0 -a) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"seed":"b7e77397c3dd1093f3ba8093ba20ff2b85730290da0ed031557a24be0c55a32a"}}' --result='{"code":200,"message":"ok"}' -b block -y | jq
+cschain tx service respond --chain-id=qa-test --from=v0 --fees=4point --request-id=$(cschain query service requests random $(cschain keys show v0 -a) -o=json | jq -r .requests[0].id) --data='{"header":{},"body":{"seed":"b7e77397c3dd1093f3ba8093ba20ff2b85730290da0ed031557a24be0c55a32a"}}' --result='{"code":200,"message":"ok"}' -b block -y | jq
 
 5.查询结果， request id【rand】， 注意不是4中的service的request-id 。
 cschain query random random -o=json b7e77397c3dd1093f3ba8093ba20ff2b85730290da0ed031557a24be0c55a32a | jq
@@ -660,8 +660,8 @@ cschain query random random -o=json b7e77397c3dd1093f3ba8093ba20ff2b85730290da0e
 ========================================================================================================================
 ========================================================================================================================
 
-cschain tx bank send $(cschain keys show v0 --address) $(cschain keys show v1 --address) 123point --chain-id=shilei-qa --fees=4point -b block -y --generate-only >~/my_workspace/Tx-generate
-cschain tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa >~/my_workspace/Tx-sign
+cschain tx bank send $(cschain keys show v0 --address) $(cschain keys show v1 --address) 123point --chain-id=qa-test --fees=4point -b block -y --generate-only >~/my_workspace/Tx-generate
+cschain tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=qa-test >~/my_workspace/Tx-sign
 cschain tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 cschain query bank balances $(cschain keys show v1 --address)
@@ -671,12 +671,12 @@ cschain query bank balances $(cschain keys show v1 --address)
 以不同sequence（这个没测）
 ====
 
-cschain tx send $(cschain keys show v0 --address) csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 1point --chain-id=shilei-qa --fees=4point -b block -y --generate-only  >~/my_workspace/Tx-generate
+cschain tx send $(cschain keys show v0 --address) csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 1point --chain-id=qa-test --fees=4point -b block -y --generate-only  >~/my_workspace/Tx-generate
 
 //注意 ：这里sequence一定要正确。
 //如果sequence大了， 则broadcast时会报错。
 //如果sequence小了， 则broadcast时会显示当时这个sequence交易时的hash，也就是老的hash，同一个sequence的hash一样。
-cschain tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=shilei-qa --offline --sequence=1 --account-number=0 >~/my_workspace/Tx-sign
+cschain tx sign ~/my_workspace/Tx-generate  --from=v0 --chain-id=qa-test --offline --sequence=1 --account-number=0 >~/my_workspace/Tx-sign
 cschain tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 cschain query tx --trust-node 2A6411BCAF75AF49A4AD34CDB839CF0F6E16AB4C59EF2FFD20513BB4CD31C8B7
@@ -690,7 +690,7 @@ cschain query account --trust-node csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf
 ========================================================================================================================
 
 cd ~ && rm -rf .cschain .csrb testnet
-csrb testnet --v=1 --chain-id=shilei-qa --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+csrb testnet --v=1 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
 csrb start --home=/Users/sherlock/testnet/v0/csrb --pruning=nothing
 
 注意：使用export功能的话，一定要加上--pruning=nothing ， 这个参数的含义是每个新块都会把数据写入数据库。
@@ -761,7 +761,7 @@ mv cschainhub-load ~/go/bin/cschainhub-load
 cschain rest-server --trust-node
 
 //初始转账
-cschain tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000000point --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx send v0 csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 50000000point --chain-id=qa-test --fees=4point -b block -y
 
 //注意:用的 config_csrb.json 配置文件
 cschainhub-load signtx --config-dir=$HOME/my_workspace --tps=1 --duration=1 --account=user0
@@ -780,7 +780,7 @@ cschainhub-load broadcast --config-dir=$HOME/my_workspace --tps=1
 
 //subl /Users/sherlock/my_workspace/service/param.json
 
-cschain tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
 cschain query slashing params
 
 
@@ -796,18 +796,18 @@ cschain keys add v1 --recover
 
 2）创建多签账户， 给这个多签账户转一笔初始token（10cschain）
 cschain keys add x1 --multisig-threshold=2 --multisig=v0,v1
-cschain tx bank send $(cschain keys show v0 --address) $(cschain keys show x1 --address) 100point --fees=4point --chain-id=shilei-qa --from=v0 -b block -y
+cschain tx bank send $(cschain keys show v0 --address) $(cschain keys show x1 --address) 100point --fees=4point --chain-id=qa-test --from=v0 -b block -y
 
 3）多签账户构造【转账】交易
-cschain tx bank send $(cschain keys show x1 --address) $(cschain keys show v0 --address) 1point --chain-id=shilei-qa --fees=4point  -b block -y --generate-only >~/my_workspace/Tx-generate
+cschain tx bank send $(cschain keys show x1 --address) $(cschain keys show v0 --address) 1point --chain-id=qa-test --fees=4point  -b block -y --generate-only >~/my_workspace/Tx-generate
 
 4）用v0，v1对Tx-generate进行签名
-cschain tx sign /Users/sherlock/my_workspace/Tx-generate --from=v0 --chain-id=shilei-qa --multisig=$(cschain keys show x1 --address)  --signature-only >~/my_workspace/Tx-sign-v0
+cschain tx sign /Users/sherlock/my_workspace/Tx-generate --from=v0 --chain-id=qa-test --multisig=$(cschain keys show x1 --address)  --signature-only >~/my_workspace/Tx-sign-v0
 
-cschain tx sign /Users/sherlock/my_workspace/Tx-generate --from=v1 --chain-id=shilei-qa --multisig=$(cschain keys show x1 --address)  --signature-only >~/my_workspace/Tx-sign-v1
+cschain tx sign /Users/sherlock/my_workspace/Tx-generate --from=v1 --chain-id=qa-test --multisig=$(cschain keys show x1 --address)  --signature-only >~/my_workspace/Tx-sign-v1
 
 5）合并2个签名,并生成Tx-signed
-cschain tx multisign --chain-id=shilei-qa /Users/sherlock/my_workspace/Tx-generate x1 /Users/sherlock/my_workspace/Tx-sign-v0 /Users/sherlock/my_workspace/Tx-sign-v1 > ~/my_workspace/Tx-signed
+cschain tx multisign --chain-id=qa-test /Users/sherlock/my_workspace/Tx-generate x1 /Users/sherlock/my_workspace/Tx-sign-v0 /Users/sherlock/my_workspace/Tx-sign-v1 > ~/my_workspace/Tx-signed
 
 6）广播签名
 cschain tx broadcast /Users/sherlock/my_workspace/Tx-signed -b block -y
@@ -825,7 +825,7 @@ cschain tx broadcast /Users/sherlock/my_workspace/Tx-signed -b block -y
 ============
 //所有参数都不带， 直接生成新UUID
 //记录返回id 后续使用
-cschain tx identity create --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+cschain tx identity create --chain-id=qa-test --from=v0 --fees=4point -b block -y
 
 ====================================
 【ecdsa加密】新创建带id，带参数的dentity【ecdsa加密】
@@ -835,7 +835,7 @@ cschain tx identity create --chain-id=shilei-qa --from=v0 --fees=4point -b block
 openssl req -new -x509 -sm3 -sigopt "distid:1234567812345678" -key /Users/sherlock/testnet/root_key.pem -out /Users/sherlock/testnet/cert.crt -days 365
 
 //id和pubkey 具体看后面
-cschain tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --fees=4point --from=v0 -b block -y
+cschain tx identity create --id=67eb663eccc148adb6878743e3156c01 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=qa-test --fees=4point --from=v0 -b block -y
 
 
 *****
@@ -879,7 +879,7 @@ credentials
 ====================================
 修改identity
 ====================================
-cschain tx identity update $UUID --credentials="credentials-uri23" --chain-id=shilei-qa --from=v0 --fees=4point -b block -y
+cschain tx identity update $UUID --credentials="credentials-uri23" --chain-id=qa-test --from=v0 --fees=4point -b block -y
 
 //可修改参数:
 --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c
@@ -899,13 +899,13 @@ cschain query identity identity $UUID
 ============
 
 //ECDSA 33  02+32 （例子已经写了）
-cschain tx identity create --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --id=67eb663eccc148adb6878743e3156c01 --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=shilei-qa --from=v0 -b block -y
+cschain tx identity create --pubkey=02b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675c --pubkey-algo=ecdsa --credentials="credentials-uri" --id=67eb663eccc148adb6878743e3156c01 --cert-file=/Users/sherlock/testnet/cert.crt --chain-id=qa-test --from=v0 -b block -y
 
 //ED25519 32  （实际链上不校验pubkey有效性，都是线下自己校验，长度对就行）
-cschain tx identity create --id=67eb663eccc148adb6878743e3156c36 --pubkey=b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=ed25519 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+cschain tx identity create --id=67eb663eccc148adb6878743e3156c36 --pubkey=b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=ed25519 --credentials="credentials-uri" --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 //SM2 03+32
-cschain tx identity create --id=67eb663eccc148adb6878743e3156c37 --pubkey=03b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=SM2 --credentials="credentials-uri" --chain-id=shilei-qa --from=v0 -o=json --indent -b block -y
+cschain tx identity create --id=67eb663eccc148adb6878743e3156c37 --pubkey=03b7a8c8144ad8e8162c2d408c55a212de459b88e04dbc5eb78d75baa11c38675d --pubkey-algo=SM2 --credentials="credentials-uri" --chain-id=qa-test --from=v0 -o=json --indent -b block -y
 
 //rsa和dsa
 1)需要先在网站生成秘钥对 ，选择对应的ras和dsa
@@ -959,7 +959,7 @@ create_empty_blocks_interval = "0s"    （时间代表，如果出空块，间�
 结果： 无交易每8秒出块， 有交易5秒出块
 
 测试用交易：
-cschain tx bank send v0 $(cschain keys show v0 -a) 123point --chain-id=shilei-qa --fees=4point -b block -y
+cschain tx bank send v0 $(cschain keys show v0 -a) 123point --chain-id=qa-test --fees=4point -b block -y
 
 
 
