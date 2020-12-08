@@ -48,8 +48,7 @@ rm -rf /Users/sherlock/.iris
 iris init testing --chain-id=qa-test
 iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
 iris gentx v0 --chain-id=qa-test --amount 100000000uiris
-sed -i '' 's/stake/uiris/g' /Users/sherlock/.iris/config/genesis.json
-sed -i '' 's/"supers": \[\]/"supers": \[{"description":"test","account_type":0,"address":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0","added_by":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0"}\]/g' /Users/sherlock/.iris/config/genesis.json
+/Users/sherlock/my_workspace/waterdrop/common/iris_home/0-5_genesis.sh irishub
 iris collect-gentxs
 iris start
 
@@ -172,6 +171,8 @@ iris tx nft burn d01 a02 --from=v0 --chain-id=qa-test --fees=4iris -b block -y
 ======================
 //注意：因为本链 所以other-chain这个暂时00
 //secret不填的话自动生成
+//time-lock=50 最小为50 只能通过改代码实现，所以自动化测试暂时测不了refund
+
 iris tx htlc create --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --amount=1iris --time-lock=50 --timestamp=1580000000 --receiver-on-other-chain=00 --from=v0 --chain-id=qa-test --fees=4iris -b block -y
 
 //也可以填
