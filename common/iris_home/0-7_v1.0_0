@@ -275,7 +275,7 @@ iris tx service set-withdraw-addr --chain-id=qa-test --from=v0 --fees=4iris -b b
 //查询提取地址
 iris query service withdraw-addr $(iris keys show v0 --address)
 
-7.服务失效
+7.服务失效 （disable的情况下可以被call， 返回code0， 但是不会起作用）
 iris tx service disable a001 $(iris keys show v0 --address) --chain-id=qa-test --from=v0 --fees=4iris -b block -y
 
 8.服务恢复 ，可以增加抵押
