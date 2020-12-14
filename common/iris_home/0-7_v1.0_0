@@ -423,7 +423,7 @@ iris tx oracle pause f001 --chain-id=qa-test --from=v0 --fees=4iris -b block -y 
 
 5. Update Feed
 iris tx oracle edit f001 --chain-id=qa-test --from=v0 --fees=4iris --latest-history=2 -b block -y  | jq
-// --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1iris --timeout=5 --frequency=5 --total=-1 --threshold=1 --description  --latest-history --service-fee-cap --timeout --frequency --total --threshold
+// --providers=faa1r3tyupskwlh07dmhjw70frxzaaaufta37y25yr --service-fee-cap=1iris --timeout=5 --frequency=5 --threshold=1 --description  --latest-history --service-fee-cap --timeout --frequency --total --threshold
 
 6. Query Feeds
 iris query oracle feeds --state=running -o=json  | jq
