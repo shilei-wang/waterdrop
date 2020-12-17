@@ -1,18 +1,35 @@
 
-=======
-
-oracle (atom)
-csrb wallet??
-
-
-自动化测试 cschain
+*******************************************
+           cschain 自动化测试脚本
+*******************************************
+下载：
+cd /Users/sherlock/go/src/gitlab.bianjie.ai/irishub
 
 
+这个后还没有做：
+git clone https://gitlab.bianjie.ai/qa/irita-test.git
+cd irita-test
+git remote add upstream  https://gitlab.bianjie.ai/qa/irita-test.git
+git fetch --all
 
 
+======
+cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Keywords/irismod /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irita-test/Keywords
+cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Keywords/utils   /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irita-test/Keywords
+cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Scripts/irismod   /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irita-test/Scripts
+cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Test\ Cases/irismod /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irita-test/Test\ Cases/
 
 
-现存问题
+//
+cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Keywords/irismod /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irita-test/Keywords
+cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Scripts/irismod   /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irita-test/Scripts
+
+
+*******************************************
+           现存问题
+*******************************************
+
+
 ----
 create validator 还有问题
 cschain query slashing signing-info
@@ -98,7 +115,10 @@ sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/cschain/config/app.toml
 cschain start --home=/Users/sherlock/testnet/v0/cschain --pruning=nothing
 
 
+//这个要执行， 转账和其他issue权限
 cschain tx params update /Users/sherlock/my_workspace/params/param_bank.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
+cschain tx admin add-roles $(cschain keys show v1 --address) PERM_ADMIN BLACKLIST_ADMIN NODE_ADMIN PARAM_ADMIN POWER_USER RELAYER_USER ID_ADMIN --from=v0 --chain-id=qa-test --fees=4point -b block -y
+
 
 验证：
 cschain tx bank send v0 $(cschain keys show v0 -a) 123point --chain-id=qa-test --fees=4point -b block -y

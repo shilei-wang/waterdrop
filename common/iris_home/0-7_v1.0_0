@@ -489,9 +489,12 @@ iris query oracle value f001 -o=json | jq
 //block-interval默认为10
 iris tx random request --chain-id=qa-test --from=v0 --fees=4iris -b block -y --block-interval=5 | jq
 
-//5块后立即可以查询 (5块内查不到)
-iris query random random -o=json 8bfa888757f6e5e5936045cef893498ee077d3ea2c1e7fe174fcedf0687c451d | jq
+//5块内立即可以查询
 iris query random queue
+
+//5块后立即可以查询 (5块内查不到)
+iris query random random -o=json b56f4742d0f190d19893e16a6b512b8a226903db725b93b78a8e0515d667e56e | jq
+
 
 ===
 使用service中的oracle
