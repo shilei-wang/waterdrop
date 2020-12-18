@@ -1,0 +1,220 @@
+bug： 后续关注一下。
+
+1. cschain query node params ：查询、更新中，"value"的数据结构为integer， 和其他模块（string）数据结构不统一，需要修改一下。
+2. cschain tx params update ： token中的amount， 如果带小数， 交易会失败 => math/big: cannot unmarshal \"1.00\" .  另外，查询出来的amount是带小数的。
+
+==============================
+注意：
+==============================
+1. 目前只测node , auth ,  slashing , service, token 这5个模块。
+可以用  cschain query slashing params 查询
+
+2. 其他模块，如bank 都是cosmos的，
+只能用 cschain tx params subspace *** 查询， 具体参数要用rest查
+
+3. irishub 那里的params是通过gov改的， cosmos做的
+
+
+============================================================
+基于远程rafactor分支，创建一个新的分支，修改后再上传， pr
+============================================================
+cd /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test
+git remote add upstream  https://gitlab.bianjie.ai/qa/irishub-test.git
+
+
+git fetch --all
+git checkout .
+git pull
+git branch && git rev-parse HEAD
+
+
+git fetch --all
+git checkout -b add-params upstream/refactor
+git branch && git rev-parse HEAD
+
+==============================
+命令
+==============================
+
+cschain tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
+
+cschain query token params
+
+cschain query params subspace key
+
+
+
+==============================
+token
+==============================
+[
+    {
+        "subspace": "token",
+        "key": "IssueTokenBaseFee",
+        "value":
+            {
+                "denom": "point",
+                "amount": "1"
+            }
+    },
+    {
+        "subspace": "token",
+        "key": "MintTokenFeeRatio",
+        "value": "1"
+    },
+    {
+        "subspace": "token",
+        "key": "TokenTaxRate",
+        "value": "1"
+    }
+]
+
+==============================
+service
+==============================
+
+[
+    {
+        "subspace": "service",
+        "key": "ArbitrationTimeLimit",
+        "value": "1"
+    },
+    {
+        "subspace": "service",
+        "key": "BaseDenom",
+        "value": "point"
+    },
+    {
+        "subspace": "service",
+        "key": "ComplaintRetrospect",
+        "value": "1"
+    },
+    {
+        "subspace": "service",
+        "key": "MaxRequestTimeout",
+        "value": "1"
+    },
+    {
+        "subspace": "service",
+        "key": "MinDeposit",
+        "value": [
+            {
+                "amount": "1",
+                "denom": "point"
+            }
+        ]
+    },
+    {
+        "subspace": "service",
+        "key": "MinDepositMultiple",
+        "value": "1"
+    },
+    {
+        "subspace": "service",
+        "key": "ServiceFeeTax",
+        "value": "0.1"
+    },
+    {
+        "subspace": "service",
+        "key": "SlashFraction",
+        "value": "1"
+    },
+    {
+        "subspace": "service",
+        "key": "TxSizeLimit",
+        "value": "1"
+    }
+]
+>0
+ServiceFeeTax [0,1)
+
+
+==============================
+node
+==============================
+
+[
+    {
+        "subspace": "node",
+        "key": "HistoricalEntries",
+        "value": 1
+    }
+]
+>=0
+注意 这里是数字不是 string
+
+==============================
+auth
+==============================
+[
+    {
+        "subspace": "auth",
+        "key": "MaxMemoCharacters",
+        "value":"1"
+    },
+    {
+        "subspace": "auth",
+        "key": "SigVerifyCostED25519",
+        "value":"1"
+    },
+    {
+        "subspace": "auth",
+        "key": "SigVerifyCostSecp256k1",
+        "value":"1"
+    },
+    {
+        "subspace": "auth",
+        "key": "SigVerifyCostSm2",
+        "value":"1"
+    },
+    {
+        "subspace": "auth",
+        "key": "TxSigLimit",
+        "value":"1"
+    },
+    {
+        "subspace": "auth",
+        "key": "TxSizeCostPerByte",
+        "value":"1"
+    }
+]
+>0
+
+==============================
+slashing
+==============================
+
+[
+    {
+        "subspace": "slashing",
+        "key": "DowntimeJailDuration",
+        "value":"1"
+    },
+    {
+        "subspace": "slashing",
+        "key": "MinSignedPerWindow",
+        "value":"1"
+    },
+    {
+        "subspace": "slashing",
+        "key": "SignedBlocksWindow",
+        "value":"1"
+    },
+    {
+        "subspace": "slashing",
+        "key": "SlashFractionDoubleSign",
+        "value":"1"
+    },
+    {
+        "subspace": "slashing",
+        "key": "SlashFractionDowntime",
+        "value":"1"
+    }
+]
+>0
+<=1
+>0
+<=1
+<=1
+
+
