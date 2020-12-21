@@ -1,10 +1,7 @@
 
-cschain param
-（有个util函数要改位置）
-做完以后同步一下 keys到irishub
+.  完善irishub正向测试用例 (create validator & mint) @王石磊
 
---
-
+=====
 
 
 自动化测试进行回归测试

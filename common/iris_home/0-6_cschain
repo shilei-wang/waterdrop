@@ -21,8 +21,8 @@ cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Test\ Cases
 
 
 //
-cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Keywords/irismod /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irita-test/Keywords
-cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Scripts/irismod   /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irita-test/Scripts
+cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irita-test/Keywords/utils /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Keywords
+cp -rf /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irita-test/Keywords/irismod /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test/Keywords
 
 
 *******************************************

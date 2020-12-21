@@ -39,10 +39,13 @@ git branch && git rev-parse HEAD
 cschain tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 cschain query token params
+cschain query service params
+cschain query node params
+cschain query auth params
+cschain query slashing params
 
-cschain query params subspace key
-
-
+//cschain query params subspace key
+cschain query params subspace token IssueTokenBaseFee
 
 ==============================
 token
@@ -68,6 +71,8 @@ token
         "value": "1"
     }
 ]
+
+MintTokenFeeRatio [0,1]
 
 ==============================
 service
