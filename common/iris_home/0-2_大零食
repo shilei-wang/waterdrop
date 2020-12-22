@@ -1,3 +1,9 @@
+git push upstream shilei/doc—fix
 
 
+git checkout -b add-params upstream/refactor
+git branch && git rev-parse HEAD
 
+
+cd /Users/sherlock/go/src/gitlab.bianjie.ai/irishub/irishub-test
+git push upstream add-params

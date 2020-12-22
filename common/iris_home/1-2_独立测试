@@ -21,6 +21,10 @@ ServiceTaxCoinsAccAddr faa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9keyu4d
 BurnedCoinsAccAddr faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
 
 
+iris query bank balances faa108a0ts008fphurftmsvj5p2q8ltq8qeduq57d6
+
+
+
 **************************************************************************************
     guardian (profiling)
 **************************************************************************************
