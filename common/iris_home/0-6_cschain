@@ -433,7 +433,7 @@ cschain tx admin unblock-account $(cschain keys show v1 --address) --from=v0 --c
 
 
 ========
-init起链（注意：testnet是不会有cert.crt的！）
+init起链（注意：testnet直接起是不会有cert.crt的！）
 ========
 rm -rf /Users/sherlock/.cschain /Users/sherlock/testnet
 cschain init --home=/Users/sherlock/testnet/v0/cschain --chain-id=qa-test v0
@@ -455,13 +455,13 @@ cschain genkey --home=/Users/sherlock/testnet/x2/cschain --out-file=/Users/sherl
 openssl req -new -key /Users/sherlock/testnet/priv_x2.pem -out /Users/sherlock/testnet/key_x2.csr -sm3 -sigopt "distid:1234567812345678"
 
 openssl x509 -req -in /Users/sherlock/testnet/key_x2.csr -out /Users/sherlock/testnet/key_x2.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/cert.crt -CAkey /Users/sherlock/testnet/priv.pem -CAcreateserial
-cschain tx validator create --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --description=description --from=v0 --chain-id=qa-test --fees=4point -b block -y
+cschain tx node create-validator --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --description=description --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 =====
 重要： 记录上面返回的id
 =====
 开新页面：
-VID=43A66EF856FFD3CA0EEC3F6E84FA021FFF1898EB79ABD72F360BCC0E6206A628
+VID=B1CB604896F35A502978B1EAC716CA671A080366A8B09C5B50178318AD4D7EE4
 
 ====== 按照上面步骤创建完一个validator后， 起一个全节点 ======
 cp /Users/sherlock/testnet/v0/cschain/config/config.toml /Users/sherlock/testnet/x2/cschain/config/config.toml
@@ -470,7 +470,7 @@ cp /Users/sherlock/testnet/v0/cschain/config/genesis.json /Users/sherlock/testne
 cschain tendermint show-node-id --home=/Users/sherlock/testnet/v0/cschain
 复制id 到下面的seed， 下面2条顺序不能变
 sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/x2/cschain/config/config.toml
-sed -i '' 's/seeds = ""/seeds = "f83accac6b3c3b529e7cb4d3bdef5f144ab90bff@localhost:26656"/g' /Users/sherlock/testnet/x2/cschain/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "d5af3a2cd4b1356b2910bb5d5c9d6a7aca3703e6@localhost:26656"/g' /Users/sherlock/testnet/x2/cschain/config/config.toml
 sed -i '' 's/9090/9091/g' /Users/sherlock/testnet/x2/cschain/config/app.toml
 
 =====
@@ -482,7 +482,7 @@ cschain start --home=/Users/sherlock/testnet/x2/cschain
 
 //验证
 cschain query tendermint-validator-set
-cschain query validator list
+cschain query node validators
 cschain tendermint show-validator --home=/Users/sherlock/testnet/v0/cschain
 cschain tendermint show-validator --home=/Users/sherlock/testnet/x2/cschain
 
@@ -492,21 +492,25 @@ cschain tendermint show-validator --home=/Users/sherlock/testnet/x2/cschain
 query validator（s）
 =====
 通过id查询
-cschain query validator validator $VID
+cschain query node validator $VID
 
 查询全部
-cschain query validator list
+cschain query node validators
 
 =====
 update validator（通过id）
 =====
 //注意power=0是默认值， 默认不改变
-cschain tx validator update $VID --cert=/Users/sherlock/testnet/key_x2.crt --power=200002222222  --from=v0 --chain-id=qa-test --fees=4point -b block -y
+cschain tx node update-validator $VID --cert=/Users/sherlock/testnet/key_x2.crt --power=200002222222  --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 =====
 remove validator（通过id）
 =====
-cschain tx validator remove $VID --from=v0 --chain-id=qa-test --fees=4point -b block -y
+cschain tx node remove-validator $VID --from=v0 --chain-id=qa-test --fees=4point -b block -y
+
+//恢复
+cschain tx node create-validator --name=x2 --cert=/Users/sherlock/testnet/key_x2.crt --power=10 --description=description --from=v0 --chain-id=qa-test --fees=4point -b block -y
+
 
 =====
 unjail validator（通过id）100块没有上线就会被jail

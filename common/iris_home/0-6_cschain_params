@@ -3,6 +3,11 @@ bug： 后续关注一下。
 1. cschain query node params ：查询、更新中，"value"的数据结构为integer， 和其他模块（string）数据结构不统一，需要修改一下。
 2. cschain tx params update ： token中的amount， 如果带小数， 交易会失败 => math/big: cannot unmarshal \"1.00\" .  另外，查询出来的amount是带小数的。
 
+复测重构后的validator模块， 发现cosmos在create validator交易有个缺陷， operator未能正确写入。
+"node create-validator" tx fail to write "creator" into "operator" flag
+https://github.com/bianjieai/irita/issues/75
+
+
 ==============================
 注意：
 ==============================

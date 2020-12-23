@@ -1,23 +1,72 @@
-记录 ：
+cschain tx node validator
+Error: unknown command "validator" for "node"
+Usage:
+  cschain tx node [flags]
+  cschain tx node [command]
 
-提示 ：
-挂画一定要贴美纹纸
+Available Commands:
+  create-validator Create a new validator
+  grant            Grant a node access to the chain
+  remove-validator Remove an existing validator
+  revoke           Revoke the chain access from the node
+  update-validator Update an existing validator
 
-去看下：
-油漆+地毯。
-检查弱电盒子。
-次卧米字旗要2米3还是两米的。主卧。
 
+
+
+==============================
+node 相关，实际是和validator相互独立的。
+node测试本身不用一定是validator
+==============================
+=====
+起全节点 （普通节点 不是validtor）
+=====
+//如果已经创建该节点(validator) ，则这步是不需要的
+irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=qa-test x2
+
+//从这里开始， 如果validator已经起来 则只要执行下面3行就行
+irita genkey --type=node --home=/Users/sherlock/testnet/x2/irita --out-file=/Users/sherlock/testnet/priv_x2_node.pem
+openssl req -new -key /Users/sherlock/testnet/priv_x2_node.pem -out /Users/sherlock/testnet/key_x2_node.csr -sm3 -sigopt "distid:1234567812345678"
+openssl x509 -req -in /Users/sherlock/testnet/key_x2_node.csr -out /Users/sherlock/testnet/key_x2_node.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
+
+//修改参数后，起全节点
+cp /Users/sherlock/testnet/v0/irita/config/config.toml /Users/sherlock/testnet/x2/irita/config/config.toml
+cp /Users/sherlock/testnet/v0/irita/config/genesis.json /Users/sherlock/testnet/x2/irita/config/genesis.json
+
+irita tendermint show-node-id --home=/Users/sherlock/testnet/v0/irita
+复制id 到下面的seed， 下面2条顺序不能变
+sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/x2/irita/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "e75d9ce5e56f5a15e936b579f4f3f57dc46fcf42@localhost:26656"/g' /Users/sherlock/testnet/x2/irita/config/config.toml
+sed -i '' 's/9090/9091/g' /Users/sherlock/testnet/x2/irita/config/app.toml
+irita start --home=/Users/sherlock/testnet/x2/irita
+
+
+=====
+grant 授权（加入白名单）
+=====
+irita tx node grant --name=x2 --cert=/Users/sherlock/testnet/key_x2_node.crt --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 记录：
+NID=CDDC708DEDB48050E0ACA2BEB27D243E7646E56F
 
-地毯：
-清洗。 这个比较耐脏的，平时吸尘器即可，1-2年可以自己用水洗一次，到超市买个地毯清洗液，为避免损伤地毯，请用抹布擦拭.
+验证：
+irita query node nodes
+irita query node node $NID
 
-光触媒
-送吸尘器。
+=====
+v0节点 限制非白名单连接
+=====
+subl /Users/sherlock/testnet/v0/irita/config/config.toml
+filter_peers = true
 
 
+=====
+revoke （移除白名单）
+=====
+注意：
+需要：（ROOT_ADMIN，NODE_ADMIN）admin
 
+irita query admin roles $(irita keys show v0 --address)
+irita tx node revoke $NID --from=v0 --chain-id=qa-test --fees=4point -b block -y
+irita query node nodes
 
-买膜。2225
