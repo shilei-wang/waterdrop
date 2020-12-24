@@ -1,3 +1,8 @@
+====================================================================================================
+====================================================================================================
+====================================================================================================
+
+
 cschain tx node validator
 Error: unknown command "validator" for "node"
 Usage:
@@ -22,42 +27,46 @@ node测试本身不用一定是validator
 起全节点 （普通节点 不是validtor）
 =====
 //如果已经创建该节点(validator) ，则这步是不需要的
-irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=qa-test x2
+cschain init --home=/Users/sherlock/testnet/x2/cschain --chain-id=qa-test x2
 
 //从这里开始， 如果validator已经起来 则只要执行下面3行就行
-irita genkey --type=node --home=/Users/sherlock/testnet/x2/irita --out-file=/Users/sherlock/testnet/priv_x2_node.pem
+cschain genkey --type=node --home=/Users/sherlock/testnet/x2/cschain --out-file=/Users/sherlock/testnet/priv_x2_node.pem
 openssl req -new -key /Users/sherlock/testnet/priv_x2_node.pem -out /Users/sherlock/testnet/key_x2_node.csr -sm3 -sigopt "distid:1234567812345678"
 openssl x509 -req -in /Users/sherlock/testnet/key_x2_node.csr -out /Users/sherlock/testnet/key_x2_node.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
 
 //修改参数后，起全节点
-cp /Users/sherlock/testnet/v0/irita/config/config.toml /Users/sherlock/testnet/x2/irita/config/config.toml
-cp /Users/sherlock/testnet/v0/irita/config/genesis.json /Users/sherlock/testnet/x2/irita/config/genesis.json
+cp /Users/sherlock/testnet/v0/cschain/config/config.toml /Users/sherlock/testnet/x2/cschain/config/config.toml
+cp /Users/sherlock/testnet/v0/cschain/config/genesis.json /Users/sherlock/testnet/x2/cschain/config/genesis.json
 
-irita tendermint show-node-id --home=/Users/sherlock/testnet/v0/irita
+cschain tendermint show-node-id --home=/Users/sherlock/testnet/v0/cschain
 复制id 到下面的seed， 下面2条顺序不能变
-sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/x2/irita/config/config.toml
-sed -i '' 's/seeds = ""/seeds = "e75d9ce5e56f5a15e936b579f4f3f57dc46fcf42@localhost:26656"/g' /Users/sherlock/testnet/x2/irita/config/config.toml
-sed -i '' 's/9090/9091/g' /Users/sherlock/testnet/x2/irita/config/app.toml
-irita start --home=/Users/sherlock/testnet/x2/irita
+sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/x2/cschain/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "3c3ed30db6b71b1596cf145ad1e769e7b5a8a4e7@localhost:26656"/g' /Users/sherlock/testnet/x2/cschain/config/config.toml
+sed -i '' 's/9090/9091/g' /Users/sherlock/testnet/x2/cschain/config/app.toml
+cschain start --home=/Users/sherlock/testnet/x2/cschain
+
+=====
+v0节点 限制非白名单连接
+=====
+subl /Users/sherlock/testnet/v0/cschain/config/config.toml
+限制
+sed -i '' 's/filter_peers = false/filter_peers = true/g' /Users/sherlock/testnet/v0/cschain/config/config.toml
+
+解除限制
+sed -i '' 's/filter_peers = true/filter_peers = false/g' /Users/sherlock/testnet/v0/cschain/config/config.toml
 
 
 =====
 grant 授权（加入白名单）
 =====
-irita tx node grant --name=x2 --cert=/Users/sherlock/testnet/key_x2_node.crt --from=v0 --chain-id=qa-test --fees=4point -b block -y
+cschain tx node grant --name=x2 --cert=/Users/sherlock/testnet/key_x2_node.crt --from=v0 --chain-id=qa-test --fees=4point -b block -y
 
 记录：
-NID=CDDC708DEDB48050E0ACA2BEB27D243E7646E56F
+NID=FE2BA81E6E0F351300E98AD2A99E7418B1192898
 
 验证：
-irita query node nodes
-irita query node node $NID
-
-=====
-v0节点 限制非白名单连接
-=====
-subl /Users/sherlock/testnet/v0/irita/config/config.toml
-filter_peers = true
+cschain query node nodes
+cschain query node node $NID
 
 
 =====
@@ -65,8 +74,561 @@ revoke （移除白名单）
 =====
 注意：
 需要：（ROOT_ADMIN，NODE_ADMIN）admin
+cschain query admin roles $(cschain keys show v0 --address)
+cschain tx node revoke $NID --from=v0 --chain-id=qa-test --fees=4point -b block -y
+cschain query node nodes
 
-irita query admin roles $(irita keys show v0 --address)
-irita tx node revoke $NID --from=v0 --chain-id=qa-test --fees=4point -b block -y
-irita query node nodes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+====================================================================================================
+====================================================================================================
+====================================================================================================
+
+
+iriscli keys list --home=/Users/sherlock/testnet/v0/iriscli
+
+
+iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m
+
+
+echo 1234567890 | iriscli bank send --amount=1iris --fee=0.4iris --commit --chain-id=qa-test --from=v0 --to=iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m  --home=/Users/sherlock/testnet/v0/iriscli
+
+CDDB93A9F20D868A422649072E12013A31A9BB91A00BFFB518C40E6455A911C0
+
+
+
+
+====================================================================================================
+====================================================================================================
+====================================================================================================
+
+
+
+
+
+
+- /blocks/latest
+- /block-results
+- /blocks/[$height]
+- /bank/accounts/[$address]
+- /txs/[$hash]
+- /txs
+
+http://10.1.4.24:1317/blocks/latest
+{
+  "block_meta": {
+    "block_id": {
+      "hash": "7327BEDFE990CE9DFBF1F60D6C9D9585F63DFDF4C25AB800BBEE3233B82CC65A",
+      "parts": {
+        "total": "1",
+        "hash": "9D59195C62A205FBC3890A168BF496FCE7EFA180C05EBA553E44BAB99EFC65DB"
+      }
+    },
+    "header": {
+      "version": {
+        "block": "9",
+        "app": "2"
+      },
+      "chain_id": "qa-test",
+      "height": "2232",
+      "time": "2020-12-24T06:09:48.28759Z",
+      "num_txs": "0",
+      "total_txs": "0",
+      "last_block_id": {
+        "hash": "72C1660AF6E73082E205C6CA6CDA2E8C7B57378C3375040ED954520355F55C5A",
+        "parts": {
+          "total": "1",
+          "hash": "BF565C02777EC1EB7565088EE02C472099E501905862288D3AA3F34680C8FD5D"
+        }
+      },
+      "last_commit_hash": "BF5959EDF48E7556C84F0E4CA35AE789C3ACABC0926D871C1F71505F5C3708A2",
+      "data_hash": "",
+      "validators_hash": "451F4995702B9633BA2E7A78E97CEB1B1098081F65CDFD0EDB9EF417D39E8324",
+      "next_validators_hash": "451F4995702B9633BA2E7A78E97CEB1B1098081F65CDFD0EDB9EF417D39E8324",
+      "consensus_hash": "9C1DF90B8DC54EA4F85E4B42794C20BCEFD44A75043EBE7509EDB720ADF22F23",
+      "app_hash": "D55B7A2EC549BD97FA37989D2901D7D7CF1A54404D98E7D3C8ABA6AF182F0BAE",
+      "last_results_hash": "",
+      "evidence_hash": "",
+      "proposer_address": "32631BAAE2058994020903AC407F289517B5430A"
+    }
+  },
+  "block": {
+    "header": {
+      "version": {
+        "block": "9",
+        "app": "2"
+      },
+      "chain_id": "qa-test",
+      "height": "2232",
+      "time": "2020-12-24T06:09:48.28759Z",
+      "num_txs": "0",
+      "total_txs": "0",
+      "last_block_id": {
+        "hash": "72C1660AF6E73082E205C6CA6CDA2E8C7B57378C3375040ED954520355F55C5A",
+        "parts": {
+          "total": "1",
+          "hash": "BF565C02777EC1EB7565088EE02C472099E501905862288D3AA3F34680C8FD5D"
+        }
+      },
+      "last_commit_hash": "BF5959EDF48E7556C84F0E4CA35AE789C3ACABC0926D871C1F71505F5C3708A2",
+      "data_hash": "",
+      "validators_hash": "451F4995702B9633BA2E7A78E97CEB1B1098081F65CDFD0EDB9EF417D39E8324",
+      "next_validators_hash": "451F4995702B9633BA2E7A78E97CEB1B1098081F65CDFD0EDB9EF417D39E8324",
+      "consensus_hash": "9C1DF90B8DC54EA4F85E4B42794C20BCEFD44A75043EBE7509EDB720ADF22F23",
+      "app_hash": "D55B7A2EC549BD97FA37989D2901D7D7CF1A54404D98E7D3C8ABA6AF182F0BAE",
+      "last_results_hash": "",
+      "evidence_hash": "",
+      "proposer_address": "32631BAAE2058994020903AC407F289517B5430A"
+    },
+    "data": {
+      "txs": null
+    },
+    "evidence": {
+      "evidence": null
+    },
+    "last_commit": {
+      "block_id": {
+        "hash": "72C1660AF6E73082E205C6CA6CDA2E8C7B57378C3375040ED954520355F55C5A",
+        "parts": {
+          "total": "1",
+          "hash": "BF565C02777EC1EB7565088EE02C472099E501905862288D3AA3F34680C8FD5D"
+        }
+      },
+      "precommits": [
+        {
+          "type": 2,
+          "height": "2231",
+          "round": "0",
+          "block_id": {
+            "hash": "72C1660AF6E73082E205C6CA6CDA2E8C7B57378C3375040ED954520355F55C5A",
+            "parts": {
+              "total": "1",
+              "hash": "BF565C02777EC1EB7565088EE02C472099E501905862288D3AA3F34680C8FD5D"
+            }
+          },
+          "timestamp": "2020-12-24T06:09:48.28759Z",
+          "validator_address": "32631BAAE2058994020903AC407F289517B5430A",
+          "validator_index": "0",
+          "signature": "xGaF46oDmxz6WGidmmzJsTuw7hnVHJm683v9dX+43uxHOPz9ZiwjIqfFQ6hkYBUB8/5KzVpRGeBWVJIUpndRDg=="
+        }
+      ]
+    }
+  }
+}
+
+
+http://10.1.4.24:1317/block-results/latest
+{
+  "height": "2278",
+  "results": {
+    "deliver_tx": null,
+    "end_block": {
+      "validator_updates": null,
+      "consensus_param_updates": null,
+      "tags": [
+        {
+          "key": "height",
+          "value": "2278"
+        },
+        {
+          "key": "app_version",
+          "value": "2"
+        }
+      ]
+    },
+    "begin_block": {
+      "tags": [
+        {
+          "key": "last-inflation-time",
+          "value": "2020-12-24 06:13:34.894215 +0000 UTC"
+        },
+        {
+          "key": "inflation-time",
+          "value": "2020-12-24 06:13:39.93027 +0000 UTC"
+        },
+        {
+          "key": "mint-coin",
+          "value": "12675235125611580094iris-atto"
+        },
+        {
+          "key": "height",
+          "value": "2278"
+        }
+      ]
+    }
+  }
+}
+
+
+http://10.1.4.24:1317/blocks/2278
+{
+  "block_meta": {
+    "block_id": {
+      "hash": "52F414EDC46D2F9FA688C7581F9242A04E1F3CF53DF0C8DE861681C7B0E42408",
+      "parts": {
+        "total": "1",
+        "hash": "7C3619B81E810C020416F144191EAA619E0DFC8DC890217B3DAC0CB563743C8A"
+      }
+    },
+    "header": {
+      "version": {
+        "block": "9",
+        "app": "2"
+      },
+      "chain_id": "qa-test",
+      "height": "2278",
+      "time": "2020-12-24T06:13:39.93027Z",
+      "num_txs": "0",
+      "total_txs": "0",
+      "last_block_id": {
+        "hash": "E88741664C45CE51087C5BE370D86A07CC815AF2C62F1610574996EA55D4EDE7",
+        "parts": {
+          "total": "1",
+          "hash": "D254F05B8812E5E126F7E163864ECFEB5287E42A28B5B646D8C573694DA4EB88"
+        }
+      },
+      "last_commit_hash": "EC3CFE7E8A9C81B859E2F9509F4C30B561DC5D36420E27830DE6E676F520DC84",
+      "data_hash": "",
+      "validators_hash": "451F4995702B9633BA2E7A78E97CEB1B1098081F65CDFD0EDB9EF417D39E8324",
+      "next_validators_hash": "451F4995702B9633BA2E7A78E97CEB1B1098081F65CDFD0EDB9EF417D39E8324",
+      "consensus_hash": "9C1DF90B8DC54EA4F85E4B42794C20BCEFD44A75043EBE7509EDB720ADF22F23",
+      "app_hash": "5345780BB72B12F21E0A4648BB0B0535796FB111DC252B57CC2060A05A5A5993",
+      "last_results_hash": "",
+      "evidence_hash": "",
+      "proposer_address": "32631BAAE2058994020903AC407F289517B5430A"
+    }
+  },
+  "block": {
+    "header": {
+      "version": {
+        "block": "9",
+        "app": "2"
+      },
+      "chain_id": "qa-test",
+      "height": "2278",
+      "time": "2020-12-24T06:13:39.93027Z",
+      "num_txs": "0",
+      "total_txs": "0",
+      "last_block_id": {
+        "hash": "E88741664C45CE51087C5BE370D86A07CC815AF2C62F1610574996EA55D4EDE7",
+        "parts": {
+          "total": "1",
+          "hash": "D254F05B8812E5E126F7E163864ECFEB5287E42A28B5B646D8C573694DA4EB88"
+        }
+      },
+      "last_commit_hash": "EC3CFE7E8A9C81B859E2F9509F4C30B561DC5D36420E27830DE6E676F520DC84",
+      "data_hash": "",
+      "validators_hash": "451F4995702B9633BA2E7A78E97CEB1B1098081F65CDFD0EDB9EF417D39E8324",
+      "next_validators_hash": "451F4995702B9633BA2E7A78E97CEB1B1098081F65CDFD0EDB9EF417D39E8324",
+      "consensus_hash": "9C1DF90B8DC54EA4F85E4B42794C20BCEFD44A75043EBE7509EDB720ADF22F23",
+      "app_hash": "5345780BB72B12F21E0A4648BB0B0535796FB111DC252B57CC2060A05A5A5993",
+      "last_results_hash": "",
+      "evidence_hash": "",
+      "proposer_address": "32631BAAE2058994020903AC407F289517B5430A"
+    },
+    "data": {
+      "txs": null
+    },
+    "evidence": {
+      "evidence": null
+    },
+    "last_commit": {
+      "block_id": {
+        "hash": "E88741664C45CE51087C5BE370D86A07CC815AF2C62F1610574996EA55D4EDE7",
+        "parts": {
+          "total": "1",
+          "hash": "D254F05B8812E5E126F7E163864ECFEB5287E42A28B5B646D8C573694DA4EB88"
+        }
+      },
+      "precommits": [
+        {
+          "type": 2,
+          "height": "2277",
+          "round": "0",
+          "block_id": {
+            "hash": "E88741664C45CE51087C5BE370D86A07CC815AF2C62F1610574996EA55D4EDE7",
+            "parts": {
+              "total": "1",
+              "hash": "D254F05B8812E5E126F7E163864ECFEB5287E42A28B5B646D8C573694DA4EB88"
+            }
+          },
+          "timestamp": "2020-12-24T06:13:39.93027Z",
+          "validator_address": "32631BAAE2058994020903AC407F289517B5430A",
+          "validator_index": "0",
+          "signature": "AtdK7ZrqbhQgQBlY7OoWBBdi9MUN3mAvKvnnShiVHTt8XAavGpJ5dE5PwqYjqxoQNWyQoRjdNU5f+ckPSidbBA=="
+        }
+      ]
+    }
+  }
+}
+
+
+
+http://10.1.4.24:1317/bank/accounts/iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m
+{
+  "type": "irishub/bank/Account",
+  "value": {
+    "address": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m",
+    "coins": [
+      {
+        "denom": "iris-atto",
+        "amount": "50000000000000000000"
+      }
+    ],
+    "public_key": {
+      "type": "tendermint/PubKeySecp256k1",
+      "value": "A0ud8oi0/M30R93HCp5ALgS/oanpl4DdlXxXGZpuE1mv"
+    },
+    "account_number": "2",
+    "sequence": "1",
+    "memo_regexp": ""
+  }
+}
+
+
+
+http://10.1.4.24:1317/txs/CDDB93A9F20D868A422649072E12013A31A9BB91A00BFFB518C40E6455A911C0
+{
+  "hash": "CDDB93A9F20D868A422649072E12013A31A9BB91A00BFFB518C40E6455A911C0",
+  "height": "2435",
+  "tx": {
+    "type": "irishub/bank/StdTx",
+    "value": {
+      "msg": [
+        {
+          "type": "irishub/bank/Send",
+          "value": {
+            "inputs": [
+              {
+                "address": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m",
+                "coins": [
+                  {
+                    "denom": "iris-atto",
+                    "amount": "1000000000000000000"
+                  }
+                ]
+              }
+            ],
+            "outputs": [
+              {
+                "address": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m",
+                "coins": [
+                  {
+                    "denom": "iris-atto",
+                    "amount": "1000000000000000000"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "fee": {
+        "amount": [
+          {
+            "denom": "iris-atto",
+            "amount": "400000000000000000"
+          }
+        ],
+        "gas": "50000"
+      },
+      "signatures": [
+        {
+          "pub_key": {
+            "type": "tendermint/PubKeySecp256k1",
+            "value": "A0ud8oi0/M30R93HCp5ALgS/oanpl4DdlXxXGZpuE1mv"
+          },
+          "signature": "Ws1a+DNS+VEdXAjxLTrt41s+MwTCEjbWm5IbvlZsTcAs3B0Uoxl2w3bAL7UPtLQoB1eDc2nrumZuytWEPgfIVA==",
+          "account_number": "2",
+          "sequence": "1"
+        }
+      ],
+      "memo": ""
+    }
+  },
+  "result": {
+    "Code": 0,
+    "Data": null,
+    "Log": "Msg 0: ",
+    "Info": "",
+    "GasWanted": "50000",
+    "GasUsed": "5218",
+    "Tags": [
+      {
+        "key": "action",
+        "value": "send"
+      },
+      {
+        "key": "sender",
+        "value": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m"
+      },
+      {
+        "key": "recipient",
+        "value": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m"
+      }
+    ],
+    "Codespace": "",
+    "XXX_NoUnkeyedLiteral": {},
+    "XXX_unrecognized": null,
+    "XXX_sizecache": 0
+  },
+  "timestamp": "2020-12-24T06:26:50Z",
+  "coin_flow": null
+}
+
+
+http://10.1.4.24:1317/txs?action=send&sender=iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m&recipient=iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m
+{
+  "action": "send",
+  "sender": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m",
+  "recipient": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m"
+}
+
+{
+  "total_count": "1",
+  "count": "1",
+  "page_number": "0",
+  "page_total": "1",
+  "size": "100",
+  "txs": [
+    {
+      "hash": "CDDB93A9F20D868A422649072E12013A31A9BB91A00BFFB518C40E6455A911C0",
+      "height": "2435",
+      "tx": {
+        "type": "irishub/bank/StdTx",
+        "value": {
+          "msg": [
+            {
+              "type": "irishub/bank/Send",
+              "value": {
+                "inputs": [
+                  {
+                    "address": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m",
+                    "coins": [
+                      {
+                        "denom": "iris-atto",
+                        "amount": "1000000000000000000"
+                      }
+                    ]
+                  }
+                ],
+                "outputs": [
+                  {
+                    "address": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m",
+                    "coins": [
+                      {
+                        "denom": "iris-atto",
+                        "amount": "1000000000000000000"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "fee": {
+            "amount": [
+              {
+                "denom": "iris-atto",
+                "amount": "400000000000000000"
+              }
+            ],
+            "gas": "50000"
+          },
+          "signatures": [
+            {
+              "pub_key": {
+                "type": "tendermint/PubKeySecp256k1",
+                "value": "A0ud8oi0/M30R93HCp5ALgS/oanpl4DdlXxXGZpuE1mv"
+              },
+              "signature": "Ws1a+DNS+VEdXAjxLTrt41s+MwTCEjbWm5IbvlZsTcAs3B0Uoxl2w3bAL7UPtLQoB1eDc2nrumZuytWEPgfIVA==",
+              "account_number": "2",
+              "sequence": "1"
+            }
+          ],
+          "memo": ""
+        }
+      },
+      "result": {
+        "Code": 0,
+        "Data": null,
+        "Log": "Msg 0: ",
+        "Info": "",
+        "GasWanted": "50000",
+        "GasUsed": "5218",
+        "Tags": [
+          {
+            "key": "action",
+            "value": "send"
+          },
+          {
+            "key": "sender",
+            "value": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m"
+          },
+          {
+            "key": "recipient",
+            "value": "iaa1v2njlc7ujv7yn6nq690r9j3he4z9rlhf47ve9m"
+          }
+        ],
+        "Codespace": "",
+        "XXX_NoUnkeyedLiteral": {},
+        "XXX_unrecognized": null,
+        "XXX_sizecache": 0
+      },
+      "timestamp": "2020-12-24T06:26:50Z"
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

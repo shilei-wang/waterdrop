@@ -44,7 +44,7 @@ iris query bank balances -o=json $(iris keys show v1 -a) |jq
 ==================
 修改 stake ->iris 版本 [init起 v0不会变]
 ==================
-rm -rf /Users/sherlock/.iris
+rm -rf /Users/sherlock/.iris /Users/sherlock/testnet
 iris init testing --chain-id=qa-test
 iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
 iris gentx v0 --chain-id=qa-test --amount 100000000uiris
@@ -70,13 +70,19 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 rest
 ====================
 先暂停链
-sed -i '' 's/swagger = false/swagger = true/g' /Users/sherlock/testnet/v0/iris/config/app.toml
-iris start --home=/Users/sherlock/testnet/v0/iris
-
+sed -i '' 's/swagger = false/swagger = true/g'  /Users/sherlock/.iris/config/app.toml
+sed -i '' 's/enable = false/enable = true/g'  /Users/sherlock/.iris/config/app.toml
+iris start
 
 http://0.0.0.0:1317/
-http://localhost:1317/swagger-ui/
+http://localhost:1317/swagger/
 
+subl /Users/sherlock/.iris/config/app.toml
+
+//testnet
+sed -i '' 's/swagger = false/swagger = true/g' /Users/sherlock/testnet/v0/iris/config/app.toml
+sed -i '' 's/enable = false/enable = true/g'  /Users/sherlock/testnet/v0/iris/config/app.toml
+iris start --home=/Users/sherlock/testnet/v0/iris
 ====================
 用init自己起（注意这里要用uiris）
 ====================

@@ -62,7 +62,7 @@ git fetch --all
 git checkout .
 //第一次 git checkout -b v0.15.5 v0.15.5
 // git merge v0.15.4
-// git checkout v0.16.0-rc1
+// git checkout v0.16.3
 git branch && git rev-parse HEAD
 
 
@@ -159,7 +159,7 @@ iris start --home=/Users/sherlock/testnet/v1/iris
           用testnet 直接手动起
 *******************************************
 
-rm -rf .iriscli .iris testnet
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
 iris testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1  --chain-id=qa-test
 iris start --home=/Users/sherlock/testnet/v0/iris
 
@@ -186,10 +186,13 @@ iris start --home=/Users/sherlock/v0
 *******************************************
 1）启动 irislcd
 irislcd start --node=tcp://localhost:26657 --laddr=tcp://0.0.0.0:1317 --chain-id=qa-test --trust-node --home=$HOME/.irislcd/
-验证 http://10.1.2.236:1317/keys
+验证 http://10.1.4.24:1317/keys
+
+http://10.1.4.24:1317/swagger-ui/
+
 
 2）启动swag
-http://10.1.2.236:1317/
+http://10.1.4.24:1317/
 
 
 *******************************************
