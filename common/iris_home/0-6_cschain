@@ -692,7 +692,7 @@ cschain query bank balances $(cschain keys show v1 --address)
 
 
 ====
-以不同sequence（这个没测）
+以不同sequence
 ====
 
 cschain tx send $(cschain keys show v0 --address) csrb13dn2vc5ppcrxxnumdkrpuhgnmfjr26fufzk3jf 1point --chain-id=qa-test --fees=4point -b block -y --generate-only  >~/my_workspace/Tx-generate

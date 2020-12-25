@@ -26,15 +26,11 @@ git branch && git rev-parse HEAD
 ====================
 autoStart
 ====================
-
 autoStart c 1
-
 autoStart c 2
 iris query bank balances -o=json $(iris keys show v0 -a) |jq
 iris query bank balances -o=json $(iris keys show v1 -a) |jq
 
-
--------------
 
 ====================
 【钥匙】输错系统钥匙串密码
@@ -69,7 +65,7 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 ====================
 rest
 ====================
-先暂停链
+先暂停链rest
 sed -i '' 's/swagger = false/swagger = true/g'  /Users/sherlock/.iris/config/app.toml
 sed -i '' 's/enable = false/enable = true/g'  /Users/sherlock/.iris/config/app.toml
 iris start
@@ -768,6 +764,12 @@ iris tx bank send $(iris keys show v0 --address) $(iris keys show v0 --address) 
 iris tx sign /Users/sherlock/my_workspace/Tx-generate   --from=v0 --chain-id=qa-test --home=/Users/sherlock/testnet/v0/iris >~/my_workspace/Tx-sign
 iris tx broadcast ~/my_workspace/Tx-sign -b block -y
 
+
+老版本离线签名 不需要起链
+iriscli tx sign ~/my_workspace/Tx-generate --name=t1 --chain-id=qa-test --offline --sequence=1 --account-number=8  >~/my_workspace/Tx-sign1
+iriscli tx sign ~/my_workspace/Tx-sign1 --name=t2 --chain-id=qa-test --offline --sequence=1 --account-number=9 --append  >~/my_workspace/Tx-sign2
+
+注意新的rest broadcast需要剪切 {"msg":}
 
 
 *******************************

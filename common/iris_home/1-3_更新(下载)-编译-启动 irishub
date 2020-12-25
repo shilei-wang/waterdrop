@@ -36,7 +36,7 @@ cd /Users/sherlock/go/src/github.com/irishub
 git remote add zhiqiang-upstream https://github.com/zhiqiang-bianjie/irishub.git
 git fetch --all
 git checkout .
-git checkout -b zhiqiang-snapshot zhiqiang-upstream/snapshot
+git checkout -b v0.16.3 v0.16.3
 git branch
 
 ******************************************
