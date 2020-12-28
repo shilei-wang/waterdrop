@@ -1,16 +1,17 @@
-测试：
-htlc  超时  export
-irishub 添加验证人
 
 
 node cschain
 
 
+==============================
+下次测试（加测）：
+==============================
+htlc  超时  export
+irishub 添加验证人
 
-
-=====
-
-
+==============================
+其他需要测试的点
+==============================
 自动化测试进行回归测试
 init, gentx 初始化链， 新增节点
 参数修改
@@ -18,31 +19,14 @@ upgrade
 
 
 
-======
-
-cschain
-参数修改
-add validator
+==============================
+自动化测试加上
+==============================
 did
-
 
 独有备注：
 irishub  guardian，htlc ， mint
 cschain  admin， validator,params
-
-
-
-
-========
-目标：
-========
-1. 完成最近的测试 上传代码
-2. 完成任务细分 （测试用例 先看下别人的任务是怎么做的）
-3. 测试用例分模块 编写（分开成不同的页面）
-4. 写自动测试。
-
-
-
 
 
 ========
@@ -56,6 +40,18 @@ cschain  admin， validator,params
 。query nft collection . nft supply 对于负向测试 返回不一样。
 "amount\":\"0\"")      "not existed : invalid denom")
 
+========
+irita的一些问题
+========
+报告 export 做了哪些工作:
+geneisis 太大  270w行 很多miss block
+export 能不能有个（类似）进度条， 时间太长 像假死。
+测试方法
+
+iaa18rtw90hxz4jsgydcusakz6q245jh59kfma3e5h 出现export后余额和rest查询不一致。 rest少  (communityTaxCoins)
+iaa1v6c3sa76s3grss3xu64tvn9nd556jlcw6azc85 该账户有发行了一个 axon 币， 考虑是否在主网export时 删除。
+
+连停止状态下 ， 查询reward会崩溃。
 
 
 ----------------------------------------------------------------------------------------------------------------
@@ -135,36 +131,18 @@ cschain 回归测试
 3. cschain admin 权限逻辑复测
 4. Bug复测以及验证
 
-=========================
-
-irita的一些问题
-
-报告 export 做了哪些工作:
-geneisis 太大  270w行 很多miss block
-export 能不能有个（类似）进度条， 时间太长 像假死。
-测试方法
-
-iaa18rtw90hxz4jsgydcusakz6q245jh59kfma3e5h 出现export后余额和rest查询不一致。 rest少  (communityTaxCoins)
-iaa1v6c3sa76s3grss3xu64tvn9nd556jlcw6azc85 该账户有发行了一个 axon 币， 考虑是否在主网export时 删除。
-
-连停止状态下 ， 查询reward会崩溃。
-
-=========================
 
 1）检查部分cschain文档错误。
 2）测试ircschainita 各模块功能和swagger文档
 3）检查irita 文档及其部署
 4）测试主网snapshot，测试主网export功能
 
-=========================
-CSRB 底层链：
 
 周报
 1）validator 负向测试
 2）回归测试 ， bug验证
 3）csrbwallet 界面和功能测试
 4）DID 测试
-=========================
 
 
 CSRB 底层链：
@@ -175,8 +153,6 @@ CSRB 底层链：
 3. 测试 csrb 离线交易，sequence等相关功能，同一个块单用户多笔交易。
 4. csrb 压力测试 代码的改写。
 
-=========================
-
 CSRB 底层链：
 
 1. 权限管理测试
@@ -186,14 +162,12 @@ CSRB 底层链：
 5. nft测试
 6. Bug复测以及验证
 
-=========================
 
 1. 复测 csrbwallet ， 着重负向测试， 助记词相关 8小时
 2. validator module 复测 着重负向测试，  8小时
 3. 测试 csrb export 16小时
 4. csrb admin 权限逻辑复测 8小时
 
-==========
 
 DID 多种加密方式测试
 DID 回归测试

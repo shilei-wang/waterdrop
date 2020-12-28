@@ -1,70 +1,15 @@
+修车子，鸡精，核对周1做的事。
+手机更新
+买：
+1.主卧地毯，玄关画
+2.主卧画
 
-****************************************************************************
-实现多input、多output，多次签名 （多对多）
-注：最多签7次， 超过7次broadcast时会被拒绝。交易费从第一个签名者这里出。
-****************************************************************************
-
-step 1. Generate一个交易:
-iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=qa-test --from=v0 --to=faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547 --generate-only >~/Tx-generate
-
-step 2. 修改该交易里面的input和output内容和数量， 注意input的iris总量必须和output总量保持一致。
-
-step 3. 第1个用户签名
- iriscli tx sign ~/Tx-generate --name=v0 --chain-id=qa-test >~/Tx-sign
-
-step 4. 第2个用户在第一个用户签名的基础上继续签名， 签完后可以看到签名栏有2个用户签名。
- iriscli tx sign ~/Tx-sign --name=v1 --chain-id=qa-test >~/Tx-sign2
-
-step 5. broadcast
-iriscli tx broadcast ~/Tx-sign2 --commit
-
-step 6. 查询hash， 就可以看到多input多output的交易了。
-iriscli tendermint tx --trust-node D5EC826174558336BFE0849C3CFA97EB3DB5D585D1A8346EB932C64A4593241E
+大门垫子
 
 
-
-iriscli keys list --home=/Users/sherlock/testnet/v0/iriscli
-
-
-iriscli keys add t1 --home=/Users/sherlock/testnet/v0/iriscli
-iaa1cw39yju465djwskmka0y7ljrf6r3q0z8j4n6e4
-year skull can advance cactus zebra crowd palace garbage suggest desk above aunt ill account exit mountain rebel fence garage point dune ball luxury
-8 0
-iris query bank balances -o=json iaa1cw39yju465djwskmka0y7ljrf6r3q0z8j4n6e4 |jq
-iris query account iaa1cw39yju465djwskmka0y7ljrf6r3q0z8j4n6e4 --chain-id=qa-test
+记录：
+膜10元退款
 
 
-iriscli keys add t2 --home=/Users/sherlock/testnet/v0/iriscli
-iaa1n6ald00d24trhalyqzgfptdkgyu34rt77ahsx2
-under fitness lunar stove fly innocent cabin case boat forum marine wing modify tag museum luxury claim wine initial forest ecology toss album regret
-9 0
-iris query bank balances -o=json iaa1n6ald00d24trhalyqzgfptdkgyu34rt77ahsx2 |jq
-iris query account iaa1n6ald00d24trhalyqzgfptdkgyu34rt77ahsx2 --chain-id=qa-test
-
-
-iriscli keys list
-
-
-
-
-
-iris query bank balances -o=json iaa1cw39yju465djwskmka0y7ljrf6r3q0z8j4n6e4 |jq
-iris query account iaa1cw39yju465djwskmka0y7ljrf6r3q0z8j4n6e4 --chain-id=qa-test
-
-
-iriscli bank send --amount=5iris --fee=0.004iris  --chain-id=qa-test --from=t1 --to=iaa1n6ald00d24trhalyqzgfptdkgyu34rt77ahsx2 --generate-only >~/my_workspace/Tx-generate
-
-
-
-
-
-
-
-iriscli tx sign ~/my_workspace/Tx-sign2 --name=t2 --chain-id=qa-test --offline --sequence=0 --account-number=9  >~/my_workspace/Tx-sign3
-
-iriscli keys add t2 --recover
-
-
-iris tx broadcast ~/my_workspace/Tx-sign3 -b block -y
 
 
