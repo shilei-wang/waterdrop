@@ -1,7 +1,7 @@
 cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .
-git checkout -b vincent-fix upstream/vincent-fix //git checkout vincent-fix // git checkout master
+git checkout -b vincent-migrate upstream/vincent-migrate //git checkout v0.16.3 // git checkout master // git checkout vincent-migrate
 git pull
 git branch && git rev-parse HEAD
 
@@ -21,6 +21,9 @@ git fetch --all
 git checkout .
 git reset --hard 6c297612587cd2eef56f6a695d3446d14e235b57
 git branch && git rev-parse HEAD
+
+
+
 
 
 ====================

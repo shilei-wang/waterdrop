@@ -1,5 +1,18 @@
 
 
+========================================================
+V1.0
+
+cosmos的export 是print genesis的 不能输出到文件，比较麻烦
+iris export --for-zero-height --home=/Users/sherlock/.iris > /Users/sherlock/genesis.json
+
+
+
+
+========================================================
+
+
+
 。gas偏大  转账2次超过5w
 --
 bank下：
