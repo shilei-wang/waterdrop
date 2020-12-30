@@ -1,0 +1,4 @@
+"iris token stats:
+total supply 、Circulation、Community Tax、Burned、Bonded的值验证
+"	在新链上查询这些值与原来比较。	iris单位的值都不变，最小单位变为uiris，值比原来少12位。	小数位精度是四舍五入还是直接截取算法待定。
+
