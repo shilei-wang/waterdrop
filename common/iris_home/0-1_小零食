@@ -1,7 +1,6 @@
 
 
-node cschain
-
+负向用例 htlc 开始
 
 ==============================
 下次测试（加测）：
@@ -26,7 +25,7 @@ did
 
 独有备注：
 irishub  guardian，htlc ， mint
-cschain  admin， validator,params
+cschain  admin， validator（node）,params
 
 
 ========

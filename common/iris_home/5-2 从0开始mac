@@ -31,7 +31,7 @@ source ~/.bash_profile
 
 [安装 dep： brew install dep]
 
-更新go：
+更新go：（go升级）
 brew upgrade go
 
 6. 下载irishub

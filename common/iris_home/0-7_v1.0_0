@@ -51,6 +51,15 @@ iris gentx v0 --chain-id=qa-test --amount 100000000uiris
 iris collect-gentxs
 iris start
 
+=============
+基础操作
+=============
+iris keys show v0
+iris tx bank send v0 $(iris keys show v1 -a) 100000iris --fees=4iris --chain-id=qa-test -b block -y |jq
+iris query bank balances -o=json $(iris keys show v0 -a) |jq
+
+
+
 
 ==================
  [testnet起 v0会变]
@@ -92,13 +101,6 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 // 默认
 
 
-
-====================
-基础操作
-====================
-iris keys show v0
-iris tx bank send v0 $(iris keys show v1 -a) 100000iris --fees=4iris --chain-id=qa-test -b block -y |jq
-iris query bank balances -o=json $(iris keys show v0 -a) |jq
 
 
 

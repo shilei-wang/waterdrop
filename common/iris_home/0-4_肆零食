@@ -1,0 +1,28 @@
+==================================================================
+                创建分支
+==================================================================
+git branch csrb
+git checkout csrb
+最后在软件里上传一下
+
+
+
+
+1. 安装commander
+mkdir -p /Users/sherlock/go/src/gitlab.bianjie.ai/bianjieai
+cd /Users/sherlock/go/src/gitlab.bianjie.ai/bianjieai
+git clone https://gitlab.bianjie.ai/bianjieai/commander.git  【shilei 12345678】
+cd commander
+[brew install dep]
+dep ensure  [需要翻墙， 第一次慢, 且无任何提示]
+go install  [生成commander文件在bin]
+
+//git reset --hard 825c943b9e03ad6ebc12ea6ea412dbe3aa6828e7
+
+
+-------------------
+
+cd /Users/sherlock/go/src/gitlab.bianjie.ai/bianjieai/commander
+git branch && git rev-parse HEAD
+git branch develop
+git checkout develop
