@@ -211,7 +211,7 @@ irita tx bank send v1 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100point --chai
 ======    wasm (WebAssembly) 已经取消 =====================================================================
 =====================================================================================================================
 =====================================================================================================================
-https://github.com/bianjieai/irita/tree/vincent-sequence/modules/wasm
+https://gitlab.bianjie.ai/cschain/cschain-docs/blob/0da8435293f6d71c44fe325ec0aabf7ab35335f5/console/modules/wasm.md
 
 ---
 1. Compile smart contract

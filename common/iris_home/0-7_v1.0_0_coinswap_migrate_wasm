@@ -162,9 +162,123 @@ iris start --home=/Users/sherlock/.iris
 
 
 
+==================================================================================================
+==================================================================================================
+======    wasm (WebAssembly) =====================================================================
+==================================================================================================
+==================================================================================================
+https://gitlab.bianjie.ai/cschain/cschain-docs/blob/0da8435293f6d71c44fe325ec0aabf7ab35335f5/console/modules/wasm.md
+
+
+---
+1. 先要安装智能合约(参见irita)
+---
+
+---
+2.  部署合约
+---
+# 上传合约
+iris tx wasm store /Users/sherlock/my_workspace/wasm/election.wasm --from=v0 --chain-id=qa-test --fees=6iris -b block -y --gas="auto"
+
+返回code id
+{"key":"code_id","value":"1"}
+
+# 查询
+iris query wasm list-code
+
+
+---
+3. 实例化合约
+---
+CODE_ID=1
+INIT='{"start":1,"end":10000,"candidates":["iaa1qvty8x0c78am8c44zv2n7tgm6gfqt78j0verqa","iaa1zk2tse0pkk87p2v8tcsfs0ytfw3t88kejecye5"]}'
+注意：这里块数要大一点，不然后面调用容易超时
+
+//实例化
+带admin的：
+iris tx wasm instantiate "$CODE_ID" "$INIT" --from=v0 --label="mint iris" --chain-id=qa-test --fees=6iris --gas="auto" -b block -y --admin=$(iris keys show v0 -a)
+
+
+不带admin的（公用的）：
+iris tx wasm instantiate "$CODE_ID" "$INIT" --from=v0 --label="mint iris" --chain-id=qa-test --fees=6iris --gas="auto" -b block -y
+
+返回合约地址：（后面要用）
+{"key":"contract_address","value":"iaa18vd8fpwxzck93qlwghaj6arh4p7c5n89fqcgm9"}
+
+---
+4. 执行合约
+---
+VOTE='{"vote":{"candidate":"iaa1qvty8x0c78am8c44zv2n7tgm6gfqt78j0verqa"}}'
+iris tx wasm execute iaa18vd8fpwxzck93qlwghaj6arh4p7c5n89fqcgm9 "$VOTE" --from=v0 --chain-id=qa-test --fees=6iris --gas="auto" -b block -y
+
+
+---
+5. 迁移（Migrate）【注意：这块代码没有完成】
+---
+将智能合约迁移到新的代码版本
+iris tx wasm migrate [contract_addr_bech32] [new_code_id_int64] [json_encoded_migration_args] [flags]
 
 
 
+---
+6. 变更、清除智能合约的管理人
+---
+#  变更智能合约的管理人（以便对合约执行migrate操作，必须由上个管理员指定。初始化的时候必须是带admin的）
+iris tx wasm set-contract-admin iaa18vd8fpwxzck93qlwghaj6arh4p7c5n89fqcgm9 $(iris keys show v1 -a) --from=v0  --chain-id=qa-test --fees=4iris --gas="auto" -b block -y
+
+查询：(admin字段修改了)
+iris query wasm list-contract-by-code 1
 
 
+#  清空合约管理人权限（清空后不能恢复）
+iris tx wasm clear-contract-admin iaa18vd8fpwxzck93qlwghaj6arh4p7c5n89fqcgm9 --from=v1 --chain-id=qa-test --fees=4iris --gas="auto" -b block -y -b block -y
+
+查询：(admin字段没有了)
+iris query wasm list-contract-by-code 1
+
+//先转账一笔给v1
+iris tx bank send v0 $(iris keys show v1 -a) 100000iris --fees=4iris --chain-id=qa-test -b block -y |jq
+
+
+
+---
+7. 查询
+---
+#  下载智能合约
+iris query wasm code 1 /Users/sherlock/election.wasm
+
+#  查询合约信息 （后面是合约地址，初始化的时候会返回）
+iris query wasm contract iaa18vd8fpwxzck93qlwghaj6arh4p7c5n89fqcgm9
+
+#  查询migrate历史信息 （这个暂时还不能测，migrate本身未实现 ）
+iris query wasm contract-history iaa18vd8fpwxzck93qlwghaj6arh4p7c5n89fqcgm9
+
+#  查询链上所有的合约code_id示例
+iris query wasm list-code
+
+#  使用code_id查询合约信息 （这个比list-code更详细）
+iris query wasm list-contract-by-code 1
+
+#  查询合约所有状态 （all）
+iris query wasm contract-state all iaa18vd8fpwxzck93qlwghaj6arh4p7c5n89fqcgm9
+
+- key: 0006636F6E666967
+  value: eyJzdGFydCI6MSwiZW5kIjoxMDAwMCwiY2FuZGlkYXRlcyI6WyJpYWExcXZ0eTh4MGM3OGFtOGM0NHp2Mm43dGdtNmdmcXQ3OGowdmVycWEiLCJpYWExemsydHNlMHBrazg3cDJ2OHRjc2ZzMHl0ZnczdDg4a2VqZWN5ZTUiXSwidm90ZXMiOlt7InZvdGVyIjoiaWFhMW11ZnJrdHU5dGM0NXBlbmN2cnh3d2UwcHdmM2t2cGhyZmRtdDgwIiwiY2FuZGlkYXRlIjoiaWFhMXF2dHk4eDBjNzhhbThjNDR6djJuN3RnbTZnZnF0NzhqMHZlcnFhIn1dfQ==
+
+注：**key的编码为hex编码，例如0006636F6E666967对应字符串为config，value编码为base64编码
+对应字符串
+{"start":1,"end":100,"candidates":["iaa1qvty8x0c78am8c44zv2n7tgm6gfqt78j0verqa","iaa1zk2tse0pkk87p2v8tcsfs0ytfw3t88kejecye5"],"votes":[{"voter":"iaa1rgnu8grzt6mwnjg7jss7w0sfyjn67g4et0hzfz","candidate":"iaa1qvty8x0c78am8c44zv2n7tgm6gfqt78j0verqa"}]}
+
+
+#  根据用户指定的合约地址以及合约编写时指定的key，查询当前合约的状态信息（raw）
+iris query wasm contract-state raw iaa18vd8fpwxzck93qlwghaj6arh4p7c5n89fqcgm9 0006636F6E666967
+
+data: eyJzdGFydCI6MSwiZW5kIjoxMDAwMCwiY2FuZGlkYXRlcyI6WyJpYWExcXZ0eTh4MGM3OGFtOGM0NHp2Mm43dGdtNmdmcXQ3OGowdmVycWEiLCJpYWExemsydHNlMHBrazg3cDJ2OHRjc2ZzMHl0ZnczdDg4a2VqZWN5ZTUiXSwidm90ZXMiOlt7InZvdGVyIjoiaWFhMW11ZnJrdHU5dGM0NXBlbmN2cnh3d2UwcHdmM2t2cGhyZmRtdDgwIiwiY2FuZGlkYXRlIjoiaWFhMXF2dHk4eDBjNzhhbThjNDR6djJuN3RnbTZnZnF0NzhqMHZlcnFhIn1dfQ==
+
+**注：data解码格式为base64。
+
+
+#  调用合约指定的查询方法
+Query='{"get_vote_info":{}}'
+iris query wasm contract-state smart iaa18vd8fpwxzck93qlwghaj6arh4p7c5n89fqcgm9 $Query
 
