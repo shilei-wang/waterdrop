@@ -30,6 +30,19 @@ go mod tidy
 
 
 
+================
+  下载某个commit hash： 1a744a92280be641c483423b3e73a7867e719967
+================
+cd /Users/sherlock/go/src/github.com/irita
+git fetch --all
+git checkout .
+git reset --hard 1a744a92280be641c483423b3e73a7867e719967
+git branch && git rev-parse HEAD
+
+
+
+
+
 *******************************************
           用testnet起
 *******************************************
@@ -190,6 +203,81 @@ irita LCD nft  目前存在的问题： 【这些lcd 有时间再验证】
    2。后续request状态会异常， 查询context的时候出现无法解析的空数据。
 
 6） LCD POST /service/fees/{provider}/withdraw  这个接口未正确迁移irita， 返回404
+
+
+
+========================================================================================================================
+========================================================================================================================
+=============   三个节点用testnet 启动 ===========================================================================================
+========================================================================================================================
+========================================================================================================================
+
+
+cd ~ && rm -rf .irita .irita testnet
+irita testnet --v=3 --chain-id=qa-test --output-dir=/Users/sherlock/testnet --node-dir-prefix=v --starting-ip-address=127.0.0.1
+
+
+
+=========
+注意：这里是改persist peers：
+=========
+sed -i '' 's/@127.0.0.1:26656/@localhost:26656/g' /Users/sherlock/testnet/v0/irita/config/config.toml
+sed -i '' 's/@127.0.0.2:26656/@localhost:26666/g' /Users/sherlock/testnet/v0/irita/config/config.toml
+sed -i '' 's/@127.0.0.3:26656/@localhost:26676/g' /Users/sherlock/testnet/v0/irita/config/config.toml
+
+sed -i '' 's/@127.0.0.1:26656/@localhost:26656/g' /Users/sherlock/testnet/v1/irita/config/config.toml
+sed -i '' 's/@127.0.0.2:26656/@localhost:26666/g' /Users/sherlock/testnet/v1/irita/config/config.toml
+sed -i '' 's/@127.0.0.3:26656/@localhost:26676/g' /Users/sherlock/testnet/v1/irita/config/config.toml
+
+sed -i '' 's/@127.0.0.1:26656/@localhost:26656/g' /Users/sherlock/testnet/v0/irita/config/config.toml
+sed -i '' 's/@127.0.0.2:26656/@localhost:26666/g' /Users/sherlock/testnet/v2/irita/config/config.toml
+sed -i '' 's/@127.0.0.3:26656/@localhost:26676/g' /Users/sherlock/testnet/v2/irita/config/config.toml
+
+
+=========
+注意：这里是改其他的ip
+=========
+sed -i '' 's/tcp:\/\/127.0.0.1:26658/tcp:\/\/127.0.0.1:26668/g' /Users/sherlock/testnet/v1/irita/config/config.toml
+sed -i '' 's/tcp:\/\/0.0.0.0:26657/tcp:\/\/0.0.0.0:26667/g' /Users/sherlock/testnet/v1/irita/config/config.toml
+sed -i '' 's/tcp:\/\/0.0.0.0:26656/tcp:\/\/0.0.0.0:26666/g' /Users/sherlock/testnet/v1/irita/config/config.toml
+
+sed -i '' 's/tcp:\/\/127.0.0.1:26658/tcp:\/\/127.0.0.1:26678/g' /Users/sherlock/testnet/v2/irita/config/config.toml
+sed -i '' 's/tcp:\/\/0.0.0.0:26657/tcp:\/\/0.0.0.0:26677/g' /Users/sherlock/testnet/v2/irita/config/config.toml
+sed -i '' 's/tcp:\/\/0.0.0.0:26656/tcp:\/\/0.0.0.0:26676/g' /Users/sherlock/testnet/v2/irita/config/config.toml
+
+
+=========
+其他
+=========
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v0/irita/config/app.toml
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v1/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v1/irita/config/app.toml
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v2/irita/config/genesis.json
+sed -i '' 's/stake/point/g' /Users/sherlock/testnet/v2/irita/config/app.toml
+
+sed -i '' 's/9090/9091/g' /Users/sherlock/testnet/v1/irita/config/app.toml
+sed -i '' 's/9090/9092/g' /Users/sherlock/testnet/v2/irita/config/app.toml
+
+
+=========
+起链
+=========
+irita start --home=/Users/sherlock/testnet/v0/irita
+irita start --home=/Users/sherlock/testnet/v1/irita
+irita start --home=/Users/sherlock/testnet/v2/irita
+
+访问不同节点的方法：
+irita q bank balances $(irita keys show v0 -a) --node=tcp://localhost:26657
+irita q bank balances $(irita keys show v1 -a) --node=tcp://localhost:26667
+irita q bank balances $(irita keys show v2 -a) --node=tcp://localhost:26677
+
+
+查询：
+subl /Users/sherlock/testnet/v0/irita/config/config.toml
+subl /Users/sherlock/testnet/v1/irita/config/config.toml
+subl /Users/sherlock/testnet/v2/irita/config/config.toml
+
 
 
 

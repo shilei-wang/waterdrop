@@ -98,17 +98,21 @@ irita init --home=/Users/sherlock/testnet/x2/irita --chain-id=qa-test x2
 //从这里开始， 如果validator已经起来 则只要执行下面3行就行
 irita genkey --type=node --home=/Users/sherlock/testnet/x2/irita --out-file=/Users/sherlock/testnet/priv_x2_node.pem
 openssl req -new -key /Users/sherlock/testnet/priv_x2_node.pem -out /Users/sherlock/testnet/key_x2_node.csr -sm3 -sigopt "distid:1234567812345678"
-openssl x509 -req -in /Users/sherlock/testnet/key_x2_node.csr -out /Users/sherlock/testnet/key_x2_node.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
 
-//修改参数后，起全节点
+//上面openssl要停止， 修改参数后，起全节点
+openssl x509 -req -in /Users/sherlock/testnet/key_x2_node.csr -out /Users/sherlock/testnet/key_x2_node.crt -sm3 -sigopt "distid:1234567812345678" -vfyopt "distid:1234567812345678" -CA /Users/sherlock/testnet/root_cert.pem -CAkey /Users/sherlock/testnet/root_key.pem -CAcreateserial
 cp /Users/sherlock/testnet/v0/irita/config/config.toml /Users/sherlock/testnet/x2/irita/config/config.toml
 cp /Users/sherlock/testnet/v0/irita/config/genesis.json /Users/sherlock/testnet/x2/irita/config/genesis.json
 
 irita tendermint show-node-id --home=/Users/sherlock/testnet/v0/irita
 复制id 到下面的seed， 下面2条顺序不能变
 sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/x2/irita/config/config.toml
-sed -i '' 's/seeds = ""/seeds = "e75d9ce5e56f5a15e936b579f4f3f57dc46fcf42@localhost:26656"/g' /Users/sherlock/testnet/x2/irita/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "082f347ca39b5cffcc2bd0fac7e54269445d67ed@localhost:26656"/g' /Users/sherlock/testnet/x2/irita/config/config.toml
 sed -i '' 's/9090/9091/g' /Users/sherlock/testnet/x2/irita/config/app.toml
+
+//注意：一个新节点加入主链之前一定要把自己 filter改为false， 不然在自己第0个块时，白名单里并没有主节点的信息，会导致连不上 (虽然默认是false，但是x2的config是从v0复制过来的，如果复制之前已经改为了true，则需要下面修改一下)
+sed -i '' 's/filter_peers = true/filter_peers = false/g' /Users/sherlock/testnet/x2/irita/config/config.toml
+
 irita start --home=/Users/sherlock/testnet/x2/irita
 
 
@@ -116,9 +120,10 @@ irita start --home=/Users/sherlock/testnet/x2/irita
 grant 授权（加入白名单）
 =====
 irita tx node grant --name=x2 --cert=/Users/sherlock/testnet/key_x2_node.crt --from=v0 --chain-id=qa-test --fees=4point -b block -y
+irita start --home=/Users/sherlock/testnet/x2/irita
 
 记录：
-NID=CDDC708DEDB48050E0ACA2BEB27D243E7646E56F
+NID=98FB9FD87A9623813452D8D6B5134E62AC279AE5
 
 验证：
 irita query node nodes
@@ -129,6 +134,13 @@ v0节点 限制非白名单连接
 =====
 subl /Users/sherlock/testnet/v0/irita/config/config.toml
 filter_peers = true
+
+限制
+sed -i '' 's/filter_peers = false/filter_peers = true/g' /Users/sherlock/testnet/v0/irita/config/config.toml
+
+解除限制
+sed -i '' 's/filter_peers = true/filter_peers = false/g' /Users/sherlock/testnet/v0/irita/config/config.toml
+
 
 
 =====
