@@ -138,18 +138,74 @@ irita start --home=/Users/sherlock/testnet/v0/irita --pruning=nothing
 
 
 
-*******************************************
+*********************
     基础转账测试
-*******************************************
+*********************
 irita keys show v0
-irita query account $(irita keys show v0 --address) 
+irita query account $(irita keys show v0 --address)
 irita query bank balances  $(irita keys show v0 --address)
 
 irita tx bank send v0 iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 100000point --chain-id=qa-test --fees=4point -b block -y
-irita query account iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau 
+irita query account iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 irita query bank balances iaa13dn2vc5ppcrxxnumdkrpuhgnmfjr26fur64hau
 
+**************************************************************************************
+**************************************************************************************
+**************************************************************************************
+    用dock 起多节点
+**************************************************************************************
+**************************************************************************************
+**************************************************************************************
 
+cd /Users/sherlock/go/src/github.com/irita
+git fetch --all
+git checkout .
+git branch && git rev-parse HEAD
+
+=========
+编译启动
+=========
+
+//编译[打开代理],每次要更新代码的时候使用， 时间比较长
+rm -rf build
+docker build -t bianjieai/irita .
+
+//初始化 ， 输密码
+make localnet-init （输系统密码）
+//默认启动4个节点，启动时候回给faucet 助记词
+//四个节点的助记词在 irita/build/nodecluster
+docker-compose up
+
+完全重启的方法：
+rm -rf build
+make localnet-init
+docker-compose up
+
+=========
+其他命令：
+=========
+docker-compose up -d
+docker-compose down
+节点地址：
+docker-compose.yml
+
+=========
+基础使用：
+=========
+//注意 在testnet的时候 keyring-backend设置的是test模式， test模式不需要输入密码，chain-id=irita-test
+irita keys list --keyring-backend=test --home=build/nodecluster/node0/iritacli
+NODE0=$(irita keys show node0 --keyring-backend=test --home=build/nodecluster/node0/iritacli -a)
+irita query bank balances $NODE0
+
+
+irita tx bank send node0 $NODE0 100000stake --chain-id=irita-test --fees=4stake -b block -y --keyring-backend=test --home=build/nodecluster/node0/iritacli
+irita query bank balances $NODE0
+
+
+----
+测试用 后续删掉
+----
+irita tx wasm store /Users/sherlock/my_workspace/wasm/election.wasm --from=node0 --chain-id=irita-test --fees=100000stake -b block -y --gas="auto" --keyring-backend=test --home=build/nodecluster/node0/iritacli
 
 
 

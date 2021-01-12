@@ -19,7 +19,7 @@ make install
 cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .
-git reset --hard 6c297612587cd2eef56f6a695d3446d14e235b57
+git reset --hard 956d977eb08df6cade5e91b84b0307fb4b79c973
 git branch && git rev-parse HEAD
 
 
@@ -46,10 +46,18 @@ iris query bank balances -o=json $(iris keys show v1 -a) |jq
 rm -rf /Users/sherlock/.iris /Users/sherlock/testnet
 iris init testing --chain-id=qa-test
 iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
-iris gentx v0 --chain-id=qa-test --amount 100000000uiris
+iris gentx v0 --chain-id=qa-test 100000000uiris
 /Users/sherlock/my_workspace/waterdrop/common/iris_home/0-5_genesis.sh irishub
 iris collect-gentxs
 iris start
+
+
+subl /Users/sherlock/my_workspace/waterdrop/common/iris_home/0-5_genesis.sh
+subl /Users/sherlock/.iris/config/genesis.json
+
+老版本：
+iris gentx v0 --chain-id=qa-test --amount=100000000uiris
+
 
 =============
 基础操作
@@ -89,9 +97,11 @@ http://localhost:1317/swagger/
 sed -i '' 's/swagger = false/swagger = true/g' /Users/sherlock/testnet/v0/iris/config/app.toml
 sed -i '' 's/enable = false/enable = true/g'  /Users/sherlock/testnet/v0/iris/config/app.toml
 iris start --home=/Users/sherlock/testnet/v0/iris
+
+
 ====================
 用init自己起（注意这里要用uiris）
-====================
+===================
 rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
 iris init --home=/Users/sherlock/testnet/v0/iris --chain-id=qa-test v0
 iris add-genesis-account $(iris keys show v0 --address) 100000000000000uiris --home=/Users/sherlock/testnet/v0/iris
@@ -108,7 +118,7 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 token
 ====================
 发行资产：
-iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y  --symbol=a01 |jq
+iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y  --symbol=a01
 
 iris tx bank send v0 $(iris keys show v0 -a) 1ua01 --fees=4iris --chain-id=qa-test -b block -y |jq
 
@@ -411,9 +421,9 @@ iris tx service bind --chain-id=qa-test --fees=4iris -b block -y  --from=v0 --de
 //创建feed的同时相当于创建了一个service call
 //threshold 不能大约provider的个数
 //State初始=pause
-//--value-json-path="data.user.name"
+//--value-json-path="data.user.name" 最新的是 --value-json-path=data
 //不定义create会报错， 不绑定不会报错， 但是后续request会收不到。这里要注意。
-iris tx oracle create --chain-id=qa-test --from=v0 --fees=4iris --description=description --latest-history=10 --service-name=a001 --input=/Users/sherlock/my_workspace/service/input.json --providers=$(iris keys show v0 --address) --service-fee-cap=100iris --timeout=20 --frequency=20 --threshold=1 --aggregate-func="avg" --value-json-path="body.data" --feed-name=f001 -b block -y  | jq
+iris tx oracle create --chain-id=qa-test --from=v0 --fees=4iris --description=description --latest-history=10 --service-name=a001 --input=/Users/sherlock/my_workspace/service/input.json --providers=$(iris keys show v0 --address) --service-fee-cap=100iris --timeout=20 --frequency=20 --threshold=1 --aggregate-func="avg" --value-json-path="data" --feed-name=f001 -b block -y  | jq
 
 2. Query Feed
 iris query oracle feed -o=json f001 | jq
@@ -498,7 +508,7 @@ iris tx random request --chain-id=qa-test --from=v0 --fees=4iris -b block -y --b
 iris query random queue
 
 //5块后立即可以查询 (5块内查不到)
-iris query random random -o=json b56f4742d0f190d19893e16a6b512b8a226903db725b93b78a8e0515d667e56e | jq
+iris query random random -o=json d16c49af2d82bf6f9f975103501256be9626e7c79659dfa15c3374221871e8af | jq
 
 
 ===
@@ -817,6 +827,20 @@ iris tx bank send v0 $(iris keys show b -a) 100iris --fees=4iris --chain-id=qa-t
 iris query bank balances -o=json $(iris keys show b -a) |jq
 
 iris tx bank send b iaa16utfzmx48pe5rvc7zq0mnmk4a96v7yg2tyrutd 90iris --fees=4iris --chain-id=qa-test -b block -y
+
+
+
+=======================================================
+keys export import
+=======================================================
+iris keys export a1   (注意没有output-file 也不能用 >/Users/sherlock/key_a1 ，只能复制返回到/Users/sherlock/key_a1 ，要输入解码密码)
+iris keys import a1 /Users/sherlock/key_a1 （输入解码密码。 注意原来必须删除，不然报错）
+
+iris keys delete a1
+// v16.3的导出功能
+iriscli16 keys export a1 --output-file=/Users/sherlock/key_a
+
+
 
 
 *******************************************

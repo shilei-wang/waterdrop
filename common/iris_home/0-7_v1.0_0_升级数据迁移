@@ -1,0 +1,40 @@
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------  数据迁移  ----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------  migrate  ----------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+1）export 旧版本的genesis（比如iris 用0.16）
+//注意，v1.0的iris这里有bug 不能使用>/Users/sherlock/genesis.json 到文件
+iris export --for-zero-height --home=/Users/sherlock/testnet/v0/iris  --output-file=/Users/sherlock/genesis.json
+
+2）用新版本的iris（比如1.0） migrate 生成新的genesis
+iris migrate /Users/sherlock/genesis.json --chain-id=qa-test > /Users/sherlock/genesis_new.json
+
+
+3）新的iris init
+rm -rf /Users/sherlock/.iris
+iris init testing --chain-id=qa-test
+
+4) 迁移validator， 分支切换到最新的git checkout vincent-migrate
+旧的priv_validator（/Users/sherlock/testnet/v0/iris） 迁移到新的 （/Users/sherlock/.iris）
+go run migrate/scripts/privValUpgrade.go /Users/sherlock/testnet/v0/iris/config/priv_validator.json /Users/sherlock/.iris/config/priv_validator_key.json /Users/sherlock/.iris/data/priv_validator_state.json
+
+5) copy genesis
+cp /Users/sherlock/genesis_new.json /Users/sherlock/.iris/config/genesis.json
+
+6) 启动
+iris unsafe-reset-all --home=/Users/sherlock/.iris
+iris start --home=/Users/sherlock/.iris
+

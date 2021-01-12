@@ -1,0 +1,926 @@
+
+以下 有bug：
+
+POST /staking/delegators/{delegatorAddr}/delegations
+POST /staking/delegators/{delegatorAddr}/unbonding_delegations
+POST /staking/delegators/{delegatorAddr}/redelegations
+
+GET /staking/validators
+
+POST /slashing/validators/{validatorAddr}/unjail
+
+GET /gov/proposals  【status 填deposit_period， 返回："error": "'DepositPeriod' is not a valid proposal status" 】
+
+
+GET /coinswap/liquidities/{id}
+POST /coinswap/liquidities/{id}/deposit
+POST /coinswap/liquidities/{id}/withdraw
+POST /coinswap/liquidities/buy
+POST /coinswap/liquidities/sell
+
+
+POST /token/tokens 【默认token scale 超过9】
+
+GET /token/tokens/{symbol}/fee
+
+
+POST /htlc/htlcs
+POST /htlc/htlcs/{hash-lock}/claim
+POST /htlc/htlcs/{hash-lock}/refund
+
+POST /nft/nfts/mint  [报错invalid denom ]
+GET /nft/collections/{denom}/supply  [报错 empty address]
+
+POST /service/bindings [报错 empty address]
+GET /service/providers/{provider}/withdraw-address
+POST /service/providers/{provider}/withdraw-address
+POST /service/contexts [报错]
+
+PUT /oracle/feeds/{feed-name}  [报错]
+POST /oracle/feeds  [报错]
+POST /oracle/feeds/{feed-name}/start [报错 error": "Cannot encode unregistered concrete type types.MsgStartFeed."]
+POST /oracle/feeds/{feed-name}/pause [报错 error": "Cannot encode unregistered concrete type types.MsgStartFeed."]
+
+POST /random/randoms
+GET /random/queue ["error": "strconv.ParseInt: parsing \"\": invalid syntax"]
+
+
+以下有问题，不可用：
+
+GET /minting/parameters
+GET /minting/inflation
+GET /minting/annual-provisions
+
+GET /supply/total
+GET /supply/total/{denomination}
+
+
+*******************************************
+    LCD配置
+*******************************************
+
+subl /Users/sherlock/.iris/config/app.toml
+
+修改api.toml
+# Enable defines if the API server should be enabled.
+enable = true
+
+# Swagger defines if swagger documentation should automatically be registered.
+swagger = true
+
+# Address defines the API server to listen on.
+address = "tcp://0.0.0.0:1317"
+
+swagger：（和irita有点小不同）
+http://localhost:1317/swagger/
+
+
+！！！！！！！！！======
+最后测
+
+---------------------------------------------------------------------------------------------
+------  IRISHub REST ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+GET /node_info  【查询】【无需前置】
+
+---------------------------------------------------------------------------------------------
+------  Tendermint RPC ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+GET /syncing                【查询】【无需前置】
+GET /blocks/latest          【查询】【无需前置】
+GET /blocks/{height}        【查询】【无需前置】
+GET /validatorsets/latest   【查询】【无需前置】
+GET /validatorsets/{height} 【查询】【无需前置】
+
+
+---------------------------------------------------------------------------------------------
+------  Transactions ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+======
+GET /txs/{hash}
+======
+复制hash
+iris tx bank send v0 $(iris keys show v1 -a) 100000iris --fees=4iris --chain-id=qa-test -b block -y |jq
+1C39E704F9AA8753C86FABB63A78ECE0E4481200849343500F149C55B96933DF
+
+
+======
+iris GET /txs
+======
+send设置一下
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+
+
+
+！！！！！！！！！======
+GET /txs
+！！！！！！！！！======
+
+
+！！！！！！！！！======
+POST /txs/encode
+！！！！！！！！！======
+比较麻烦
+
+！！！！！！！！！======
+POST /txs/decode
+！！！！！！！！！======
+
+
+---------------------------------------------------------------------------------------------
+------  Bank ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+======
+GET /bank/balances/{address}
+======
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+
+======
+POST /bank/accounts/{address}/transfers
+======
+
+！！！ 目前所有post 都要通过cosmos程序 现在不好测
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+iris query account iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80 --chain-id=qa-test
+account_number: "0"
+sequence: "2"
+
+{
+  "base_req": {
+    "from": "iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80",
+    "memo": "Sent via Cosmos Voyager 🚀",
+    "chain_id": "qa-test",
+    "account_number": "0",
+    "sequence": "2",
+    "gas": "200000",
+    "gas_adjustment": "1.2",
+    "fees": [
+      {
+        "denom": "uiris",
+        "amount": "50"
+      }
+    ],
+    "simulate": false
+  },
+  "amount": [
+    {
+      "denom": "uiris",
+      "amount": "50"
+    }
+  ]
+}
+
+---------------------------------------------------------------------------------------------
+------  Auth   ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+======
+GET /auth/accounts/{address}
+======
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+
+
+---------------------------------------------------------------------------------------------
+------  Staking   ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+iris keys show v0 -a --bech=val
+iva1mufrktu9tc45pencvrxwwe0pwf3kvphruu3y6g
+
+
+======
+GET /staking/delegators/{delegatorAddr}/delegations
+======
+
+======
+POST /staking/delegators/{delegatorAddr}/delegations
+======
+有bug
+
+======
+GET /staking/delegators/{delegatorAddr}/delegations/{validatorAddr}
+======
+
+======
+GET /staking/delegators/{delegatorAddr}/unbonding_delegations
+======
+
+======
+POST /staking/delegators/{delegatorAddr}/unbonding_delegations
+======
+有bug
+
+======
+GET /staking/delegators/{delegatorAddr}/unbonding_delegations/{validatorAddr}
+======
+
+======
+GET /staking/redelegations
+======
+
+======
+POST /staking/delegators/{delegatorAddr}/redelegations
+======
+有bug
+
+======
+GET /staking/delegators/{delegatorAddr}/validators
+======
+
+======
+GET /staking/delegators/{delegatorAddr}/validators/{validatorAddr}
+======
+
+======
+GET /staking/validators
+======
+有bug
+
+======
+GET /staking/validators/{validatorAddr}
+======
+
+======
+GET /staking/validators/{validatorAddr}/delegations
+======
+
+======
+GET /staking/validators/{validatorAddr}/unbonding_delegations
+======
+
+======
+GET /staking/pool
+======
+
+======
+GET /staking/parameters
+======
+
+
+---------------------------------------------------------------------------------------------
+------  Slashing  ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+======
+GET /slashing/signing_infos
+======
+
+======
+POST /slashing/validators/{validatorAddr}/unjail
+======
+
+======
+GET /slashing/parameters
+======
+
+---------------------------------------------------------------------------------------------
+------  Governance  ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+
+iris tx gov submit-proposal --title="Test Proposal" --description="My awesome proposal" --type="Text" --deposit="10iris" --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+iris query gov proposal 1 --chain-id=qa-test -o=json
+
+iris tx gov deposit 1 10000000iris --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+iris query gov param deposit --chain-id=qa-test
+
+iris tx gov vote 1 yes  --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+iris query gov proposal 1 --chain-id=qa-test -o=json --indent
+
+
+======
+POST /gov/proposals
+======
+有bug
+
+======
+POST /gov/proposals/param_change
+======
+
+======
+GET /gov/proposals/{proposalId}
+======
+
+======
+GET /gov/proposals/{proposalId}/proposer
+======
+
+======
+GET /gov/proposals/{proposalId}/deposits
+======
+
+======
+POST /gov/proposals/{proposalId}/deposits
+======
+
+======
+GET /gov/proposals/{proposalId}/deposits/{depositor}
+======
+
+======
+GET /gov/proposals/{proposalId}/votes
+======
+
+======
+POST /gov/proposals/{proposalId}/votes
+======
+
+======
+GET /gov/proposals/{proposalId}/votes/{voter}
+======
+
+======
+GET /gov/proposals/{proposalId}/tally
+======
+
+======
+GET /gov/parameters/deposit
+======
+
+======
+GET /gov/parameters/tallying
+======
+
+======
+GET /gov/parameters/voting
+======
+
+
+
+---------------------------------------------------------------------------------------------
+------  Distribution  ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+iris keys show v0 -a --bech=val
+iva1mufrktu9tc45pencvrxwwe0pwf3kvphruu3y6g
+
+
+
+======
+GET /distribution/delegators/{delegatorAddr}/rewards
+======
+
+======
+POST /distribution/delegators/{delegatorAddr}/rewards
+======
+
+======
+GET /distribution/delegators/{delegatorAddr}/rewards/{validatorAddr}
+======
+
+======
+GET /distribution/delegators/{delegatorAddr}/withdraw_address
+======
+
+======
+POST /distribution/delegators/{delegatorAddr}/withdraw_address
+======
+
+======
+GET /distribution/validators/{validatorAddr}
+======
+
+======
+GET /distribution/validators/{validatorAddr}/outstanding_rewards
+======
+
+======
+GET /distribution/validators/{validatorAddr}/rewards
+======
+
+======
+POST /distribution/validators/{validatorAddr}/rewards
+======
+
+======
+GET /distribution/community_pool
+======
+
+======
+GET /distribution/parameters
+======
+
+
+
+---------------------------------------------------------------------------------------------
+------  Mint  ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+不可用目前
+
+======
+GET /minting/parameters
+======
+
+======
+GET /minting/inflation
+======
+
+======
+GET /minting/annual-provisions
+======
+
+
+---------------------------------------------------------------------------------------------
+------  Supply  ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+不可用目前
+
+
+======
+GET /supply/total
+======
+
+======
+GET /supply/total/{denomination}
+======
+
+
+---------------------------------------------------------------------------------------------
+------  Legacy  ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+iris tx bank send v0 $(iris keys show v1 -a) 100000iris --fees=4iris --chain-id=qa-test -b block -y |jq
+1C39E704F9AA8753C86FABB63A78ECE0E4481200849343500F149C55B96933DF
+
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+
+======
+GET /legacy/blocks/latest
+======
+
+======
+GET /legacy/blocks/{height}
+======
+
+======
+GET /legacy/block-results/latest
+======
+
+======
+GET /legacy/block-results/{height}
+======
+
+======
+GET /legacy/txs/{hash}
+======
+
+======
+GET /legacy/txs
+======
+
+======
+GET /legacy/bank/accounts/{address}
+======
+
+---------------------------------------------------------------------------------------------
+------  coinswap  ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+有问题 还没测
+
+
+======
+GET /coinswap/liquidities/{id}
+======
+
+======
+POST /coinswap/liquidities/{id}/deposit
+======
+
+======
+POST /coinswap/liquidities/{id}/withdraw
+======
+
+======
+POST /coinswap/liquidities/buy
+======
+
+======
+POST /coinswap/liquidities/sell
+======
+
+
+---------------------------------------------------------------------------------------------
+------  Token  ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+
+iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y  --symbol=a01
+
+======
+POST /token/tokens
+======
+
+======
+GET /token/tokens
+======
+
+======
+GET /token/tokens/{symbol}
+======
+
+======
+PUT /token/tokens/{symbol}
+======
+
+======
+POST /token/tokens/{symbol}/mint
+======
+
+======
+POST /token/tokens/{symbol}/transfer
+======
+
+
+
+---------------------------------------------------------------------------------------------
+------  HTLC   ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+======
+POST /htlc/htlcs
+======
+
+======
+GET /htlc/htlcs/{hash-lock}
+======
+iris tx htlc create --to=iaa1pm432kqz62mutq439ynqs87u30r36062qdw977  --amount=1iris --time-lock=50 --timestamp=1580000000 --receiver-on-other-chain=00 --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+Secret:      df211776496fc6d8f6dff8a47c04db5358dc3e705b451788c7b2ebca4bd48403
+HashLock:    39cdbc679eab678e04d82b5825d4b11315ba948495d5626c3c8a8a5f8fee81eb
+
+
+======
+POST /htlc/htlcs/{hash-lock}/claim
+======
+
+======
+POST /htlc/htlcs/{hash-lock}/refund
+======
+
+
+
+
+---------------------------------------------------------------------------------------------
+------  NFT   ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+iris tx nft issue d01 --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+iris tx nft mint d01 a01 --recipient=$(iris keys show v0 --address) --name="name" --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+
+======
+POST /nft/nfts/mint
+======
+
+======
+GET /nft/nfts/{denom}/{token-id}
+======
+
+======
+PUT /nft/nfts/{denom}/{token-id}
+======
+
+======
+POST /nft/nfts/{denom}/{token-id}/transfer
+======
+
+======
+POST /nft/nfts/{denom}/{token-id}/burn
+======
+
+======
+GET /nft/collections/{denom}
+======
+
+======
+GET /nft/owners/{address}
+======
+
+======
+GET /nft/denoms
+======
+
+======
+GET /nft/collections/{denom}/supply
+======
+
+---------------------------------------------------------------------------------------------
+------  Record   ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+iris tx record create --chain-id=qa-test "hahaha" "flighting" --from=v0 --fees=4iris -b block -y --meta="metadata" --uri="uridata"
+
+"record_id","value":"c46c9944d01504f795820e3d5e5bece40352f77f8928bcc87b99ab4ce5ad59ee"
+
+======
+POST /record/records
+======
+
+======
+GET /record/records/{record-id}
+======
+
+
+---------------------------------------------------------------------------------------------
+------  Service   ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+iris keys show v0 -a
+iaa1mufrktu9tc45pencvrxwwe0pwf3kvphrfdmt80
+
+iris tx service define --chain-id=qa-test --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4iris -b block -y
+
+iris tx service bind --chain-id=qa-test --fees=4iris -b block -y --from=v0 --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5 --options={}
+
+iris tx service call --chain-id=qa-test --from=v0 --fees=4iris -b block -y --service-name=a001  --timeout=20 --service-fee-cap=100iris --data=/Users/sherlock/my_workspace/service/data.json --providers=$(iris keys show v0 --address) |jq
+
+"key": "request_context_id",
+"value": "0AB4CF4F03B2AE96369C2D5EF95EB96B19AB15FF24FF9EA22BE5132DA96A46060000000000000000"
+
+======
+POST /service/definitions
+======
+
+======
+GET /service/definitions/{service-name}
+======
+
+======
+POST /service/bindings
+======
+
+======
+GET /service/bindings/{service-name}/{provider}
+======
+
+======
+PUT /service/bindings/{service-name}/{provider}
+======
+
+======
+GET /service/bindings/{service-name}
+======
+
+======
+GET /service/providers/{provider}/withdraw-address
+======
+
+======
+POST /service/providers/{provider}/withdraw-address
+======
+
+======
+POST /service/bindings/{service-name}/{provider}/disable
+======
+
+======
+POST /service/bindings/{service-name}/{provider}/enable
+======
+
+======
+POST /service/bindings/{service-name}/{provider}/refund-deposit
+======
+
+======
+POST /service/contexts
+======
+
+======
+GET /service/contexts/{request-context-id}
+======
+
+======
+PUT /service/contexts/{request-context-id}
+======
+
+======
+POST /service/contexts/{request-context-id}/pause
+======
+
+======
+POST /service/contexts/{request-context-id}/start
+======
+
+======
+POST /service/contexts/{request-context-id}/kill
+======
+
+======
+GET /service/requests/{request-id}
+======
+iris tx service call --chain-id=qa-test --from=v0 --fees=4iris -b block -y --service-name=a001 --service-fee-cap=100iris --data=/Users/sherlock/my_workspace/service/data.json --providers=$(iris keys show v0 -a) --timeout=20 --repeated --frequency=20 --total=-1 |jq
+
+iris query service requests -o=json a001 $(iris keys show v0 -a) |jq
+
+"id": "7F5A715D88DF1B920E5BFBF379258E80068A59A67CE82E9CA1037CE8B2932A4D000000000000000000000000000000010000000000001E1A0000",
+request_context_id ： 7F5A715D88DF1B920E5BFBF379258E80068A59A67CE82E9CA1037CE8B2932A4D0000000000000000
+
+======
+GET /service/requests/{request-context-id}/{batch-counter}
+======
+
+======
+GET /service/responses/{request-context-id}/{batch-counter}
+======
+iris tx service respond --chain-id=qa-test --from=v0  --fees=4iris -b block -y  --data='{"header":{},"body":{"data": "100"}}' --result='{"code":200,"message":"ok"}' --request-id=$(iris query service requests a001 $(iris keys show v0 --address) -o=json | jq -r .requests[0].id) |jq
+
+iris query service responses 7F5A715D88DF1B920E5BFBF379258E80068A59A67CE82E9CA1037CE8B2932A4D0000000000000000 4
+
+
+======
+POST /service/fees/{provider}/withdraw
+======
+
+======
+GET /service/fees/{provider}
+======
+
+======
+GET /service/schemas/{schema-name}
+======
+iris query service schema pricing -o=json |jq
+iris query service schema result -o=json |jq
+
+
+
+---------------------------------------------------------------------------------------------
+------  Oracle  ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+iris tx service define --chain-id=qa-test --from=v0 --description=service-description --author-description=author-description --tags=tag1,tag2 --schemas=/Users/sherlock/my_workspace/service/schemas.json --name=a001 --fees=4iris -b block -y
+
+iris tx service bind --chain-id=qa-test --fees=4iris -b block -y  --from=v0 --deposit=20000iris --pricing=/Users/sherlock/my_workspace/service/pricing_1.0.json --service-name=a001 --qos=5 --options={}
+
+
+iris tx oracle create --chain-id=qa-test --from=v0 --fees=4iris --description=description --latest-history=10 --service-name=a001 --input=/Users/sherlock/my_workspace/service/input.json --providers=$(iris keys show v0 --address) --service-fee-cap=100iris --timeout=20 --frequency=20 --threshold=1 --aggregate-func="avg" --value-json-path="body.data" --feed-name=f001 -b block -y  | jq
+
+
+======
+PUT /oracle/feeds/{feed-name}
+======
+
+======
+GET /oracle/feeds/{feed-name}
+======
+
+======
+GET /oracle/feeds
+======
+iris query oracle feeds --state=running -o=json  | jq
+iris query oracle feeds --state=paused -o=json | jq
+
+======
+GET /oracle/feeds/{feed-name}/values
+======
+
+======
+POST /oracle/feeds/{feed-name}/start
+======
+
+======
+POST /oracle/feeds/{feed-name}/pause
+======
+
+
+---------------------------------------------------------------------------------------------
+------  random  ------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+
+
+======
+POST /random/randoms
+======
+
+======
+GET /random/randoms/{request-id}
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
+======
+
