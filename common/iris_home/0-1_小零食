@@ -1,9 +1,11 @@
 
-回归测试
-自动化测试进行回归测试
-init, gentx 初始化链， 新增节点
-参数修改
-upgrade
+coinswap
+先返回相应的json
+先cmd 构造一个交易 ， 把json复制过来
+broadcast
+
+
+升级测试
 
 
 
@@ -11,11 +13,6 @@ upgrade
 测试迁移代码
 ===
 
-coinswap
-：
-先返回相应的json
-先cmd 构造一个交易 ， 把json复制过来
-broadcast
 
 
 
@@ -26,10 +23,11 @@ htlc  超时  export
 irishub 添加验证人
 
 ==============================
-其他需要测试的点
+回归测试 测试要点
 ==============================
 自动化测试进行回归测试
-init, gentx 初始化链， 新增节点
+init, gentx 初始化链
+新增节点
 参数修改
 upgrade
 

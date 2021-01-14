@@ -5,7 +5,7 @@ git checkout -b vincent-migrate upstream/vincent-migrate //git checkout v0.16.3 
 git pull
 git branch && git rev-parse HEAD
 
-
+3aefbf231aaaaedf32bebb48488d5effb4e3b82d
 //只有主网版本 没有setTestEnv.sh
 make install
 
@@ -23,9 +23,6 @@ git reset --hard 956d977eb08df6cade5e91b84b0307fb4b79c973
 git branch && git rev-parse HEAD
 
 
-
-
-
 ====================
 autoStart
 ====================
@@ -40,9 +37,15 @@ iris query bank balances -o=json $(iris keys show v1 -a) |jq
 ====================
 桌面>启动台>钥匙串访问>登录（右键）>锁定钥匙串登录>登录（右键）>解锁钥匙串登录
 
-==================
+
+==========================================================================================
+==========================================================================================
+==========================================================================================
 修改 stake ->iris 版本 [init起 v0不会变]
-==================
+==========================================================================================
+==========================================================================================
+==========================================================================================
+
 rm -rf /Users/sherlock/.iris /Users/sherlock/testnet
 iris init testing --chain-id=qa-test
 iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
@@ -51,22 +54,23 @@ iris gentx v0 --chain-id=qa-test 100000000uiris
 iris collect-gentxs
 iris start
 
-
+// 脚本默认打开swagger
 subl /Users/sherlock/my_workspace/waterdrop/common/iris_home/0-5_genesis.sh
 subl /Users/sherlock/.iris/config/genesis.json
+
 
 老版本：
 iris gentx v0 --chain-id=qa-test --amount=100000000uiris
 
 
 =============
-基础操作
+基础操作(bank)
 =============
 iris keys show v0
 iris tx bank send v0 $(iris keys show v1 -a) 100000iris --fees=4iris --chain-id=qa-test -b block -y |jq
 iris query bank balances -o=json $(iris keys show v0 -a) |jq
 
-
+iris tx token burn iris --amount=100 --from=v0 --fees=4iris --chain-id=qa-test -b block -y |jq
 
 
 ==================
@@ -81,7 +85,7 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 
 所有交易后面可以加  |jq 看返回
 
-
+subl /Users/sherlock/testnet/v0/iris/config/genesis.json
 ====================
 rest （api测试）
 ====================
@@ -696,9 +700,10 @@ iris init v1 --home=/Users/sherlock/.iris/v1 --chain-id=qa-test
 cp /Users/sherlock/.iris/config/config.toml /Users/sherlock/.iris/v1/config/config.toml
 cp /Users/sherlock/.iris/config/genesis.json /Users/sherlock/.iris/v1/config/genesis.json
 
-iris tendermint show-node-id --home=/Users/sherlock/.iris  //node id 下面用
+ //node id 下面用
+iris tendermint show-node-id --home=/Users/sherlock/.iris
 sed -i '' 's/2665/2666/g' /Users/sherlock/.iris/v1/config/config.toml
-sed -i '' 's/seeds = ""/seeds = "5d6a9bbdef30b7a49667cb702439911a4f58b747@localhost:26656"/g' /Users/sherlock/.iris/v1/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "59b6ee5383651dcf06d26be374229c2293a108d4@localhost:26656"/g' /Users/sherlock/.iris/v1/config/config.toml
 sed -i '' 's/9090/9091/g' /Users/sherlock/.iris/v1/config/app.toml
 iris start --home=/Users/sherlock/.iris/v1 （此时正常追赶）
 
@@ -706,9 +711,9 @@ iris keys show v1 //iaa1ev9twzjp5td8k43rf6pw2g74qpf6hl473veuyw
 iris tx bank send v0 $(iris keys show v1 -a) 10000iris --fees=4iris --chain-id=qa-test -b block -y |jq
 iris query bank balances -o=json $(iris keys show v1 -a) |jq
 iris tendermint show-validator --home=/Users/sherlock/.iris/v1
-//icp1zcjduepqnvm6h89zsmyu7m5ufkkljysqjqqvt6ah4c3tv4qhzuc78rwkqxesm37aap
+//icp1zcjduepqaqxeungsxk2j3alyks3zxsyuaapf42gyeertew9lszejezyn47fq23efpx
 
-iris tx staking create-validator --pubkey=icp1zcjduepqnvm6h89zsmyu7m5ufkkljysqjqqvt6ah4c3tv4qhzuc78rwkqxesm37aap --moniker=v1 --amount=100iris --min-self-delegation=1 --from=v1 --chain-id=qa-test --fees=4iris -b block -y --commission-max-change-rate=0.1 --commission-max-rate=0.1 --commission-rate=0.1
+iris tx staking create-validator --pubkey=icp1zcjduepqxfycwrnus8aja7y8mwft37r2xwwfzqt5nngm9lu0n4spj60dlntqswf5fz --moniker=v1 --amount=100iris --min-self-delegation=1 --from=v1 --chain-id=qa-test --fees=4iris -b block -y --commission-max-change-rate=0.1 --commission-max-rate=0.1 --commission-rate=0.1
 iris query staking validators --chain-id=qa-test -o=json | jq
 
 //iris query slashing signing-info --chain-id=qa-test fcp1zcjduepqpzudzh5k84h5zpnsp9l96pql7n0yaqd9pfcvcw603ngyvrcz6fdqf09vng
@@ -769,7 +774,7 @@ iris query staking validator iva*** 有问题 ，无法查询
 离线交易
     注意:离线签名不能转单位，所以都要用uiris
 ==================
-注意：因为不校验，所以只能用iris-atto， 不能用iris
+注意：因为不校验，所以只能用uiris， 不能用iris
 
 iris tx bank send $(iris keys show v0 --address) $(iris keys show v0 --address) 1uiris --chain-id=qa-test --fees=4uiris  -b block -y --generate-only >~/my_workspace/Tx-generate
 
@@ -840,6 +845,23 @@ iris keys delete a1
 // v16.3的导出功能
 iriscli16 keys export a1 --output-file=/Users/sherlock/key_a
 
+
+==============================
+params update 参数修改
+==============================
+iris query service params
+
+iris 参数修改不是通过 tx params update （cschain是这样的）
+iris tx params update /Users/sherlock/my_workspace/service/param.json --from=v0 --chain-id=qa-test --fees=4point -b block -y
+
+iris query token params
+iris query service params
+iris query node params
+iris query auth params
+iris query slashing params
+
+//iris query params subspace key
+iris query params subspace token IssueTokenBaseFee
 
 
 

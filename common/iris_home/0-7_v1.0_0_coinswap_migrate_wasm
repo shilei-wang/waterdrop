@@ -6,63 +6,21 @@
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 
-====
-coinswap客户端下载
-====
-cd /Users/sherlock/go/src/github.com/coinswap
-git fetch --all
-git checkout .
-git pull
-
-【特别重要!】
-3个(10.1.4.179)ip 要改成自己的ip 10.1.4.24
-chainid也要改一下，VUE_APP_HUB_CHAIN_ID=qa-test
-
-yarn install
-
-cd /Users/sherlock/go/src/github.com/coinswap
-yarn serve
-
-访问
-http://10.1.4.24:8081/
-
-
-====
-irishub 配置要改3个部分才能用 coinswap
-====
-
-rm -rf /Users/sherlock/.iris
-iris init testing --chain-id=qa-test
-iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
-iris gentx v0 --chain-id=qa-test --amount 100000000uiris
-sed -i '' 's/stake/uiris/g' /Users/sherlock/.iris/config/genesis.json
-sed -i '' 's/"profilers": \[\]/"profilers": \[{"description":"test","account_type":0,"address":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0","added_by":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0"}\]/g' /Users/sherlock/.iris/config/genesis.json
-
-sed -i '' 's/enable = false/enable = true/g' /Users/sherlock/.iris/config/app.toml
-sed -i '' 's/swagger = false/swagger = true/g' /Users/sherlock/.iris/config/app.toml
-sed -i '' 's/enabled-unsafe-cors = false/enabled-unsafe-cors = true/g' /Users/sherlock/.iris/config/app.toml
-sed -i '' 's/127.0.0.1:26657/0.0.0.0:26657/g' /Users/sherlock/.iris/config/config.toml
-sed -i '' 's/cors_allowed_origins = \[\]/cors_allowed_origins = \["*"\]/g' /Users/sherlock/.iris/config/config.toml
-
-iris collect-gentxs
-iris start
 
 
 ====
 客户端
 ====
-//需要提供客户端账户助记词
+//需要提供客户端账户助记词 //iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
 iris keys add x1 --recover
 figure seminar caught foster midnight cup method west brown hundred regular symptom family accuse tourist game burst audit tell foot acquire spike chair danger
-http://10.1.4.24:8081/
-
 
 
 ====
 初始化
 ====
 发行资产：
-echo y| iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y  --symbol=a01 |jq
+echo y| iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y  --symbol=a01
 iris query bank balances -o=json $(iris keys show v0 -a) |jq
 
 iris tx bank send v0 $(iris keys show x1 -a) 1000a01 --fees=4iris --chain-id=qa-test -b block -y |jq
@@ -70,8 +28,122 @@ iris tx bank send v0 $(iris keys show x1 -a) 10000iris --fees=4iris --chain-id=q
 iris query bank balances -o=json $(iris keys show x1 -a) |jq
 
 
-echo y| iris tx token issue --name=token-name --min-unit="ua02" --scale=6 --initial-supply=1000000 --max-supply=3000000 --mintable=true --from=v0 --chain-id=qa-test  -b block -y  --symbol=a02 |jq
+echo y| iris tx token issue --name=token-name --min-unit="ua02" --scale=6 --initial-supply=1000000 --max-supply=3000000 --mintable=true --from=v0 --chain-id=qa-test  -b block -y  --symbol=a02
 iris tx bank send v0 $(iris keys show x1 -a) 1000a02  --chain-id=qa-test -b block -y |jq
+
+
+
+====
+构造交易
+====
+1）在 http://localhost:1317/swagger/ 上找到 POST /coinswap/liquidities/{id}/deposit
+2）先用 cmd 构造一个交易，因为swaager目前版本构造的交易格式有点不对， 要复制黏贴
+
+iris tx bank send $(iris keys show v0 --address) $(iris keys show v0 --address) 1uiris --chain-id=qa-test --fees=4uiris  -b block -y --generate-only >~/my_workspace/Tx-generate
+
+{
+  "body": {
+    "messages": [
+
+        【中间这一段不要】
+
+    ],
+    "memo": "",
+    "timeout_height": "0",
+    "extension_options": [],
+    "non_critical_extension_options": []
+  },
+  "auth_info": {
+    "signer_infos": [],
+    "fee": {
+      "amount": [
+        {
+          "denom": "uiris",
+          "amount": "5"
+        }
+      ],
+      "gas_limit": "200000",
+      "payer": "",
+      "granter": ""
+    }
+  },
+  "signatures": []
+}
+
+
+3）用POST /coinswap/liquidities/{id}/deposit 构造交易
+
+from ： v0 地址 ：
+iris keys show v0 -a
+
+account_number，sequence ： 查询v0 ：
+iris query account $(iris keys show v0 -a) --chain-id=qa-test -o=json |jq
+
+id： a01
+
+{
+  "base_req": {
+    "from": "iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07",
+    "memo": "Sent via Cosmos Voyager 🚀",
+    "chain_id": "qa-test",
+    "account_number": "0",
+    "sequence": "7",
+    "gas": "200000",
+    "gas_adjustment": "1.2",
+    "fees": [
+      {
+        "denom": "uiris",
+        "amount": "10"
+      }
+    ],
+    "simulate": false
+  },
+  "max_token": "1000000",
+  "exact_standard_amt": "1000000",
+  "min_liquidity": "0",
+  "deadline": "30m",
+  "sender": "iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07"
+}
+
+
+执行，返回：
+只需要关注 msg中的一段：
+{
+    "type": "irismod/coinswap/MsgAddLiquidity",
+    "value": {
+      "max_token": {
+        "denom": "a01",
+        "amount": "1000000"
+      },
+      "exact_standard_amt": "1000000",
+      "min_liquidity": "0",
+      "deadline": "1610536257",
+      "sender": "iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07"
+    }
+}
+
+改动上述返回：
+1） type这里改一下
+2） value:{} 去掉
+{
+    "@type": "/irismod.coinswap.MsgAddLiquidity",
+    "max_token": {
+        "denom": "a01",
+        "amount": "1000000"
+    },
+    "exact_standard_amt": "1000000",
+    "min_liquidity": "0",
+    "deadline": "1610536257",
+    "sender": "iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07"
+}
+
+把上述json复制到最初的 【中间这一段不要】里， 然后复制整个json到 /Users/sherlock/my_workspace/Tx-generate
+
+
+3）签名后广播
+iris tx sign /Users/sherlock/my_workspace/Tx-generate   --from=v0 --chain-id=qa-test --home=/Users/sherlock/testnet/v0/iris >~/my_workspace/Tx-sign
+iris tx broadcast ~/my_workspace/Tx-sign -b block -y
+
 
 
 ====
@@ -128,6 +200,52 @@ dt_x = (1000*x*dt_y)/(997*(y-dt_y))
 12.58token1 = （1000 * 100token1 * 11.144545iris ）/ （997 * （100iris - 11.144545iris））
 
 
+================================================================
+早先的配置：这个暂时不用了
+coinswap客户端下载
+================================================================
+
+cd /Users/sherlock/go/src/github.com/coinswap
+git fetch --all
+git checkout .
+git pull
+
+【特别重要!】
+3个(10.1.4.179)ip 要改成自己的ip 10.1.4.24
+chainid也要改一下，VUE_APP_HUB_CHAIN_ID=qa-test
+
+yarn install
+
+cd /Users/sherlock/go/src/github.com/coinswap
+yarn serve
+
+访问
+http://10.1.4.24:8081/
+
+
+====
+irishub 配置要改3个部分才能用 coinswap
+====
+
+rm -rf /Users/sherlock/.iris
+iris init testing --chain-id=qa-test
+iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
+iris gentx v0 --chain-id=qa-test --amount 100000000uiris
+sed -i '' 's/stake/uiris/g' /Users/sherlock/.iris/config/genesis.json
+sed -i '' 's/"profilers": \[\]/"profilers": \[{"description":"test","account_type":0,"address":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0","added_by":"iaa1cdq70u5cpczvyt2py80savz7gasgdzx9hc0xw0"}\]/g' /Users/sherlock/.iris/config/genesis.json
+
+sed -i '' 's/enable = false/enable = true/g' /Users/sherlock/.iris/config/app.toml
+sed -i '' 's/swagger = false/swagger = true/g' /Users/sherlock/.iris/config/app.toml
+sed -i '' 's/enabled-unsafe-cors = false/enabled-unsafe-cors = true/g' /Users/sherlock/.iris/config/app.toml
+sed -i '' 's/127.0.0.1:26657/0.0.0.0:26657/g' /Users/sherlock/.iris/config/config.toml
+sed -i '' 's/cors_allowed_origins = \[\]/cors_allowed_origins = \["*"\]/g' /Users/sherlock/.iris/config/config.toml
+
+iris collect-gentxs
+iris start
+
+
+？？？
+http://10.1.4.24:8081/
 
 
 

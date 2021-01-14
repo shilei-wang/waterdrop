@@ -1,11 +1,72 @@
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
-------  数据迁移  ----------------------------------------------------------------------------------------------
+------  coin兼容性测试 ----------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 
+=========
+启动
+=========
+rm -rf /Users/sherlock/.iris /Users/sherlock/testnet
+iris init testing --chain-id=qa-test
+iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
+iris gentx v0 --chain-id=qa-test 100000000uiris
+/Users/sherlock/my_workspace/waterdrop/common/iris_home/0-5_genesis.sh irishub
+iris collect-gentxs
+
+subl /Users/sherlock/.iris/config/genesis.json
+            {
+              "denom": "uiris",
+              "amount": "100000000000000"
+            },
+            {
+              "denom": "swap/abc",
+              "amount": "100000000000000"
+            }
+
+
+iris start
+
+iris query bank balances -o=json $(iris keys show v0 -a) |jq
+
+
+=========
+验证一下
+=========
+iris tx bank send v0 $(iris keys show v1 -a) 100swap/abc --fees=4iris --chain-id=qa-test -b block -y |jq
+iris query bank balances -o=json $(iris keys show v1 -a) |jq
+
+iris tx token burn iris --amount=100 --from=v0 --fees=4iris --chain-id=qa-test -b block -y |jq
+
+
+=========
+gov
+=========
+1）
+iris tx gov submit-proposal --title="Test Proposal" --description="My awesome proposal" --type="Text" --deposit=100swap/abc  --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+
+2）
+iris tx gov submit-proposal --title="Test Proposal" --description="My awesome proposal" --type="Text" --deposit=100iris  --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+iris tx gov deposit 1 10swap/abc  --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+
+以上两个会返回：
+"can't deposit coinswap liquidity"
+
+
+
+=========
+burn 走不到这一步， 最开始的被拦截
+=========
+iris tx token burn swap/abc --amount=100 --from=v0 --fees=4iris --chain-id=qa-test -b block -y |jq
+
+
+=========
+ibc transfer
+=========
+目前还有问题 也走不到
+iris tx ibc-transfer transfer bank chann-to-gaia iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07 1swap/abc --from=v0 --chain-id=qa-test --fees=4iris -b block -y
 
 
 ----------------------------------------------------------------------------------------------------------------
