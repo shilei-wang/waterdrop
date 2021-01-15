@@ -54,13 +54,14 @@ iris gentx v0 --chain-id=qa-test 100000000uiris
 iris collect-gentxs
 iris start
 
-// 脚本默认打开swagger
+// 脚本默认打开swagger, 注意如果oracle做不了，super改下v0地址
 subl /Users/sherlock/my_workspace/waterdrop/common/iris_home/0-5_genesis.sh
 subl /Users/sherlock/.iris/config/genesis.json
 
 
 老版本：
 iris gentx v0 --chain-id=qa-test --amount=100000000uiris
+
 
 
 =============

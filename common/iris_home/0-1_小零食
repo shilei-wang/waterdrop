@@ -1,17 +1,26 @@
 
-coinswap
-先返回相应的json
-先cmd 构造一个交易 ， 把json复制过来
-broadcast
 
 
-升级测试
+整理迁移测试需要的工具
 
 
 
 ===
 测试迁移代码
 ===
+
+
+coinswap
+先返回相应的json
+先cmd 构造一个交易 ， 把json复制过来
+broadcast
+
+
+升级测试（整理文档）测试用例？自己记录（做个测试用例 整理到wiki 弄v1.0测试）
+
+
+
+
 
 
 

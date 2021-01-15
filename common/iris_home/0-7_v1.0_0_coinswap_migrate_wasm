@@ -34,7 +34,7 @@ iris tx bank send v0 $(iris keys show x1 -a) 1000a02  --chain-id=qa-test -b bloc
 
 
 ====
-构造交易
+deposit
 ====
 1）在 http://localhost:1317/swagger/ 上找到 POST /coinswap/liquidities/{id}/deposit
 2）先用 cmd 构造一个交易，因为swaager目前版本构造的交易格式有点不对， 要复制黏贴
@@ -79,7 +79,7 @@ iris keys show v0 -a
 account_number，sequence ： 查询v0 ：
 iris query account $(iris keys show v0 -a) --chain-id=qa-test -o=json |jq
 
-id： a01
+id： ua01  （注意一定要用最小单位 ua01）
 
 {
   "base_req": {
@@ -107,12 +107,12 @@ id： a01
 
 
 执行，返回：
-只需要关注 msg中的一段：
+只需要关注 msg中的一段：注意deadline是指1970年到现在的时间
 {
     "type": "irismod/coinswap/MsgAddLiquidity",
     "value": {
       "max_token": {
-        "denom": "a01",
+        "denom": "ua01",
         "amount": "1000000"
       },
       "exact_standard_amt": "1000000",
@@ -128,7 +128,7 @@ id： a01
 {
     "@type": "/irismod.coinswap.MsgAddLiquidity",
     "max_token": {
-        "denom": "a01",
+        "denom": "ua01",
         "amount": "1000000"
     },
     "exact_standard_amt": "1000000",
@@ -137,11 +137,13 @@ id： a01
     "sender": "iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07"
 }
 
-把上述json复制到最初的 【中间这一段不要】里， 然后复制整个json到 /Users/sherlock/my_workspace/Tx-generate
+开一个新页面，把上述json复制到最初的 【中间这一段不要】里， 然后复制整个json到 /Users/sherlock/my_workspace/Tx-generate
 
 
 3）签名后广播
 iris tx sign /Users/sherlock/my_workspace/Tx-generate   --from=v0 --chain-id=qa-test --home=/Users/sherlock/testnet/v0/iris >~/my_workspace/Tx-sign
+
+[这里注意 deadline不要超时]
 iris tx broadcast ~/my_workspace/Tx-sign -b block -y
 
 
@@ -149,13 +151,32 @@ iris tx broadcast ~/my_workspace/Tx-sign -b block -y
 ====
 查询
 ====
-http://localhost:1317/coinswap/liquidities/uni:ua01
+GET /coinswap/liquidities/{id}  输入 ua01
+http://localhost:1317/coinswap/liquidities/ua01
+
+{"height":"405","result":{
+  "standard": {
+    "denom": "uiris",
+    "amount": "1000000"
+  },
+  "token": {
+    "denom": "ua01",
+    "amount": "1000000"
+  },
+  "liquidity": {
+    "denom": "swap/ua01",
+    "amount": "1000000"
+  },
+  "fee": "0.003000000000000000"
+}}
+
+
 iris q tx D4FA1BD705AA3F0C4FA39AE161A9B1C6EA058D0BD395A8034A81B02DD7685A71
 
 
 
 ====
-测试
+buy
 ====
 
 -------
@@ -167,6 +188,143 @@ output（dt_y）：10token
 input （dt_x）：11.145iris
 dt_x = (1000*x*dt_y)/(997*(y-dt_y))
 11.45iris = （1000 * 100iris * 10token ）/ （997 * （100token - 10token））
+
+1000*1000000*1000/(997*(1000000-1000))
+99600300
+iris keys show x1 -a
+iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
+
+iris query account $(iris keys show x1 -a) --chain-id=qa-test -o=json |jq
+  "account_number": "9",
+  "sequence": "0"
+
+
+{
+  "base_req": {
+    "from": "iaa1pm432kqz62mutq439ynqs87u30r36062qdw977",
+    "memo": "Sent via Cosmos Voyager 🚀",
+    "chain_id": "qa-test",
+    "account_number": "9",
+    "sequence": "0",
+    "gas": "200000",
+    "gas_adjustment": "1.2",
+    "fees": [
+      {
+        "denom": "uiris",
+        "amount": "4"
+      }
+    ],
+    "simulate": false
+  },
+  "input": {
+    "address": "iaa1pm432kqz62mutq439ynqs87u30r36062qdw977",
+    "coin": {
+      "denom": "uiris",
+      "amount": "2000"
+    }
+  },
+  "output": {
+    "address": "iaa1pm432kqz62mutq439ynqs87u30r36062qdw977",
+    "coin": {
+      "denom": "ua01",
+      "amount": "1000"
+    }
+  },
+  "deadline": "30m"
+}
+
+执行，返回：
+只需要关注 msg中的一段：注意deadline是指1970年到现在的时间
+      {
+        "type": "irismod/coinswap/MsgSwapOrder",
+        "value": {
+          "input": {
+            "address": "iaa1pm432kqz62mutq439ynqs87u30r36062qdw977",
+            "coin": {
+              "denom": "uiris",
+              "amount": "2000"
+            }
+          },
+          "output": {
+            "address": "iaa1pm432kqz62mutq439ynqs87u30r36062qdw977",
+            "coin": {
+              "denom": "ua01",
+              "amount": "1000"
+            }
+          },
+          "deadline": "1610707371",
+          "is_buy_order": true
+        }
+      }
+
+
+改动上述返回：
+1） type这里改一下
+2） value:{} 去掉
+{
+    "@type": "/irismod.coinswap.MsgSwapOrder",
+    "input": {
+    "address": "iaa1pm432kqz62mutq439ynqs87u30r36062qdw977",
+    "coin": {
+      "denom": "uiris",
+      "amount": "2000"
+    }
+    },
+    "output": {
+    "address": "iaa1pm432kqz62mutq439ynqs87u30r36062qdw977",
+    "coin": {
+      "denom": "ua01",
+      "amount": "1000"
+    }
+    },
+    "deadline": "1610707371",
+    "is_buy_order": true
+}
+
+复制到generate中：
+
+
+3）签名后广播 x1
+iris tx sign /Users/sherlock/my_workspace/Tx-generate   --from=x1 --chain-id=qa-test --home=/Users/sherlock/testnet/v0/iris >~/my_workspace/Tx-sign
+iris tx broadcast ~/my_workspace/Tx-sign -b block -y
+
+
+-------
+验证
+-------
+a01 + 1000ua01
+iris - 1114uiris
+
+9999998990
+
+1010
+
+
+iris query bank balances -o=json $(iris keys show x1 -a) |jq
+{
+  "balances": [
+    {
+      "denom": "ua01",
+      "amount": "1000001000"
+    },
+    {
+      "denom": "ua02",
+      "amount": "1000000000"
+    },
+    {
+      "denom": "uiris",
+      "amount": "9999998990"
+    }
+  ],
+  "pagination": {
+    "next_key": null,
+    "total": "0"
+  }
+}
+
+
+
+
 
 
 【 确定 input 模式 ，计算output 】
