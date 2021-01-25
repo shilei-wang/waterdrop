@@ -90,6 +90,7 @@ iris init testing --chain-id=qa-test
 
 4) 迁移validator， 分支切换到最新的git checkout vincent-migrate
 旧的priv_validator（/Users/sherlock/testnet/v0/iris） 迁移到新的 （/Users/sherlock/.iris）
+cd /Users/sherlock/go/src/github.com/irishub/
 go run migrate/scripts/privValUpgrade.go /Users/sherlock/testnet/v0/iris/config/priv_validator.json /Users/sherlock/.iris/config/priv_validator_key.json /Users/sherlock/.iris/data/priv_validator_state.json
 
 5) copy genesis

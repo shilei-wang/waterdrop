@@ -1,0 +1,651 @@
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 单个节点 升级步骤 ------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+iris16 testnet --v=1 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1  --chain-id=qa-test
+
+sed -i '' 's/150000000000000000000iris/100000000000000000000000iris/g' /Users/sherlock/testnet/v0/iris/config/genesis.json
+iris16 start --home=/Users/sherlock/testnet/v0/iris
+
+// subl  /Users/sherlock/testnet/v0/iris/config/genesis.json
+
+--------------
+rm -f /Users/sherlock/my_workspace/temp/*
+iris16 export --for-zero-height --home=/Users/sherlock/testnet/v0/iris  --output-file=/Users/sherlock/my_workspace/temp/genesis_v0.json
+iris migrate /Users/sherlock/my_workspace/temp/genesis_v0.json --chain-id=qa-test > /Users/sherlock/my_workspace/temp/genesis_new_v0.json
+cp /Users/sherlock/testnet/v0/iris/config/priv_validator.json /Users/sherlock/my_workspace/temp/priv_validator_v0.json
+cp /Users/sherlock/testnet/v0/iris/config/node_key.json /Users/sherlock/my_workspace/temp/node_key_v0.json
+
+
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+cd /Users/sherlock/go/src/github.com/irishub
+iris init v0 --chain-id=qa-test --home=/Users/sherlock/testnet/v0/iris
+go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/priv_validator_v0.json /Users/sherlock/testnet/v0/iris/config/priv_validator_key.json /Users/sherlock/testnet/v0/iris/data/priv_validator_state.json
+
+cp /Users/sherlock/my_workspace/temp/genesis_new_v0.json /Users/sherlock/testnet/v0/iris/config/genesis.json
+cp /Users/sherlock/my_workspace/temp/node_key_v0.json /Users/sherlock/testnet/v0/iris/config/node_key.json
+iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+//subl /Users/sherlock/testnet/v0/iris/config/genesis.json
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 2个节点 升级步骤 ------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+iris16 testnet --v=2 --output-dir=/Users/sherlock/testnet  --node-dir-prefix=v --starting-ip-address=127.0.0.1  --chain-id=qa-test
+
+sed -i '' 's/26658/26668/g' /Users/sherlock/testnet/v1/iris/config/config.toml
+sed -i '' 's/26657/26667/g' /Users/sherlock/testnet/v1/iris/config/config.toml
+sed -i '' 's/0.0.0.0:26656/0.0.0.0:26666/g' /Users/sherlock/testnet/v1/iris/config/config.toml
+sed -i '' 's/432000000000000/90000000000/g' /Users/sherlock/testnet/v0/iris/config/config.toml
+sed -i '' 's/432000000000000/90000000000/g' /Users/sherlock/testnet/v1/iris/config/config.toml
+iris16 start --home=/Users/sherlock/testnet/v0/iris
+
+iris16 start --home=/Users/sherlock/testnet/v1/iris
+
+
+--------------
+
+1）停止2个链
+rm -f /Users/sherlock/my_workspace/temp/*
+
+2）导出genesis_v0.json，migrate, 导出 priv_validator.json
+iris16 export --for-zero-height --home=/Users/sherlock/testnet/v0/iris  --output-file=/Users/sherlock/my_workspace/temp/genesis_v0.json
+iris16 export --for-zero-height --home=/Users/sherlock/testnet/v1/iris  --output-file=/Users/sherlock/my_workspace/temp/genesis_v1.json
+iris migrate /Users/sherlock/my_workspace/temp/genesis_v0.json --chain-id=qa-test > /Users/sherlock/my_workspace/temp/genesis_new_v0.json
+iris migrate /Users/sherlock/my_workspace/temp/genesis_v1.json --chain-id=qa-test > /Users/sherlock/my_workspace/temp/genesis_new_v1.json
+cp /Users/sherlock/testnet/v0/iris/config/priv_validator.json /Users/sherlock/my_workspace/temp/priv_validator_v0.json
+cp /Users/sherlock/testnet/v1/iris/config/priv_validator.json /Users/sherlock/my_workspace/temp/priv_validator_v1.json
+cp /Users/sherlock/testnet/v0/iris/config/node_key.json /Users/sherlock/my_workspace/temp/node_key_v0.json
+cp /Users/sherlock/testnet/v1/iris/config/node_key.json /Users/sherlock/my_workspace/temp/node_key_v1.json
+
+记录，id直接copy到下面就好
+grep 'persistent_peers' /Users/sherlock/testnet/v1/iris/config/config.toml
+c61876d958a078b29f0935ae081a339abedd3589
+
+3）新的iris init
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+
+------
+v0:
+------
+cd /Users/sherlock/go/src/github.com/irishub
+iris init v0 --chain-id=qa-test --home=/Users/sherlock/testnet/v0/iris
+go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/priv_validator_v0.json /Users/sherlock/testnet/v0/iris/config/priv_validator_key.json /Users/sherlock/testnet/v0/iris/data/priv_validator_state.json
+
+cp /Users/sherlock/my_workspace/temp/genesis_new_v0.json /Users/sherlock/testnet/v0/iris/config/genesis.json
+cp /Users/sherlock/my_workspace/temp/node_key_v0.json /Users/sherlock/testnet/v0/iris/config/node_key.json
+iris unsafe-reset-all --home=/Users/sherlock/testnet/v0/iris
+iris start --home=/Users/sherlock/testnet/v0/iris
+
+------
+v1:
+------
+cd /Users/sherlock/go/src/github.com/irishub
+iris init v1 --chain-id=qa-test --home=/Users/sherlock/testnet/v1/iris
+go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/priv_validator_v1.json /Users/sherlock/testnet/v1/iris/config/priv_validator_key.json /Users/sherlock/testnet/v1/iris/data/priv_validator_state.json
+
+注意id要先复制过来:
+cp /Users/sherlock/my_workspace/temp/genesis_new_v1.json /Users/sherlock/testnet/v1/iris/config/genesis.json
+cp /Users/sherlock/my_workspace/temp/node_key_v1.json /Users/sherlock/testnet/v1/iris/config/node_key.json
+sed -i '' 's/2665/2666/g' /Users/sherlock/testnet/v1/iris/config/config.toml
+sed -i '' 's/9090/9091/g' /Users/sherlock/testnet/v1/iris/config/app.toml
+sed -i '' 's/persistent_peers = ""/persistent_peers = "c61876d958a078b29f0935ae081a339abedd3589@127.0.0.1:26656"/g' /Users/sherlock/testnet/v1/iris/config/config.toml
+
+iris unsafe-reset-all --home=/Users/sherlock/testnet/v1/iris
+iris start --home=/Users/sherlock/testnet/v1/iris
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------
+下面是数据迁移测试方法记录
+----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 1)genesis migrate hash compare   ------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+---------------
+造一点数据
+---------------
+
+iriscli16 keys list  --home=/Users/sherlock/testnet/v0/iriscli
+iaa1mtdry37phfjgtvktcywqvatjj8823fxrp05q7g
+iaa19hrgr4fhel7qknt2qg0cp0d3ftzwq8gfezj4wd
+
+
+echo 1234567890 | iriscli16 bank send --amount=1iris --fee=0.4iris --commit --chain-id=qa-test --from=v0 --to=iaa19hrgr4fhel7qknt2qg0cp0d3ftzwq8gfezj4wd --home=/Users/sherlock/testnet/v0/iriscli
+
+echo 1234567890 | iriscli16 bank burn --from=v0 --fee=0.4iris --commit --chain-id=qa-test --amount=9iris-atto --home=/Users/sherlock/testnet/v0/iriscli
+
+
+iriscli16 stake validators
+echo 1234567890 | iriscli16 stake delegate --address-validator=iva1mtdry37phfjgtvktcywqvatjj8823fxr5770r0 --amount=5iris --fee=0.4iris --commit  --from=v0  --chain-id=qa-test --home=/Users/sherlock/testnet/v0/iriscli
+
+
+---------------
+导出 migrate
+---------------
+
+iris16 export --for-zero-height --home=/Users/sherlock/testnet/v0/iris  --output-file=/Users/sherlock/genesis_v0.json
+iris16 export --for-zero-height --home=/Users/sherlock/testnet/v1/iris  --output-file=/Users/sherlock/genesis_v1.json
+
+
+iris migrate /Users/sherlock/genesis_v0.json --chain-id=qa-test > /Users/sherlock/genesis_new_v0.json
+iris migrate /Users/sherlock/genesis_v1.json --chain-id=qa-test > /Users/sherlock/genesis_new_v1.json
+
+
+md5 /Users/sherlock/genesis_new_v0.json
+md5 /Users/sherlock/genesis_new_v1.json
+
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 7)升级后委托人未到期的的转委托记录可查询   --------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+iriscli16 stake validators
+//找到v0，v1
+iva12979r58e54rvdhstyjhdag4dkw74apavlsws98
+iva1h24sur7grr6zy9nfqawehdr0zcy2awpd0f7p6c
+
+echo 1234567890 | iriscli16 stake delegate --address-validator=iva12979r58e54rvdhstyjhdag4dkw74apavlsws98 --amount=5iris --fee=0.4iris --commit  --from=v0  --chain-id=qa-test --home=/Users/sherlock/testnet/v0/iriscli
+
+echo 1234567890 | iriscli16 stake redelegate --address-validator-source=iva12979r58e54rvdhstyjhdag4dkw74apavlsws98 --address-validator-dest=iva1h24sur7grr6zy9nfqawehdr0zcy2awpd0f7p6c --shares-amount=3 --fee=0.4iris --from=v0 --chain-id=qa-test --commit --home=/Users/sherlock/testnet/v0/iriscli
+
+
+iriscli16 stake redelegations -o=json $(iriscli16 keys show v0 --home=/Users/sherlock/testnet/v0/iriscli --address) |jq
+
+---
+查询结果
+---
+[
+  {
+    "delegator_addr": "iaa12979r58e54rvdhstyjhdag4dkw74apav2pylcq",
+    "validator_src_addr": "iva12979r58e54rvdhstyjhdag4dkw74apavlsws98",
+    "validator_dst_addr": "iva1h24sur7grr6zy9nfqawehdr0zcy2awpd0f7p6c",
+    "creation_height": "10",
+    "min_time": "2021-02-11T09:31:24.080422Z",
+    "initial_balance": "3iris",
+    "balance": "3iris",
+    "shares_src": "3.0000000000000000000000000000",
+    "shares_dst": "3.0000000000000000000000000000"
+  }
+]
+
+============
+升级
+============
+
+---
+验证
+---
+
+iris query staking validators --chain-id=qa-test -o=json | jq
+iris query staking redelegations iaa1m5rcaz0zy0md3v5rmuglekznq8ffrkdtwx58vg
+- entries:
+  - balance: "3000000"
+    redelegation_entry:
+      completion_time: "2021-02-09T07:03:54.276149Z"
+      initial_balance: "3000000"
+      shares_dst: "3000000.000000000000000000"
+  redelegation:
+    delegator_address: iaa1djsu5vhy73afamvmmpzlrxs68hld7ltj8rrgwg
+    entries: null
+    validator_dst_address: iva1ch64t5avdv03eke8cl0xsuq4z8d0eyut55vf59
+    validator_src_address: iva1djsu5vhy73afamvmmpzlrxs68hld7ltjjjf8n0
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 8)特殊地址校验及余额查询   --------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+
+================
+BurnedCoinsAccAddr
+================
+v16.3： iaa108a0ts008fphurftmsvj5p2q8ltq8qedy0jxd8
+echo 1234567890 | iriscli16 bank burn --from=v0 --fee=0.4iris --commit --chain-id=qa-test --amount=2iris --home=/Users/sherlock/testnet/v0/iriscli
+iriscli16 bank account iaa108a0ts008fphurftmsvj5p2q8ltq8qedy0jxd8 --home=/Users/sherlock/testnet/v0/iriscli
+Coins:           2iris 【这个值会增加】
+
+v1.0：新版本没有这个地址
+iris query bank balances -o=json iaa108a0ts008fphurftmsvj5p2q8ltq8qedy0jxd8 |jq
+
+
+// iriscli16 bank account $(iriscli16 keys show v0 --home=/Users/sherlock/testnet/v0/iriscli --address) --home=/Users/sherlock/testnet/v0/iriscli
+iaa1jw24gjk2sl80a6ytvtasgt67tzut6d53dft2hp 47.961824iris
+// iris query bank balances -o=json iaa1jw24gjk2sl80a6ytvtasgt67tzut6d53dft2hp |jq
+
+
+================
+GovDepositCoinsAccAddr
+================
+v16.3： iaa1pa55mh8wuvdjsje7q3rnljv39krg3aeqfk6dml
+echo 1234567890 | iriscli16 gov submit-proposal --chain-id=qa-test --from=v0 --fee=0.5iris --commit --description='description' --title='title' --type=PlainText --deposit=1000iris  --home=/Users/sherlock/testnet/v0/iriscli
+//查询地址显示1000iris
+iriscli16 bank account iaa1pa55mh8wuvdjsje7q3rnljv39krg3aeqfk6dml --home=/Users/sherlock/testnet/v0/iriscli
+
+
+v1.0：iaa10d07y265gmmuvt4z0w9aw880jnsr700j0qn55z
+//查询地址显示1000iris
+iris query bank balances -o=json iaa10d07y265gmmuvt4z0w9aw880jnsr700j0qn55z |jq
+
+
+================
+ServiceDepositCoinsAccAddr
+================
+v16.3： iaa1ezt7hxs6755wrfk22k7kkvv8wd5uxvmx5ylfl3
+echo 1234567890 | iriscli16 service define --chain-id=qa-test  --from=v0 --fee=4iris --commit --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/Users/sherlock/my_workspace/service/proto_for_v16.proto --service-name=001 --home=/Users/sherlock/testnet/v0/iriscli
+echo 1234567890 | iriscli16 service bind --chain-id=qa-test --from=v0 --fee=0.4iris --commit --def-chain-id=qa-test --bind-type=Local --deposit=1500iris --prices=1iris --avg-rsp-time=10000 --usable-time=100 --service-name=001 --home=/Users/sherlock/testnet/v0/iriscli
+//查询地址显示1500iris
+iriscli16 bank account iaa1ezt7hxs6755wrfk22k7kkvv8wd5uxvmx5ylfl3 --home=/Users/sherlock/testnet/v0/iriscli
+
+
+v1.0：iaa1c8t8npfed4xc29755wwwvw2x834q36828duh55
+//查询地址显示1500iris
+iris query bank balances -o=json iaa1c8t8npfed4xc29755wwwvw2x834q36828duh55 |jq
+
+
+
+================
+ServiceRequestCoinsAccAddr
+================
+v16.3： iaa19wvnk64x7mfs0yddpcgauz24tc433q73dkxw6x
+
+//这个不response
+echo 1234567890 | iriscli16 service call --chain-id=qa-test --from=v0 --fee=0.4iris --commit --bind-chain-id=qa-test --def-chain-id=qa-test --service-name=001  --method-id=1 --provider=$(iriscli16 keys show v0 --home=/Users/sherlock/testnet/v0/iriscli --address) --service-fee=1iris --request-data="Abcd" --home=/Users/sherlock/testnet/v0/iriscli
+
+//这个response,记录id
+echo 1234567890 | iriscli16 service call --chain-id=qa-test --from=v0 --fee=0.4iris --commit --bind-chain-id=qa-test --def-chain-id=qa-test --service-name=001  --method-id=1 --provider=$(iriscli16 keys show v0 --home=/Users/sherlock/testnet/v0/iriscli --address) --service-fee=1iris --request-data="Abcd" --home=/Users/sherlock/testnet/v0/iriscli
+
+  "value": "380-280-0"
+
+//response
+echo 1234567890 | iriscli16 service respond --chain-id=qa-test --request-chain-id=qa-test --from=v0 --fee=0.4iris --commit --response-data="Abcd" --request-id=110-10-0 --home=/Users/sherlock/testnet/v0/iriscli
+
+//查询地址显示1500iris
+iriscli16 bank account iaa19wvnk64x7mfs0yddpcgauz24tc433q73dkxw6x --home=/Users/sherlock/testnet/v0/iriscli
+  Coins:           1.99iris
+
+
+v1.0：iaa1wnrllnlwm67jvqs963x8dhvqz4kdaaswmawrqy
+//查询地址显示 1.99iris
+iris query bank balances -o=json iaa1wnrllnlwm67jvqs963x8dhvqz4kdaaswmawrqy |jq
+
+
+
+================
+ServiceTaxCoinsAccAddr
+================
+v16.3： iaa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9wkzy4s
+0.01iris
+iriscli16 bank account iaa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9wkzy4s --home=/Users/sherlock/testnet/v0/iriscli
+
+
+v1.0：新版本没有这个地址
+iris query bank balances -o=json iaa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9wkzy4s |jq
+
+
+================
+HTLCLockedCoinsAccAddr
+================
+v16.3： iaa1neja0fwuwdax8xxpdcqqdd7x3zfyna4xn9kxy2
+
+[500块后expired]
+echo 1234567890 | iriscli16 htlc create --from=v0 --to=$(iriscli16 keys show v0 --home=/Users/sherlock/testnet/v0/iriscli --address)  --amount=16iris --time-lock=500 --timestamp=1580000000 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=qa-test --commit  --home=/Users/sherlock/testnet/v0/iriscli
+
+//查询地址显示16iris
+iriscli16 bank account iaa1neja0fwuwdax8xxpdcqqdd7x3zfyna4xn9kxy2 --home=/Users/sherlock/testnet/v0/iriscli
+
+
+v1.0： iaa1a7xynj4ceft8kgdjr6kcq0s07y3ccya6mepzdm
+//查询地址显示16iris
+iris query bank balances -o=json iaa1a7xynj4ceft8kgdjr6kcq0s07y3ccya6mepzdm |jq
+
+
+================
+CommunityTaxCoinsAccAddr 【这个会变，最后停链的时候看， genesis，确定一下】
+================
+v16.3： iaa18rtw90hxz4jsgydcusakz6q245jh59kfma3e5h
+iriscli16 bank account iaa18rtw90hxz4jsgydcusakz6q245jh59kfma3e5h --home=/Users/sherlock/testnet/v0/iriscli
+【这个值会不断增加】
+
+v1.0：iaa1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8jaydtw
+iris query bank balances -o=json iaa1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8jaydtw |jq
+
+
+统计：
+iriscli16 bank account iaa108a0ts008fphurftmsvj5p2q8ltq8qedy0jxd8 --home=/Users/sherlock/testnet/v0/iriscli
+iriscli16 bank account iaa1pa55mh8wuvdjsje7q3rnljv39krg3aeqfk6dml --home=/Users/sherlock/testnet/v0/iriscli
+iriscli16 bank account iaa1ezt7hxs6755wrfk22k7kkvv8wd5uxvmx5ylfl3 --home=/Users/sherlock/testnet/v0/iriscli
+iriscli16 bank account iaa19wvnk64x7mfs0yddpcgauz24tc433q73dkxw6x --home=/Users/sherlock/testnet/v0/iriscli
+iriscli16 bank account iaa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9wkzy4s --home=/Users/sherlock/testnet/v0/iriscli
+iriscli16 bank account iaa1neja0fwuwdax8xxpdcqqdd7x3zfyna4xn9kxy2 --home=/Users/sherlock/testnet/v0/iriscli
+iriscli16 bank account iaa18rtw90hxz4jsgydcusakz6q245jh59kfma3e5h --home=/Users/sherlock/testnet/v0/iriscli
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 9)asset数据丢弃   --------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+v16.3:
+echo 1234567890 | iriscli16 asset issue-token --family=fungible --source=native  --decimal=0 --symbol=a16 --name=a16 --initial-supply=100 --from=v0 --chain-id=qa-test --fee=0.4iris --commit --home=/Users/sherlock/testnet/v0/iriscli
+
+iriscli16 asset query-token a16
+
+v1.0
+iris query token tokens -o=json  |jq
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 11)service数据清空（仅保留params）  --------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+v16.3
+echo 1234567890 | iriscli16 service define --chain-id=qa-test  --from=v0 --fee=4iris --commit --service-description=service-description --author-description=author-description --tags=tag1,tag2 --idl-content=idl-content --file=/Users/sherlock/my_workspace/service/proto_for_v16.proto --service-name=a001 --home=/Users/sherlock/testnet/v0/iriscli
+
+echo 1234567890 | iriscli16 service bind --chain-id=qa-test --from=v0 --fee=0.4iris --commit --def-chain-id=qa-test --bind-type=Local --deposit=1500iris --prices=1iris --avg-rsp-time=10000 --usable-time=100 --service-name=a001 --home=/Users/sherlock/testnet/v0/iriscli
+
+
+v1.0
+iris query service definition -o=json a001 |jq
+iris query service params
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 12)Guardian模块中profiler -> super, 删除trustees -------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+v16.3
+echo 1234567890 | iriscli16 guardian add-profiler --chain-id=qa-test --from=v0 --fee=0.4iris --commit --address=iaa1ezt7hxs6755wrfk22k7kkvv8wd5uxvmx5ylfl3 --description=v0  --home=/Users/sherlock/testnet/v0/iriscli
+echo 1234567890 | iriscli16 guardian add-trustee --chain-id=qa-test --from=v0 --fee=0.4iris --commit --address=iaa1ezt7hxs6755wrfk22k7kkvv8wd5uxvmx5ylfl3 --description=v0 --home=/Users/sherlock/testnet/v0/iriscli
+iriscli16 guardian profilers
+iriscli16 guardian trustees
+
+
+v1.0
+iris query guardian supers -o=json |jq
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 13)更新 coinswap params 标准Denom  -------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+直接看 genesis : coinswap 模块
+
+    "coinswap": {
+      "params": {
+        "fee": "0.003000000000000000"
+      },
+      "standard_denom": "uiris"
+    },
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 14)htlc  -------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+1. 未完成的HTLC：保留“未完成”状态（新的到期高度=原链到期高度-升级高度）
+2. 已过期的HTLC：释放给发起地址
+
+v16.3：
+
+iriscli16 keys add v1
+//iaa1l00gatl0cjjpmmc3cuv7euugyqmse4jynzh9d4
+
+echo 1234567890 | iriscli16 bank send --amount=500iris --fee=0.4iris --commit --chain-id=qa-test --from=v0 --to=$(iriscli16 keys show v1 --home=/Users/sherlock/testnet/v0/iriscli --address) --home=/Users/sherlock/testnet/v0/iriscli
+
+iris query bank balances -o=json $(iriscli16 keys show v1 --home=/Users/sherlock/testnet/v0/iriscli --address) |jq
+
+echo 1234567890 | iriscli16 htlc create --from=v1 --to=$(iriscli16 keys show v0 --home=/Users/sherlock/testnet/v0/iriscli --address)  --amount=50iris --time-lock=500 --timestamp=1580000000 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=qa-test --commit  --home=/Users/sherlock/testnet/v0/iriscli
+
+echo 1234567890 | iriscli16 htlc create --from=v1 --to=$(iriscli16 keys show v0 --home=/Users/sherlock/testnet/v0/iriscli --address)  --amount=100iris --time-lock=50 0--timestamp=1580000000 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=qa-test --commit  --home=/Users/sherlock/testnet/v0/iriscli
+
+【50是过程中， 100是expired】
+
+
+v1.0： iaa1a7xynj4ceft8kgdjr6kcq0s07y3ccya6mepzdm
+iris query bank balances -o=json iaa1l00gatl0cjjpmmc3cuv7euugyqmse4jynzh9d4 |jq
+iris query htlc htlc 34c88bedae719ce90acb1588c8adcbb5e46c220a654b8bf558eecd1a84beb9eb -o=json |jq
+
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 15)random  -------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+v16.3
+echo 1234567890 | iriscli16 rand request-rand --from=v0 --fee=0.4iris --commit --chain-id=qa-test --block-interval=20 --home=/Users/sherlock/testnet/v0/iriscli
+request-id : "9fbbea87980a84884b04c8b9329368d8778ecdd64fc7daaa37bf01739d2ee837"
+
+iriscli16 rand query-rand --request-id=9fbbea87980a84884b04c8b9329368d8778ecdd64fc7daaa37bf01739d2ee837
+
+
+v1.0.0
+iris query random queue
+iris query random random -o=json 9fbbea87980a84884b04c8b9329368d8778ecdd64fc7daaa37bf01739d2ee837 | jq
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 16)前后gov等级 5)前后助记词 20)前后账户余额
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+------------
+前后gov等级,proposal删除
+------------
+新版本继承了原来的normal等级
+
+v16.3
+iriscli16 params --module=gov
+------
+System Halt Period:     20000
+Proposal Parameter:    [Critical]         [Important]        [Normal]
+  DepositPeriod:        24h0m0s         24h0m0s        24h0m0s
+  MinDeposit:           4000000000000000000000iris-atto         2000000000000000000000iris-atto        1000000000000000000000iris-atto
+  Voting Period:        120h0m0s         120h0m0s        120h0m0s
+  Max Num:              1         5        7
+  Threshold:            0.7500000000         0.6700000000        0.5000000000
+  Veto:                 0.3300000000         0.3300000000        0.3300000000
+  Participation:        0.5000000000         0.5000000000        0.5000000000
+  Penalty:              0.0000000000         0.0000000000        0.0000000000
+
+echo 1234567890 | iriscli16 gov submit-proposal --chain-id=qa-test --from=v0 --fee=0.5iris --commit --description='description' --title='title' --type=PlainText --deposit=1000iris  --home=/Users/sherlock/testnet/v0/iriscli
+
+
+v1.0
+iriscli16 params --module=gov
+------
+ iris query gov params
+deposit_params:
+  max_deposit_period: "86400 000000000"  //24h
+  min_deposit:
+  - amount: "1000000000"
+    denom: uiris
+tally_params:  //normal
+  quorum: "0.500000000000000000"
+  threshold: "0.500000000000000000"
+  veto_threshold: "0.330000000000000000"
+voting_params:
+  voting_period: "432000 000 000 000"  //120h
+
+
+iris query gov proposals
+
+------------
+5)前后助记词 20)前后账户余额
+------------
+
+v16.3
+------
+iriscli16 keys add x1
+iaa1pgwxz35dy6wpxgevwkjvsrnakwsgfqe2524nhg
+mass piano rural orchard rate embody economy glad exile property venture right work result race dilemma road plug obscure trumpet giant canal skate program
+
+iriscli16 keys add x2
+iaa14j40p0y039g9j3hpal338mt5uem6vlrvgaej06
+fox spawn gloom rib shrug special credit nominee outdoor kit trophy equal stable velvet debris parade news call pitch screen purpose castle place couple
+
+
+echo 1234567890 | iriscli16 bank send --amount=1.23iris --fee=0.4iris --commit --chain-id=qa-test --from=v0 --to=iaa1pgwxz35dy6wpxgevwkjvsrnakwsgfqe2524nhg --home=/Users/sherlock/testnet/v0/iriscli
+
+echo 1234567890 | iriscli16 bank send --amount=4.56iris --fee=0.4iris --commit --chain-id=qa-test --from=v0 --to=iaa14j40p0y039g9j3hpal338mt5uem6vlrvgaej06 --home=/Users/sherlock/testnet/v0/iriscli
+
+
+
+v1.0
+------
+iris keys add x1 --recover
+iris keys add x2 --recover
+
+iris keys show x1
+iaa1pgwxz35dy6wpxgevwkjvsrnakwsgfqe2524nhg
+iris keys show x2
+iaa14j40p0y039g9j3hpal338mt5uem6vlrvgaej06
+
+iris query bank balances $(iris keys show x1 -a)
+1.230000
+iris query bank balances $(iris keys show x2 -a)
+4.560000
+
+iris query auth account  $(iris keys show x1 -a)
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 17) distribution模块
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+genesis 修改 withdraw_addr_enabled: false
+
+iris query distribution params
+
+iris tx distribution set-withdraw-addr iaa1pm432kqz62mutq439ynqs87u30r36062qdw977 --from=v0 --chain-id=qa-test --fees=4iris -b block -y
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 18) slashing模块
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+iris query slashing params
+iris tendermint show-validator --home=/Users/sherlock/.iris
+iris query slashing signing-info --chain-id=qa-test icp1zcjduepqnuankska44pdtzt32zqc8g77t8wf8eznur5aaq58ge0vry3ph6es5uggta
+iris query slashing signing-infos --chain-id=qa-test icp1zcjduepqnuankska44pdtzt32zqc8g77t8wf8eznur5aaq58ge0vry3ph6es5uggta
+
+------
+测试unjail
+------
+iris tx slashing unjail
+目前测试修改了 20块下线 下线5秒后可以unjail
+
+iris query staking validators --chain-id=qa-test -o=json | jq
+iris tx slashing unjail --from=v1 --chain-id=qa-test --fees=0.4iris -b block -y
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 19)stake 参数 21)auth 参数
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+iris query staking params
+historical_entries: 10000 这个注意下
+
+
+iris query auth params
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+------ 19)token stats相关数据
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+关掉mint， 前后链都要mint》inflation》0
+
+
+echo 1234567890 | iriscli16 bank send --amount=1iris --fee=0.4iris --commit --chain-id=qa-test --from=v0 --to=iaa19hrgr4fhel7qknt2qg0cp0d3ftzwq8gfezj4wd --home=/Users/sherlock/testnet/v0/iriscli
+
+echo 1234567890 | iriscli16 bank burn --from=v0 --fee=0.4iris --commit --chain-id=qa-test --amount=0.1iris --home=/Users/sherlock/testnet/v0/iriscli
+
+
+--------
+total supply
+--------
+v16.3：
+iriscli16 bank token-stats
+
+v1.0：
+iris query bank total
+
+--------
+Community Tax
+--------
+v16.3：
+iriscli16 bank account iaa18rtw90hxz4jsgydcusakz6q245jh59kfma3e5h --home=/Users/sherlock/testnet/v0/iriscli
+
+v1.0：
+iris query bank balances -o=json iaa1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8jaydtw |jq
+
+--------
+burned
+--------
+v16.3：
+iriscli16 bank token-stats
+
+v1.0:
+iris query token total-burn
+
+--------
+bonded
+--------
+v16.3：
+iriscli16 bank token-stats
+
+v1.0:
+iris query bank balances -o=json iaa1fl48vsnmsdzcv85q5d2q4z5ajdha8yu3qef7mx |jq
+

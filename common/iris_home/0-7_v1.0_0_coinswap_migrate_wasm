@@ -98,8 +98,8 @@ id： ua01  （注意一定要用最小单位 ua01）
     ],
     "simulate": false
   },
-  "max_token": "1000000",
-  "exact_standard_amt": "1000000",
+  "max_token": "10000",
+  "exact_standard_amt": "10000",
   "min_liquidity": "0",
   "deadline": "30m",
   "sender": "iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07"
@@ -113,9 +113,9 @@ id： ua01  （注意一定要用最小单位 ua01）
     "value": {
       "max_token": {
         "denom": "ua01",
-        "amount": "1000000"
+        "amount": "10000"
       },
-      "exact_standard_amt": "1000000",
+      "exact_standard_amt": "10000",
       "min_liquidity": "0",
       "deadline": "1610536257",
       "sender": "iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07"
@@ -129,9 +129,9 @@ id： ua01  （注意一定要用最小单位 ua01）
     "@type": "/irismod.coinswap.MsgAddLiquidity",
     "max_token": {
         "denom": "ua01",
-        "amount": "1000000"
+        "amount": "10000"
     },
-    "exact_standard_amt": "1000000",
+    "exact_standard_amt": "10000",
     "min_liquidity": "0",
     "deadline": "1610536257",
     "sender": "iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07"
@@ -157,15 +157,15 @@ http://localhost:1317/coinswap/liquidities/ua01
 {"height":"405","result":{
   "standard": {
     "denom": "uiris",
-    "amount": "1000000"
+    "amount": "10000"
   },
   "token": {
     "denom": "ua01",
-    "amount": "1000000"
+    "amount": "10000"
   },
   "liquidity": {
     "denom": "swap/ua01",
-    "amount": "1000000"
+    "amount": "10000"
   },
   "fee": "0.003000000000000000"
 }}
@@ -189,14 +189,6 @@ input （dt_x）：11.145iris
 dt_x = (1000*x*dt_y)/(997*(y-dt_y))
 11.45iris = （1000 * 100iris * 10token ）/ （997 * （100token - 10token））
 
-1000*1000000*1000/(997*(1000000-1000))
-99600300
-iris keys show x1 -a
-iaa1pm432kqz62mutq439ynqs87u30r36062qdw977
-
-iris query account $(iris keys show x1 -a) --chain-id=qa-test -o=json |jq
-  "account_number": "9",
-  "sequence": "0"
 
 
 {
@@ -295,32 +287,7 @@ iris tx broadcast ~/my_workspace/Tx-sign -b block -y
 a01 + 1000ua01
 iris - 1114uiris
 
-9999998990
-
-1010
-
-
 iris query bank balances -o=json $(iris keys show x1 -a) |jq
-{
-  "balances": [
-    {
-      "denom": "ua01",
-      "amount": "1000001000"
-    },
-    {
-      "denom": "ua02",
-      "amount": "1000000000"
-    },
-    {
-      "denom": "uiris",
-      "amount": "9999998990"
-    }
-  ],
-  "pagination": {
-    "next_key": null,
-    "total": "0"
-  }
-}
 
 
 

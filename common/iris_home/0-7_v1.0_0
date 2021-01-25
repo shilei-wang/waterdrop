@@ -14,13 +14,28 @@ make install
 //iris version
 
 ================
-  下载某个commit  6c297612587cd2eef56f6a695d3446d14e235b57
+  下载某个commit  6b2443abf5e6e2297d621e708a4f7d66374afb22
 ================
 cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .
-git reset --hard 956d977eb08df6cade5e91b84b0307fb4b79c973
+git reset --hard 6b2443abf5e6e2297d621e708a4f7d66374afb22
 git branch && git rev-parse HEAD
+
+
+================
+    某个 分支 ：
+    如果别人改了新的代码  直接git pull就行了
+================
+cd /Users/sherlock/go/src/github.com/irishub
+git fetch --all
+git checkout .
+git checkout -b upgrade-test upstream/upgrade-test
+git pull
+git branch && git rev-parse HEAD
+
+
+
 
 
 ====================
@@ -71,8 +86,8 @@ iris keys show v0
 iris tx bank send v0 $(iris keys show v1 -a) 100000iris --fees=4iris --chain-id=qa-test -b block -y |jq
 iris query bank balances -o=json $(iris keys show v0 -a) |jq
 
-iris tx token burn iris --amount=100 --from=v0 --fees=4iris --chain-id=qa-test -b block -y |jq
-
+iris tx token burn iris --amount=1burn00 --from=v0 --fees=4iris --chain-id=qa-test -b block -y |jq
+iris query auth account $(iris keys show v0 -a)
 
 ==================
  [testnet起 v0会变]
@@ -122,6 +137,8 @@ iris start --home=/Users/sherlock/testnet/v0/iris
 ====================
 token
 ====================
+symbol和min-unit 不允许以peg,swap,ibc开头
+
 发行资产：
 iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y  --symbol=a01
 
@@ -158,7 +175,8 @@ NFT
 ====================
 issue：
 iris tx nft issue d01 --from=v0 --chain-id=qa-test --fees=4iris -b block -y
-// --schema=<schema-content or path/to/schema.json>
+// --schema=<schema-content or path/to/schema.json> 和service的schema一样
+// --schema=/Users/sherlock/my_workspace/service/schemas.json
 
 mint:
 iris tx nft mint d01 a01 --recipient=$(iris keys show v0 --address) --name="name" --uri="tokenURI" --data="tokenData" --from=v0 --chain-id=qa-test --fees=4iris -b block -y
@@ -513,7 +531,7 @@ iris tx random request --chain-id=qa-test --from=v0 --fees=4iris -b block -y --b
 iris query random queue
 
 //5块后立即可以查询 (5块内查不到)
-iris query random random -o=json d16c49af2d82bf6f9f975103501256be9626e7c79659dfa15c3374221871e8af | jq
+iris query random random -o=json 265fc9eaef89de424577d18e28a293a694405f692233769b9e5b5ea5845d16a7 | jq
 
 
 ===
@@ -567,11 +585,10 @@ iris query random random -o=json d66c431541cde8d46bb55b96b506de755c5005b20322254
 ================================================================================
 
 
-
 =================
 初始化token ：注意scale很重要，不然后面应为比例不对查不到。--min-unit=uatom 不是 atom。
 =================
-echo y| iris tx token issue --name=atom --min-unit="uatom" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y --symbol=atom |jq
+iris tx token issue --name=atom --min-unit="uatom" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y --symbol=atom
 
 
 =================
@@ -581,7 +598,7 @@ echo y| iris tx token issue --name=atom --min-unit="uatom" --scale=6 --initial-s
 iris tx service define --name=oracle --description="this is a oracle service"  --author-description="oracle service provider"  --schemas='{"input":{"type":"object"},"output":{"type":"object"}}' --fees=4iris --chain-id=qa-test --from=v0 -b block -y
 iris tx service bind --service-name=oracle --deposit=20000iris --pricing='{"price":"0uiris"}' --qos=1 --options="{}"  --chain-id=qa-test --from=v0 --fees=4iris -b block -y
 
-iris tx oracle create --feed-name="uatom-uiris" --description="test feed" --latest-history=10  --service-name="oracle" --input='{"header":{},"body":{"pair":"uatom-uiris"}}' --providers=$(iris keys show v0 --address) --service-fee-cap=1iris --timeout=30 --frequency=31 --threshold=1 --aggregate-func="avg" --value-json-path="body.last" --chain-id=qa-test --from=v0 --fees=4iris -b block -y
+iris tx oracle create --feed-name="uatom-uiris" --description="test feed" --latest-history=10  --service-name="oracle" --input='{"header":{},"body":{"pair":"uatom-uiris"}}' --providers=$(iris keys show v0 --address) --service-fee-cap=1iris --timeout=30 --frequency=31 --threshold=1 --aggregate-func="avg" --value-json-path="last" --chain-id=qa-test --from=v0 --fees=4iris -b block -y
 
 iris tx oracle start uatom-uiris --chain-id=qa-test --from=v0 --fees=4iris -b block -y
 
@@ -595,7 +612,7 @@ v0 response 汇率， 查询request 并且respond
 iris q service requests oracle $(iris keys show v0 --address) --chain-id=qa-test
 
 //一个atom = 0.2个iris
-iris tx service respond --request-id=609DED250B6EEC61CB581C9B081EF0EFE01E57657AD21BA7EE8F086242510D650000000000000000000000000000000100000000000000B50000 --result='{"code":200,"message":""}' --data='{"header":{},"body":{"last":"0.2"}}'  --chain-id=qa-test --from=v0 -b block -y
+iris tx service respond --request-id=C024F1460AAE03472DC905EBBBA3557536D00E9109575CB0ED6C10CA74FB2A930000000000000000000000000000005F0000000000000B6A0000 --result='{"code":200,"message":""}' --data='{"header":{},"body":{"last":"0.2"}}'  --chain-id=qa-test --from=v0 -b block -y
 
 //系统服务会来查这个值（ uatom-uiris ），确定汇率， 5分钟内有效
 //iris q oracle value uatom-uiris --chain-id=qa-test
@@ -611,7 +628,7 @@ iris tx service respond --request-id=609DED250B6EEC61CB581C9B081EF0EFE01E57657AD
 iris tx service call --service-name=oracle-price --providers=$(iris keys show v0 --address) --service-fee-cap=1iris --data='{"header":{},"body":{"pair":"uatom-uiris"}}' --timeout=100 --repeated --frequency=150 --total=100  --chain-id=qa-test --from=v0 -b block -y
 
 //用上面返回的request id查询respose， 可以查到最新(5分钟的汇率)
-iris q service response 61D6080A861E30297A1EE2DDB160FED51F49D80E3A30BE9471A5ABCAD895E29100000000000000000000000000000001000000000000002A0000
+iris q service response DA561E84C7716DB921C50DF88060E694DE15010CCC308D6B07E21793AC5776E50000000000000000000000000000000100000000000000140000
 
 
 =================
@@ -626,25 +643,47 @@ iris tx bank send v0 $(iris keys show v1 -a) 100atom --fees=4iris --chain-id=qa-
 iris tx bank send v0 $(iris keys show v1 -a) 100iris --fees=4iris --chain-id=qa-test -b block -y |jq
 iris query bank balances $(iris keys show v1 -a)
 
-//v1消费， 注意call之前一定要respond上面的汇率服务， 5分钟不respose默认价格汇率差不多 后续的request就查不到了）
-iris tx service call --service-name=test --providers=$(iris keys show v0 --address) --service-fee-cap=100000iris --data='{"header":{},"body":{}}' --timeout=100  --chain-id=qa-test --from=v1 -b block -y
+// v1消费， 注意call之前一定要respond上面的汇率服务， 5分钟不respose默认价格汇率差不多 后续的request就查不到了）
+// 根据汇率price的 100uatom = 20uiris
+// 汇率换算紧紧在这个参数（service-fee-cap）上有作用，做检查。如果这个fee_cap（最大可接受的费用）小于20uiris， call的命令将会报错
 
+-------- 19uiris --------
+iris tx service call --service-name=test --providers=$(iris keys show v0 --address) --service-fee-cap=19uiris --data='{"header":{},"body":{}}' --timeout=100  --chain-id=qa-test --from=v1 -b block -y
+//此时查询不到是对的， 最大可接受价格因为小于price
 iris q service requests test $(iris keys show v0 --address) --chain-id=qa-test
+-------------------------
+
+-------- 20uiris --------
+iris tx service call --service-name=test --providers=$(iris keys show v0 --address) --service-fee-cap=20uiris --data='{"header":{},"body":{}}' --timeout=100  --chain-id=qa-test --from=v1 -b block -y
+//能查询到
+iris q service requests test $(iris keys show v0 --address) --chain-id=qa-test
+-------------------------
 
 //v0 response
-iris tx service respond --request-id=DCE2564032E5D420160F313ECD9AC4BA51D204DFA21158844F1BD21351DE21EC0000000000000000000000000000000100000000000000DE0000  --result='{"code":200,"message":""}' --data='{"header":{},"body":{"test":""}}' --chain-id=qa-test --from=v0 -b block -y
+iris tx service respond --request-id=F090332D1756509B0EEC8FDA10A6DE1941704E2F56747198653A94E586243D850000000000000000000000000000000100000000000001890000  --result='{"code":200,"message":""}' --data='{"header":{},"body":{"test":""}}' --chain-id=qa-test --from=v0 -b block -y
 
-iris q service response DCE2564032E5D420160F313ECD9AC4BA51D204DFA21158844F1BD21351DE21EC0000000000000000000000000000000100000000000000DE0000
+iris q service response F090332D1756509B0EEC8FDA10A6DE1941704E2F56747198653A94E586243D850000000000000000000000000000000100000000000001890000
 
 
 =================
 检查
 =================
-//一个atom = 0.2个iris , 100atom的价格就是20iris ，查询得到v1还剩80个iris
+//v1少了100个uatom
 iris query bank balances -o=json $(iris keys show v1 -a) |jq
 
-//fee应该多18iris 这里有问题 （2个iris 10%是税）
+//fee应该多90个uatom 这里有问题 （10%是税）
 iris query service fees -o=json $(iris keys show v0 --address) |jq
+
+
+
+=================
+测试bind的时候deposit 是否完成换算后拦截
+=================
+iris tx service define --name=test2 --description="this is a test service" --author-description="test service provider" --schemas='{"input":{"type":"object"},"output":{"type":"object"}}' --chain-id=qa-test --from=v0 -b block -y
+
+500uatom = 100uiris ，  *200（现在这个参数是200倍） = 20000uiris， 下面代码会拦截。
+iris tx service bind --service-name=test6 --deposit=19999uiris --pricing='{"price":"500uatom"}' --qos=100 --options="{}" --chain-id=qa-test --from=v0 -b block -y
+
 
 
 
@@ -692,8 +731,7 @@ iris query gov param deposit --chain-id=qa-test
 iris tx gov vote 1 yes  --from=v0 --chain-id=qa-test --fees=4iris -b block -y
 iris query gov proposal 1 --chain-id=qa-test -o=json --indent //里面有字段可以看结果
 
-
-
+iris query gov proposals
 ====================
 创建验证人
 ====================
@@ -704,7 +742,7 @@ cp /Users/sherlock/.iris/config/genesis.json /Users/sherlock/.iris/v1/config/gen
  //node id 下面用
 iris tendermint show-node-id --home=/Users/sherlock/.iris
 sed -i '' 's/2665/2666/g' /Users/sherlock/.iris/v1/config/config.toml
-sed -i '' 's/seeds = ""/seeds = "59b6ee5383651dcf06d26be374229c2293a108d4@localhost:26656"/g' /Users/sherlock/.iris/v1/config/config.toml
+sed -i '' 's/seeds = ""/seeds = "e73cb4c65ad0409fad09c727262f419188403fe5@localhost:26656"/g' /Users/sherlock/.iris/v1/config/config.toml
 sed -i '' 's/9090/9091/g' /Users/sherlock/.iris/v1/config/app.toml
 iris start --home=/Users/sherlock/.iris/v1 （此时正常追赶）
 
@@ -712,13 +750,14 @@ iris keys show v1 //iaa1ev9twzjp5td8k43rf6pw2g74qpf6hl473veuyw
 iris tx bank send v0 $(iris keys show v1 -a) 10000iris --fees=4iris --chain-id=qa-test -b block -y |jq
 iris query bank balances -o=json $(iris keys show v1 -a) |jq
 iris tendermint show-validator --home=/Users/sherlock/.iris/v1
-//icp1zcjduepqaqxeungsxk2j3alyks3zxsyuaapf42gyeertew9lszejezyn47fq23efpx
+//icp1zcjduepqdn72nvnmfl6s0w0qt0yak8ngl9qcmtk47w09qlx22rmmw4zhy37qtg0mge
 
-iris tx staking create-validator --pubkey=icp1zcjduepqxfycwrnus8aja7y8mwft37r2xwwfzqt5nngm9lu0n4spj60dlntqswf5fz --moniker=v1 --amount=100iris --min-self-delegation=1 --from=v1 --chain-id=qa-test --fees=4iris -b block -y --commission-max-change-rate=0.1 --commission-max-rate=0.1 --commission-rate=0.1
+iris tx staking create-validator --pubkey=icp1zcjduepq4j9n5skesmyr59fhv4uhlssvq4hpsh0yg2payt8pnyasc8lac3cs93axan --moniker=v1 --amount=19iris --min-self-delegation=1 --from=v1 --chain-id=qa-test --fees=4iris -b block -y --commission-max-change-rate=0.1 --commission-max-rate=0.1 --commission-rate=0.1
 iris query staking validators --chain-id=qa-test -o=json | jq
 
 //iris query slashing signing-info --chain-id=qa-test fcp1zcjduepqpzudzh5k84h5zpnsp9l96pql7n0yaqd9pfcvcw603ngyvrcz6fdqf09vng
-
+//iris query slashing signing-infos --chain-id=qa-test fcp1zcjduepqpzudzh5k84h5zpnsp9l96pql7n0yaqd9pfcvcw603ngyvrcz6fdqf09vng (这个是查所有unjail和unjail的记录)
+//iris tx slashing unjail --from=v1 --chain-id=qa-test --fees=0.4iris -b block -y  （注意这里unjail不要提供validator id）
 ======================================================================================================
     Distribution
 ======================================================================================================
@@ -865,6 +904,7 @@ iris query slashing params
 iris query params subspace token IssueTokenBaseFee
 
 
+iris query gov params
 
 *******************************************
           更新 doc： 独立的仓库和测试分开

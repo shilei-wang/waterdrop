@@ -1,0 +1,44 @@
+
+
+概要
+
+token中标识唯一属性的symbol,min-unit只支持小写
+nft中标识唯一属性的denomID,nft-id只支持小写
+所有模块的string类型（除描述类的字段）均需要 TrimSpace
+
+================
+
+iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y  --symbol=a01
+
+iris tx token issue --name="Kitty Token" --symbol="kitty" --min-unit="kitty" --scale=0 --initial-supply=100000000000 --max-supply=1000000000000 --mintable=true --from=<key-name> --chain-id=<chain-id> --fees=<fee>
+
+iris tx token issue -h
+
+
+
+iris tx token issue --name=" AC token name " --min-unit="ua02" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y  --symbol="a02"
+
+iris query token token -o=json a01 |jq
+iris query token token -o=json a02 |jq
+
+==========
+
+测 broad cast
+
+{"secret":"bottom few turtle easily palace pride onion diary umbrella milk love brief march urge slight second march young critic shock spawn visa abstract top"}
+
+
+iriscli16 bank send --amount=5iris --fee=0.004iris  --chain-id=qa-test --from=v0 --home=/Users/sherlock/testnet/v0/iriscli --to=iaa1x8nwtz579zth0dzghkrazpeyp0ua8hqu332xm0 --generate-only >~/my_workspace/Tx-generate
+
+
+echo 1234567890 | iriscli16 tx sign ~/my_workspace/Tx-generate --name=v0  --home=/Users/sherlock/testnet/v0/iriscli  --chain-id=qa-test >~/my_workspace/Tx-sign
+
+iris query bank balances -o=json iaa1g3ykdcdjhhq752qk2jxfuue8esf20wpgr72ymq |jq
+
+
+4.3  广播
+[查账]iriscli bank account faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547
+iriscli tx broadcast ~/my_workspace/Tx-sign --commit
+[查账]iriscli bank account faa14yxfvj8x9rdyth2884actys8ct426yk5rhr547
+[查hash] iriscli tendermint tx --trust-node D5EC826174558336BFE0849C3CFA97EB3DB5D585D1A8346EB932C64A4593241E
+
