@@ -1,0 +1,27 @@
+主网升级 ：
+
+rm -f /Users/sherlock/my_workspace/temp/*
+【复制主网genesis 到temp】
+iris migrate /Users/sherlock/my_workspace/temp/genesis.json --chain-id=irishub-sim-upgrade > /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json
+brew install coreutils
+sha256sum /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json
+3dc413048e65edbe6b4c02e38915a511b0a7c8fa3a66351fec01e23873f4382f
+
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+iris init shilei --home=/Users/sherlock/testnet/v0/iris
+【复制test_priv_validator.json 到temp目录】
+
+go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/test_priv_validator.json /Users/sherlock/testnet/v0/iris/config/priv_validator_key.json /Users/sherlock/testnet/v0/iris/data/priv_validator_state.json
+
+
+cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v0/iris/config/genesis.json
+
+
+subl /Users/sherlock/testnet/v0/iris/config/app.toml
+minimum-gas-prices = "0.2uiris"
+subl /Users/sherlock/testnet/v0/iris/config/config.toml
+seeds = "2abd46ac0a0441e481de6409f94bdb4801a939f7@10.1.4.106:26656"
+
+
+iris unsafe-reset-all --home /Users/sherlock/testnet/v0/iris
+iris start --home /Users/sherlock/testnet/v0/iris
