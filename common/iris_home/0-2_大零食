@@ -15,13 +15,80 @@ go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/test_
 
 
 cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v0/iris/config/genesis.json
+cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v1/iris/config/genesis.json
+cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v2/iris/config/genesis.json
 
 
 subl /Users/sherlock/testnet/v0/iris/config/app.toml
 minimum-gas-prices = "0.2uiris"
 subl /Users/sherlock/testnet/v0/iris/config/config.toml
-seeds = "2abd46ac0a0441e481de6409f94bdb4801a939f7@10.1.4.106:26656"
+seeds = "b5dd2da57b0b08eadbae70cdd442b70ee4af80d3@10.1.4.220:26656"
 
 
 iris unsafe-reset-all --home /Users/sherlock/testnet/v0/iris
 iris start --home /Users/sherlock/testnet/v0/iris
+
+
+====
+
+iris init shilei2 --home=/Users/sherlock/testnet/v1/iris
+go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/test_priv_validator2.json /Users/sherlock/testnet/v1/iris/config/priv_validator_key.json /Users/sherlock/testnet/v1/iris/data/priv_validator_state.json
+cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v1/iris/config/genesis.json
+
+subl /Users/sherlock/testnet/v1/iris/config/app.toml
+minimum-gas-prices = "0.2uiris"
+subl /Users/sherlock/testnet/v1/iris/config/config.toml
+seeds = "b5dd2da57b0b08eadbae70cdd442b70ee4af80d3@10.1.4.220:26656,deb014b4581ae8b5bcb57e9d0d5114b87ba45c7b@10.1.4.214:26656"
+
+gai 26656 : 6060
+9091
+
+iris unsafe-reset-all --home /Users/sherlock/testnet/v1/iris
+iris start --home /Users/sherlock/testnet/v1/iris
+
+====
+
+iris init shilei3 --home=/Users/sherlock/testnet/v2/iris
+go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/test_priv_validator3.json /Users/sherlock/testnet/v2/iris/config/priv_validator_key.json /Users/sherlock/testnet/v2/iris/data/priv_validator_state.json
+cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v2/iris/config/genesis.json
+
+subl /Users/sherlock/testnet/v2/iris/config/app.toml
+minimum-gas-prices = "0.2uiris"
+subl /Users/sherlock/testnet/v2/iris/config/config.toml
+seeds = "b5dd2da57b0b08eadbae70cdd442b70ee4af80d3@10.1.4.220:26656,deb014b4581ae8b5bcb57e9d0d5114b87ba45c7b@10.1.4.214:26656"
+
+gai 26656 : 6060
+9091
+
+iris unsafe-reset-all --home /Users/sherlock/testnet/v2/iris
+iris start --home /Users/sherlock/testnet/v2/iris
+
+subl /Users/sherlock/testnet/v1/iris/config/config.toml
+
+65158d08db46da6600385bc2e8bf3eab30a70019@10.1.4.214:46656
+
+
+2a8dee66eb73bff75f73d05efcae27f3f868f645@10.1.4.24:26656
+
+
+F124CBF48346FE4FC598B7B370594BE312C7D094
+689BEDEF29D42B3C4732D95A88978074AB1C668A
+ED34321F626E41DB86FB32DB73FE872EB88C3AC0
+
+
+iris unsafe-reset-all --home /Users/sherlock/testnet/v0/iris
+iris start --home /Users/sherlock/testnet/v0/iris
+
+
+iris unsafe-reset-all --home /Users/sherlock/testnet/v1/iris
+iris start --home /Users/sherlock/testnet/v1/iris
+
+iris unsafe-reset-all --home /Users/sherlock/testnet/v2/iris
+iris start --home /Users/sherlock/testnet/v2/iris
+
+http://localhost:26657/consensus_state?
+
+iris tendermint show-node-id --home=/Users/sherlock/testnet/v0/iris
+
+
+

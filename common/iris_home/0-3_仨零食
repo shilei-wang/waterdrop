@@ -1,0 +1,12 @@
+iris tx token issue --name=token-name --min-unit="ua01" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y  --symbol=a01
+
+iris tx bank send v0 $(iris keys show v0 -a) 1ua01 --fees=4iris --chain-id=qa-test -b block -y |jq
+''''
+
+
+iris tx bank send v0 $(iris keys show v1 -a) 100a01 --fees=4iris --chain-id=qa-test -b block -y |jq
+iris tx bank send v0 $(iris keys show v1 -a) 100ua01 --fees=4iris --chain-id=qa-test -b block -y |jq
+
+
+
+iris query bank balances -o=json $(iris keys show v1 -a) |jq
