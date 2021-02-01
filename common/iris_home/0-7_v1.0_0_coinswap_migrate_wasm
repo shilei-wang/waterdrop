@@ -83,7 +83,7 @@ id： ua01  （注意一定要用最小单位 ua01）
 
 {
   "base_req": {
-    "from": "iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07",
+    "from": "iaa1x8nwtz579zth0dzghkrazpeyp0ua8hqu332xm0",
     "memo": "Sent via Cosmos Voyager 🚀",
     "chain_id": "qa-test",
     "account_number": "0",
@@ -102,7 +102,7 @@ id： ua01  （注意一定要用最小单位 ua01）
   "exact_standard_amt": "10000",
   "min_liquidity": "0",
   "deadline": "30m",
-  "sender": "iaa1220rc0zqzn6h6xku40cvp8vndw3ywfw02dtc07"
+  "sender": "iaa1x8nwtz579zth0dzghkrazpeyp0ua8hqu332xm0"
 }
 
 

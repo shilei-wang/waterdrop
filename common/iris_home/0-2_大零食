@@ -1,94 +1,165 @@
-主网升级 ：
-
-rm -f /Users/sherlock/my_workspace/temp/*
-【复制主网genesis 到temp】
-iris migrate /Users/sherlock/my_workspace/temp/genesis.json --chain-id=irishub-sim-upgrade > /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json
-brew install coreutils
-sha256sum /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json
-3dc413048e65edbe6b4c02e38915a511b0a7c8fa3a66351fec01e23873f4382f
-
-rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
-iris init shilei --home=/Users/sherlock/testnet/v0/iris
-【复制test_priv_validator.json 到temp目录】
-
-go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/test_priv_validator.json /Users/sherlock/testnet/v0/iris/config/priv_validator_key.json /Users/sherlock/testnet/v0/iris/data/priv_validator_state.json
+rm -rf /Users/sherlock/.iris /Users/sherlock/testnet
+iris init testing --chain-id=qa-test
+iris add-genesis-account $(iris keys show v0 -a) 100000000000000uiris
+iris gentx v0 --chain-id=qa-test 100000000uiris
+/Users/sherlock/my_workspace/waterdrop/common/iris_home/0-5_genesis.sh irishub
+iris collect-gentxs
 
 
-cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v0/iris/config/genesis.json
-cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v1/iris/config/genesis.json
-cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v2/iris/config/genesis.json
+iris start
+
+subl /Users/sherlock/.iris/config/genesis.json
 
 
-subl /Users/sherlock/testnet/v0/iris/config/app.toml
-minimum-gas-prices = "0.2uiris"
-subl /Users/sherlock/testnet/v0/iris/config/config.toml
-seeds = "b5dd2da57b0b08eadbae70cdd442b70ee4af80d3@10.1.4.220:26656"
+
+=============
+
+    {
+      "denom": "uiris",
+      "amount": "200000000000000"
+    },
+    {
+    "denom": "ua01",
+    "amount": "10000"
+    },
+    {
+    "denom": "swap/s01",
+    "amount": "10000"
+    },
+    {
+    "denom": "ibc/i01",
+    "amount": "10000"
+    },
+    {
+    "denom": "peg/p01",
+    "amount": "10000"
+
+subl /Users/sherlock/my_workspace/service/pricing_1.0.json
 
 
-iris unsafe-reset-all --home /Users/sherlock/testnet/v0/iris
-iris start --home /Users/sherlock/testnet/v0/iris
+iris query bank balances -o=json $(iris keys show v0 -a) |jq
+
+========================================
 
 
-====
 
-iris init shilei2 --home=/Users/sherlock/testnet/v1/iris
-go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/test_priv_validator2.json /Users/sherlock/testnet/v1/iris/config/priv_validator_key.json /Users/sherlock/testnet/v1/iris/data/priv_validator_state.json
-cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v1/iris/config/genesis.json
-
-subl /Users/sherlock/testnet/v1/iris/config/app.toml
-minimum-gas-prices = "0.2uiris"
-subl /Users/sherlock/testnet/v1/iris/config/config.toml
-seeds = "b5dd2da57b0b08eadbae70cdd442b70ee4af80d3@10.1.4.220:26656,deb014b4581ae8b5bcb57e9d0d5114b87ba45c7b@10.1.4.214:26656"
-
-gai 26656 : 6060
-9091
-
-iris unsafe-reset-all --home /Users/sherlock/testnet/v1/iris
-iris start --home /Users/sherlock/testnet/v1/iris
-
-====
-
-iris init shilei3 --home=/Users/sherlock/testnet/v2/iris
-go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/test_priv_validator3.json /Users/sherlock/testnet/v2/iris/config/priv_validator_key.json /Users/sherlock/testnet/v2/iris/data/priv_validator_state.json
-cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v2/iris/config/genesis.json
-
-subl /Users/sherlock/testnet/v2/iris/config/app.toml
-minimum-gas-prices = "0.2uiris"
-subl /Users/sherlock/testnet/v2/iris/config/config.toml
-seeds = "b5dd2da57b0b08eadbae70cdd442b70ee4af80d3@10.1.4.220:26656,deb014b4581ae8b5bcb57e9d0d5114b87ba45c7b@10.1.4.214:26656"
-
-gai 26656 : 6060
-9091
-
-iris unsafe-reset-all --home /Users/sherlock/testnet/v2/iris
-iris start --home /Users/sherlock/testnet/v2/iris
-
-subl /Users/sherlock/testnet/v1/iris/config/config.toml
-
-65158d08db46da6600385bc2e8bf3eab30a70019@10.1.4.214:46656
+================================================================================
+================================================================================
+非iris的price 测试汇率换算。
+================================================================================
+================================================================================
 
 
-2a8dee66eb73bff75f73d05efcae27f3f868f645@10.1.4.24:26656
+=================
+初始化token ：注意scale很重要，不然后面应为比例不对查不到。--min-unit=uatom 不是 atom。
+=================
+iris tx token issue --name=atom --min-unit="uatom" --scale=6 --initial-supply=10000 --max-supply=30000 --mintable=true --from=v0 --chain-id=qa-test --fees=4iris -b block -y --symbol=atom
 
 
-F124CBF48346FE4FC598B7B370594BE312C7D094
-689BEDEF29D42B3C4732D95A88978074AB1C668A
-ED34321F626E41DB86FB32DB73FE872EB88C3AC0
+=================
+定义oracle服务 （这个oracle是不停向provider v0发出"汇率"查询请求。）
+注意 是最小单位的汇率。不是主单位
+=================
+iris tx service define --name=oracle --description="this is a oracle service"  --author-description="oracle service provider"  --schemas='{"input":{"type":"object"},"output":{"type":"object"}}' --fees=4iris --chain-id=qa-test --from=v0 -b block -y
+iris tx service bind --service-name=oracle --deposit=20000iris --pricing='{"price":"0uiris"}' --qos=1 --options="{}"  --chain-id=qa-test --from=v0 --fees=4iris -b block -y
+
+iris tx oracle create --feed-name="swap/s01-uiris" --description="test feed" --latest-history=10  --service-name="oracle" --input='{"header":{},"body":{"pair":"swap/s01-uiris"}}' --providers=$(iris keys show v0 --address) --service-fee-cap=1iris --timeout=30 --frequency=31 --threshold=1 --aggregate-func="avg" --value-json-path="last" --chain-id=qa-test --from=v0 --fees=4iris -b block -y
+
+iris tx oracle start uatom-uiris --chain-id=qa-test --from=v0 --fees=4iris -b block -y
+
+//iris q oracle feed uatom-uiris --chain-id=qa-test
 
 
-iris unsafe-reset-all --home /Users/sherlock/testnet/v0/iris
-iris start --home /Users/sherlock/testnet/v0/iris
+=================
+v0 response 汇率， 查询request 并且respond
+//五分钟必须respond一次 不然后面用到查的都会过期。
+=================
+iris q service requests oracle $(iris keys show v0 --address) --chain-id=qa-test
+
+//一个atom = 0.2个iris
+iris tx service respond --request-id=C024F1460AAE03472DC905EBBBA3557536D00E9109575CB0ED6C10CA74FB2A930000000000000000000000000000005F0000000000000B6A0000 --result='{"code":200,"message":""}' --data='{"header":{},"body":{"last":"0.2"}}'  --chain-id=qa-test --from=v0 -b block -y
+
+//系统服务会来查这个值（ uatom-uiris ），确定汇率， 5分钟内有效
+//iris q oracle value uatom-uiris --chain-id=qa-test
 
 
-iris unsafe-reset-all --home /Users/sherlock/testnet/v1/iris
-iris start --home /Users/sherlock/testnet/v1/iris
+=================
+ oracle-price 这个是系统定义的服务，测试这个系统服务是否正常抓取汇率，可以不执行。
+=================
 
-iris unsafe-reset-all --home /Users/sherlock/testnet/v2/iris
-iris start --home /Users/sherlock/testnet/v2/iris
+//iris q service definition oracle-price
+//iris q service bindings oracle-price
 
-http://localhost:26657/consensus_state?
+iris tx service call --service-name=oracle-price --providers=$(iris keys show v0 --address) --service-fee-cap=1iris --data='{"header":{},"body":{"pair":"uatom-uiris"}}' --timeout=100 --repeated --frequency=150 --total=100  --chain-id=qa-test --from=v0 -b block -y
 
-iris tendermint show-node-id --home=/Users/sherlock/testnet/v0/iris
+//用上面返回的request id查询respose， 可以查到最新(5分钟的汇率)
+iris q service response DA561E84C7716DB921C50DF88060E694DE15010CCC308D6B07E21793AC5776E50000000000000000000000000000000100000000000000140000
+
+
+=================
+例子： 这个就是用iris付款 直接转换atom的汇率
+=================
+
+iris tx service define --name=test --description="this is a test service" --author-description="test service provider" --schemas='{"input":{"type":"object"},"output":{"type":"object"}}' --chain-id=qa-test --from=v0 -b block -y
+iris tx service bind --service-name=test --deposit=20000iris --pricing='{"price":"100uatom"}' --qos=100 --options="{}" --chain-id=qa-test --from=v0 -b block -y
+
+
+iris tx bank send v0 $(iris keys show v1 -a) 100atom --fees=4iris --chain-id=qa-test -b block -y |jq
+iris tx bank send v0 $(iris keys show v1 -a) 100iris --fees=4iris --chain-id=qa-test -b block -y |jq
+iris query bank balances $(iris keys show v1 -a)
+
+// v1消费， 注意call之前一定要respond上面的汇率服务， 5分钟不respose默认价格汇率差不多 后续的request就查不到了）
+// 根据汇率price的 100uatom = 20uiris
+// 汇率换算紧紧在这个参数（service-fee-cap）上有作用，做检查。如果这个fee_cap（最大可接受的费用）小于20uiris， call的命令将会报错
+
+-------- 19uiris --------
+iris tx service call --service-name=test --providers=$(iris keys show v0 --address) --service-fee-cap=19uiris --data='{"header":{},"body":{}}' --timeout=100  --chain-id=qa-test --from=v1 -b block -y
+//此时查询不到是对的， 最大可接受价格因为小于price
+iris q service requests test $(iris keys show v0 --address) --chain-id=qa-test
+-------------------------
+
+-------- 20uiris --------
+iris tx service call --service-name=test --providers=$(iris keys show v0 --address) --service-fee-cap=20uiris --data='{"header":{},"body":{}}' --timeout=100  --chain-id=qa-test --from=v1 -b block -y
+//能查询到
+iris q service requests test $(iris keys show v0 --address) --chain-id=qa-test
+-------------------------
+
+//v0 response
+iris tx service respond --request-id=F090332D1756509B0EEC8FDA10A6DE1941704E2F56747198653A94E586243D850000000000000000000000000000000100000000000001890000  --result='{"code":200,"message":""}' --data='{"header":{},"body":{"test":""}}' --chain-id=qa-test --from=v0 -b block -y
+
+iris q service response F090332D1756509B0EEC8FDA10A6DE1941704E2F56747198653A94E586243D850000000000000000000000000000000100000000000001890000
+
+
+=================
+检查
+=================
+//v1少了100个uatom
+iris query bank balances -o=json $(iris keys show v1 -a) |jq
+
+//fee应该多90个uatom 这里有问题 （10%是税）
+iris query service fees -o=json $(iris keys show v0 --address) |jq
+
+
+
+=================
+测试bind的时候deposit 是否完成换算后拦截
+=================
+iris tx service define --name=test2 --description="this is a test service" --author-description="test service provider" --schemas='{"input":{"type":"object"},"output":{"type":"object"}}' --chain-id=qa-test --from=v0 -b block -y
+
+500uatom = 100uiris ，  *200（现在这个参数是200倍） = 20000uiris， 下面代码会拦截。
+iris tx service bind --service-name=test6 --deposit=19999uiris --pricing='{"price":"500uatom"}' --qos=100 --options="{}" --chain-id=qa-test --from=v0 -b block -y
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

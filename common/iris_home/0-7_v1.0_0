@@ -14,12 +14,12 @@ make install
 //iris version
 
 ================
-  下载某个commit  6b2443abf5e6e2297d621e708a4f7d66374afb22
+  下载某个commit  4fcb97a4e5576d8f39034ca7599754ed3b7eb96d
 ================
 cd /Users/sherlock/go/src/github.com/irishub
 git fetch --all
 git checkout .
-git reset --hard 6b2443abf5e6e2297d621e708a4f7d66374afb22
+git reset --hard ec4cd8e8c56bdf94f3805c527e0e47679aac19e4
 git branch && git rev-parse HEAD
 
 
@@ -86,7 +86,7 @@ iris keys show v0
 iris tx bank send v0 $(iris keys show v1 -a) 100000iris --fees=4iris --chain-id=qa-test -b block -y |jq
 iris query bank balances -o=json $(iris keys show v0 -a) |jq
 
-iris tx token burn iris --amount=1burn00 --from=v0 --fees=4iris --chain-id=qa-test -b block -y |jq
+iris tx token burn iris --amount=100 --from=v0 --fees=4iris --chain-id=qa-test -b block -y |jq
 iris query auth account $(iris keys show v0 -a)
 
 ==================

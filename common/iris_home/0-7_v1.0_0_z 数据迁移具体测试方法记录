@@ -320,13 +320,20 @@ iris query bank balances -o=json iaa1d5e6g6fuddkndvg9nhyljwp2sya2qyk9wkzy4s |jq
 ================
 HTLCLockedCoinsAccAddr
 ================
-v16.3： iaa1neja0fwuwdax8xxpdcqqdd7x3zfyna4xn9kxy2
+v16.3： iaa1fsa4knc5up673tzsuu7yrhsq7e3gwk7chjxjc8
+iriscli16 keys show v0 --home=/Users/sherlock/testnet/v0/iriscli --address
 
-[500块后expired]
-echo 1234567890 | iriscli16 htlc create --from=v0 --to=$(iriscli16 keys show v0 --home=/Users/sherlock/testnet/v0/iriscli --address)  --amount=16iris --time-lock=500 --timestamp=1580000000 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=qa-test --commit  --home=/Users/sherlock/testnet/v0/iriscli
+[50块后expired]
+echo 1234567890 | iriscli16 htlc create --from=v0 --to=$(iriscli16 keys show v0 --home=/Users/sherlock/testnet/v0/iriscli --address)  --amount=16iris --time-lock=50 --timestamp=1580000000 --receiver-on-other-chain=00 --fee=0.3iris --chain-id=qa-test --commit  --home=/Users/sherlock/testnet/v0/iriscli
+
+Secret:      31d9c1adf84fba0fc3ac92d89186c66078051c2e513c393accf0df60ddc8504f
+HashLock:    d2f9badeaf958551f2620864cc0599eedb7a3dca45c6452c16ac1531c694473c
+
+iriscli16 htlc query-htlc d2f9badeaf958551f2620864cc0599eedb7a3dca45c6452c16ac1531c694473c
+
 
 //查询地址显示16iris
-iriscli16 bank account iaa1neja0fwuwdax8xxpdcqqdd7x3zfyna4xn9kxy2 --home=/Users/sherlock/testnet/v0/iriscli
+iriscli16 bank account iaa1fsa4knc5up673tzsuu7yrhsq7e3gwk7chjxjc8 --home=/Users/sherlock/testnet/v0/iriscli
 
 
 v1.0： iaa1a7xynj4ceft8kgdjr6kcq0s07y3ccya6mepzdm
@@ -648,4 +655,42 @@ iriscli16 bank token-stats
 
 v1.0:
 iris query bank balances -o=json iaa1fl48vsnmsdzcv85q5d2q4z5ajdha8yu3qef7mx |jq
+
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+主网升级 ：备份 后续删掉
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+rm -f /Users/sherlock/my_workspace/temp/*
+【复制主网genesis 到temp】
+iris migrate /Users/sherlock/my_workspace/temp/genesis.json --chain-id=irishub-sim-upgrade > /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json
+brew install coreutils
+sha256sum /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json
+3dc413048e65edbe6b4c02e38915a511b0a7c8fa3a66351fec01e23873f4382f
+
+rm -rf /Users/sherlock/.iriscli /Users/sherlock/.iris /Users/sherlock/testnet
+iris init shilei --home=/Users/sherlock/testnet/v0/iris
+【复制test_priv_validator.json 到temp目录】
+
+go run migrate/scripts/privValUpgrade.go /Users/sherlock/my_workspace/temp/test_priv_validator.json /Users/sherlock/testnet/v0/iris/config/priv_validator_key.json /Users/sherlock/testnet/v0/iris/data/priv_validator_state.json
+
+
+cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v0/iris/config/genesis.json
+cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v1/iris/config/genesis.json
+cp /Users/sherlock/my_workspace/temp/genesis_v1.0.0.json /Users/sherlock/testnet/v2/iris/config/genesis.json
+
+
+subl /Users/sherlock/testnet/v0/iris/config/app.toml
+minimum-gas-prices = "0.2uiris"
+subl /Users/sherlock/testnet/v0/iris/config/config.toml
+seeds = "b5dd2da57b0b08eadbae70cdd442b70ee4af80d3@10.1.4.220:26656"
+
+
+iris unsafe-reset-all --home /Users/sherlock/testnet/v0/iris
+iris start --home /Users/sherlock/testnet/v0/iris
 
